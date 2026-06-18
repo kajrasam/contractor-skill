@@ -570,8 +570,47 @@ new_js = """
                         <label class="block text-xs font-bold text-slate-500 mb-2"><i class="fa-regular fa-comment-dots text-scg-500 mr-1"></i> คำอธิบาย/หลักฐานอ้างอิง (Evidence)</label>
                         <textarea id="eval-evi-${i}" rows="2" class="w-full text-sm p-3 border border-slate-200 rounded-xl outline-none focus:border-scg-500 focus:ring-1 focus:ring-scg-500 resize-none transition-colors" placeholder="ระบุพฤติกรรมหรือผลงานที่สนับสนุนคะแนนนี้...">${emp.evidences[i] || ''}</textarea>
                     </div>
+                    
+                    <div class="pt-4 mt-2 border-t border-slate-200 border-dashed grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-2"><i class="fa-solid fa-bullseye text-scg-500 mr-1"></i> ความคาดหวังเพิ่มเติม</label>
+                            <textarea id="eval-add-exp-${i}" rows="2" class="w-full text-sm p-3 border border-slate-200 rounded-xl outline-none focus:border-scg-500 focus:ring-1 focus:ring-scg-500 resize-none transition-colors" placeholder="สิ่งที่คาดหวังให้พัฒนาเพิ่มเติม...">${(emp.additional_expectations && emp.additional_expectations[i]) || ''}</textarea>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-2"><i class="fa-solid fa-book-open text-scg-500 mr-1"></i> หัวข้อที่อยากให้เรียนรู้เพิ่มเติม</label>
+                            <textarea id="eval-lrn-top-${i}" rows="2" class="w-full text-sm p-3 border border-slate-200 rounded-xl outline-none focus:border-scg-500 focus:ring-1 focus:ring-scg-500 resize-none transition-colors" placeholder="ระบุหัวข้อที่ควรส่งไปอบรม...">${(emp.learning_topics && emp.learning_topics[i]) || ''}</textarea>
+                        </div>
+                    </div>
                 </div>`;
             }
+            
+            html += `
+                <div class="bg-white p-6 rounded-2xl border border-scg-200 mb-6 shadow-md relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-scg-50 rounded-bl-full z-0"></div>
+                    <h3 class="font-bold text-lg text-scg-900 mb-4 relative z-10"><i class="fa-solid fa-star text-amber-400 mr-2"></i> ความเชี่ยวชาญพิเศษของพนักงาน</h3>
+                    
+                    <div class="space-y-4 relative z-10">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">กลุ่มความเชี่ยวชาญ</label>
+                            <select id="eval-spec-exp" class="w-full md:w-1/2 text-sm p-3 border border-slate-300 rounded-xl outline-none focus:border-scg-500 focus:ring-1 focus:ring-scg-500 bg-white">
+                                <option value="" ${!emp.special_expertise ? 'selected' : ''}>-- เลือกความเชี่ยวชาญ --</option>
+                                <option value="Technical" ${emp.special_expertise === 'Technical' ? 'selected' : ''}>Technical</option>
+                                <option value="Leadership" ${emp.special_expertise === 'Leadership' ? 'selected' : ''}>Leadership</option>
+                                <option value="IT" ${emp.special_expertise === 'IT' ? 'selected' : ''}>IT</option>
+                                <option value="Digital" ${emp.special_expertise === 'Digital' ? 'selected' : ''}>Digital</option>
+                                <option value="AI" ${emp.special_expertise === 'AI' ? 'selected' : ''}>AI</option>
+                                <option value="Analytic" ${emp.special_expertise === 'Analytic' ? 'selected' : ''}>Analytic</option>
+                                <option value="Other" ${emp.special_expertise === 'Other' ? 'selected' : ''}>Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">คำอธิบายเพิ่มเติม / ตัวอย่างผลงานที่เชี่ยวชาญ</label>
+                            <textarea id="eval-spec-dtl" rows="3" class="w-full text-sm p-3 border border-slate-300 rounded-xl outline-none focus:border-scg-500 focus:ring-1 focus:ring-scg-500 resize-none transition-colors" placeholder="ระบุรายละเอียดความเชี่ยวชาญพิเศษที่โดดเด่น...">${emp.special_expertise_detail || ''}</textarea>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
             document.getElementById('sliders-container').innerHTML = html;
             drawEvalRadar();
         }
@@ -627,14 +666,28 @@ new_js = """
             const id = document.getElementById('eval-employee-select').value;
             const emp = dbUsers[id];
             
+            if (!emp.additional_expectations) emp.additional_expectations = new Array(competencies.length).fill('');
+            if (!emp.learning_topics) emp.learning_topics = new Array(competencies.length).fill('');
+            
             for (let i = 0; i < competencies.length; i++) {
                 const elVal = document.getElementById(`eval-val-${i}`);
                 const elEvi = document.getElementById(`eval-evi-${i}`);
+                const elAddExp = document.getElementById(`eval-add-exp-${i}`);
+                const elLrnTop = document.getElementById(`eval-lrn-top-${i}`);
+                
                 if (elVal && elEvi) {
                     emp.actuals[i] = parseInt(elVal.value);
                     emp.evidences[i] = elEvi.value;
                 }
+                if (elAddExp) emp.additional_expectations[i] = elAddExp.value;
+                if (elLrnTop) emp.learning_topics[i] = elLrnTop.value;
             }
+            
+            const specExp = document.getElementById('eval-spec-exp') ? document.getElementById('eval-spec-exp').value : '';
+            const specDtl = document.getElementById('eval-spec-dtl') ? document.getElementById('eval-spec-dtl').value : '';
+            
+            emp.special_expertise = specExp;
+            emp.special_expertise_detail = specDtl;
             emp.evalDate = new Date().toLocaleDateString('th-TH');
             
             await fetch(`${API_BASE}/evaluations`, {
@@ -644,6 +697,10 @@ new_js = """
                     userId: id,
                     actuals: emp.actuals,
                     evidences: emp.evidences,
+                    additionalExpectations: emp.additional_expectations,
+                    learningTopics: emp.learning_topics,
+                    specialExpertise: emp.special_expertise,
+                    specialExpertiseDetail: emp.special_expertise_detail,
                     evalDate: emp.evalDate
                 })
             });

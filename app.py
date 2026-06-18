@@ -70,6 +70,8 @@ def get_data():
         user_acts = [a for a in act_res.data if a["user_id"] == uid]
         actuals = [a["actual_level"] for a in user_acts]
         evidences = [a["evidence"] for a in user_acts]
+        additional_expectations = [a.get("additional_expectation", "") for a in user_acts]
+        learning_topics = [a.get("learning_topic", "") for a in user_acts]
         evalDate = user_acts[0]["eval_date"] if len(user_acts) > 0 and user_acts[0]["eval_date"] else ""
         
         dbUsers[uid] = {
@@ -77,8 +79,12 @@ def get_data():
             "role": u["role"],
             "name": u["name"],
             "position": u["position"],
+            "special_expertise": u.get("special_expertise", ""),
+            "special_expertise_detail": u.get("special_expertise_detail", ""),
             "actuals": actuals,
             "evidences": evidences,
+            "additional_expectations": additional_expectations,
+            "learning_topics": learning_topics,
             "managerIds": mgrs,
             "evalDate": evalDate
         }
@@ -95,14 +101,29 @@ def get_data():
 def update_evaluation():
     data = request.json
     uid = data.get('userId')
-    actuals = data.get('actuals')
-    evidences = data.get('evidences')
+    actuals = data.get('actuals', [])
+    evidences = data.get('evidences', [])
+    additional_expectations = data.get('additionalExpectations', [])
+    learning_topics = data.get('learningTopics', [])
+    special_expertise = data.get('specialExpertise', "")
+    special_expertise_detail = data.get('specialExpertiseDetail', "")
     evalDate = data.get('evalDate')
     
-    for idx, (aval, evid) in enumerate(zip(actuals, evidences)):
+    supabase.table("users").update({
+        "special_expertise": special_expertise,
+        "special_expertise_detail": special_expertise_detail
+    }).eq("id", uid).execute()
+    
+    for idx, aval in enumerate(actuals):
+        evid = evidences[idx] if idx < len(evidences) else ""
+        add_exp = additional_expectations[idx] if idx < len(additional_expectations) else ""
+        lrn_top = learning_topics[idx] if idx < len(learning_topics) else ""
+        
         supabase.table("user_actuals").update({
             "actual_level": aval,
             "evidence": evid,
+            "additional_expectation": add_exp,
+            "learning_topic": lrn_top,
             "eval_date": evalDate
         }).eq("user_id", uid).eq("competency_idx", idx).execute()
         

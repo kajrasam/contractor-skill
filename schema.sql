@@ -12,7 +12,9 @@ CREATE TABLE users (
     pass TEXT,
     role TEXT,
     name TEXT,
-    position TEXT
+    position TEXT,
+    special_expertise TEXT,
+    special_expertise_detail TEXT
 );
 
 -- Create user_managers table
@@ -54,5 +56,7 @@ CREATE TABLE user_actuals (
     competency_idx INTEGER,
     actual_level INTEGER,
     evidence TEXT,
+    additional_expectation TEXT,
+    learning_topic TEXT,
     eval_date TEXT
 );
