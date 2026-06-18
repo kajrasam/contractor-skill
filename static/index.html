@@ -949,7 +949,11 @@
             }
             
             let posHtml = '';
-            visiblePos.forEach(p => {
+            let filteredPositionsForDropdown = visiblePos;
+            if(selectedJobGroupFilter.length > 0) {
+                filteredPositionsForDropdown = visiblePos.filter(p => selectedJobGroupFilter.includes(positionGroups[p]));
+            }
+            filteredPositionsForDropdown.forEach(p => {
                 const isSelected = selectedPositionsFilter.includes(p);
                 posHtml += `<label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
                     <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${isSelected ? 'checked' : ''} onchange="togglePosFilter('${p}')">
@@ -978,9 +982,11 @@
             }
 
             let compHtml = '';
-            competencies.forEach(c => {
-                // If a comp group is selected, only show competencies in that group in the filter list? Or keep all?
-                // Let's keep all for now, but in actual filtering we combine them.
+            let filteredCompetenciesForDropdown = competencies;
+            if(selectedCompetencyGroupFilter.length > 0) {
+                filteredCompetenciesForDropdown = competencies.filter(c => selectedCompetencyGroupFilter.includes(c.group));
+            }
+            filteredCompetenciesForDropdown.forEach(c => {
                 const isSelected = selectedCompetenciesFilter.includes(c.name);
                 compHtml += `<label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
                     <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${isSelected ? 'checked' : ''} onchange="toggleCompFilter('${c.name}')">
