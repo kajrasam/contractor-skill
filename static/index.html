@@ -270,7 +270,7 @@
                                 <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">1</div>
                                 <div class="pb-8">
                                     <h4 class="font-bold text-slate-800 text-lg">ศึกษาเป้าหมายตำแหน่ง</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <strong class="text-slate-700">"Training Need"</strong> เพื่อดูบทบาทหน้าที่ (Role) และระดับทักษะที่คาดหวัง (Target Level) ของตำแหน่งตนเอง</p>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('training')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Training Need"</button> เพื่อดูบทบาทหน้าที่ (Role) และระดับทักษะที่คาดหวัง (Target Level) ของตำแหน่งตนเอง</p>
                                 </div>
                             </div>
                             <div class="absolute left-[26px] top-[40px] w-0.5 h-16 bg-slate-100 z-0"></div>
@@ -288,7 +288,7 @@
                                 <div class="w-10 h-10 rounded-full bg-scg-50 text-scg-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">3</div>
                                 <div>
                                     <h4 class="font-bold text-scg-800 text-lg">ดูผลประเมินและแผนพัฒนา</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <strong class="text-scg-700">"Dashboard"</strong> เพื่อดูจุดแข็งและ Gap ของตนเอง พร้อมรับคำแนะนำหลักสูตรอบรมที่เหมาะสม</p>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('dashboard')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Dashboard"</button> เพื่อดูจุดแข็งและ Gap ของตนเอง พร้อมรับคำแนะนำหลักสูตรอบรมที่เหมาะสม</p>
                                 </div>
                             </div>
                         </div>
@@ -304,7 +304,7 @@
                                 <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">1</div>
                                 <div class="pb-8">
                                     <h4 class="font-bold text-slate-800 text-lg">ตรวจสอบโครงสร้างทักษะ</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <strong class="text-slate-700">"Training Need"</strong> เพื่อทบทวนบทบาทและทักษะที่คาดหวังของลูกน้องแต่ละตำแหน่งในทีม</p>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('training')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Training Need"</button> เพื่อทบทวนบทบาทและทักษะที่คาดหวังของลูกน้องแต่ละตำแหน่งในทีม</p>
                                 </div>
                             </div>
                             <div class="absolute left-[26px] top-[40px] w-0.5 h-16 bg-slate-100 z-0"></div>
@@ -313,7 +313,7 @@
                                 <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">2</div>
                                 <div class="pb-8">
                                     <h4 class="font-bold text-slate-800 text-lg">ประเมินลูกน้องรายบุคคล</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <strong class="text-slate-700">"การประเมิน"</strong> เลือกลูกน้อง ให้คะแนนตามระดับความสามารถจริง พร้อมระบุหลักฐานประกอบ</p>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('evaluation')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"การประเมิน"</button> เลือกลูกน้อง ให้คะแนนตามระดับความสามารถจริง พร้อมระบุหลักฐานประกอบ</p>
                                 </div>
                             </div>
                             <div class="absolute left-[26px] top-[140px] w-0.5 h-16 bg-slate-100 z-0 hidden md:block"></div>
@@ -322,7 +322,7 @@
                                 <div class="w-10 h-10 rounded-full bg-scg-800 text-white flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-md z-10">3</div>
                                 <div>
                                     <h4 class="font-bold text-scg-900 text-lg">วิเคราะห์ข้อมูลและวางแผนทีม</h4>
-                                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">เข้าเมนู <strong class="text-scg-700">"Dashboard"</strong> ดูภาพรวม %Complete ของทีม เพื่อวางแผนพัฒนาบุคลากรให้ตรงจุด</p>
+                                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('dashboard')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Dashboard"</button> ดูภาพรวม %Complete ของทีม เพื่อวางแผนพัฒนาบุคลากรให้ตรงจุด</p>
                                 </div>
                             </div>
                         </div>
