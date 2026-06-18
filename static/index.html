@@ -758,17 +758,21 @@
                     <div class="flex items-start gap-3">
                         <div class="bg-scg-50 p-2.5 rounded-xl shrink-0"><i class="fa-solid fa-user-gear text-scg-500"></i></div>
                         <div class="w-full">
-                            <h4 class="font-bold text-scg-900 text-sm mb-1">${pos}</h4>`;
+                            `;
                             
                 if(isAdmin && isEditMode) {
                     html += `
+                        <input type="text" value="${pos}" onchange="handlePositionChange('${pos}', this.value)" class="w-full font-bold text-scg-900 text-sm mb-2 border-b border-scg-300 bg-transparent px-1 py-1 focus:border-scg-600 outline-none" title="แก้ไขชื่อตำแหน่ง">
                         <div class="flex justify-between items-start w-full gap-2">
                             <textarea rows="3" onchange="handleRoleResponseChange('${pos}', this.value)" class="w-full text-xs text-slate-600 p-2 border border-slate-200 rounded outline-none focus:border-scg-500 resize-none bg-white">${response}</textarea>
                             <button onclick="deletePosition('${pos}')" class="text-red-400 hover:text-white hover:bg-red-500 p-2 rounded-lg transition-colors border border-red-100 flex-shrink-0" title="ลบตำแหน่งนี้"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     `;
                 } else {
-                    html += `<p class="text-xs text-slate-500 leading-relaxed">${response}</p>`;
+                    html += `
+                        <h4 class="font-bold text-scg-900 text-sm mb-1">${pos}</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed">${response}</p>
+                    `;
                 }
                 
                 html += `</div></div></div>`;
