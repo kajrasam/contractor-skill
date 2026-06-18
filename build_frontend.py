@@ -1014,12 +1014,12 @@ new_js = """
             const jgText = document.getElementById('dash-job-group-text');
             if(selectedDashJobGroupFilter.length === 0) jgText.textContent = 'ทั้งหมด';
             else if(selectedDashJobGroupFilter.length === 1) jgText.textContent = selectedDashJobGroupFilter[0];
-            else jgText.textContent = \`เลือก \${selectedDashJobGroupFilter.length} กลุ่มงาน\`;
+            else jgText.textContent = `เลือก ${selectedDashJobGroupFilter.length} กลุ่มงาน`;
 
             const posText = document.getElementById('dash-pos-text');
             if(selectedDashPosFilter.length === 0) posText.textContent = 'ทั้งหมด';
             else if(selectedDashPosFilter.length === 1) posText.textContent = selectedDashPosFilter[0];
-            else posText.textContent = \`เลือก \${selectedDashPosFilter.length} ตำแหน่ง\`;
+            else posText.textContent = `เลือก ${selectedDashPosFilter.length} ตำแหน่ง`;
         }
 
         window.toggleDashFilter = function(type, value) {
