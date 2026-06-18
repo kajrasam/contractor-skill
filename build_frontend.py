@@ -666,7 +666,7 @@ new_js = """
         }
 
         function drawAverageBarChart(subIds) {
-            const names = []; const avgTargets = []; const avgActuals = [];
+            const names = []; const avgTargets = []; const avgActuals = []; const percentCompletes = [];
 
             subIds.forEach(id => {
                 const emp = dbUsers[id];
@@ -676,8 +676,15 @@ new_js = """
                 const sumTarget = targets.reduce((a, b) => a + b, 0);
                 const sumActual = emp.actuals.reduce((a, b) => a + b, 0);
                 
-                avgTargets.push((sumTarget / (competencies.length || 1)).toFixed(1));
-                avgActuals.push((sumActual / (competencies.length || 1)).toFixed(1));
+                const avgT = sumTarget / (competencies.length || 1);
+                const avgA = sumActual / (competencies.length || 1);
+                
+                avgTargets.push(avgT.toFixed(1));
+                avgActuals.push(avgA.toFixed(1));
+                
+                // Calculate % Complete
+                const percent = avgT > 0 ? Math.round((avgA / avgT) * 100) : 0;
+                percentCompletes.push(percent);
             });
 
             if(averageBarChartInstance) averageBarChartInstance.destroy();
@@ -687,11 +694,71 @@ new_js = """
                 data: {
                     labels: names,
                     datasets: [
-                        { label: 'Average Expected', data: avgTargets, backgroundColor: '#cbd5e1' },
-                        { label: 'Average Actual', data: avgActuals, backgroundColor: '#ca3656' }
+                        { 
+                            type: 'line',
+                            label: '% Complete', 
+                            data: percentCompletes, 
+                            borderColor: '#eab308',
+                            backgroundColor: '#eab308',
+                            borderWidth: 2,
+                            pointRadius: 6,
+                            pointHoverRadius: 8,
+                            showLine: false,
+                            yAxisID: 'y1'
+                        },
+                        { label: 'Average Expected', data: avgTargets, backgroundColor: '#cbd5e1', yAxisID: 'y' },
+                        { label: 'Average Actual', data: avgActuals, backgroundColor: '#ca3656', yAxisID: 'y' }
                     ]
                 },
-                options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 0, max: 5 } } }
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false, 
+                    scales: { 
+                        y: { min: 0, max: 5, position: 'left' },
+                        y1: { 
+                            min: 0, 
+                            max: 120,
+                            position: 'right',
+                            grid: { drawOnChartArea: false },
+                            ticks: { callback: function(value) { return value + '%'; } }
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) { label += ': '; }
+                                    if (context.dataset.yAxisID === 'y1') {
+                                        label += context.parsed.y + '%';
+                                    } else {
+                                        label += context.parsed.y;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                },
+                plugins: [{
+                    id: 'customDataLabels',
+                    afterDatasetsDraw(chart, args, pluginOptions) {
+                        const { ctx, data } = chart;
+                        ctx.save();
+                        
+                        // Dataset 0 is the % Complete line
+                        chart.getDatasetMeta(0).data.forEach((datapoint, index) => {
+                            const value = data.datasets[0].data[index] + '%';
+                            ctx.fillStyle = '#b45309';
+                            ctx.font = 'bold 12px sans-serif';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'bottom';
+                            ctx.fillText(value, datapoint.x, datapoint.y - 10);
+                        });
+                        
+                        ctx.restore();
+                    }
+                }]
             });
         }
 
