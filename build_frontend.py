@@ -1588,6 +1588,29 @@ new_js = """
             }
             let pctComplete = totalTargetForPct > 0 ? Math.round((totalActualForPct / totalTargetForPct) * 100) : 0;
             
+            // Generate Special Expertise HTML
+            let expertiseHtml = '';
+            if (emp.special_expertise && emp.special_expertise !== '-' && emp.special_expertise !== '') {
+                let badgeClass = "bg-blue-50 text-blue-600 border-blue-200";
+                if(emp.special_expertise === 'Leadership') badgeClass = "bg-purple-50 text-purple-600 border-purple-200";
+                else if(emp.special_expertise === 'Digital' || emp.special_expertise === 'AI') badgeClass = "bg-teal-50 text-teal-600 border-teal-200";
+                else if(emp.special_expertise === 'Analytic') badgeClass = "bg-orange-50 text-orange-600 border-orange-200";
+
+                expertiseHtml = `
+                    <div class="mb-5 pb-5 border-b border-slate-100">
+                        <h3 class="font-bold text-sm text-scg-900 mb-3">
+                            <i class="fa-solid fa-star text-amber-400 mr-2"></i> ความเชี่ยวชาญพิเศษ
+                        </h3>
+                        <div class="flex flex-col gap-2">
+                            <span class="inline-flex w-max items-center px-2.5 py-1 rounded-md text-xs font-bold border shadow-sm ${badgeClass}">
+                                ${emp.special_expertise}
+                            </span>
+                            <p class="text-xs text-slate-600 leading-relaxed bg-slate-50 p-2.5 rounded-lg border border-slate-100 whitespace-pre-wrap">${emp.special_expertise_detail || '-'}</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
             container.innerHTML = `
                 <!-- IDP Header Section -->
                 <div class="flex flex-col xl:flex-row gap-6 mb-6">
@@ -1618,6 +1641,7 @@ new_js = """
                     
                     <!-- Right Column: GAP Summary -->
                     <div class="xl:w-1/3 bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100 flex flex-col">
+                        ${expertiseHtml}
                         <h3 class="font-bold text-lg text-scg-900 mb-4 border-b border-slate-100 pb-3">
                             <i class="fa-solid fa-graduation-cap text-scg-500 mr-2"></i> สรุปผลประเมิน & หลักสูตรแนะนำ
                         </h3>
