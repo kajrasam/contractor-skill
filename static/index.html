@@ -250,16 +250,83 @@
 
             <!-- 1. HOME TAB -->
             <section id="tab-home" class="tab-content space-y-8">
-                <div
-                    class="bg-white p-8 md:p-12 rounded-3xl border border-slate-100 shadow-sm text-center relative overflow-hidden">
-                    <div class="absolute -left-10 -top-10 opacity-5 text-scg-800 pointer-events-none"><i
-                            class="fa-solid fa-gears text-[200px]"></i></div>
-                    <div class="inline-flex bg-scg-50 text-scg-800 p-4 rounded-2xl mb-4 relative z-10"><i
-                            class="fa-solid fa-user-shield text-4xl"></i></div>
+                <div class="bg-white p-8 md:p-12 rounded-3xl border border-slate-100 shadow-sm text-center relative overflow-hidden mb-4">
+                    <div class="absolute -left-10 -top-10 opacity-5 text-scg-800 pointer-events-none"><i class="fa-solid fa-gears text-[200px]"></i></div>
+                    <div class="inline-flex bg-scg-50 text-scg-800 p-4 rounded-2xl mb-4 relative z-10"><i class="fa-solid fa-user-shield text-4xl"></i></div>
                     <h2 class="text-3xl font-bold text-scg-900 mb-4 relative z-10">Competency System</h2>
-                    <p class="text-slate-500 max-w-2xl mx-auto mb-8 relative z-10" id="home-welcome-text">
-                        ยินดีต้อนรับเข้าสู่ระบบจัดการทักษะตามบทบาท (Role & Responsibilities)
+                    <p class="text-slate-500 max-w-2xl mx-auto relative z-10" id="home-welcome-text">
+                        ระบบจัดการทักษะและประเมินขีดความสามารถตามบทบาทหน้าที่ (Role & Responsibilities)
                     </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Workflow for Employee -->
+                    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden transition-shadow hover:shadow-md">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-bl-[100px] z-0"></div>
+                        <h3 class="text-xl font-bold text-scg-900 mb-8 flex items-center relative z-10"><i class="fa-solid fa-user text-scg-500 mr-3 text-2xl"></i> สำหรับพนักงาน <span class="text-slate-400 text-base font-normal ml-2">(ผู้ถูกประเมิน)</span></h3>
+                        
+                        <div class="space-y-0 relative z-10 ml-2">
+                            <div class="flex items-start gap-5">
+                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">1</div>
+                                <div class="pb-8">
+                                    <h4 class="font-bold text-slate-800 text-lg">ศึกษาเป้าหมายตำแหน่ง</h4>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <strong class="text-slate-700">"Training Need"</strong> เพื่อดูบทบาทหน้าที่ (Role) และระดับทักษะที่คาดหวัง (Target Level) ของตำแหน่งตนเอง</p>
+                                </div>
+                            </div>
+                            <div class="absolute left-[26px] top-[40px] w-0.5 h-16 bg-slate-100 z-0"></div>
+                            
+                            <div class="flex items-start gap-5 relative">
+                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">2</div>
+                                <div class="pb-8">
+                                    <h4 class="font-bold text-slate-800 text-lg">รวบรวมผลงานและหลักฐาน</h4>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เตรียมข้อมูล ผลงาน หรือหลักฐานการทำงานจริง เพื่อใช้ประกอบการพูดคุยประเมินกับหัวหน้างาน</p>
+                                </div>
+                            </div>
+                            <div class="absolute left-[26px] top-[140px] w-0.5 h-16 bg-slate-100 z-0 hidden md:block"></div>
+                            
+                            <div class="flex items-start gap-5 relative">
+                                <div class="w-10 h-10 rounded-full bg-scg-50 text-scg-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">3</div>
+                                <div>
+                                    <h4 class="font-bold text-scg-800 text-lg">ดูผลประเมินและแผนพัฒนา</h4>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <strong class="text-scg-700">"Dashboard"</strong> เพื่อดูจุดแข็งและ Gap ของตนเอง พร้อมรับคำแนะนำหลักสูตรอบรมที่เหมาะสม</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Workflow for Supervisor -->
+                    <div class="bg-white p-8 rounded-3xl border border-scg-100 shadow-md relative overflow-hidden transition-shadow hover:shadow-lg">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-scg-50/50 rounded-bl-[100px] z-0"></div>
+                        <h3 class="text-xl font-bold text-scg-900 mb-8 flex items-center relative z-10"><i class="fa-solid fa-user-tie text-scg-500 mr-3 text-2xl"></i> สำหรับหัวหน้างาน <span class="text-slate-400 text-base font-normal ml-2">(ผู้ประเมิน)</span></h3>
+                        
+                        <div class="space-y-0 relative z-10 ml-2">
+                            <div class="flex items-start gap-5 relative">
+                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">1</div>
+                                <div class="pb-8">
+                                    <h4 class="font-bold text-slate-800 text-lg">ตรวจสอบโครงสร้างทักษะ</h4>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <strong class="text-slate-700">"Training Need"</strong> เพื่อทบทวนบทบาทและทักษะที่คาดหวังของลูกน้องแต่ละตำแหน่งในทีม</p>
+                                </div>
+                            </div>
+                            <div class="absolute left-[26px] top-[40px] w-0.5 h-16 bg-slate-100 z-0"></div>
+                            
+                            <div class="flex items-start gap-5 relative">
+                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">2</div>
+                                <div class="pb-8">
+                                    <h4 class="font-bold text-slate-800 text-lg">ประเมินลูกน้องรายบุคคล</h4>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <strong class="text-slate-700">"การประเมิน"</strong> เลือกลูกน้อง ให้คะแนนตามระดับความสามารถจริง พร้อมระบุหลักฐานประกอบ</p>
+                                </div>
+                            </div>
+                            <div class="absolute left-[26px] top-[140px] w-0.5 h-16 bg-slate-100 z-0 hidden md:block"></div>
+                            
+                            <div class="flex items-start gap-5 relative">
+                                <div class="w-10 h-10 rounded-full bg-scg-800 text-white flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-md z-10">3</div>
+                                <div>
+                                    <h4 class="font-bold text-scg-900 text-lg">วิเคราะห์ข้อมูลและวางแผนทีม</h4>
+                                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">เข้าเมนู <strong class="text-scg-700">"Dashboard"</strong> ดูภาพรวม %Complete ของทีม เพื่อวางแผนพัฒนาบุคลากรให้ตรงจุด</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
