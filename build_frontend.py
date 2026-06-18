@@ -873,6 +873,8 @@ new_js = """
                 },
                 options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 5, ticks:{display:false} } } }
             });
+        }
+
         async function saveEvaluation() {
             const id = document.getElementById('eval-employee-select').value;
             const emp = dbUsers[id];
