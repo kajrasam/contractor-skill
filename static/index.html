@@ -992,6 +992,8 @@
             let html = '';
             for (let i = 0; i < competencies.length; i++) {
                 const targetVal = targets[i] || 0;
+                if (targetVal === 0) continue; // Skip competencies with target 0
+                
                 const targetText = targetVal === 0 ? 'None' : `L${targetVal}`;
                 const currentVal = emp.actuals[i] === 0 ? 1 : emp.actuals[i];
                 const currentDesc = competencies[i].levels[currentVal] || "";
@@ -1037,25 +1039,34 @@
             const emp = dbUsers[id];
             const targets = positionTargets[emp.position] || [];
             let actuals = [];
+            let cleanLabels = [];
+            let cleanTargets = [];
+            
+            const allLabels = getLabels().map(l => {
+                const parts = l.split('. ');
+                return parts.length > 1 ? parts.slice(1).join('. ') : l;
+            });
+
             for (let i = 0; i < competencies.length; i++) {
+                const t = targets[i] || 0;
+                if (t === 0) continue; // Only show on radar if target > 0
+                
+                cleanLabels.push(allLabels[i]);
+                cleanTargets.push(t);
+                
                 const el = document.getElementById(`eval-val-${i}`);
                 actuals.push(el ? parseInt(el.value) : (emp.actuals[i] || 0));
             }
 
             if(evalRadarChartInstance) evalRadarChartInstance.destroy();
             const ctx = document.getElementById('evalRadarChart').getContext('2d');
-            
-            const cleanLabels = getLabels().map(l => {
-                const parts = l.split('. ');
-                return parts.length > 1 ? parts.slice(1).join('. ') : l;
-            });
 
             evalRadarChartInstance = new Chart(ctx, {
                 type: 'radar',
                 data: {
                     labels: cleanLabels, 
                     datasets: [
-                        { label: 'Target', data: targets, borderColor: '#cbd5e1', backgroundColor: 'transparent', borderDash: [5,5] },
+                        { label: 'Target', data: cleanTargets, borderColor: '#cbd5e1', backgroundColor: 'transparent', borderDash: [5,5] },
                         { label: 'Actual', data: actuals, borderColor: '#ca3656', backgroundColor: 'rgba(202, 54, 86, 0.2)' }
                     ]
                 },
@@ -1068,8 +1079,12 @@
             const emp = dbUsers[id];
             
             for (let i = 0; i < competencies.length; i++) {
-                emp.actuals[i] = parseInt(document.getElementById(`eval-val-${i}`).value);
-                emp.evidences[i] = document.getElementById(`eval-evi-${i}`).value;
+                const elVal = document.getElementById(`eval-val-${i}`);
+                const elEvi = document.getElementById(`eval-evi-${i}`);
+                if (elVal && elEvi) {
+                    emp.actuals[i] = parseInt(elVal.value);
+                    emp.evidences[i] = elEvi.value;
+                }
             }
             emp.evalDate = new Date().toLocaleDateString('th-TH');
             
@@ -1286,18 +1301,29 @@
                 const emp = dbUsers[id];
                 const ctx = document.getElementById(`radar-${id}`).getContext('2d');
                 
-                const cleanLabels = currentLabels.map(l => {
-                    const parts = l.split('. ');
-                    return parts.length > 1 ? parts.slice(1).join('. ') : l;
-                });
+                const tData = positionTargets[emp.position] || [];
+                const aData = emp.actuals || [];
+                
+                const cleanLabels = [];
+                const cleanTargets = [];
+                const cleanActuals = [];
+                
+                for (let i = 0; i < currentLabels.length; i++) {
+                    if (tData[i] && tData[i] > 0) {
+                        const parts = currentLabels[i].split('. ');
+                        cleanLabels.push(parts.length > 1 ? parts.slice(1).join('. ') : currentLabels[i]);
+                        cleanTargets.push(tData[i]);
+                        cleanActuals.push(aData[i] || 0);
+                    }
+                }
 
                 const chart = new Chart(ctx, {
                     type: 'radar',
                     data: {
                         labels: cleanLabels,
                         datasets: [
-                            { label: 'Target', data: positionTargets[emp.position], borderColor: '#94a3b8', backgroundColor: 'rgba(148, 163, 184, 0.2)' },
-                            { label: 'Actual', data: emp.actuals, borderColor: '#882239', backgroundColor: 'rgba(136, 34, 57, 0.3)' }
+                            { label: 'Target', data: cleanTargets, borderColor: '#94a3b8', backgroundColor: 'rgba(148, 163, 184, 0.2)' },
+                            { label: 'Actual', data: cleanActuals, borderColor: '#882239', backgroundColor: 'rgba(136, 34, 57, 0.3)' }
                         ]
                     },
                     options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 5, ticks:{display:false} } } }
