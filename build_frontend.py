@@ -307,9 +307,9 @@ new_js = """
             let posHtml = '';
             visiblePos.forEach(p => {
                 const isSelected = selectedPositionsFilter.includes(p);
-                posHtml += `<label class="inline-flex items-center bg-white border ${isSelected ? 'border-scg-500 bg-scg-50' : 'border-slate-200'} px-3 py-1.5 rounded-full cursor-pointer hover:bg-slate-50 transition-colors">
-                    <input type="checkbox" class="hidden" ${isSelected ? 'checked' : ''} onchange="togglePosFilter('${p}')">
-                    <span class="text-xs font-bold ${isSelected ? 'text-scg-700' : 'text-slate-600'}">${p}</span>
+                posHtml += `<label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${isSelected ? 'checked' : ''} onchange="togglePosFilter('${p}')">
+                    <span class="text-sm font-medium ${isSelected ? 'text-scg-700' : 'text-slate-600'}">${p}</span>
                 </label>`;
             });
             posContainer.innerHTML = posHtml;
@@ -317,12 +317,24 @@ new_js = """
             let compHtml = '';
             competencies.forEach(c => {
                 const isSelected = selectedCompetenciesFilter.includes(c.name);
-                compHtml += `<label class="inline-flex items-center bg-white border ${isSelected ? 'border-scg-500 bg-scg-50' : 'border-slate-200'} px-3 py-1.5 rounded-full cursor-pointer hover:bg-slate-50 transition-colors">
-                    <input type="checkbox" class="hidden" ${isSelected ? 'checked' : ''} onchange="toggleCompFilter('${c.name}')">
-                    <span class="text-xs font-bold ${isSelected ? 'text-scg-700' : 'text-slate-600'}">${c.name}</span>
+                compHtml += `<label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${isSelected ? 'checked' : ''} onchange="toggleCompFilter('${c.name}')">
+                    <span class="text-sm font-medium ${isSelected ? 'text-scg-700' : 'text-slate-600'}">${c.name}</span>
                 </label>`;
             });
             compContainer.innerHTML = compHtml;
+
+            const posText = document.getElementById('pos-dropdown-text');
+            if(posText) {
+                if(selectedPositionsFilter.length === 0) posText.textContent = 'เลือกตำแหน่งทั้งหมด';
+                else posText.textContent = `เลือกแล้ว ${selectedPositionsFilter.length} ตำแหน่ง`;
+            }
+
+            const compText = document.getElementById('comp-dropdown-text');
+            if(compText) {
+                if(selectedCompetenciesFilter.length === 0) compText.textContent = 'เลือกทักษะทั้งหมด';
+                else compText.textContent = `เลือกแล้ว ${selectedCompetenciesFilter.length} ทักษะ`;
+            }
         }
         
         window.togglePosFilter = function(p) {
@@ -394,18 +406,18 @@ new_js = """
             }
             const isAdmin = currentUser.id === 'Admin';
             
-            let html = `<table class="w-full text-left border-collapse text-sm"><thead><tr class="bg-slate-50 border-b border-slate-100 text-slate-600"><th class="p-4 font-semibold min-w-[200px]">Competency</th>`;
+            let html = `<table class="w-full text-left border-collapse text-sm"><thead><tr class="bg-slate-50 border-b border-slate-100 text-slate-600"><th class="p-4 font-semibold min-w-[200px] w-1/4">Competency</th>`;
             
             visiblePos.forEach(pos => {
                 if(isAdmin && isEditMode) {
-                    html += `<th class="p-4 font-semibold text-center align-top min-w-[150px] bg-amber-50/30 border-l border-white">
+                    html += `<th class="p-4 font-semibold text-center align-top min-w-[150px] whitespace-nowrap bg-amber-50/30 border-l border-white">
                                 <input type="text" value="${pos}" onchange="handlePositionChange('${pos}', this.value)" class="w-full border-b border-scg-300 bg-transparent px-1 py-1 text-sm font-bold text-scg-900 focus:border-scg-600 outline-none text-center" title="แก้ไขชื่อตำแหน่ง">
                              </th>`;
                 } else {
                     html += `<th class="p-4 font-semibold text-center align-top whitespace-pre-wrap min-w-[120px] border-l border-white">${pos}</th>`;
                 }
             });
-            html += `</tr></thead><tbody class="divide-y divide-slate-100 text-slate-700">`;
+            html += `<th class="w-full"></th></tr></thead><tbody class="divide-y divide-slate-100 text-slate-700">`;
 
             competencies.forEach((comp, compIndex) => {
                 if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(comp.name)) return;
@@ -457,13 +469,13 @@ new_js = """
                                  </td>`;
                     }
                 });
-                html += `</tr>`;
+                html += `<td class="w-full"></td></tr>`;
             });
 
             if (isAdmin && isEditMode) {
                 html += `
                 <tr class="bg-slate-50/50">
-                    <td colspan="${visiblePos.length + 1}" class="p-6 text-center border-t border-dashed border-slate-300">
+                    <td colspan="${visiblePos.length + 2}" class="p-6 text-center border-t border-dashed border-slate-300">
                         <button onclick="addNewCompetency()" class="text-sm font-bold text-scg-700 hover:text-scg-900 bg-white border border-scg-200 px-6 py-3 rounded-xl shadow-sm hover:shadow transition-all flex items-center justify-center gap-2 mx-auto">
                             <i class="fa-solid fa-plus"></i> เพิ่ม Competency ใหม่
                         </button>
