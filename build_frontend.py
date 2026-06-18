@@ -21,7 +21,7 @@ parts = content.split('<!-- ========================================== -->\n    
 html_part = parts[0] + '<!-- ========================================== -->\n    <!-- JAVASCRIPT LOGIC -->\n    <!-- ========================================== -->\n    <script>\n'
 
 new_js = """
-        const API_BASE = 'http://127.0.0.1:3000/api';
+        const API_BASE = '/api';
 
         // --- System Functions ---
         function showToast(message) {

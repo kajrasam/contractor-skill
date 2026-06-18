@@ -338,7 +338,8 @@
                             <div class="mt-4 p-4 bg-scg-50/50 border border-scg-100 rounded-xl flex items-center gap-4">
                                 <div
                                     class="w-12 h-12 rounded-full bg-scg-200 text-scg-800 flex items-center justify-center font-bold text-xl">
-                                    <i class="fa-solid fa-user"></i></div>
+                                    <i class="fa-solid fa-user"></i>
+                                </div>
                                 <div>
                                     <span id="eval-emp-name" class="font-bold text-scg-900 block"></span>
                                     <span id="eval-emp-position"
@@ -471,7 +472,7 @@
     <!-- ========================================== -->
     <script>
 
-        const API_BASE = 'http://127.0.0.1:3000/api';
+        const API_BASE = '/api';
 
         // --- System Functions ---
         function showToast(message) {
@@ -756,18 +757,17 @@
                 <div class="bg-white p-5 rounded-2xl border ${isAdmin && isEditMode ? 'border-amber-200 bg-amber-50/10' : 'border-slate-100'} hover:shadow-md transition-shadow">
                     <div class="flex items-start gap-3">
                         <div class="bg-scg-50 p-2.5 rounded-xl shrink-0"><i class="fa-solid fa-user-gear text-scg-500"></i></div>
-                        <div class="w-full">`;
+                        <div class="w-full">
+                            <h4 class="font-bold text-scg-900 text-sm mb-1">${pos}</h4>`;
                             
                 if(isAdmin && isEditMode) {
-                    html += `<input type="text" value="${pos}" onchange="handlePositionChange('${pos}', this.value)" class="font-bold text-scg-900 text-sm mb-1 w-full border-b border-scg-300 bg-transparent px-1 outline-none focus:border-scg-600" title="แก้ไขชื่อตำแหน่ง">`;
                     html += `
-                        <div class="flex justify-between items-start w-full gap-2 mt-2">
+                        <div class="flex justify-between items-start w-full gap-2">
                             <textarea rows="3" onchange="handleRoleResponseChange('${pos}', this.value)" class="w-full text-xs text-slate-600 p-2 border border-slate-200 rounded outline-none focus:border-scg-500 resize-none bg-white">${response}</textarea>
                             <button onclick="deletePosition('${pos}')" class="text-red-400 hover:text-white hover:bg-red-500 p-2 rounded-lg transition-colors border border-red-100 flex-shrink-0" title="ลบตำแหน่งนี้"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     `;
                 } else {
-                    html += `<h4 class="font-bold text-scg-900 text-sm mb-1">${pos}</h4>`;
                     html += `<p class="text-xs text-slate-500 leading-relaxed">${response}</p>`;
                 }
                 
