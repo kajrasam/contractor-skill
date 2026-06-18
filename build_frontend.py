@@ -43,6 +43,7 @@ new_js = """
         let positions = [];
         let positionTargets = {};
         let roleResponses = {};
+        let positionGroups = {};
         let dbUsers = {};
         let currentUser = null; 
         let actingAsRole = null; 
@@ -52,6 +53,8 @@ new_js = """
         let isEditMode = false;
         let selectedPositionsFilter = [];
         let selectedCompetenciesFilter = [];
+        let selectedJobGroupFilter = [];
+        let selectedCompetencyGroupFilter = [];
 
         async function fetchInitialData(silent = false) {
             try {
@@ -61,6 +64,7 @@ new_js = """
                 positions = data.positions;
                 positionTargets = data.positionTargets || {};
                 roleResponses = data.roleResponses || {};
+                positionGroups = data.positionGroups || {};
                 dbUsers = data.dbUsers || {};
                 if (!silent) {
                     checkLoginState();
@@ -264,29 +268,42 @@ new_js = """
             buildTrainingMatrix();
         }
 
-        async function handleRoleResponseChange(pos, newValue) {
-            await fetch(`${API_BASE}/positions/role`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ position: pos, roleResponse: newValue })
-            });
-            roleResponses[pos] = newValue;
-            showToast("บันทึกข้อมูลบทบาทหน้าที่สำเร็จ");
-        }
-        
         async function handlePositionChange(oldName, newName) {
+            if(oldName === newName || !newName) return;
+            
             await fetch(`${API_BASE}/positions/name`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ oldName, newName })
+                body: JSON.stringify({ oldName: oldName, newName: newName })
             });
-            await fetchInitialData(true);
+            
             showToast("เปลี่ยนชื่อตำแหน่งสำเร็จ");
-            buildRoleResponseSection();
-            buildTrainingMatrix();
+            fetchInitialData(true);
         }
-        
+
+        async function handlePositionGroupChange(pos, groupName) {
+            positionGroups[pos] = groupName;
+            await fetch(`${API_BASE}/positions/group`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ position: pos, group: groupName })
+            });
+            showToast("อัปเดตกลุ่มงานสำเร็จ");
+        }
+
+        async function handleRoleResponseChange(pos, response) {
+            roleResponses[pos] = response;
+            await fetch(`${API_BASE}/positions/role`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ position: pos, roleResponse: response })
+            });
+            showToast("อัปเดตหน้าที่สำเร็จ");
+        }
+
         async function handleCompetencyChange(index, newName) {
+            if(!newName) return;
+            
             await fetch(`${API_BASE}/competencies/name`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -296,13 +313,66 @@ new_js = """
             showToast("เปลี่ยนชื่อ Competency สำเร็จ");
             buildTrainingMatrix();
         }
+        async function handleCompetencyGroupChange(index, groupName) {
+            competencies[index].group = groupName;
+            await fetch(`${API_BASE}/competencies/group`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ index, group: groupName })
+            });
+            showToast("อัปเดตกลุ่มทักษะสำเร็จ");
+        }
+
+
+        window.toggleFilterMenu = function(menuId) {
+            const menus = ['job-group-menu', 'pos-dropdown-menu', 'comp-group-menu', 'comp-dropdown-menu'];
+            menus.forEach(m => {
+                const el = document.getElementById(m);
+                if(el) {
+                    if(m === menuId) el.classList.toggle('hidden');
+                    else el.classList.add('hidden');
+                }
+            });
+        };
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            if(!e.target.closest('.relative.z-20')) {
+                const menus = ['job-group-menu', 'pos-dropdown-menu', 'comp-group-menu', 'comp-dropdown-menu'];
+                menus.forEach(m => {
+                    const el = document.getElementById(m);
+                    if(el) el.classList.add('hidden');
+                });
+            }
+        });
 
         function buildFiltersUI() {
+            const jobGroupContainer = document.getElementById('job-group-filters');
             const posContainer = document.getElementById('position-filters');
+            const compGroupContainer = document.getElementById('comp-group-filters');
             const compContainer = document.getElementById('competency-filters');
             if(!posContainer || !compContainer) return;
             
             const visiblePos = getVisiblePositions(currentUser.id);
+            
+            // Build Job Groups
+            let jobGroupsSet = new Set();
+            visiblePos.forEach(p => {
+                if(positionGroups[p]) jobGroupsSet.add(positionGroups[p]);
+            });
+            let jobGroups = Array.from(jobGroupsSet).sort();
+            
+            if(jobGroupContainer) {
+                let jobGroupHtml = '';
+                jobGroups.forEach(g => {
+                    const isSelected = selectedJobGroupFilter.includes(g);
+                    jobGroupHtml += `<label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
+                        <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${isSelected ? 'checked' : ''} onchange="toggleJobGroupFilter('${g}')">
+                        <span class="text-sm font-medium ${isSelected ? 'text-scg-700' : 'text-slate-600'}">${g}</span>
+                    </label>`;
+                });
+                jobGroupContainer.innerHTML = jobGroupHtml;
+            }
             
             let posHtml = '';
             visiblePos.forEach(p => {
@@ -314,8 +384,29 @@ new_js = """
             });
             posContainer.innerHTML = posHtml;
             
+            // Build Competency Groups
+            let compGroupsSet = new Set();
+            competencies.forEach(c => {
+                if(c.group) compGroupsSet.add(c.group);
+            });
+            let compGroups = Array.from(compGroupsSet).sort();
+
+            if(compGroupContainer) {
+                let compGroupHtml = '';
+                compGroups.forEach(g => {
+                    const isSelected = selectedCompetencyGroupFilter.includes(g);
+                    compGroupHtml += `<label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
+                        <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${isSelected ? 'checked' : ''} onchange="toggleCompGroupFilter('${g}')">
+                        <span class="text-sm font-medium ${isSelected ? 'text-scg-700' : 'text-slate-600'}">${g}</span>
+                    </label>`;
+                });
+                compGroupContainer.innerHTML = compGroupHtml;
+            }
+
             let compHtml = '';
             competencies.forEach(c => {
+                // If a comp group is selected, only show competencies in that group in the filter list? Or keep all?
+                // Let's keep all for now, but in actual filtering we combine them.
                 const isSelected = selectedCompetenciesFilter.includes(c.name);
                 compHtml += `<label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
                     <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${isSelected ? 'checked' : ''} onchange="toggleCompFilter('${c.name}')">
@@ -323,6 +414,19 @@ new_js = """
                 </label>`;
             });
             compContainer.innerHTML = compHtml;
+
+            // Update texts
+            const jobGroupText = document.getElementById('job-group-dropdown-text');
+            if(jobGroupText) {
+                if(selectedJobGroupFilter.length === 0) jobGroupText.textContent = 'เลือกกลุ่มงานทั้งหมด';
+                else jobGroupText.textContent = `เลือกแล้ว ${selectedJobGroupFilter.length} กลุ่ม`;
+            }
+
+            const compGroupText = document.getElementById('comp-group-dropdown-text');
+            if(compGroupText) {
+                if(selectedCompetencyGroupFilter.length === 0) compGroupText.textContent = 'เลือกกลุ่มทักษะทั้งหมด';
+                else compGroupText.textContent = `เลือกแล้ว ${selectedCompetencyGroupFilter.length} กลุ่ม`;
+            }
 
             const posText = document.getElementById('pos-dropdown-text');
             if(posText) {
@@ -337,6 +441,14 @@ new_js = """
             }
         }
         
+        window.toggleJobGroupFilter = function(g) {
+            if(selectedJobGroupFilter.includes(g)) selectedJobGroupFilter = selectedJobGroupFilter.filter(x => x !== g);
+            else selectedJobGroupFilter.push(g);
+            buildFiltersUI();
+            buildRoleResponseSection();
+            buildTrainingMatrix();
+        }
+
         window.togglePosFilter = function(p) {
             if(selectedPositionsFilter.includes(p)) selectedPositionsFilter = selectedPositionsFilter.filter(x => x !== p);
             else selectedPositionsFilter.push(p);
@@ -345,6 +457,13 @@ new_js = """
             buildTrainingMatrix();
         }
         
+        window.toggleCompGroupFilter = function(g) {
+            if(selectedCompetencyGroupFilter.includes(g)) selectedCompetencyGroupFilter = selectedCompetencyGroupFilter.filter(x => x !== g);
+            else selectedCompetencyGroupFilter.push(g);
+            buildFiltersUI();
+            buildTrainingMatrix();
+        }
+
         window.toggleCompFilter = function(c) {
             if(selectedCompetenciesFilter.includes(c)) selectedCompetenciesFilter = selectedCompetenciesFilter.filter(x => x !== c);
             else selectedCompetenciesFilter.push(c);
@@ -355,6 +474,9 @@ new_js = """
         function buildRoleResponseSection() {
             const container = document.getElementById('role-response-container');
             let visiblePos = getVisiblePositions(currentUser.id);
+            if(selectedJobGroupFilter.length > 0) {
+                visiblePos = visiblePos.filter(p => selectedJobGroupFilter.includes(positionGroups[p]));
+            }
             if(selectedPositionsFilter.length > 0) {
                 visiblePos = visiblePos.filter(p => selectedPositionsFilter.includes(p));
             }
@@ -373,6 +495,10 @@ new_js = """
                 if(isAdmin && isEditMode) {
                     html += `
                         <input type="text" value="${pos}" onchange="handlePositionChange('${pos}', this.value)" class="w-full font-bold text-scg-900 text-sm mb-2 border-b border-scg-300 bg-transparent px-1 py-1 focus:border-scg-600 outline-none" title="แก้ไขชื่อตำแหน่ง">
+                        <div class="mb-2">
+                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 block">กลุ่มงาน (Job Group)</label>
+                            <input type="text" value="${positionGroups[pos] || ''}" onchange="handlePositionGroupChange('${pos}', this.value)" placeholder="ระบุกลุ่มงาน..." class="w-full text-xs text-slate-700 p-1.5 border border-slate-200 rounded outline-none focus:border-scg-500 bg-white">
+                        </div>
                         <div class="flex justify-between items-start w-full gap-2">
                             <textarea rows="3" onchange="handleRoleResponseChange('${pos}', this.value)" class="w-full text-xs text-slate-600 p-2 border border-slate-200 rounded outline-none focus:border-scg-500 resize-none bg-white">${response}</textarea>
                             <button onclick="deletePosition('${pos}')" class="text-red-400 hover:text-white hover:bg-red-500 p-2 rounded-lg transition-colors border border-red-100 flex-shrink-0" title="ลบตำแหน่งนี้"><i class="fa-solid fa-trash"></i></button>
@@ -401,6 +527,9 @@ new_js = """
         function buildTrainingMatrix() {
             const container = document.getElementById('training-matrix-container');
             let visiblePos = getVisiblePositions(currentUser.id);
+            if(selectedJobGroupFilter.length > 0) {
+                visiblePos = visiblePos.filter(p => selectedJobGroupFilter.includes(positionGroups[p]));
+            }
             if(selectedPositionsFilter.length > 0) {
                 visiblePos = visiblePos.filter(p => selectedPositionsFilter.includes(p));
             }
@@ -420,6 +549,7 @@ new_js = """
             html += `<th class="w-full"></th></tr></thead><tbody class="divide-y divide-slate-100 text-slate-700">`;
 
             competencies.forEach((comp, compIndex) => {
+                if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(comp.group)) return;
                 if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(comp.name)) return;
 
                 html += `<tr class="hover:bg-slate-50">`;
@@ -430,6 +560,10 @@ new_js = """
                                     <div class="flex items-start gap-2">
                                         <i class="fa-solid ${comp.icon} text-scg-400 w-5 mt-1"></i>
                                         <textarea rows="2" onchange="handleCompetencyChange(${compIndex}, this.value)" class="w-full border border-scg-200 rounded px-2 py-1 text-sm font-bold text-scg-900 focus:ring-1 focus:ring-scg-500 outline-none resize-none leading-tight" title="แก้ไขชื่อ Competency">${comp.name}</textarea>
+                                    </div>
+                                    <div class="mb-1">
+                                        <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 block">กลุ่มทักษะ (Group)</label>
+                                        <input type="text" value="${comp.group || ''}" onchange="handleCompetencyGroupChange(${compIndex}, this.value)" placeholder="ระบุกลุ่มทักษะ..." class="w-full text-xs text-slate-700 p-1 border border-slate-200 rounded outline-none focus:border-scg-500 bg-white">
                                     </div>
                                     <button onclick="openLevelEditModal(${compIndex})" class="text-xs bg-white hover:bg-slate-100 text-scg-700 px-2 py-1.5 rounded border border-slate-200 w-full flex items-center justify-center gap-1 shadow-sm transition-colors">
                                         <i class="fa-solid fa-list-ol"></i> แก้ไขความหมาย Level

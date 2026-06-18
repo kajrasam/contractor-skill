@@ -28,6 +28,7 @@ def get_data():
             "name": comp["name"],
             "icon": comp["icon"],
             "type": comp["type"],
+            "group": comp.get("competency_group", ""),
             "levels": {
                 1: comp["l1"],
                 2: comp["l2"],
@@ -41,9 +42,11 @@ def get_data():
     pos_res = supabase.table("positions").select("*").execute()
     positions = []
     roleResponses = {}
+    positionGroups = {}
     for p in pos_res.data:
         positions.append(p["name"])
         roleResponses[p["name"]] = p["role_response"]
+        positionGroups[p["name"]] = p.get("job_group", "")
         
     # 3. positionTargets
     pt_res = supabase.table("position_targets").select("*").order("position_name").order("competency_idx").execute()
@@ -94,6 +97,7 @@ def get_data():
         "positions": positions,
         "positionTargets": positionTargets,
         "roleResponses": roleResponses,
+        "positionGroups": positionGroups,
         "dbUsers": dbUsers
     })
 
@@ -258,6 +262,33 @@ def update_position_role():
         "role_response": role
     }).eq("name", pos).execute()
     
+    return jsonify({"status": "success"})
+
+@app.route('/api/positions/group', methods=['PUT'])
+def update_position_group():
+    data = request.json
+    pos = data.get('position')
+    group = data.get('group')
+    
+    supabase.table("positions").update({
+        "job_group": group
+    }).eq("name", pos).execute()
+    
+    return jsonify({"status": "success"})
+
+@app.route('/api/competencies/group', methods=['PUT'])
+def update_competency_group():
+    data = request.json
+    idx = data.get('index')
+    group = data.get('group')
+    
+    comps = supabase.table("competencies").select("id").order("id").execute()
+    if idx < len(comps.data):
+        real_id = comps.data[idx]['id']
+        supabase.table("competencies").update({
+            "competency_group": group
+        }).eq("id", real_id).execute()
+        
     return jsonify({"status": "success"})
 
 @app.route('/api/competencies/name', methods=['PUT'])

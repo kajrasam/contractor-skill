@@ -34,13 +34,15 @@ CREATE TABLE competencies (
     l2 TEXT,
     l3 TEXT,
     l4 TEXT,
-    l5 TEXT
+    l5 TEXT,
+    competency_group TEXT
 );
 
 -- Create positions table
 CREATE TABLE positions (
     name TEXT PRIMARY KEY,
-    role_response TEXT
+    role_response TEXT,
+    job_group TEXT
 );
 
 -- Create position_targets table
