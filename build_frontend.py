@@ -949,12 +949,11 @@ new_js = """
         }
 
         function drawAverageBarChart(subIds) {
-            const names = []; const avgTargets = []; const avgActuals = []; const percentCompletes = [];
+            const dataToSort = [];
 
             subIds.forEach(id => {
                 const emp = dbUsers[id];
                 const targets = positionTargets[emp.position] || [];
-                names.push(emp.name); 
                 
                 const sumTarget = targets.reduce((a, b) => a + b, 0);
                 const sumActual = emp.actuals.reduce((a, b) => a + b, 0);
@@ -962,13 +961,28 @@ new_js = """
                 const avgT = sumTarget / (competencies.length || 1);
                 const avgA = sumActual / (competencies.length || 1);
                 
-                avgTargets.push(avgT.toFixed(1));
-                avgActuals.push(avgA.toFixed(1));
-                
                 // Calculate % Complete
                 const percent = avgT > 0 ? Math.round((avgA / avgT) * 100) : 0;
-                percentCompletes.push(percent);
+                
+                dataToSort.push({
+                    name: emp.name,
+                    avgT: avgT.toFixed(1),
+                    avgA: avgA.toFixed(1),
+                    percent: percent
+                });
             });
+
+            // เรียงลำดับจาก % Completed มากไปน้อย
+            dataToSort.sort((a, b) => b.percent - a.percent);
+
+            const names = dataToSort.map(d => d.name);
+            const avgTargets = dataToSort.map(d => d.avgT);
+            const avgActuals = dataToSort.map(d => d.avgA);
+            const percentCompletes = dataToSort.map(d => d.percent);
+
+            // คำนวณ max ของกราฟเส้นเผื่อไว้ 20% ของค่า max เพื่อไม่ให้ตัวหนังสือตกขอบ
+            const maxPercentVal = Math.max(...percentCompletes, 100);
+            const y1Max = Math.ceil(maxPercentVal + (maxPercentVal * 0.2));
 
             if(averageBarChartInstance) averageBarChartInstance.destroy();
             const ctx = document.getElementById('averageBarChart').getContext('2d');
@@ -1000,7 +1014,7 @@ new_js = """
                         y: { min: 0, max: 5, position: 'left' },
                         y1: { 
                             min: 0, 
-                            max: 120,
+                            max: y1Max,
                             position: 'right',
                             grid: { drawOnChartArea: false },
                             ticks: { callback: function(value) { return value + '%'; } }
