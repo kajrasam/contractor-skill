@@ -50,6 +50,8 @@ new_js = """
         let averageBarChartInstance = null;
         let individualCharts = [];
         let isEditMode = false;
+        let selectedPositionsFilter = [];
+        let selectedCompetenciesFilter = [];
 
         async function fetchInitialData(silent = false) {
             try {
@@ -180,6 +182,7 @@ new_js = """
                 
                 isEditMode = false;
                 updateEditModeButton();
+                buildFiltersUI();
                 buildRoleResponseSection();
                 buildTrainingMatrix();
             }
@@ -294,9 +297,55 @@ new_js = """
             buildTrainingMatrix();
         }
 
+        function buildFiltersUI() {
+            const posContainer = document.getElementById('position-filters');
+            const compContainer = document.getElementById('competency-filters');
+            if(!posContainer || !compContainer) return;
+            
+            const visiblePos = getVisiblePositions(currentUser.id);
+            
+            let posHtml = '';
+            visiblePos.forEach(p => {
+                const isSelected = selectedPositionsFilter.includes(p);
+                posHtml += `<label class="inline-flex items-center bg-white border ${isSelected ? 'border-scg-500 bg-scg-50' : 'border-slate-200'} px-3 py-1.5 rounded-full cursor-pointer hover:bg-slate-50 transition-colors">
+                    <input type="checkbox" class="hidden" ${isSelected ? 'checked' : ''} onchange="togglePosFilter('${p}')">
+                    <span class="text-xs font-bold ${isSelected ? 'text-scg-700' : 'text-slate-600'}">${p}</span>
+                </label>`;
+            });
+            posContainer.innerHTML = posHtml;
+            
+            let compHtml = '';
+            competencies.forEach(c => {
+                const isSelected = selectedCompetenciesFilter.includes(c.name);
+                compHtml += `<label class="inline-flex items-center bg-white border ${isSelected ? 'border-scg-500 bg-scg-50' : 'border-slate-200'} px-3 py-1.5 rounded-full cursor-pointer hover:bg-slate-50 transition-colors">
+                    <input type="checkbox" class="hidden" ${isSelected ? 'checked' : ''} onchange="toggleCompFilter('${c.name}')">
+                    <span class="text-xs font-bold ${isSelected ? 'text-scg-700' : 'text-slate-600'}">${c.name}</span>
+                </label>`;
+            });
+            compContainer.innerHTML = compHtml;
+        }
+        
+        window.togglePosFilter = function(p) {
+            if(selectedPositionsFilter.includes(p)) selectedPositionsFilter = selectedPositionsFilter.filter(x => x !== p);
+            else selectedPositionsFilter.push(p);
+            buildFiltersUI();
+            buildRoleResponseSection();
+            buildTrainingMatrix();
+        }
+        
+        window.toggleCompFilter = function(c) {
+            if(selectedCompetenciesFilter.includes(c)) selectedCompetenciesFilter = selectedCompetenciesFilter.filter(x => x !== c);
+            else selectedCompetenciesFilter.push(c);
+            buildFiltersUI();
+            buildTrainingMatrix();
+        }
+
         function buildRoleResponseSection() {
             const container = document.getElementById('role-response-container');
-            const visiblePos = getVisiblePositions(currentUser.id);
+            let visiblePos = getVisiblePositions(currentUser.id);
+            if(selectedPositionsFilter.length > 0) {
+                visiblePos = visiblePos.filter(p => selectedPositionsFilter.includes(p));
+            }
             const isAdmin = currentUser.id === 'Admin';
             
             let html = '';
@@ -320,7 +369,7 @@ new_js = """
                 } else {
                     html += `
                         <h4 class="font-bold text-scg-900 text-sm mb-1">${pos}</h4>
-                        <p class="text-xs text-slate-500 leading-relaxed">${response}</p>
+                        <p class="text-xs text-slate-500 leading-relaxed whitespace-pre-wrap">${response}</p>
                     `;
                 }
                 
@@ -339,7 +388,10 @@ new_js = """
 
         function buildTrainingMatrix() {
             const container = document.getElementById('training-matrix-container');
-            const visiblePos = getVisiblePositions(currentUser.id);
+            let visiblePos = getVisiblePositions(currentUser.id);
+            if(selectedPositionsFilter.length > 0) {
+                visiblePos = visiblePos.filter(p => selectedPositionsFilter.includes(p));
+            }
             const isAdmin = currentUser.id === 'Admin';
             
             let html = `<table class="w-full text-left border-collapse text-sm"><thead><tr class="bg-slate-50 border-b border-slate-100 text-slate-600"><th class="p-4 font-semibold min-w-[200px]">Competency</th>`;
@@ -356,6 +408,8 @@ new_js = """
             html += `</tr></thead><tbody class="divide-y divide-slate-100 text-slate-700">`;
 
             competencies.forEach((comp, compIndex) => {
+                if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(comp.name)) return;
+
                 html += `<tr class="hover:bg-slate-50">`;
                 
                 if(isAdmin && isEditMode) {
