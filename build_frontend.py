@@ -58,6 +58,8 @@ new_js = """
         let selectedIDPPos = null;
         let selectedIDPEmp = null;
         let idpRadarChartInstance = null;
+        let selectedDashJobGroupFilter = [];
+        let selectedDashPosFilter = [];
 
         async function fetchInitialData(silent = false) {
             try {
@@ -330,7 +332,7 @@ new_js = """
 
 
         window.toggleFilterMenu = function(menuId) {
-            const menus = ['job-group-menu', 'pos-dropdown-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu'];
+            const menus = ['job-group-menu', 'pos-dropdown-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu', 'dash-job-group-menu', 'dash-pos-menu'];
             menus.forEach(m => {
                 const el = document.getElementById(m);
                 if(el) {
@@ -343,7 +345,7 @@ new_js = """
         // Close dropdowns when clicking outside
         document.addEventListener('click', function(e) {
             if(!e.target.closest('.relative.z-20')) {
-                const menus = ['job-group-menu', 'pos-dropdown-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu'];
+                const menus = ['job-group-menu', 'pos-dropdown-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu', 'dash-job-group-menu', 'dash-pos-menu'];
                 menus.forEach(m => {
                     const el = document.getElementById(m);
                     if(el) el.classList.add('hidden');
@@ -871,8 +873,6 @@ new_js = """
                 },
                 options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 5, ticks:{display:false} } } }
             });
-        }
-
         async function saveEvaluation() {
             const id = document.getElementById('eval-employee-select').value;
             const emp = dbUsers[id];
@@ -922,10 +922,12 @@ new_js = """
 
         // --- 5. Dashboard Logic ---
         function setupDashboardTab() {
-            const currentUserId = currentUser.id;
-            const subs = getSubordinates(currentUserId);
+            buildDashFiltersUI();
             
+            const currentUserId = currentUser.id;
+            let subs = getSubordinates(currentUserId);
             let toShow = [];
+
             if (currentUserId === 'Admin') {
                 toShow = Object.keys(dbUsers).filter(id => id !== 'Admin');
                 document.getElementById('dash-manager-view').style.display = 'block';
@@ -936,9 +938,24 @@ new_js = """
                 toShow = subs;
                 document.getElementById('dash-manager-view').style.display = 'block';
             }
+            
+            // Apply Filters
+            if(selectedDashJobGroupFilter.length > 0) {
+                toShow = toShow.filter(id => {
+                    const emp = dbUsers[id];
+                    return emp && positionGroups[selectedDashJobGroupFilter[0]] && positionGroups[selectedDashJobGroupFilter[0]].includes(emp.position);
+                });
+            }
+            if(selectedDashPosFilter.length > 0) {
+                toShow = toShow.filter(id => {
+                    const emp = dbUsers[id];
+                    return emp && selectedDashPosFilter.includes(emp.position);
+                });
+            }
 
             if(toShow.length === 0) {
                  document.getElementById('dash-individual-cards-container').innerHTML = '<div class="text-center bg-white p-10 rounded-3xl border border-slate-100 text-slate-400">ไม่พบข้อมูลให้แสดงผล</div>';
+                 if(averageBarChartInstance) averageBarChartInstance.destroy();
                  return;
             }
 
@@ -947,6 +964,79 @@ new_js = """
             }
             renderIndividualDashboards(toShow);
         }
+        
+        function buildDashFiltersUI() {
+            const jgContainer = document.getElementById('dash-job-group-filters');
+            const posContainer = document.getElementById('dash-pos-filters');
+            if(!jgContainer || !posContainer) return;
+            
+            // Get visible positions for filtering
+            let visiblePosSet = new Set();
+            let visibleUsers = currentUser.id === 'Admin' ? Object.keys(dbUsers).filter(id => id !== 'Admin') : [currentUser.id, ...getSubordinates(currentUser.id)];
+            visibleUsers.forEach(uid => {
+                if(dbUsers[uid] && dbUsers[uid].position) visiblePosSet.add(dbUsers[uid].position);
+            });
+            let visiblePos = Array.from(visiblePosSet).sort();
+
+            let groupsSet = new Set();
+            for(let p of visiblePos) {
+                for(let g in positionGroups) {
+                    if(positionGroups[g].includes(p)) groupsSet.add(g);
+                }
+            }
+            let jobGroups = Array.from(groupsSet).sort();
+
+            let jgHtml = '';
+            jobGroups.forEach(g => {
+                const checked = selectedDashJobGroupFilter.includes(g) ? 'checked' : '';
+                jgHtml += `<label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${checked} onchange="toggleDashFilter('jobGroup', '${g}')">
+                    <span class="text-sm font-medium ${checked ? 'text-scg-700' : 'text-slate-600'}">${g}</span>
+                </label>`;
+            });
+            jgContainer.innerHTML = jgHtml || '<p class="text-xs text-slate-400 p-2 text-center">ไม่มีกลุ่มงาน</p>';
+
+            let posHtml = '';
+            let filteredPositionsForDropdown = visiblePos;
+            if(selectedDashJobGroupFilter.length > 0) {
+                filteredPositionsForDropdown = visiblePos.filter(p => positionGroups[selectedDashJobGroupFilter[0]] && positionGroups[selectedDashJobGroupFilter[0]].includes(p));
+            }
+            
+            filteredPositionsForDropdown.forEach(p => {
+                const checked = selectedDashPosFilter.includes(p) ? 'checked' : '';
+                posHtml += `<label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${checked} onchange="toggleDashFilter('position', '${p}')">
+                    <span class="text-sm font-medium ${checked ? 'text-scg-700' : 'text-slate-600'}">${p}</span>
+                </label>`;
+            });
+            posContainer.innerHTML = posHtml || '<p class="text-xs text-slate-400 p-2 text-center">ไม่มีตำแหน่ง</p>';
+
+            const jgText = document.getElementById('dash-job-group-text');
+            if(selectedDashJobGroupFilter.length === 0) jgText.textContent = 'ทั้งหมด';
+            else if(selectedDashJobGroupFilter.length === 1) jgText.textContent = selectedDashJobGroupFilter[0];
+            else jgText.textContent = \`เลือก \${selectedDashJobGroupFilter.length} กลุ่มงาน\`;
+
+            const posText = document.getElementById('dash-pos-text');
+            if(selectedDashPosFilter.length === 0) posText.textContent = 'ทั้งหมด';
+            else if(selectedDashPosFilter.length === 1) posText.textContent = selectedDashPosFilter[0];
+            else posText.textContent = \`เลือก \${selectedDashPosFilter.length} ตำแหน่ง\`;
+        }
+
+        window.toggleDashFilter = function(type, value) {
+            if(type === 'jobGroup') {
+                const idx = selectedDashJobGroupFilter.indexOf(value);
+                if(idx > -1) selectedDashJobGroupFilter.splice(idx, 1);
+                else {
+                    selectedDashJobGroupFilter = [value];
+                    selectedDashPosFilter = [];
+                }
+            } else if(type === 'position') {
+                const idx = selectedDashPosFilter.indexOf(value);
+                if(idx > -1) selectedDashPosFilter.splice(idx, 1);
+                else selectedDashPosFilter.push(value);
+            }
+            setupDashboardTab();
+        };
 
         function drawAverageBarChart(subIds) {
             const dataToSort = [];
