@@ -945,7 +945,7 @@ new_js = """
             if(selectedDashJobGroupFilter.length > 0) {
                 toShow = toShow.filter(id => {
                     const emp = dbUsers[id];
-                    return emp && positionGroups[selectedDashJobGroupFilter[0]] && positionGroups[selectedDashJobGroupFilter[0]].includes(emp.position);
+                    return emp && positionGroups[emp.position] === selectedDashJobGroupFilter[0];
                 });
             }
             if(selectedDashPosFilter.length > 0) {
@@ -982,9 +982,7 @@ new_js = """
 
             let groupsSet = new Set();
             for(let p of visiblePos) {
-                for(let g in positionGroups) {
-                    if(positionGroups[g].includes(p)) groupsSet.add(g);
-                }
+                if(positionGroups[p]) groupsSet.add(positionGroups[p]);
             }
             let jobGroups = Array.from(groupsSet).sort();
 
@@ -1001,7 +999,7 @@ new_js = """
             let posHtml = '';
             let filteredPositionsForDropdown = visiblePos;
             if(selectedDashJobGroupFilter.length > 0) {
-                filteredPositionsForDropdown = visiblePos.filter(p => positionGroups[selectedDashJobGroupFilter[0]] && positionGroups[selectedDashJobGroupFilter[0]].includes(p));
+                filteredPositionsForDropdown = visiblePos.filter(p => positionGroups[p] === selectedDashJobGroupFilter[0]);
             }
             
             filteredPositionsForDropdown.forEach(p => {
@@ -1047,14 +1045,24 @@ new_js = """
                 const emp = dbUsers[id];
                 const targets = positionTargets[emp.position] || [];
                 
-                const sumTarget = targets.reduce((a, b) => a + b, 0);
-                const sumActual = emp.actuals.reduce((a, b) => a + b, 0);
+                let sumTarget = 0;
+                let sumActual = 0;
+                let validCompsCount = 0;
+
+                for (let i = 0; i < competencies.length; i++) {
+                    const t = targets[i] || 0;
+                    if (t > 0) {
+                        sumTarget += t;
+                        sumActual += (emp.actuals[i] || 0);
+                        validCompsCount++;
+                    }
+                }
                 
-                const avgT = sumTarget / (competencies.length || 1);
-                const avgA = sumActual / (competencies.length || 1);
+                const avgT = validCompsCount > 0 ? sumTarget / validCompsCount : 0;
+                const avgA = validCompsCount > 0 ? sumActual / validCompsCount : 0;
                 
                 // Calculate % Complete
-                const percent = avgT > 0 ? Math.round((avgA / avgT) * 100) : 0;
+                const percent = sumTarget > 0 ? Math.round((sumActual / sumTarget) * 100) : 0;
                 
                 dataToSort.push({
                     name: emp.name,
@@ -1164,11 +1172,13 @@ new_js = """
                 
                 for(let i=0; i<competencies.length; i++) {
                     const t = targets[i] || 0;
-                    const a = emp.actuals[i] || 0;
-                    totalTarget += t;
-                    totalActual += a;
-                    let diff = a - t;
-                    if (diff < 0 && t > 0) gaps.push({ skill: currentLabels[i], gap: diff, index: i });
+                    if (t > 0) {
+                        const a = emp.actuals[i] || 0;
+                        totalTarget += t;
+                        totalActual += a;
+                        let diff = a - t;
+                        if (diff < 0) gaps.push({ skill: currentLabels[i], gap: diff, index: i });
+                    }
                 }
 
                 const readiness = totalTarget === 0 ? 0 : Math.round((totalActual / totalTarget) * 100);
