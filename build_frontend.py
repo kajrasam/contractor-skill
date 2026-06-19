@@ -2217,21 +2217,148 @@ new_js = """
                 `;
             });
             tbody.innerHTML = html;
+            setTimeout(buildEmployeeFilters, 0); // wait for DOM update
         }
 
-        window.filterEmployeeTable = function() {
-            const trs = document.querySelectorAll('#employee-data-tbody tr');
-            const inputs = document.querySelectorAll('.emp-filter-input');
-            trs.forEach(tr => {
-                let show = true;
-                inputs.forEach((input, index) => {
-                    if(!input.value) return;
-                    const text = tr.cells[index].innerText.toLowerCase();
-                    if(!text.includes(input.value.toLowerCase())) show = false;
+        let employeeFilters = {}; // { colIndex: new Set(['Val1', 'Val2']) }
+
+        window.buildEmployeeFilters = function() {
+            const tbody = document.querySelector('#employee-data-tbody');
+            if(!tbody) return;
+            const table = tbody.parentElement;
+            const thead = table.querySelector('thead');
+            const headers = thead.querySelectorAll('th');
+            
+            const colKeys = [
+                'person_id', 'employee_id', 'user_id', 'password', 'name_th', 'name_en', 'nick_name',
+                'position_name', 'position_level', 'section', 'department', 'sub1_division', 'division',
+                'sub1_company', 'company', 'sub1_1_business_unit', 'working_location', 'cost_center_payment',
+                'cost_center_organization', 'retirement_year', 'years_of_service', 'age', 'report_to_name',
+                'certificate_entry_degree', 'email_address_business'
+            ];
+            
+            headers.forEach((th, index) => {
+                if(th.querySelector('.emp-filter-container')) {
+                    th.querySelector('.emp-filter-container').remove();
+                }
+                
+                const key = colKeys[index];
+                if(!key) return;
+
+                const uniqueValues = [...new Set(employeeData.map(e => e[key] !== null && e[key] !== undefined ? String(e[key]) : '-'))].sort();
+                
+                const container = document.createElement('div');
+                container.className = 'emp-filter-container relative mt-2 font-normal text-slate-700';
+                
+                const btn = document.createElement('button');
+                btn.className = 'w-full px-2 py-1 border border-slate-200 rounded text-xs text-left bg-white flex justify-between items-center hover:bg-slate-50';
+                btn.innerHTML = `<span class="truncate text-slate-400">All</span> <i class="fa-solid fa-chevron-down ml-1 text-[10px]"></i>`;
+                btn.onclick = (e) => {
+                    e.stopPropagation();
+                    document.querySelectorAll('.emp-filter-dropdown').forEach(d => {
+                        if(d !== dropdown) d.classList.add('hidden');
+                    });
+                    dropdown.classList.toggle('hidden');
+                };
+                
+                const dropdown = document.createElement('div');
+                dropdown.className = 'emp-filter-dropdown hidden absolute top-full left-0 w-48 mt-1 bg-white border border-slate-200 rounded-lg shadow-lg z-50 max-h-48 overflow-y-auto p-2';
+                
+                const searchBox = document.createElement('input');
+                searchBox.type = 'text';
+                searchBox.placeholder = 'Search...';
+                searchBox.className = 'w-full mb-2 px-2 py-1 text-xs border border-slate-200 rounded';
+                searchBox.onclick = (e) => e.stopPropagation();
+                searchBox.onkeyup = (e) => {
+                    const val = e.target.value.toLowerCase();
+                    dropdown.querySelectorAll('.checkbox-item').forEach(lbl => {
+                        lbl.style.display = lbl.innerText.toLowerCase().includes(val) ? 'flex' : 'none';
+                    });
+                };
+                dropdown.appendChild(searchBox);
+                
+                const selectAllLbl = document.createElement('label');
+                selectAllLbl.className = 'flex items-center gap-2 px-2 py-1 text-xs hover:bg-slate-50 cursor-pointer border-b border-slate-100 mb-1';
+                selectAllLbl.innerHTML = `<input type="checkbox" class="rounded border-slate-300" checked> <span class="font-bold">Select All</span>`;
+                const selectAllCb = selectAllLbl.querySelector('input');
+                selectAllCb.onclick = (e) => e.stopPropagation();
+                selectAllCb.onchange = (e) => {
+                    const checked = e.target.checked;
+                    dropdown.querySelectorAll('.val-checkbox').forEach(cb => {
+                        cb.checked = checked;
+                    });
+                    updateFilterState(index, btn, dropdown);
+                };
+                dropdown.appendChild(selectAllLbl);
+
+                uniqueValues.forEach(val => {
+                    const lbl = document.createElement('label');
+                    lbl.className = 'checkbox-item flex items-center gap-2 px-2 py-1 text-xs hover:bg-slate-50 cursor-pointer';
+                    lbl.innerHTML = `<input type="checkbox" value="${val}" class="val-checkbox rounded border-slate-300" checked> <span class="truncate" title="${val}">${val}</span>`;
+                    const cb = lbl.querySelector('input');
+                    cb.onclick = (e) => e.stopPropagation();
+                    cb.onchange = () => {
+                        const allChecked = Array.from(dropdown.querySelectorAll('.val-checkbox')).every(c => c.checked);
+                        selectAllCb.checked = allChecked;
+                        updateFilterState(index, btn, dropdown);
+                    };
+                    dropdown.appendChild(lbl);
                 });
-                tr.style.display = show ? '' : 'none';
+                
+                container.appendChild(btn);
+                container.appendChild(dropdown);
+                th.appendChild(container);
+                
+                employeeFilters[index] = new Set(uniqueValues);
+            });
+            
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.emp-filter-dropdown').forEach(d => d.classList.add('hidden'));
             });
         };
+
+        function updateFilterState(index, btn, dropdown) {
+            const checkboxes = dropdown.querySelectorAll('.val-checkbox');
+            const checkedVals = [];
+            checkboxes.forEach(cb => {
+                if(cb.checked) checkedVals.push(cb.value);
+            });
+            
+            employeeFilters[index] = new Set(checkedVals);
+            
+            if(checkedVals.length === checkboxes.length) {
+                btn.querySelector('span').innerText = 'All';
+                btn.querySelector('span').classList.add('text-slate-400');
+                btn.querySelector('span').classList.remove('text-scg-700', 'font-bold');
+            } else if(checkedVals.length === 0) {
+                btn.querySelector('span').innerText = 'None';
+                btn.querySelector('span').classList.remove('text-slate-400');
+                btn.querySelector('span').classList.add('text-red-500', 'font-bold');
+            } else {
+                btn.querySelector('span').innerText = `${checkedVals.length} selected`;
+                btn.querySelector('span').classList.remove('text-slate-400');
+                btn.querySelector('span').classList.add('text-scg-700', 'font-bold');
+            }
+            
+            applyEmployeeFilters();
+        }
+
+        function applyEmployeeFilters() {
+            const trs = document.querySelectorAll('#employee-data-tbody tr');
+            trs.forEach(tr => {
+                let show = true;
+                for(let i=0; i<tr.cells.length; i++) {
+                    if(employeeFilters[i]) {
+                        const text = tr.cells[i].innerText;
+                        if(!employeeFilters[i].has(text)) {
+                            show = false;
+                            break;
+                        }
+                    }
+                }
+                tr.style.display = show ? '' : 'none';
+            });
+        }
 
         function exportEmployeeData() {
             if(!employeeData || employeeData.length === 0) {
