@@ -369,24 +369,17 @@ new_js = """
 
 
         window.toggleFilterMenu = function(menuId) {
-            const menus = ['job-group-menu', 'pos-dropdown-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu', 'dash-job-group-menu', 'dash-pos-menu', 'analytic-job-group-menu', 'analytic-pos-menu', 'analytic-emp-menu', 'analytic-group-menu', 'analytic-skill-menu'];
-            menus.forEach(m => {
-                const el = document.getElementById(m);
-                if(el) {
-                    if(m === menuId) el.classList.toggle('hidden');
-                    else el.classList.add('hidden');
-                }
+            document.querySelectorAll('.filter-menu').forEach(el => {
+                if(el.id !== menuId) el.classList.add('hidden');
             });
+            const el = document.getElementById(menuId);
+            if(el) el.classList.toggle('hidden');
         };
 
         // Close dropdowns when clicking outside
         document.addEventListener('click', function(e) {
-            if(!e.target.closest('.relative.z-20') && !e.target.closest('.filter-dropdown-container')) {
-                const menus = ['job-group-menu', 'pos-dropdown-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu', 'dash-job-group-menu', 'dash-pos-menu', 'analytic-job-group-menu', 'analytic-pos-menu', 'analytic-emp-menu', 'analytic-group-menu', 'analytic-skill-menu'];
-                menus.forEach(m => {
-                    const el = document.getElementById(m);
-                    if(el) el.classList.add('hidden');
-                });
+            if(!e.target.closest('.relative.z-20') && !e.target.closest('.filter-dropdown-container') && !e.target.closest('.w-full.relative')) {
+                document.querySelectorAll('.filter-menu').forEach(el => el.classList.add('hidden'));
             }
         });
 
