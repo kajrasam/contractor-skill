@@ -2503,7 +2503,12 @@
                             angleLines: { color: '#f1f5f9' },
                             pointLabels: {
                                 font: { size: 11, family: "'Sarabun', sans-serif" },
-                                color: '#64748b'
+                                color: function(context) {
+                                    const idx = context.index;
+                                    const actual = actuals[idx] || 0;
+                                    const target = cleanTargets[idx] || 0;
+                                    return actual >= target ? '#16a34a' : '#991b1b';
+                                }
                             }
                         } 
                     } 
