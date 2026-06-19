@@ -164,20 +164,20 @@ new_js = """
 
         function buildNavigationByRole() {
             const navContainer = document.getElementById('nav-tabs-container');
-            let html = `<button onclick="switchTab('home')" id="nav-home" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium"><i class="fa-solid fa-house mr-1"></i> หน้าแรก</button>`;
-            html += `<button onclick="switchTab('training')" id="nav-training" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium"><i class="fa-solid fa-book mr-1"></i> Training Need</button>`;
+            let html = `<button onclick="switchTab('home')" id="nav-home" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-house w-5 text-center"></i> หน้าแรก</button>`;
+            html += `<button onclick="switchTab('training')" id="nav-training" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-book w-5 text-center"></i> Training Need</button>`;
             
             const hasSubs = getSubordinates(currentUser.id).length > 0;
             if (currentUser.id === 'Admin' || hasSubs) {
-                html += `<button onclick="switchTab('evaluation')" id="nav-evaluation" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium"><i class="fa-solid fa-clipboard-check mr-1"></i> การประเมิน</button>`;
+                html += `<button onclick="switchTab('evaluation')" id="nav-evaluation" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-clipboard-check w-5 text-center"></i> การประเมิน</button>`;
             }
             
-            html += `<button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium"><i class="fa-solid fa-chart-pie mr-1"></i> Dashboard</button>`;
-            html += `<button onclick="switchTab('idp')" id="nav-idp" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium"><i class="fa-solid fa-address-card mr-1"></i> IDP</button>`;
+            html += `<button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-chart-pie w-5 text-center"></i> Dashboard</button>`;
+            html += `<button onclick="switchTab('idp')" id="nav-idp" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-address-card w-5 text-center"></i> IDP</button>`;
             if (currentUser.id === 'Admin') {
-                html += `<button onclick="switchTab('analytic')" id="nav-analytic" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium"><i class="fa-solid fa-chart-line mr-1"></i> Competency Analytic</button>`;
-                html += `<button onclick="switchTab('employee-data')" id="nav-employee-data" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium"><i class="fa-solid fa-users mr-1"></i> Employee Data</button>`;
-                html += `<button onclick="switchTab('admin')" id="nav-admin" class="nav-btn px-3 py-2 rounded-lg text-sm font-bold border border-scg-200 shadow-sm ml-2"><i class="fa-solid fa-gear mr-1"></i> Admin</button>`;
+                html += `<button onclick="switchTab('analytic')" id="nav-analytic" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-chart-line w-5 text-center"></i> Competency Analytic</button>`;
+                html += `<button onclick="switchTab('employee-data')" id="nav-employee-data" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-users w-5 text-center"></i> Employee Data</button>`;
+                html += `<button onclick="switchTab('admin')" id="nav-admin" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold border border-scg-200 shadow-sm transition-all text-left mt-2"><i class="fa-solid fa-gear w-5 text-center"></i> Admin</button>`;
             }
             navContainer.innerHTML = html;
         }
@@ -188,8 +188,8 @@ new_js = """
 
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.className = btn.id === 'nav-admin' 
-                    ? 'nav-btn px-3 py-2 rounded-lg text-sm font-bold text-scg-700 bg-scg-50 border border-scg-200 shadow-sm hover:bg-scg-100 ml-2' 
-                    : 'nav-btn px-3 py-2 rounded-lg text-sm font-medium transition-colors text-slate-600 hover:text-scg-800 hover:bg-scg-50';
+                    ? 'nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-scg-700 bg-scg-50 border border-scg-200 shadow-sm hover:bg-scg-100 text-left mt-2 transition-all' 
+                    : 'nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-600 hover:text-scg-800 hover:bg-scg-50 text-left transition-all';
             });
             
             const activeBtn = document.getElementById(`nav-${tabId}`);
@@ -798,17 +798,17 @@ new_js = """
                     </div>
                     
                     <div class="pt-4 border-t border-slate-200 border-dashed">
-                        <label class="block text-xs font-bold text-slate-500 mb-2"><i class="fa-regular fa-comment-dots text-scg-500 mr-1"></i> คำอธิบาย/หลักฐานอ้างอิง (Evidence)</label>
+                        <label class="block text-xs font-bold text-slate-500 mb-2"><i class="fa-regular fa-comment-dots text-scg-500 w-5 text-center"></i> คำอธิบาย/หลักฐานอ้างอิง (Evidence)</label>
                         <textarea id="eval-evi-${i}" rows="2" class="w-full text-sm p-3 border border-slate-200 rounded-xl outline-none focus:border-scg-500 focus:ring-1 focus:ring-scg-500 resize-none transition-colors" placeholder="ระบุพฤติกรรมหรือผลงานที่สนับสนุนคะแนนนี้...">${emp.evidences[i] || ''}</textarea>
                     </div>
                     
                     <div class="pt-4 mt-2 border-t border-slate-200 border-dashed grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-xs font-bold text-slate-500 mb-2"><i class="fa-solid fa-bullseye text-scg-500 mr-1"></i> ความคาดหวังเพิ่มเติม</label>
+                            <label class="block text-xs font-bold text-slate-500 mb-2"><i class="fa-solid fa-bullseye text-scg-500 w-5 text-center"></i> ความคาดหวังเพิ่มเติม</label>
                             <textarea id="eval-add-exp-${i}" rows="2" class="w-full text-sm p-3 border border-slate-200 rounded-xl outline-none focus:border-scg-500 focus:ring-1 focus:ring-scg-500 resize-none transition-colors" placeholder="สิ่งที่คาดหวังให้พัฒนาเพิ่มเติม...">${(emp.additional_expectations && emp.additional_expectations[i]) || ''}</textarea>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-500 mb-2"><i class="fa-solid fa-book-open text-scg-500 mr-1"></i> หัวข้อที่อยากให้เรียนรู้เพิ่มเติม</label>
+                            <label class="block text-xs font-bold text-slate-500 mb-2"><i class="fa-solid fa-book-open text-scg-500 w-5 text-center"></i> หัวข้อที่อยากให้เรียนรู้เพิ่มเติม</label>
                             <textarea id="eval-lrn-top-${i}" rows="2" class="w-full text-sm p-3 border border-slate-200 rounded-xl outline-none focus:border-scg-500 focus:ring-1 focus:ring-scg-500 resize-none transition-colors" placeholder="ระบุหัวข้อที่ควรส่งไปอบรม...">${(emp.learning_topics && emp.learning_topics[i]) || ''}</textarea>
                         </div>
                     </div>
@@ -1316,7 +1316,7 @@ new_js = """
                             <span class="text-[10px] text-scg-600 font-bold bg-scg-50 border border-scg-100 px-2 py-0.5 rounded">${dbUsers[id].position}</span>
                         </div>
                         <div class="w-full">
-                            <label class="text-xs font-bold text-slate-500 block mb-1.5"><i class="fa-solid fa-sitemap mr-1"></i> สายบังคับบัญชา (เลือกได้หลายคน):</label>
+                            <label class="text-xs font-bold text-slate-500 block mb-1.5"><i class="fa-solid fa-sitemap w-5 text-center"></i> สายบังคับบัญชา (เลือกได้หลายคน):</label>
                             <select multiple onchange="updateUserManager('${id}', this)" class="w-full text-xs p-1.5 border border-slate-300 rounded-lg focus:border-scg-500 outline-none bg-white font-bold text-slate-700 h-20 shadow-inner">
                                 ${mgrOptions}
                             </select>
@@ -1569,11 +1569,11 @@ new_js = """
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="bg-white p-4 rounded-lg border border-slate-100 shadow-sm">
-                                <label class="block text-xs font-bold text-slate-500 mb-2"><i class="fa-solid fa-bullseye text-scg-500 mr-1"></i> ความคาดหวังเพิ่มเติม</label>
+                                <label class="block text-xs font-bold text-slate-500 mb-2"><i class="fa-solid fa-bullseye text-scg-500 w-5 text-center"></i> ความคาดหวังเพิ่มเติม</label>
                                 <p class="text-sm text-slate-700 whitespace-pre-wrap">${addExp}</p>
                             </div>
                             <div class="bg-white p-4 rounded-lg border border-slate-100 shadow-sm">
-                                <label class="block text-xs font-bold text-slate-500 mb-2"><i class="fa-solid fa-book-open text-scg-500 mr-1"></i> หัวข้อที่อยากให้เรียนรู้เพิ่มเติม</label>
+                                <label class="block text-xs font-bold text-slate-500 mb-2"><i class="fa-solid fa-book-open text-scg-500 w-5 text-center"></i> หัวข้อที่อยากให้เรียนรู้เพิ่มเติม</label>
                                 <p class="text-sm text-slate-700 whitespace-pre-wrap">${lrnTop}</p>
                             </div>
                         </div>
