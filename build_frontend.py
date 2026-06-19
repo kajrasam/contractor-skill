@@ -211,11 +211,12 @@ new_js = """
             }
             if(tabId === 'evaluation') setupEvaluationTab();
             if(tabId === 'dashboard') setupDashboardTab();
-            if(tabId === 'idp') buildIdpTab();
+            if(tabId === 'idp') setupIDPTab();
             if(tabId === 'analytic') {
                 buildAnalyticFiltersUI();
                 renderAnalyticTab();
             }
+            if(tabId === 'admin') setupAdminTab();
             if(tabId === 'employee-data') renderEmployeeDataTab();
         }
 
