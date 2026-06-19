@@ -528,6 +528,8 @@ new_js = """
             const jobGroupText = document.getElementById('job-group-dropdown-text');
             if(jobGroupText) {
                 if(selectedJobGroupFilter.length === 0) jobGroupText.textContent = 'เลือกกลุ่มงานทั้งหมด';
+                else jobGroupText.textContent = `เลือกแล้ว ${selectedJobGroupFilter.length} กลุ่ม`;
+            }
 
             const updateText = (id, arr, defaultText) => {
                 const el = document.getElementById(id);
@@ -542,9 +544,6 @@ new_js = """
             updateText('division-dropdown-text', selectedDivisionFilter, 'เลือก Division ทั้งหมด');
             updateText('sub1company-dropdown-text', selectedSub1CompanyFilter, 'เลือก Sub1-Company ทั้งหมด');
             updateText('company-dropdown-text', selectedCompanyFilter, 'เลือก Company ทั้งหมด');
-
-                else jobGroupText.textContent = `เลือกแล้ว ${selectedJobGroupFilter.length} กลุ่ม`;
-            }
 
             const compGroupText = document.getElementById('comp-group-dropdown-text');
             if(compGroupText) {
