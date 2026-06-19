@@ -1,0 +1,41 @@
+import os
+from dotenv import load_dotenv
+from supabase import create_client
+
+load_dotenv()
+url = os.environ.get("SUPABASE_URL")
+key = os.environ.get("SUPABASE_KEY")
+client = create_client(url, key)
+
+data = [
+    ('PER-001', 'EMP-001', 'somchai.j', 'Pass@1234', 'สมชาย ใจดี', 'Somchai Jaidee', 'ชาย', 'หัวหน้างานซ่อม', 'L3', 'Production', 'Operations', 'Operations Admin', 'Manufacturing', 'Group A', 'Company B', 'BU1', 'Bangsue', '50691', '50691', 2056, 6, 30, 'เอกราช รัตน', 'High School', 'somchai.j@example.com'),
+    ('PER-002', 'EMP-002', 'somsri.m', 'Pass@1234', 'สมศรี มีสุข', 'Somsri Meesuk', 'ศรี', 'หัวหน้าหมวดซ่อม', 'L1', 'Accounting', 'Finance', 'Finance Admin', 'Corporate', 'Group A', 'Company A', 'BU1', 'Saraburi', '39334', '39334', 2035, 22, 51, 'กิตติ ทรัพย์สิริ', 'Bachelor', 'somsri.m@example.com'),
+    ('PER-003', 'EMP-003', 'ratthasart.m', 'Pass@1234', 'รัฐศาสตร์ มั่นคง', 'Ratthasart Mankong', 'จ้า', 'เจ้าหน้าที่บัญชี', 'L2', 'Quality Control', 'Management', 'Management Admin', 'Manufacturing', 'Group A', 'Company C', 'BU1', 'Saraburi', '38892', '38892', 2055, 3, 31, 'ศิริพร แสงทอง', 'Diploma', 'ratthasart.m@example.com'),
+    ('PER-004', 'EMP-004', 'wichai.r', 'Pass@1234', 'วิชัย รักไทย', 'Wichai Rakthai', 'ชัย', 'HR BP Manager', 'L3', 'Engineering', 'Engineering', 'Engineering Admin', 'Corporate', 'Group A', 'Company B', 'BU1', 'Saraburi', '62042', '62042', 2050, 2, 36, 'ปิติ ไพศาล', 'Master', 'wichai.r@example.com'),
+    ('PER-005', 'EMP-005', 'mana.c', 'Pass@1234', 'มานะ เจริญชัย', 'Mana Charoenchai', 'นะ', 'ช่างซ่อมไฟฟ้า', 'L5', 'Engineering', 'Finance', 'Finance Admin', 'Commercial', 'Group A', 'Company A', 'BU1', 'Saraburi', '25274', '25274', 2031, 27, 55, 'ปราณี รักไทย', 'High School', 'mana.c@example.com'),
+    ('PER-006', 'EMP-006', 'piti.s', 'Pass@1234', 'ปิติ สว่างวงศ์', 'Piti Sawangwong', 'ติ', 'ผู้จัดการโรงงาน', 'L3', 'Accounting', 'Human Resources', 'Human Resources Admin', 'Commercial', 'Group A', 'Company A', 'BU1', 'Saraburi', '73464', '73464', 2047, 7, 39, 'ศิริพร สว่างวงศ์', 'Diploma', 'piti.s@example.com'),
+    ('PER-007', 'EMP-007', 'choojai.b', 'Pass@1234', 'ชูใจ บุญมาก', 'Choojai Boonmak', 'ใจ', 'HR BP Officer', 'L4', 'Engineering', 'Finance', 'Finance Admin', 'Commercial', 'Group A', 'Company A', 'BU1', 'Saraburi', '35999', '35999', 2048, 14, 38, 'วิชัย มั่นคง', 'High School', 'choojai.b@example.com'),
+    ('PER-008', 'EMP-008', 'weera.n', 'Pass@1234', 'วีระ งามขำ', 'Weera Ngamkham', 'วี', 'HR BP Officer', 'L4', 'Maintenance', 'Human Resources', 'Human Resources Admin', 'Corporate', 'Group A', 'Company C', 'BU1', 'Rayong', '51942', '51942', 2033, 31, 53, 'รัฐศาสตร์ เจริญชัย', 'Diploma', 'weera.n@example.com'),
+    ('PER-009', 'EMP-009', 'arun.p', 'Pass@1234', 'อรุณ พิทักษ์', 'Arun Pitak', 'รุณ', 'พนักงานขาย', 'L3', 'Production', 'Management', 'Management Admin', 'Commercial', 'Group A', 'Company A', 'BU1', 'Saraburi', '45423', '45423', 2059, 4, 27, 'อรุณ มั่นคง', 'Master', 'arun.p@example.com'),
+    ('PER-010', 'EMP-010', 'pranee.y', 'Pass@1234', 'ปราณี ยอดเยี่ยม', 'Pranee Yodyeam', 'ณี', 'พนักงานขาย', 'L2', 'Sales', 'Management', 'Management Admin', 'Corporate', 'Group A', 'Company B', 'BU1', 'Bangsue', '25176', '25176', 2059, 2, 27, 'สุมาลี ไพศาล', 'High School', 'pranee.y@example.com'),
+    ('PER-011', 'EMP-011', 'surasak.s', 'Pass@1234', 'สุรศักดิ์ สิงห์ทอง', 'Surasak Singthong', 'ศักดิ์', 'HR BP Manager', 'L3', 'Sales', 'Engineering', 'Engineering Admin', 'Manufacturing', 'Group A', 'Company A', 'BU1', 'Bangsue', '55545', '55545', 2053, 11, 33, 'พรชัย วิเศษ', 'PhD', 'surasak.s@example.com'),
+    ('PER-012', 'EMP-012', 'napa.p', 'Pass@1234', 'นภา พูนสวัสดิ์', 'Napa Poonsawat', 'ภา', 'วิศวกรซ่อมบำรุง', 'L6', 'Sales', 'Human Resources', 'Human Resources Admin', 'Commercial', 'Group A', 'Company C', 'BU1', 'Saraburi', '65384', '65384', 2031, 11, 55, 'สุรศักดิ์ ไพศาล', 'Bachelor', 'napa.p@example.com'),
+    ('PER-013', 'EMP-013', 'kitti.s', 'Pass@1234', 'กิตติ สุวรรณ', 'Kitti Suwan', 'กิต', 'ช่างซ่อมเครื่องกล', 'L1', 'Engineering', 'Human Resources', 'Human Resources Admin', 'Corporate', 'Group A', 'Company B', 'BU1', 'Saraburi', '72394', '72394', 2037, 8, 49, 'สมบูรณ์ สุวรรณ', 'High School', 'kitti.s@example.com'),
+    ('PER-014', 'EMP-014', 'siriporn.r', 'Pass@1234', 'ศิริพร รัตน', 'Siriporn Rattana', 'พร', 'ช่างซ่อมไฟฟ้า', 'L4', 'Maintenance', 'Human Resources', 'Human Resources Admin', 'Commercial', 'Group A', 'Company A', 'BU1', 'Bangsue', '78748', '78748', 2057, 3, 29, 'วิชัย ไพศาล', 'Master', 'siriporn.r@example.com'),
+    ('PER-015', 'EMP-015', 'pornchai.s', 'Pass@1234', 'พรชัย แสงทอง', 'Pornchai Sangthong', 'ชัย', 'ช่างซ่อมเครื่องกล', 'L2', 'Maintenance', 'Operations', 'Operations Admin', 'Corporate', 'Group A', 'Company C', 'BU1', 'Chiang Mai', '25572', '25572', 2039, 6, 47, 'วิชัย รัตน', 'PhD', 'pornchai.s@example.com'),
+    ('PER-016', 'EMP-016', 'somboon.s', 'Pass@1234', 'สมบูรณ์ ทรัพย์สิริ', 'Somboon Sapsiri', 'บูลย์', 'HR BP Officer', 'L5', 'Quality Control', 'Finance', 'Finance Admin', 'Commercial', 'Group A', 'Company B', 'BU1', 'Saraburi', '12165', '12165', 2032, 10, 54, 'ธิดา รัตน', 'Master', 'somboon.s@example.com'),
+    ('PER-017', 'EMP-017', 'ekarat.p', 'Pass@1234', 'เอกราช ประเสริฐ', 'Ekarat Prasert', 'เอก', 'ผู้จัดการโรงงาน', 'L4', 'Recruitment', 'Management', 'Management Admin', 'Corporate', 'Group A', 'Company B', 'BU1', 'Rayong', '98364', '98364', 2049, 1, 37, 'มานะ เกรียงไกร', 'PhD', 'ekarat.p@example.com'),
+    ('PER-018', 'EMP-018', 'sumalee.w', 'Pass@1234', 'สุมาลี วิเศษ', 'Sumalee Wiset', 'มาลี', 'ช่างซ่อมเครื่องกล', 'L6', 'Accounting', 'Management', 'Management Admin', 'Corporate', 'Group A', 'Company B', 'BU1', 'Saraburi', '84349', '84349', 2033, 11, 53, 'มานะ ยอดเยี่ยม', 'PhD', 'sumalee.w@example.com'),
+    ('PER-019', 'EMP-019', 'winai.p', 'Pass@1234', 'วินัย ไพศาล', 'Winai Paisal', 'นัย', 'ช่างซ่อมไฟฟ้า', 'L2', 'Recruitment', 'Sales', 'Sales Admin', 'Corporate', 'Group A', 'Company B', 'BU1', 'Saraburi', '27391', '27391', 2053, 8, 33, 'สมชาย ใจดี', 'High School', 'winai.p@example.com'),
+    ('PER-020', 'EMP-020', 'thida.k', 'Pass@1234', 'ธิดา เกรียงไกร', 'Thida Kriengkrai', 'ดา', 'ช่างซ่อมไฟฟ้า', 'L1', 'Sales', 'Engineering', 'Engineering Admin', 'Corporate', 'Group A', 'Company B', 'BU1', 'Chiang Mai', '12572', '12572', 2045, 5, 41, 'วีระ งามขำ', 'Master', 'thida.k@example.com')
+]
+
+keys = ['person_id', 'employee_id', 'user_id', 'password', 'name_th', 'name_en', 'nick_name', 'position_name', 'position_level', 'section', 'department', 'sub1_division', 'division', 'sub1_company', 'company', 'sub1_1_business_unit', 'working_location', 'cost_center_payment', 'cost_center_organization', 'retirement_year', 'years_of_service', 'age', 'report_to_name', 'certificate_entry_degree', 'email_address_business']
+
+try:
+    print("Deleting old employee data...")
+    client.table('employee_data').delete().neq('person_id', 'invalid').execute()
+except Exception as e:
+    print(e)
+    # The columns user_id and password don't exist yet, so we have to run a raw SQL query or just use psycopg2
+    # Oh wait, Supabase REST API doesn't support adding columns.
