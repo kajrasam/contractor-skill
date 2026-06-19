@@ -1754,6 +1754,31 @@ new_js = """
             renderAnalyticTab();
         }
 
+        window.toggleAnalyticPosFilter = function(val) {
+            if(analyticPosFilter.includes(val)) analyticPosFilter = analyticPosFilter.filter(v => v !== val);
+            else analyticPosFilter.push(val);
+            buildAnalyticFiltersUI();
+            renderAnalyticTab();
+        };
+        window.toggleAnalyticEmpFilter = function(val) {
+            if(analyticEmpFilter.includes(val)) analyticEmpFilter = analyticEmpFilter.filter(v => v !== val);
+            else analyticEmpFilter.push(val);
+            buildAnalyticFiltersUI();
+            renderAnalyticTab();
+        };
+        window.toggleAnalyticGroupFilter = function(val) {
+            if(analyticSkillGroupFilter.includes(val)) analyticSkillGroupFilter = analyticSkillGroupFilter.filter(v => v !== val);
+            else analyticSkillGroupFilter.push(val);
+            buildAnalyticFiltersUI();
+            renderAnalyticTab();
+        };
+        window.toggleAnalyticSkillFilter = function(val) {
+            if(analyticSkillFilter.includes(val)) analyticSkillFilter = analyticSkillFilter.filter(v => v !== val);
+            else analyticSkillFilter.push(val);
+            buildAnalyticFiltersUI();
+            renderAnalyticTab();
+        };
+
         function buildAnalyticFiltersUI() {
             const container = document.getElementById('analytic-filters');
             const allPos = positions;
@@ -1775,33 +1800,94 @@ new_js = """
             // Build Skills List
             let skillsList = competencies.map(c => c.name);
 
+            const getDropdownText = (arr, allLabel) => arr.length === 0 ? allLabel : `เลือกแล้ว ${arr.length} รายการ`;
+
             let html = `
-                <div>
+                <div class="w-full relative filter-dropdown-container">
                     <label class="block text-xs font-bold text-slate-700 mb-1">ตำแหน่ง</label>
-                    <select id="analytic-filter-pos" multiple class="w-full text-sm border border-slate-200 rounded outline-none focus:border-scg-500 bg-white h-[80px]" onchange="analyticPosFilter = Array.from(this.selectedOptions).map(o=>o.value); renderAnalyticTab();">
-                        ${allPos.map(p => `<option value="${p}">${p}</option>`).join('')}
-                    </select>
+                    <button onclick="toggleFilterMenu('analytic-pos-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-3 py-2 rounded-lg text-left shadow-sm hover:bg-slate-50 focus:outline-none transition-colors">
+                        <span class="text-xs font-medium text-slate-700 truncate">${getDropdownText(analyticPosFilter, 'เลือกตำแหน่งทั้งหมด')}</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 ml-2 text-[10px]"></i>
+                    </button>
+                    <div id="analytic-pos-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                        <div class="p-2 flex flex-col gap-1">
+                            ${allPos.map(p => `
+                                <label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${analyticPosFilter.includes(p) ? 'checked' : ''} onchange="toggleAnalyticPosFilter('${p}')">
+                                    <span class="text-xs font-medium ${analyticPosFilter.includes(p) ? 'text-scg-700' : 'text-slate-600'}">${p}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
                 </div>
-                <div>
+
+                <div class="w-full relative filter-dropdown-container">
                     <label class="block text-xs font-bold text-slate-700 mb-1">รายชื่อพนักงาน</label>
-                    <select id="analytic-filter-emp" multiple class="w-full text-sm border border-slate-200 rounded outline-none focus:border-scg-500 bg-white h-[80px]" onchange="analyticEmpFilter = Array.from(this.selectedOptions).map(o=>o.value); renderAnalyticTab();">
-                        ${allEmps.map(e => `<option value="${e.id}">${e.name}</option>`).join('')}
-                    </select>
+                    <button onclick="toggleFilterMenu('analytic-emp-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-3 py-2 rounded-lg text-left shadow-sm hover:bg-slate-50 focus:outline-none transition-colors">
+                        <span class="text-xs font-medium text-slate-700 truncate">${getDropdownText(analyticEmpFilter, 'เลือกพนักงานทั้งหมด')}</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 ml-2 text-[10px]"></i>
+                    </button>
+                    <div id="analytic-emp-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                        <div class="p-2 flex flex-col gap-1">
+                            ${allEmps.map(e => `
+                                <label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${analyticEmpFilter.includes(e.id) ? 'checked' : ''} onchange="toggleAnalyticEmpFilter('${e.id}')">
+                                    <span class="text-xs font-medium ${analyticEmpFilter.includes(e.id) ? 'text-scg-700' : 'text-slate-600'}">${e.name}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
                 </div>
-                <div>
+
+                <div class="w-full relative filter-dropdown-container">
                     <label class="block text-xs font-bold text-slate-700 mb-1">กลุ่ม Skill</label>
-                    <select id="analytic-filter-group" multiple class="w-full text-sm border border-slate-200 rounded outline-none focus:border-scg-500 bg-white h-[80px]" onchange="analyticSkillGroupFilter = Array.from(this.selectedOptions).map(o=>o.value); renderAnalyticTab();">
-                        ${skillGroups.map(g => `<option value="${g}">${g}</option>`).join('')}
-                    </select>
+                    <button onclick="toggleFilterMenu('analytic-group-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-3 py-2 rounded-lg text-left shadow-sm hover:bg-slate-50 focus:outline-none transition-colors">
+                        <span class="text-xs font-medium text-slate-700 truncate">${getDropdownText(analyticSkillGroupFilter, 'เลือกกลุ่มทักษะทั้งหมด')}</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 ml-2 text-[10px]"></i>
+                    </button>
+                    <div id="analytic-group-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                        <div class="p-2 flex flex-col gap-1">
+                            ${skillGroups.map(g => `
+                                <label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${analyticSkillGroupFilter.includes(g) ? 'checked' : ''} onchange="toggleAnalyticGroupFilter('${g}')">
+                                    <span class="text-xs font-medium ${analyticSkillGroupFilter.includes(g) ? 'text-scg-700' : 'text-slate-600'}">${g}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
                 </div>
-                <div>
+
+                <div class="w-full relative filter-dropdown-container">
                     <label class="block text-xs font-bold text-slate-700 mb-1">หัวข้อ Skill</label>
-                    <select id="analytic-filter-skill" multiple class="w-full text-sm border border-slate-200 rounded outline-none focus:border-scg-500 bg-white h-[80px]" onchange="analyticSkillFilter = Array.from(this.selectedOptions).map(o=>o.value); renderAnalyticTab();">
-                        ${skillsList.map(s => `<option value="${s}">${s.replace(/^[0-9\\.\\s]+/, '')}</option>`).join('')}
-                    </select>
+                    <button onclick="toggleFilterMenu('analytic-skill-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-3 py-2 rounded-lg text-left shadow-sm hover:bg-slate-50 focus:outline-none transition-colors">
+                        <span class="text-xs font-medium text-slate-700 truncate">${getDropdownText(analyticSkillFilter, 'เลือกหัวข้อทั้งหมด')}</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 ml-2 text-[10px]"></i>
+                    </button>
+                    <div id="analytic-skill-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                        <div class="p-2 flex flex-col gap-1">
+                            ${skillsList.map(s => `
+                                <label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${analyticSkillFilter.includes(s) ? 'checked' : ''} onchange="toggleAnalyticSkillFilter('${s}')">
+                                    <span class="text-xs font-medium ${analyticSkillFilter.includes(s) ? 'text-scg-700' : 'text-slate-600'}">${s.replace(/^[0-9\\.\\s]+/, '')}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
                 </div>
             `;
+            
+            // Just update inner HTML, but keep menus open if they were open before re-rendering
+            const posMenuOpen = document.getElementById('analytic-pos-menu') && !document.getElementById('analytic-pos-menu').classList.contains('hidden');
+            const empMenuOpen = document.getElementById('analytic-emp-menu') && !document.getElementById('analytic-emp-menu').classList.contains('hidden');
+            const groupMenuOpen = document.getElementById('analytic-group-menu') && !document.getElementById('analytic-group-menu').classList.contains('hidden');
+            const skillMenuOpen = document.getElementById('analytic-skill-menu') && !document.getElementById('analytic-skill-menu').classList.contains('hidden');
+            
             container.innerHTML = html;
+            
+            if(posMenuOpen) document.getElementById('analytic-pos-menu').classList.remove('hidden');
+            if(empMenuOpen) document.getElementById('analytic-emp-menu').classList.remove('hidden');
+            if(groupMenuOpen) document.getElementById('analytic-group-menu').classList.remove('hidden');
+            if(skillMenuOpen) document.getElementById('analytic-skill-menu').classList.remove('hidden');
         }
 
         function renderAnalyticTab() {
