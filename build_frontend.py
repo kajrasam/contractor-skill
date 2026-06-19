@@ -60,6 +60,14 @@ new_js = """
         let idpRadarChartInstance = null;
         let selectedDashJobGroupFilter = [];
         let selectedDashPosFilter = [];
+        
+        // Analytic Tab State
+        let analyticRadarCharts = [];
+        let analyticBarChartInstance = null;
+        let analyticPosFilter = [];
+        let analyticEmpFilter = [];
+        let analyticSkillGroupFilter = [];
+        let analyticSkillFilter = [];
 
         async function fetchInitialData(silent = false) {
             try {
@@ -164,6 +172,7 @@ new_js = """
             html += `<button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium"><i class="fa-solid fa-chart-pie mr-1"></i> Dashboard</button>`;
             html += `<button onclick="switchTab('idp')" id="nav-idp" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium"><i class="fa-solid fa-address-card mr-1"></i> IDP</button>`;
             if (currentUser.id === 'Admin') {
+                html += `<button onclick="switchTab('analytic')" id="nav-analytic" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium"><i class="fa-solid fa-chart-line mr-1"></i> Competency Analytic</button>`;
                 html += `<button onclick="switchTab('admin')" id="nav-admin" class="nav-btn px-3 py-2 rounded-lg text-sm font-bold border border-scg-200 shadow-sm ml-2"><i class="fa-solid fa-gear mr-1"></i> Admin</button>`;
             }
             navContainer.innerHTML = html;
@@ -199,6 +208,7 @@ new_js = """
             if(tabId === 'evaluation') setupEvaluationTab();
             if(tabId === 'dashboard') setupDashboardTab();
             if(tabId === 'idp') setupIDPTab();
+            if(tabId === 'analytic') setupAnalyticTab();
             if(tabId === 'admin') setupAdminTab();
         }
 
@@ -1734,6 +1744,276 @@ new_js = """
                             }
                         } 
                     } 
+                }
+            });
+        }
+
+        // --- 8. COMPETENCY ANALYTIC TAB ---
+        function setupAnalyticTab() {
+            buildAnalyticFiltersUI();
+            renderAnalyticTab();
+        }
+
+        function buildAnalyticFiltersUI() {
+            const container = document.getElementById('analytic-filters');
+            const allPos = positions;
+            
+            // Build Emp List
+            let allEmps = [];
+            for(let id in dbUsers) {
+                if(dbUsers[id].role !== 'Admin') allEmps.push({id: id, name: dbUsers[id].name});
+            }
+            allEmps.sort((a,b) => a.name.localeCompare(b.name));
+
+            // Build Skill Group List
+            let groupsSet = new Set();
+            competencies.forEach(c => {
+                if(c.group) groupsSet.add(c.group);
+            });
+            let skillGroups = Array.from(groupsSet).sort();
+
+            // Build Skills List
+            let skillsList = competencies.map(c => c.name);
+
+            let html = `
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">ตำแหน่ง</label>
+                    <select id="analytic-filter-pos" multiple class="w-full text-sm border border-slate-200 rounded outline-none focus:border-scg-500 bg-white h-[80px]" onchange="analyticPosFilter = Array.from(this.selectedOptions).map(o=>o.value); renderAnalyticTab();">
+                        ${allPos.map(p => `<option value="${p}">${p}</option>`).join('')}
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">รายชื่อพนักงาน</label>
+                    <select id="analytic-filter-emp" multiple class="w-full text-sm border border-slate-200 rounded outline-none focus:border-scg-500 bg-white h-[80px]" onchange="analyticEmpFilter = Array.from(this.selectedOptions).map(o=>o.value); renderAnalyticTab();">
+                        ${allEmps.map(e => `<option value="${e.id}">${e.name}</option>`).join('')}
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">กลุ่ม Skill</label>
+                    <select id="analytic-filter-group" multiple class="w-full text-sm border border-slate-200 rounded outline-none focus:border-scg-500 bg-white h-[80px]" onchange="analyticSkillGroupFilter = Array.from(this.selectedOptions).map(o=>o.value); renderAnalyticTab();">
+                        ${skillGroups.map(g => `<option value="${g}">${g}</option>`).join('')}
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">หัวข้อ Skill</label>
+                    <select id="analytic-filter-skill" multiple class="w-full text-sm border border-slate-200 rounded outline-none focus:border-scg-500 bg-white h-[80px]" onchange="analyticSkillFilter = Array.from(this.selectedOptions).map(o=>o.value); renderAnalyticTab();">
+                        ${skillsList.map(s => `<option value="${s}">${s.replace(/^[0-9\\.\\s]+/, '')}</option>`).join('')}
+                    </select>
+                </div>
+            `;
+            container.innerHTML = html;
+        }
+
+        function renderAnalyticTab() {
+            // Filter Comps
+            let filteredComps = competencies;
+            if(analyticSkillGroupFilter.length > 0) {
+                filteredComps = filteredComps.filter(c => analyticSkillGroupFilter.includes(c.group));
+            }
+            if(analyticSkillFilter.length > 0) {
+                filteredComps = filteredComps.filter(c => analyticSkillFilter.includes(c.name));
+            }
+            
+            // Map Comp index
+            const compIndices = filteredComps.map(c => competencies.findIndex(x => x.id === c.id));
+
+            // Determine valid users
+            let validUserIds = Object.keys(dbUsers).filter(id => dbUsers[id].role !== 'Admin');
+            if(analyticPosFilter.length > 0) {
+                validUserIds = validUserIds.filter(id => analyticPosFilter.includes(dbUsers[id].position));
+            }
+            if(analyticEmpFilter.length > 0) {
+                validUserIds = validUserIds.filter(id => analyticEmpFilter.includes(id));
+            }
+
+            // 1. Radar Charts (Top Performers Per Position)
+            // Group by position
+            let usersByPos = {};
+            validUserIds.forEach(id => {
+                const emp = dbUsers[id];
+                if(!usersByPos[emp.position]) usersByPos[emp.position] = [];
+                usersByPos[emp.position].push(id);
+            });
+
+            // Calculate readiness per user
+            let userReadiness = {};
+            validUserIds.forEach(id => {
+                const emp = dbUsers[id];
+                const targets = positionTargets[emp.position] || [];
+                let totalT = 0; let totalA = 0;
+                compIndices.forEach(idx => {
+                    const t = targets[idx] || 0;
+                    if(t > 0) {
+                        totalT += t;
+                        totalA += (emp.actuals[idx] || 0);
+                    }
+                });
+                userReadiness[id] = totalT > 0 ? (totalA / totalT) * 100 : 0;
+            });
+
+            const radarContainer = document.getElementById('analytic-radar-container');
+            radarContainer.innerHTML = '';
+            
+            // Destroy old charts
+            analyticRadarCharts.forEach(c => c.destroy());
+            analyticRadarCharts = [];
+
+            // Identify top users per position
+            Object.keys(usersByPos).sort().forEach((pos, posIdx) => {
+                const usersInPos = usersByPos[pos];
+                if(usersInPos.length === 0) return;
+                
+                // Find Max
+                let maxVal = -1;
+                usersInPos.forEach(id => {
+                    if(userReadiness[id] > maxVal) maxVal = userReadiness[id];
+                });
+
+                // Top Users
+                let topUsers = usersInPos.filter(id => userReadiness[id] === maxVal);
+                if(topUsers.length === 0) return;
+
+                // Build Card
+                const topNames = topUsers.map(id => dbUsers[id].name).join(', ');
+                const readPct = Math.round(maxVal);
+
+                let cardHtml = `
+                    <div class="border border-slate-200 rounded-2xl p-4 flex flex-col bg-slate-50">
+                        <div class="mb-3 border-b border-slate-200 pb-2">
+                            <p class="text-xs font-bold text-scg-600 mb-1">${pos}</p>
+                            <h4 class="text-sm font-bold text-slate-800 line-clamp-2">${topNames}</h4>
+                            <p class="text-xs text-slate-500 mt-1">Readiness: <span class="font-bold text-scg-700">${readPct}%</span></p>
+                        </div>
+                        <div class="relative w-full aspect-square">
+                            <canvas id="analytic-radar-${posIdx}"></canvas>
+                        </div>
+                    </div>
+                `;
+                radarContainer.innerHTML += cardHtml;
+            });
+
+            // Draw Charts (Need a small timeout for DOM to render canvas)
+            setTimeout(() => {
+                Object.keys(usersByPos).sort().forEach((pos, posIdx) => {
+                    const usersInPos = usersByPos[pos];
+                    if(usersInPos.length === 0) return;
+                    let maxVal = Math.max(...usersInPos.map(id => userReadiness[id]));
+                    let topUsers = usersInPos.filter(id => userReadiness[id] === maxVal);
+                    if(topUsers.length === 0) return;
+
+                    const canvas = document.getElementById(`analytic-radar-${posIdx}`);
+                    if(!canvas) return;
+
+                    const ctx = canvas.getContext('2d');
+                    const targets = positionTargets[pos] || [];
+                    
+                    let labels = [];
+                    let targetData = [];
+                    let actualsData = [];
+
+                    const topEmp = dbUsers[topUsers[0]];
+
+                    compIndices.forEach(idx => {
+                        const t = targets[idx] || 0;
+                        if(t > 0) {
+                            labels.push(competencies[idx].name.replace(/^[0-9\\.\\s]+/, ''));
+                            targetData.push(t);
+                            actualsData.push(topEmp.actuals[idx] || 0);
+                        }
+                    });
+
+                    const chart = new Chart(ctx, {
+                        type: 'radar',
+                        data: {
+                            labels: labels,
+                            datasets: [
+                                { label: 'Target', data: targetData, borderColor: '#cbd5e1', backgroundColor: 'transparent', borderDash: [5,5], borderWidth: 2, pointRadius: 0 },
+                                { label: 'Actual', data: actualsData, borderColor: '#ca3656', backgroundColor: 'rgba(202, 54, 86, 0.25)', borderWidth: 2, pointBackgroundColor: '#ca3656', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#ca3656', pointRadius: 3 }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: { display: false }
+                            },
+                            scales: {
+                                r: {
+                                    min: 0,
+                                    max: 5,
+                                    ticks: { display: false, stepSize: 1 },
+                                    pointLabels: { font: { size: 9, family: "'Sarabun', sans-serif" }, color: '#64748b' }
+                                }
+                            }
+                        }
+                    });
+                    analyticRadarCharts.push(chart);
+                });
+            }, 50);
+
+            // 2. Bar Chart (Gap Frequency)
+            let gapCounts = {};
+            compIndices.forEach(idx => gapCounts[idx] = 0);
+
+            validUserIds.forEach(id => {
+                const emp = dbUsers[id];
+                const targets = positionTargets[emp.position] || [];
+                compIndices.forEach(idx => {
+                    const t = targets[idx] || 0;
+                    if(t > 0) {
+                        const a = emp.actuals[idx] || 0;
+                        if(a < t) {
+                            gapCounts[idx]++;
+                        }
+                    }
+                });
+            });
+
+            let gapData = [];
+            compIndices.forEach(idx => {
+                if(gapCounts[idx] > 0) {
+                    gapData.push({
+                        label: competencies[idx].name.replace(/^[0-9\\.\\s]+/, ''),
+                        count: gapCounts[idx]
+                    });
+                }
+            });
+
+            gapData.sort((a,b) => b.count - a.count);
+
+            const barLabels = gapData.map(d => d.label);
+            const barCounts = gapData.map(d => d.count);
+
+            if(analyticBarChartInstance) analyticBarChartInstance.destroy();
+            const barCtx = document.getElementById('analytic-bar-chart').getContext('2d');
+            
+            analyticBarChartInstance = new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: barLabels,
+                    datasets: [{
+                        label: 'จำนวนพนักงานที่ยังไม่ถึงเป้าหมาย (Gap)',
+                        data: barCounts,
+                        backgroundColor: '#ca3656',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y',
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: { stepSize: 1 }
+                        },
+                        y: {
+                            ticks: { font: { family: "'Sarabun', sans-serif" } }
+                        }
+                    }
                 }
             });
         }
