@@ -92,13 +92,22 @@ def get_data():
             "evalDate": evalDate
         }
         
+    # 5. employee_data
+    employeeData = []
+    try:
+        emp_res = supabase.table("employee_data").select("*").execute()
+        employeeData = emp_res.data
+    except Exception as e:
+        print(f"Warning: could not fetch employee_data: {e}")
+
     return jsonify({
         "competencies": competencies,
         "positions": positions,
         "positionTargets": positionTargets,
         "roleResponses": roleResponses,
         "positionGroups": positionGroups,
-        "dbUsers": dbUsers
+        "dbUsers": dbUsers,
+        "employeeData": employeeData
     })
 
 @app.route('/api/evaluations', methods=['PUT'])

@@ -69,6 +69,7 @@ new_js = """
         let analyticEmpFilter = [];
         let analyticSkillGroupFilter = [];
         let analyticSkillFilter = [];
+        let employeeData = [];
 
         async function fetchInitialData(silent = false) {
             try {
@@ -80,6 +81,7 @@ new_js = """
                 roleResponses = data.roleResponses || {};
                 positionGroups = data.positionGroups || {};
                 dbUsers = data.dbUsers || {};
+                employeeData = data.employeeData || [];
                 if (!silent) {
                     checkLoginState();
                 }
@@ -174,6 +176,7 @@ new_js = """
             html += `<button onclick="switchTab('idp')" id="nav-idp" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium"><i class="fa-solid fa-address-card mr-1"></i> IDP</button>`;
             if (currentUser.id === 'Admin') {
                 html += `<button onclick="switchTab('analytic')" id="nav-analytic" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium"><i class="fa-solid fa-chart-line mr-1"></i> Competency Analytic</button>`;
+                html += `<button onclick="switchTab('employee-data')" id="nav-employee-data" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium"><i class="fa-solid fa-users mr-1"></i> Employee Data</button>`;
                 html += `<button onclick="switchTab('admin')" id="nav-admin" class="nav-btn px-3 py-2 rounded-lg text-sm font-bold border border-scg-200 shadow-sm ml-2"><i class="fa-solid fa-gear mr-1"></i> Admin</button>`;
             }
             navContainer.innerHTML = html;
@@ -208,9 +211,12 @@ new_js = """
             }
             if(tabId === 'evaluation') setupEvaluationTab();
             if(tabId === 'dashboard') setupDashboardTab();
-            if(tabId === 'idp') setupIDPTab();
-            if(tabId === 'analytic') setupAnalyticTab();
-            if(tabId === 'admin') setupAdminTab();
+            if(tabId === 'idp') buildIdpTab();
+            if(tabId === 'analytic') {
+                buildAnalyticFiltersUI();
+                renderAnalyticTab();
+            }
+            if(tabId === 'employee-data') renderEmployeeDataTab();
         }
 
         function toggleEditMode() {
@@ -2143,6 +2149,90 @@ new_js = """
                     }
                 }
             });
+        }
+
+        function renderEmployeeDataTab() {
+            const tbody = document.getElementById('employee-data-tbody');
+            if(!tbody) return;
+            
+            if(!employeeData || employeeData.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="23" class="text-center py-8 text-slate-500">ไม่พบข้อมูลพนักงาน หรือตารางยังไม่ได้ถูกสร้างขึ้นในฐานข้อมูล</td></tr>`;
+                return;
+            }
+
+            let html = '';
+            employeeData.forEach(emp => {
+                html += `
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="py-3 px-6 border-r border-slate-100 font-medium">${emp.person_id || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 text-scg-700 font-medium">${emp.employee_id || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.name_th || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.name_en || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.nick_name || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.position_name || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 text-center"><span class="bg-slate-100 text-slate-700 px-2 py-1 rounded font-bold text-xs">${emp.position_level || '-'}</span></td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.section || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.department || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.sub1_division || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.division || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.sub1_company || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.company || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.sub1_1_business_unit || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.working_location || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 font-mono text-xs">${emp.cost_center_payment || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 font-mono text-xs">${emp.cost_center_organization || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 text-center">${emp.retirement_year || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 text-center">${emp.years_of_service !== null ? emp.years_of_service : '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 text-center">${emp.age || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.report_to_name || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.certificate_entry_degree || '-'}</td>
+                        <td class="py-3 px-6 text-blue-600 hover:underline"><a href="mailto:${emp.email_address_business || ''}">${emp.email_address_business || '-'}</a></td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function exportEmployeeData() {
+            if(!employeeData || employeeData.length === 0) {
+                showToast("ไม่มีข้อมูลให้ Export");
+                return;
+            }
+            
+            const headers = [
+                "Person ID", "Employee ID", "Name (TH)", "Name (EN)", "Nick Name", 
+                "Position Name", "Position Level", "Section", "Department", "Sub1-Division", 
+                "Division", "Sub1-Company", "Company", "Sub1-1 Business Unit", "Working Location", 
+                "Cost Center (Payment)", "Cost Center (Organization)", "Retirement Year", 
+                "อายุงาน", "Age", "Report to Name", "Certificate (Entry Degree)", "Email Address Business"
+            ];
+            
+            let csvContent = "\uFEFF" + headers.join(",") + "\n";
+            
+            employeeData.forEach(emp => {
+                const row = [
+                    emp.person_id || '', emp.employee_id || '', emp.name_th || '', emp.name_en || '',
+                    emp.nick_name || '', emp.position_name || '', emp.position_level || '',
+                    emp.section || '', emp.department || '', emp.sub1_division || '',
+                    emp.division || '', emp.sub1_company || '', emp.company || '',
+                    emp.sub1_1_business_unit || '', emp.working_location || '',
+                    emp.cost_center_payment || '', emp.cost_center_organization || '',
+                    emp.retirement_year || '', emp.years_of_service !== null ? emp.years_of_service : '',
+                    emp.age || '', emp.report_to_name || '', emp.certificate_entry_degree || '',
+                    emp.email_address_business || ''
+                ].map(val => `"${String(val).replace(/"/g, '""')}"`);
+                
+                csvContent += row.join(",") + "\n";
+            });
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", `Employee_Data_Export_${new Date().getTime()}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
     </script>
 </body>
