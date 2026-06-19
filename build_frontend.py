@@ -2298,18 +2298,13 @@ new_js = """
                 return;
             }
 
-            // Inject FullNameThai for filtering and display
-            employeeData.forEach(emp => {
-                emp.FullNameThai = [emp.NamePrefixThai, emp.FirstNameThai, emp.LastNameThai].filter(Boolean).join(' ') || '-';
-            });
-
             let html = '';
             employeeData.forEach(emp => {
                 html += `
                     <tr class="hover:bg-slate-50 transition-colors">
                         <td class="py-3 px-6 border-r border-slate-100 text-scg-700 font-medium">${emp.user_id || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100 text-slate-500">${emp.password || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.FullNameThai}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.FullName || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.PositionNameThai || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.SectionThai || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.DepartmentThai || '-'}</td>
@@ -2338,7 +2333,7 @@ new_js = """
             const headers = thead.querySelectorAll('th');
             
             const colKeys = [
-                'user_id', 'password', 'FullNameThai', 'PositionNameThai', 'SectionThai', 'DepartmentThai',
+                'user_id', 'password', 'FullName', 'PositionNameThai', 'SectionThai', 'DepartmentThai',
                 'Sub1DivisionThai', 'DivisionThai', 'Sub1CompanyThai', 'CompanyThai', 'PersonnelArea',
                 'ReportToName', 'ReportToEmail', 'EmailAddressBusiness'
             ];
@@ -2473,29 +2468,24 @@ new_js = """
             }
             
             const headers = [
-                "Person ID", "Employee ID", "Name (TH)", "Name (EN)", "Nick Name", 
-                "Position Name", "Position Level", "Section", "Department", "Sub1-Division", 
-                "Division", "Sub1-Company", "Company", "Sub1-1 Business Unit", "Working Location", 
-                "Cost Center (Payment)", "Cost Center (Organization)", "Retirement Year", 
-                "อายุงาน", "Age", "Report to Name", "Certificate (Entry Degree)", "Email Address Business"
+                "USER ID", "PASSWORD", "Full Name", "POSITION", "SECTION (TH)", 
+                "DEPARTMENT (TH)", "SUB1-DIVISION (TH)", "DIVISION (TH)", "SUB1-COMPANY (TH)", 
+                "COMPANY (TH)", "PERSONNEL AREA", "REPORT TO NAME", "REPORT TO EMAIL", 
+                "EMAIL ADDRESS BUSINESS"
             ];
             
-            let csvContent = "\\uFEFF" + headers.join(",") + "\\n";
+            let csvContent = "\uFEFF" + headers.join(",") + "\n";
             
             employeeData.forEach(emp => {
                 const row = [
-                    emp.person_id || '', emp.employee_id || '', emp.name_th || '', emp.name_en || '',
-                    emp.nick_name || '', emp.position_name || '', emp.position_level || '',
-                    emp.section || '', emp.department || '', emp.sub1_division || '',
-                    emp.division || '', emp.sub1_company || '', emp.company || '',
-                    emp.sub1_1_business_unit || '', emp.working_location || '',
-                    emp.cost_center_payment || '', emp.cost_center_organization || '',
-                    emp.retirement_year || '', emp.years_of_service !== null ? emp.years_of_service : '',
-                    emp.age || '', emp.report_to_name || '', emp.certificate_entry_degree || '',
-                    emp.email_address_business || ''
+                    emp.user_id || '', emp.password || '', emp.FullName || '',
+                    emp.PositionNameThai || '', emp.SectionThai || '', emp.DepartmentThai || '',
+                    emp.Sub1DivisionThai || '', emp.DivisionThai || '', emp.Sub1CompanyThai || '',
+                    emp.CompanyThai || '', emp.PersonnelArea || '', emp.ReportToName || '',
+                    emp.ReportToEmail || '', emp.EmailAddressBusiness || ''
                 ].map(val => `"${String(val).replace(/"/g, '""')}"`);
                 
-                csvContent += row.join(",") + "\\n";
+                csvContent += row.join(",") + "\n";
             });
             
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
