@@ -1075,6 +1075,19 @@
             showToast("เปลี่ยนชื่อ Competency สำเร็จ");
             buildTrainingMatrix();
         }
+        function deleteCompetency(index) {
+            if(confirm("คุณต้องการลบทักษะนี้ใช่หรือไม่? ข้อมูลที่ถูกลบจะหายไปจากทุกตำแหน่งที่อ้างอิงถึงทักษะนี้")) {
+                const compId = competencies[index].id;
+                competencies.splice(index, 1);
+                for (const pos in positionTargets) {
+                    if (positionTargets[pos][compId] !== undefined) {
+                        delete positionTargets[pos][compId];
+                    }
+                }
+                buildTrainingMatrix();
+            }
+        }
+        
         async function handleCompetencyGroupChange(index, groupName) {
             competencies[index].group = groupName;
             await fetch(`${API_BASE}/competencies/group`, {
@@ -1333,9 +1346,14 @@
                                         <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 block">กลุ่มทักษะ (Group)</label>
                                         <input type="text" value="${comp.group || ''}" onchange="handleCompetencyGroupChange(${compIndex}, this.value)" placeholder="ระบุกลุ่มทักษะ..." class="w-full text-xs text-slate-700 p-1 border border-slate-200 rounded outline-none focus:border-scg-500 bg-white">
                                     </div>
-                                    <button onclick="openLevelEditModal(${compIndex})" class="text-xs bg-white hover:bg-slate-100 text-scg-700 px-2 py-1.5 rounded border border-slate-200 w-full flex items-center justify-center gap-1 shadow-sm transition-colors">
-                                        <i class="fa-solid fa-list-ol"></i> แก้ไขความหมาย Level
-                                    </button>
+                                    <div class="flex gap-1">
+                                        <button onclick="openLevelEditModal(${compIndex})" class="text-xs bg-white hover:bg-slate-100 text-scg-700 px-2 py-1.5 rounded border border-slate-200 w-full flex items-center justify-center gap-1 shadow-sm transition-colors">
+                                            <i class="fa-solid fa-list-ol"></i> แก้ไขความหมาย Level
+                                        </button>
+                                        <button onclick="deleteCompetency(${compIndex})" class="text-xs bg-red-50 hover:bg-red-100 text-red-600 px-2.5 py-1.5 rounded border border-red-200 flex items-center justify-center shadow-sm transition-colors" title="ลบทักษะนี้">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </div>
                                 </div>
                              </td>`;
                 } else {
