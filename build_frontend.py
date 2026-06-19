@@ -2219,6 +2219,20 @@ new_js = """
             tbody.innerHTML = html;
         }
 
+        window.filterEmployeeTable = function() {
+            const trs = document.querySelectorAll('#employee-data-tbody tr');
+            const inputs = document.querySelectorAll('.emp-filter-input');
+            trs.forEach(tr => {
+                let show = true;
+                inputs.forEach((input, index) => {
+                    if(!input.value) return;
+                    const text = tr.cells[index].innerText.toLowerCase();
+                    if(!text.includes(input.value.toLowerCase())) show = false;
+                });
+                tr.style.display = show ? '' : 'none';
+            });
+        };
+
         function exportEmployeeData() {
             if(!employeeData || employeeData.length === 0) {
                 showToast("ไม่มีข้อมูลให้ Export");
