@@ -2207,7 +2207,7 @@ new_js = """
                 "อายุงาน", "Age", "Report to Name", "Certificate (Entry Degree)", "Email Address Business"
             ];
             
-            let csvContent = "\uFEFF" + headers.join(",") + "\n";
+            let csvContent = "\\uFEFF" + headers.join(",") + "\\n";
             
             employeeData.forEach(emp => {
                 const row = [
@@ -2222,7 +2222,7 @@ new_js = """
                     emp.email_address_business || ''
                 ].map(val => `"${String(val).replace(/"/g, '""')}"`);
                 
-                csvContent += row.join(",") + "\n";
+                csvContent += row.join(",") + "\\n";
             });
             
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
