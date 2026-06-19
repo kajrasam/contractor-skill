@@ -342,7 +342,7 @@ new_js = """
 
 
         window.toggleFilterMenu = function(menuId) {
-            const menus = ['job-group-menu', 'pos-dropdown-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu', 'dash-job-group-menu', 'dash-pos-menu'];
+            const menus = ['job-group-menu', 'pos-dropdown-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu', 'dash-job-group-menu', 'dash-pos-menu', 'analytic-pos-menu', 'analytic-emp-menu', 'analytic-group-menu', 'analytic-skill-menu'];
             menus.forEach(m => {
                 const el = document.getElementById(m);
                 if(el) {
@@ -354,8 +354,8 @@ new_js = """
 
         // Close dropdowns when clicking outside
         document.addEventListener('click', function(e) {
-            if(!e.target.closest('.relative.z-20')) {
-                const menus = ['job-group-menu', 'pos-dropdown-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu', 'dash-job-group-menu', 'dash-pos-menu'];
+            if(!e.target.closest('.relative.z-20') && !e.target.closest('.filter-dropdown-container')) {
+                const menus = ['job-group-menu', 'pos-dropdown-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu', 'dash-job-group-menu', 'dash-pos-menu', 'analytic-pos-menu', 'analytic-emp-menu', 'analytic-group-menu', 'analytic-skill-menu'];
                 menus.forEach(m => {
                     const el = document.getElementById(m);
                     if(el) el.classList.add('hidden');
