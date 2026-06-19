@@ -1227,24 +1227,11 @@
             visiblePos.forEach(p => {
                 if(positionGroups[p]) jobGroupsSet.add(positionGroups[p]);
             });
-            let jobGroups = Array.from(jobGroupsSet).sort();
-            
-            if(jobGroupContainer) {
-                let jobGroupHtml = '';
-                jobGroups.forEach(g => {
-                    const isSelected = selectedJobGroupFilter.includes(g);
-                    jobGroupHtml += `<label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
-                        <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${isSelected ? 'checked' : ''} onchange="toggleJobGroupFilter('${g}')">
-                        <span class="text-sm font-medium ${isSelected ? 'text-scg-700' : 'text-slate-600'}">${g}</span>
-                    </label>`;
-                });
-                jobGroupContainer.innerHTML = jobGroupHtml;
-            }
 
-            // Build Org Filters
-            let sectionsSet = new Set(), deptsSet = new Set(), sub1DivsSet = new Set(), divsSet = new Set(), sub1CompsSet = new Set(), compsSet = new Set();
+            // Build Org Filters AND Position Filter
+            let sectionsSet = new Set(), deptsSet = new Set(), sub1DivsSet = new Set(), divsSet = new Set(), sub1CompsSet = new Set(), compsSet = new Set(), posSet = new Set();
             visiblePos.forEach(p => {
-                const emps = employeeData.filter(e => e.position_name === p);
+                const emps = employeeData.filter(e => p.includes(e.position_name) || (e.position_name && e.position_name.includes(p)));
                 emps.forEach(e => {
                     if(e.section) sectionsSet.add(e.section);
                     if(e.department) deptsSet.add(e.department);
@@ -1252,62 +1239,42 @@
                     if(e.division) divsSet.add(e.division);
                     if(e.sub1_company) sub1CompsSet.add(e.sub1_company);
                     if(e.company) compsSet.add(e.company);
+                    if(e.position_name) posSet.add(e.position_name);
                 });
             });
 
-            const buildFilterHtml = (items, selectedArr, toggleFn) => {
-                let html = '';
+            const buildFilterHtml = (items, selectedArr, filterType) => {
+                let html = `
+                <div class="p-2 border-b border-slate-100 flex gap-2 bg-slate-50 sticky top-0 z-10">
+                    <button class="text-xs text-scg-600 font-medium hover:underline flex-1 text-left" onclick="window.setAllFilter('${filterType}', true)">Select All</button>
+                    <button class="text-xs text-slate-500 hover:underline flex-1 text-right" onclick="window.setAllFilter('${filterType}', false)">Clear</button>
+                </div>
+                <div class="p-2 border-b border-slate-100 sticky top-[36px] z-10 bg-white">
+                    <input type="text" class="w-full text-xs px-2 py-1.5 border border-slate-200 rounded search-filter focus:outline-none focus:ring-1 focus:ring-scg-500" placeholder="Search..." onkeyup="window.searchFilterList(this)">
+                </div>
+                <div class="filter-item-list p-1">
+                `;
                 Array.from(items).sort().forEach(item => {
+                    if(!item) return;
                     const isSelected = selectedArr.includes(item);
-                    html += `<label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
-                        <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${isSelected ? 'checked' : ''} onchange="${toggleFn}('${item}')">
-                        <span class="text-sm font-medium ${isSelected ? 'text-scg-700' : 'text-slate-600'}">${item}</span>
+                    html += `<label class="filter-item flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
+                        <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${isSelected ? 'checked' : ''} onchange="window.toggleFilterValue('${filterType}', '${item}')">
+                        <span class="text-sm font-medium ${isSelected ? 'text-scg-700' : 'text-slate-600'} item-text">${item}</span>
                     </label>`;
                 });
+                html += `</div>`;
                 return html;
             };
 
-            if(sectionContainer) sectionContainer.innerHTML = buildFilterHtml(sectionsSet, selectedSectionFilter, 'toggleSectionFilter');
-            if(departmentContainer) departmentContainer.innerHTML = buildFilterHtml(deptsSet, selectedDepartmentFilter, 'toggleDepartmentFilter');
-            if(sub1DivisionContainer) sub1DivisionContainer.innerHTML = buildFilterHtml(sub1DivsSet, selectedSub1DivisionFilter, 'toggleSub1DivisionFilter');
-            if(divisionContainer) divisionContainer.innerHTML = buildFilterHtml(divsSet, selectedDivisionFilter, 'toggleDivisionFilter');
-            if(sub1CompanyContainer) sub1CompanyContainer.innerHTML = buildFilterHtml(sub1CompsSet, selectedSub1CompanyFilter, 'toggleSub1CompanyFilter');
-            if(companyContainer) companyContainer.innerHTML = buildFilterHtml(compsSet, selectedCompanyFilter, 'toggleCompanyFilter');
+            if(jobGroupContainer) jobGroupContainer.innerHTML = buildFilterHtml(jobGroupsSet, selectedJobGroupFilter, 'jobGroup');
+            if(posContainer) posContainer.innerHTML = buildFilterHtml(posSet, selectedPositionsFilter, 'position');
+            if(sectionContainer) sectionContainer.innerHTML = buildFilterHtml(sectionsSet, selectedSectionFilter, 'section');
+            if(departmentContainer) departmentContainer.innerHTML = buildFilterHtml(deptsSet, selectedDepartmentFilter, 'department');
+            if(sub1DivisionContainer) sub1DivisionContainer.innerHTML = buildFilterHtml(sub1DivsSet, selectedSub1DivisionFilter, 'sub1division');
+            if(divisionContainer) divisionContainer.innerHTML = buildFilterHtml(divsSet, selectedDivisionFilter, 'division');
+            if(sub1CompanyContainer) sub1CompanyContainer.innerHTML = buildFilterHtml(sub1CompsSet, selectedSub1CompanyFilter, 'sub1company');
+            if(companyContainer) companyContainer.innerHTML = buildFilterHtml(compsSet, selectedCompanyFilter, 'company');
 
-            
-            let posHtml = '';
-            let filteredPositionsForDropdown = visiblePos;
-            if(selectedJobGroupFilter.length > 0) {
-                filteredPositionsForDropdown = visiblePos.filter(p => selectedJobGroupFilter.includes(positionGroups[p]));
-            }
-
-            let orgFiltersActive = selectedSectionFilter.length > 0 || selectedDepartmentFilter.length > 0 || selectedSub1DivisionFilter.length > 0 || selectedDivisionFilter.length > 0 || selectedSub1CompanyFilter.length > 0 || selectedCompanyFilter.length > 0;
-            if (orgFiltersActive) {
-                filteredPositionsForDropdown = filteredPositionsForDropdown.filter(p => {
-                    const emps = employeeData.filter(e => e.position_name === p);
-                    if(emps.length === 0) return false;
-                    return emps.some(e => {
-                        let match = true;
-                        if (selectedSectionFilter.length > 0 && !selectedSectionFilter.includes(e.section)) match = false;
-                        if (selectedDepartmentFilter.length > 0 && !selectedDepartmentFilter.includes(e.department)) match = false;
-                        if (selectedSub1DivisionFilter.length > 0 && !selectedSub1DivisionFilter.includes(e.sub1_division)) match = false;
-                        if (selectedDivisionFilter.length > 0 && !selectedDivisionFilter.includes(e.division)) match = false;
-                        if (selectedSub1CompanyFilter.length > 0 && !selectedSub1CompanyFilter.includes(e.sub1_company)) match = false;
-                        if (selectedCompanyFilter.length > 0 && !selectedCompanyFilter.includes(e.company)) match = false;
-                        return match;
-                    });
-                });
-            }
-
-            filteredPositionsForDropdown.forEach(p => {
-                const isSelected = selectedPositionsFilter.includes(p);
-                posHtml += `<label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
-                    <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${isSelected ? 'checked' : ''} onchange="togglePosFilter('${p}')">
-                    <span class="text-sm font-medium ${isSelected ? 'text-scg-700' : 'text-slate-600'}">${p}</span>
-                </label>`;
-            });
-            posContainer.innerHTML = posHtml;
-            
             // Build Competency Groups
             let compGroupsSet = new Set();
             competencies.forEach(c => {
@@ -1327,27 +1294,36 @@
                 compGroupContainer.innerHTML = compGroupHtml;
             }
 
-            let compHtml = '';
-            let filteredCompetenciesForDropdown = competencies;
-            if(selectedCompetencyGroupFilter.length > 0) {
-                filteredCompetenciesForDropdown = competencies.filter(c => selectedCompetencyGroupFilter.includes(c.group));
+            const compGroupText = document.getElementById('comp-group-dropdown-text');
+            if(compGroupText) {
+                if(selectedCompetencyGroupFilter.length === 0) compGroupText.textContent = 'เลือก Competency Group ทั้งหมด';
+                else compGroupText.textContent = `เลือกแล้ว ${selectedCompetencyGroupFilter.length} กลุ่ม`;
             }
-            filteredCompetenciesForDropdown.forEach(c => {
-                const isSelected = selectedCompetenciesFilter.includes(c.name);
-                compHtml += `<label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
-                    <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${isSelected ? 'checked' : ''} onchange="toggleCompFilter('${c.name}')">
-                    <span class="text-sm font-medium ${isSelected ? 'text-scg-700' : 'text-slate-600'}">${c.name}</span>
-                </label>`;
-            });
-            compContainer.innerHTML = compHtml;
+
+            const compFilterContainer = document.getElementById('competency-filters');
+            let filteredComps = competencies;
+            if(selectedCompetencyGroupFilter.length > 0) {
+                filteredComps = competencies.filter(c => selectedCompetencyGroupFilter.includes(c.group));
+            }
+            if(compFilterContainer) {
+                let compHtml = '';
+                filteredComps.forEach(c => {
+                    const isSelected = selectedCompetenciesFilter.includes(c.name);
+                    compHtml += `<label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
+                        <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${isSelected ? 'checked' : ''} onchange="toggleCompFilter('${c.name}')">
+                        <span class="text-sm font-medium ${isSelected ? 'text-scg-700' : 'text-slate-600'}">${c.name}</span>
+                    </label>`;
+                });
+                compFilterContainer.innerHTML = compHtml;
+            }
+            
+            const compText = document.getElementById('comp-dropdown-text');
+            if(compText) {
+                if(selectedCompetenciesFilter.length === 0) compText.textContent = 'เลือก Competency ทั้งหมด';
+                else compText.textContent = `เลือกแล้ว ${selectedCompetenciesFilter.length} รายการ`;
+            }
 
             // Update texts
-            const jobGroupText = document.getElementById('job-group-dropdown-text');
-            if(jobGroupText) {
-                if(selectedJobGroupFilter.length === 0) jobGroupText.textContent = 'เลือกกลุ่มงานทั้งหมด';
-                else jobGroupText.textContent = `เลือกแล้ว ${selectedJobGroupFilter.length} กลุ่ม`;
-            }
-
             const updateText = (id, arr, defaultText) => {
                 const el = document.getElementById(id);
                 if(el) {
@@ -1355,78 +1331,70 @@
                     else el.textContent = `เลือกแล้ว ${arr.length} รายการ`;
                 }
             };
+            updateText('job-group-dropdown-text', selectedJobGroupFilter, 'เลือกกลุ่มงานทั้งหมด');
+            updateText('position-dropdown-text', selectedPositionsFilter, 'เลือกตำแหน่งทั้งหมด');
             updateText('section-dropdown-text', selectedSectionFilter, 'เลือก Section ทั้งหมด');
             updateText('department-dropdown-text', selectedDepartmentFilter, 'เลือก Department ทั้งหมด');
             updateText('sub1division-dropdown-text', selectedSub1DivisionFilter, 'เลือก Sub1-Division ทั้งหมด');
             updateText('division-dropdown-text', selectedDivisionFilter, 'เลือก Division ทั้งหมด');
             updateText('sub1company-dropdown-text', selectedSub1CompanyFilter, 'เลือก Sub1-Company ทั้งหมด');
             updateText('company-dropdown-text', selectedCompanyFilter, 'เลือก Company ทั้งหมด');
+        }
 
-            const compGroupText = document.getElementById('comp-group-dropdown-text');
-            if(compGroupText) {
-                if(selectedCompetencyGroupFilter.length === 0) compGroupText.textContent = 'เลือกกลุ่มทักษะทั้งหมด';
-                else compGroupText.textContent = `เลือกแล้ว ${selectedCompetencyGroupFilter.length} กลุ่ม`;
+        window.toggleFilterValue = function(type, v) {
+            let arr;
+            if(type === 'jobGroup') arr = selectedJobGroupFilter;
+            else if(type === 'position') arr = selectedPositionsFilter;
+            else if(type === 'section') arr = selectedSectionFilter;
+            else if(type === 'department') arr = selectedDepartmentFilter;
+            else if(type === 'sub1division') arr = selectedSub1DivisionFilter;
+            else if(type === 'division') arr = selectedDivisionFilter;
+            else if(type === 'sub1company') arr = selectedSub1CompanyFilter;
+            else if(type === 'company') arr = selectedCompanyFilter;
+            
+            if(arr) {
+                const idx = arr.indexOf(v);
+                if(idx > -1) arr.splice(idx, 1);
+                else arr.push(v);
             }
+            buildFiltersUI(); buildRoleResponseSection(); buildTrainingMatrix();
+        }
 
-            const posText = document.getElementById('pos-dropdown-text');
-            if(posText) {
-                if(selectedPositionsFilter.length === 0) posText.textContent = 'เลือกตำแหน่งทั้งหมด';
-                else posText.textContent = `เลือกแล้ว ${selectedPositionsFilter.length} ตำแหน่ง`;
+        window.setAllFilter = function(type, isSelectAll) {
+            let arr;
+            let containerId;
+            if(type === 'jobGroup') { arr = selectedJobGroupFilter; containerId = 'job-group-filters'; }
+            else if(type === 'position') { arr = selectedPositionsFilter; containerId = 'position-filters'; }
+            else if(type === 'section') { arr = selectedSectionFilter; containerId = 'section-filters'; }
+            else if(type === 'department') { arr = selectedDepartmentFilter; containerId = 'department-filters'; }
+            else if(type === 'sub1division') { arr = selectedSub1DivisionFilter; containerId = 'sub1division-filters'; }
+            else if(type === 'division') { arr = selectedDivisionFilter; containerId = 'division-filters'; }
+            else if(type === 'sub1company') { arr = selectedSub1CompanyFilter; containerId = 'sub1company-filters'; }
+            else if(type === 'company') { arr = selectedCompanyFilter; containerId = 'company-filters'; }
+            
+            if(arr && containerId) {
+                arr.length = 0; // Clear it
+                if(isSelectAll) {
+                    const container = document.getElementById(containerId);
+                    if(container) {
+                        container.querySelectorAll('.item-text').forEach(span => {
+                            if(span.closest('.filter-item').style.display !== 'none') {
+                                arr.push(span.innerText);
+                            }
+                        });
+                    }
+                }
             }
-
-            const compText = document.getElementById('comp-dropdown-text');
-            if(compText) {
-                if(selectedCompetenciesFilter.length === 0) compText.textContent = 'เลือกทักษะทั้งหมด';
-                else compText.textContent = `เลือกแล้ว ${selectedCompetenciesFilter.length} ทักษะ`;
-            }
-        }
-        
-
-        window.toggleSectionFilter = function(v) {
-            if(selectedSectionFilter.includes(v)) selectedSectionFilter = selectedSectionFilter.filter(x => x !== v);
-            else selectedSectionFilter.push(v);
-            buildFiltersUI(); buildRoleResponseSection(); buildTrainingMatrix();
-        }
-        window.toggleDepartmentFilter = function(v) {
-            if(selectedDepartmentFilter.includes(v)) selectedDepartmentFilter = selectedDepartmentFilter.filter(x => x !== v);
-            else selectedDepartmentFilter.push(v);
-            buildFiltersUI(); buildRoleResponseSection(); buildTrainingMatrix();
-        }
-        window.toggleSub1DivisionFilter = function(v) {
-            if(selectedSub1DivisionFilter.includes(v)) selectedSub1DivisionFilter = selectedSub1DivisionFilter.filter(x => x !== v);
-            else selectedSub1DivisionFilter.push(v);
-            buildFiltersUI(); buildRoleResponseSection(); buildTrainingMatrix();
-        }
-        window.toggleDivisionFilter = function(v) {
-            if(selectedDivisionFilter.includes(v)) selectedDivisionFilter = selectedDivisionFilter.filter(x => x !== v);
-            else selectedDivisionFilter.push(v);
-            buildFiltersUI(); buildRoleResponseSection(); buildTrainingMatrix();
-        }
-        window.toggleSub1CompanyFilter = function(v) {
-            if(selectedSub1CompanyFilter.includes(v)) selectedSub1CompanyFilter = selectedSub1CompanyFilter.filter(x => x !== v);
-            else selectedSub1CompanyFilter.push(v);
-            buildFiltersUI(); buildRoleResponseSection(); buildTrainingMatrix();
-        }
-        window.toggleCompanyFilter = function(v) {
-            if(selectedCompanyFilter.includes(v)) selectedCompanyFilter = selectedCompanyFilter.filter(x => x !== v);
-            else selectedCompanyFilter.push(v);
             buildFiltersUI(); buildRoleResponseSection(); buildTrainingMatrix();
         }
 
-        window.toggleJobGroupFilter = function(g) {
-            if(selectedJobGroupFilter.includes(g)) selectedJobGroupFilter = selectedJobGroupFilter.filter(x => x !== g);
-            else selectedJobGroupFilter.push(g);
-            buildFiltersUI();
-            buildRoleResponseSection();
-            buildTrainingMatrix();
-        }
-
-        window.togglePosFilter = function(p) {
-            if(selectedPositionsFilter.includes(p)) selectedPositionsFilter = selectedPositionsFilter.filter(x => x !== p);
-            else selectedPositionsFilter.push(p);
-            buildFiltersUI();
-            buildRoleResponseSection();
-            buildTrainingMatrix();
+        window.searchFilterList = function(input) {
+            const q = input.value.toLowerCase();
+            const list = input.closest('div').nextElementSibling;
+            list.querySelectorAll('.filter-item').forEach(label => {
+                const text = label.querySelector('.item-text').innerText.toLowerCase();
+                label.style.display = text.includes(q) ? 'flex' : 'none';
+            });
         }
         
         window.toggleCompGroupFilter = function(g) {
@@ -1453,7 +1421,7 @@
             let orgFiltersActive = selectedSectionFilter.length > 0 || selectedDepartmentFilter.length > 0 || selectedSub1DivisionFilter.length > 0 || selectedDivisionFilter.length > 0 || selectedSub1CompanyFilter.length > 0 || selectedCompanyFilter.length > 0;
             if (orgFiltersActive) {
                 visiblePos = visiblePos.filter(p => {
-                    const emps = employeeData.filter(e => e.position_name === p);
+                                        const emps = employeeData.filter(e => p.includes(e.position_name) || (e.position_name && e.position_name.includes(p)));
                     if(emps.length === 0) return false;
                     return emps.some(e => {
                         let match = true;
@@ -1468,8 +1436,10 @@
                 });
             }
 
-            if(selectedPositionsFilter.length > 0) {
-                visiblePos = visiblePos.filter(p => selectedPositionsFilter.includes(p));
+                        if(selectedPositionsFilter.length > 0) {
+                visiblePos = visiblePos.filter(p => {
+                    return selectedPositionsFilter.some(sp => p.includes(sp) || sp.includes(p));
+                });
             }
             const isAdmin = currentUser.id === 'Admin';
             
@@ -1525,7 +1495,7 @@
             let orgFiltersActive = selectedSectionFilter.length > 0 || selectedDepartmentFilter.length > 0 || selectedSub1DivisionFilter.length > 0 || selectedDivisionFilter.length > 0 || selectedSub1CompanyFilter.length > 0 || selectedCompanyFilter.length > 0;
             if (orgFiltersActive) {
                 visiblePos = visiblePos.filter(p => {
-                    const emps = employeeData.filter(e => e.position_name === p);
+                                        const emps = employeeData.filter(e => p.includes(e.position_name) || (e.position_name && e.position_name.includes(p)));
                     if(emps.length === 0) return false;
                     return emps.some(e => {
                         let match = true;
@@ -1540,8 +1510,10 @@
                 });
             }
 
-            if(selectedPositionsFilter.length > 0) {
-                visiblePos = visiblePos.filter(p => selectedPositionsFilter.includes(p));
+                        if(selectedPositionsFilter.length > 0) {
+                visiblePos = visiblePos.filter(p => {
+                    return selectedPositionsFilter.some(sp => p.includes(sp) || sp.includes(p));
+                });
             }
             const isAdmin = currentUser.id === 'Admin';
             
