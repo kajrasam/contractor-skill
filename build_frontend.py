@@ -1546,7 +1546,7 @@ new_js = """
                         `"${emp.evidences[i] || '-'}"`, `"${emp.evalDate || 'ยังไม่ถูกประเมิน'}"`,
                         `"${targetDesc}"`, `"${actualDesc}"`
                     ];
-                    csvContent += row.join(",") + "\\n";
+                csvContent += row.join(",") + "\\n";
                 }
             }
 
@@ -2474,7 +2474,7 @@ new_js = """
                 "EMAIL ADDRESS BUSINESS"
             ];
             
-            let csvContent = "\uFEFF" + headers.join(",") + "\n";
+            let csvContent = "\\uFEFF" + headers.join(",") + "\\n";
             
             employeeData.forEach(emp => {
                 const row = [
@@ -2485,7 +2485,7 @@ new_js = """
                     emp.ReportToEmail || '', emp.EmailAddressBusiness || ''
                 ].map(val => `"${String(val).replace(/"/g, '""')}"`);
                 
-                csvContent += row.join(",") + "\n";
+                csvContent += row.join(",") + "\\n";
             });
             
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
