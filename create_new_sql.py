@@ -10,15 +10,7 @@ cols = df.columns.tolist()
 # Mapping pandas dtypes to SQL types
 sql_types = []
 for col in cols:
-    dtype = str(df[col].dtype)
-    if 'int' in dtype:
-        sql_types.append('BIGINT')
-    elif 'float' in dtype:
-        sql_types.append('FLOAT')
-    elif 'datetime' in dtype:
-        sql_types.append('TIMESTAMP WITH TIME ZONE')
-    else:
-        sql_types.append('TEXT')
+    sql_types.append('TEXT')
 
 sql_statements = [
     "DROP TABLE IF EXISTS public.employee_data;",
