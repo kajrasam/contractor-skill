@@ -55,7 +55,7 @@ def seed_db():
 
     print("Seeding users...")
     users = [
-        {"id": "Admin", "pass": "Admin", "role": "Admin", "name": "System Admin (HR)", "position": "Admin"},
+        {"id": "Admin", "pass": "0817906628", "role": "Admin", "name": "System Admin (HR)", "position": "Admin"},
         {"id": "Supervisor", "pass": "Supervisor", "role": "Supervisor", "name": "นาย สมศักดิ์ (Supervisor)", "position": "หัวหน้างานซ่อม (Supervisor)"},
         {"id": "Teamleader", "pass": "Teamleader", "role": "Teamleader", "name": "นาย สมชาย (Teamleader)", "position": "หัวหน้าหมวดซ่อม (Teamleader)"},
         {"id": "SpecialistEE", "pass": "SpecialistEE", "role": "SpecialistEE", "name": "นาย ไฟฟ้า (SpecialistEE)", "position": "ช่างชำนาญงานซ่อมไฟฟ้า (SpecialistEE)"},
