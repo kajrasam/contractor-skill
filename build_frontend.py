@@ -64,6 +64,7 @@ new_js = """
         // Analytic Tab State
         let analyticRadarCharts = [];
         let analyticBarChartInstance = null;
+        let analyticJobGroupFilter = [];
         let analyticPosFilter = [];
         let analyticEmpFilter = [];
         let analyticSkillGroupFilter = [];
@@ -342,7 +343,7 @@ new_js = """
 
 
         window.toggleFilterMenu = function(menuId) {
-            const menus = ['job-group-menu', 'pos-dropdown-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu', 'dash-job-group-menu', 'dash-pos-menu', 'analytic-pos-menu', 'analytic-emp-menu', 'analytic-group-menu', 'analytic-skill-menu'];
+            const menus = ['job-group-menu', 'pos-dropdown-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu', 'dash-job-group-menu', 'dash-pos-menu', 'analytic-job-group-menu', 'analytic-pos-menu', 'analytic-emp-menu', 'analytic-group-menu', 'analytic-skill-menu'];
             menus.forEach(m => {
                 const el = document.getElementById(m);
                 if(el) {
@@ -355,7 +356,7 @@ new_js = """
         // Close dropdowns when clicking outside
         document.addEventListener('click', function(e) {
             if(!e.target.closest('.relative.z-20') && !e.target.closest('.filter-dropdown-container')) {
-                const menus = ['job-group-menu', 'pos-dropdown-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu', 'dash-job-group-menu', 'dash-pos-menu', 'analytic-pos-menu', 'analytic-emp-menu', 'analytic-group-menu', 'analytic-skill-menu'];
+                const menus = ['job-group-menu', 'pos-dropdown-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu', 'dash-job-group-menu', 'dash-pos-menu', 'analytic-job-group-menu', 'analytic-pos-menu', 'analytic-emp-menu', 'analytic-group-menu', 'analytic-skill-menu'];
                 menus.forEach(m => {
                     const el = document.getElementById(m);
                     if(el) el.classList.add('hidden');
@@ -1754,6 +1755,12 @@ new_js = """
             renderAnalyticTab();
         }
 
+        window.toggleAnalyticJobGroupFilter = function(val) {
+            if(analyticJobGroupFilter.includes(val)) analyticJobGroupFilter = analyticJobGroupFilter.filter(v => v !== val);
+            else analyticJobGroupFilter.push(val);
+            buildAnalyticFiltersUI();
+            renderAnalyticTab();
+        };
         window.toggleAnalyticPosFilter = function(val) {
             if(analyticPosFilter.includes(val)) analyticPosFilter = analyticPosFilter.filter(v => v !== val);
             else analyticPosFilter.push(val);
@@ -1781,7 +1788,18 @@ new_js = """
 
         function buildAnalyticFiltersUI() {
             const container = document.getElementById('analytic-filters');
-            const allPos = positions;
+            
+            // Build Job Group List
+            let jgSet = new Set();
+            positions.forEach(p => {
+                if(positionGroups[p]) jgSet.add(positionGroups[p]);
+            });
+            let allJobGroups = Array.from(jgSet).sort();
+
+            let allPos = positions;
+            if(analyticJobGroupFilter.length > 0) {
+                allPos = allPos.filter(p => analyticJobGroupFilter.includes(positionGroups[p]));
+            }
             
             // Build Emp List
             let allEmps = [];
@@ -1803,6 +1821,24 @@ new_js = """
             const getDropdownText = (arr, allLabel) => arr.length === 0 ? allLabel : `เลือกแล้ว ${arr.length} รายการ`;
 
             let html = `
+                <div class="w-full relative filter-dropdown-container">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">กลุ่มงาน</label>
+                    <button onclick="toggleFilterMenu('analytic-job-group-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-3 py-2 rounded-lg text-left shadow-sm hover:bg-slate-50 focus:outline-none transition-colors">
+                        <span class="text-xs font-medium text-slate-700 truncate">${getDropdownText(analyticJobGroupFilter, 'เลือกกลุ่มงานทั้งหมด')}</span>
+                        <i class="fa-solid fa-chevron-down text-slate-400 ml-2 text-[10px]"></i>
+                    </button>
+                    <div id="analytic-job-group-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                        <div class="p-2 flex flex-col gap-1">
+                            ${allJobGroups.map(g => `
+                                <label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
+                                    <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${analyticJobGroupFilter.includes(g) ? 'checked' : ''} onchange="toggleAnalyticJobGroupFilter('${g}')">
+                                    <span class="text-xs font-medium ${analyticJobGroupFilter.includes(g) ? 'text-scg-700' : 'text-slate-600'}">${g}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+
                 <div class="w-full relative filter-dropdown-container">
                     <label class="block text-xs font-bold text-slate-700 mb-1">ตำแหน่ง</label>
                     <button onclick="toggleFilterMenu('analytic-pos-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-3 py-2 rounded-lg text-left shadow-sm hover:bg-slate-50 focus:outline-none transition-colors">
@@ -1877,6 +1913,7 @@ new_js = """
             `;
             
             // Just update inner HTML, but keep menus open if they were open before re-rendering
+            const jgMenuOpen = document.getElementById('analytic-job-group-menu') && !document.getElementById('analytic-job-group-menu').classList.contains('hidden');
             const posMenuOpen = document.getElementById('analytic-pos-menu') && !document.getElementById('analytic-pos-menu').classList.contains('hidden');
             const empMenuOpen = document.getElementById('analytic-emp-menu') && !document.getElementById('analytic-emp-menu').classList.contains('hidden');
             const groupMenuOpen = document.getElementById('analytic-group-menu') && !document.getElementById('analytic-group-menu').classList.contains('hidden');
@@ -1884,6 +1921,7 @@ new_js = """
             
             container.innerHTML = html;
             
+            if(jgMenuOpen) document.getElementById('analytic-job-group-menu').classList.remove('hidden');
             if(posMenuOpen) document.getElementById('analytic-pos-menu').classList.remove('hidden');
             if(empMenuOpen) document.getElementById('analytic-emp-menu').classList.remove('hidden');
             if(groupMenuOpen) document.getElementById('analytic-group-menu').classList.remove('hidden');
@@ -1905,6 +1943,9 @@ new_js = """
 
             // Determine valid users
             let validUserIds = Object.keys(dbUsers).filter(id => dbUsers[id].role !== 'Admin');
+            if(analyticJobGroupFilter.length > 0) {
+                validUserIds = validUserIds.filter(id => analyticJobGroupFilter.includes(positionGroups[dbUsers[id].position]));
+            }
             if(analyticPosFilter.length > 0) {
                 validUserIds = validUserIds.filter(id => analyticPosFilter.includes(dbUsers[id].position));
             }
