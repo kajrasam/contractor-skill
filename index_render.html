@@ -1134,13 +1134,24 @@
 
 
         window.toggleFilterMenu = function(menuId) {
-            const menus = ['job-group-menu', 'pos-dropdown-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu', 'dash-job-group-menu', 'dash-pos-menu', 'analytic-job-group-menu', 'analytic-pos-menu', 'analytic-emp-menu', 'analytic-group-menu', 'analytic-skill-menu'];
-            menus.forEach(m => {
-                const el = document.getElementById(m);
-                if(el) {
-                    if(m === menuId) el.classList.toggle('hidden');
-                    else el.classList.add('hidden');
+            const allMenus = document.querySelectorAll('.filter-menu');
+            let found = false;
+            allMenus.forEach(el => {
+                if(el.id === menuId) {
+                    el.classList.toggle('hidden');
+                    found = true;
+                } else {
+                    el.classList.add('hidden');
                 }
+            });
+            // Fallback for dynamically added menus without the class
+            if (!found) {
+                const target = document.getElementById(menuId);
+                if (target) {
+                    target.classList.toggle('hidden');
+                }
+            }
+        }
             });
         };
 
