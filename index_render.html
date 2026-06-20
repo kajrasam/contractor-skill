@@ -761,7 +761,7 @@
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Cost Center (Payment)</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Cost Center (Organization)</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Retirement Year</th>
-                                    <th class="align-top py-4 px-6 border-r border-slate-100">อายุงาน</th>
+                                    
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Age</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Report to Name</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Certificate (Entry Degree)</th>
@@ -3100,9 +3100,9 @@
                         <td class="py-3 px-6 border-r border-slate-100">${emp.working_location || emp.WorkingLocation || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100 font-mono text-xs">${emp.cost_center_payment || emp.CostCenterPayment || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100 font-mono text-xs">${emp.cost_center_organization || emp.CostCenterOrganization || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100 text-center">${emp.retirement_year || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100 text-center">${emp.years_of_service !== null && emp.years_of_service !== undefined ? emp.years_of_service : '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100 text-center">${emp.age || '-'}</td>
+                        
+                        
+                        
                         <td class="py-3 px-6 border-r border-slate-100">${emp.report_to_name || emp.ManagerName || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.certificate_entry_degree || '-'}</td>
                         <td class="py-3 px-6 text-blue-600 hover:underline"><a href="mailto:${emp.email_address_business || emp.EmailAddressBusiness || ''}">${emp.email_address_business || emp.EmailAddressBusiness || '-'}</a></td>
