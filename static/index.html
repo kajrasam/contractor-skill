@@ -1162,7 +1162,7 @@
             if (ignoreFilter !== 'position' && selectedPositionsFilter.length > 0 && (!posName || !selectedPositionsFilter.includes(posName))) return false;
             
             if (ignoreFilter !== 'employee' && selectedEmployeeFilter.length > 0) {
-                let empName = e.FullName || e.EmployeeNameThai || e.EmployeeNameEng;
+                let empName = e.FullNameTH || e.FullName || e.EmployeeNameThai || e.EmployeeNameEng;
                 if (!empName || !selectedEmployeeFilter.includes(empName)) return false;
             }
             if (ignoreFilter !== 'jobGroup' && selectedJobGroupFilter.length > 0) {
@@ -1314,7 +1314,7 @@
             let emp = dbUsers[empId];
             if(!emp) return false;
             
-            let eData = employeeData.find(e => e.username === empId || e.user_id === empId || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name);
+            let eData = employeeData.find(e => e.username === empId || e.user_id === empId || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name || e.FullNameTH === emp.name);
             
             let posName = emp.position;
             if(eData && eData.PositionNameThai) posName = eData.PositionNameThai;
@@ -1329,7 +1329,7 @@
             }
             
             if(selectedEmployeeFilter.length > 0) {
-                let empName = eData.FullName || eData.EmployeeNameThai || eData.EmployeeNameEng;
+                let empName = eData.FullNameTH || eData.FullName || eData.EmployeeNameThai || eData.EmployeeNameEng;
                 if(!empName || !selectedEmployeeFilter.includes(empName)) return false;
             }
             
@@ -1731,7 +1731,7 @@
             let actingName = dbUsers[actingAsRole] ? dbUsers[actingAsRole].name : '';
 
             employeeData.forEach(e => {
-                let empName = e.FullName || e.EmployeeNameThai || e.EmployeeNameEng;
+                let empName = e.FullNameTH || e.FullName || e.EmployeeNameThai || e.EmployeeNameEng;
                 let pName = e.PositionNameThai || e.position_name;
                 let uid = e.user_id || e.username || e.SCGEmployeeID || empName;
                 
@@ -1778,9 +1778,9 @@
             const id = document.getElementById('eval-employee-select').value;
             if(!id) return;
             if (!dbUsers[id]) {
-                const rawEData = employeeData.find(e => e.user_id === id || e.username === id || e.SCGEmployeeID === id || (e.FullName || e.EmployeeNameThai || e.EmployeeNameEng) === id);
+                const rawEData = employeeData.find(e => e.user_id === id || e.username === id || e.SCGEmployeeID === id || (e.FullNameTH || e.FullName || e.EmployeeNameThai || e.EmployeeNameEng) === id);
                 if (rawEData) {
-                    const empName = rawEData.FullName || rawEData.EmployeeNameThai || rawEData.EmployeeNameEng;
+                    const empName = rawEData.FullNameTH || rawEData.FullName || rawEData.EmployeeNameThai || rawEData.EmployeeNameEng;
                     const pName = rawEData.PositionNameThai || rawEData.position_name || 'Unassigned';
                     dbUsers[id] = {
                         name: empName,
@@ -1801,7 +1801,7 @@
             }
 
             const emp = dbUsers[id];
-            const eData = employeeData.find(e => e.user_id === id || e.username === id || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name);
+            const eData = employeeData.find(e => e.user_id === id || e.username === id || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name || e.FullNameTH === emp.name);
             let pName = emp.position;
             if(eData && eData.PositionNameThai) pName = eData.PositionNameThai;
             else if(eData && eData.position_name) pName = eData.position_name;
@@ -1913,9 +1913,9 @@
         function drawEvalRadar() {
             const id = document.getElementById('eval-employee-select').value;
             if (!dbUsers[id]) {
-                const rawEData = employeeData.find(e => e.user_id === id || e.username === id || e.SCGEmployeeID === id || (e.FullName || e.EmployeeNameThai || e.EmployeeNameEng) === id);
+                const rawEData = employeeData.find(e => e.user_id === id || e.username === id || e.SCGEmployeeID === id || (e.FullNameTH || e.FullName || e.EmployeeNameThai || e.EmployeeNameEng) === id);
                 if (rawEData) {
-                    const empName = rawEData.FullName || rawEData.EmployeeNameThai || rawEData.EmployeeNameEng;
+                    const empName = rawEData.FullNameTH || rawEData.FullName || rawEData.EmployeeNameThai || rawEData.EmployeeNameEng;
                     const pName = rawEData.PositionNameThai || rawEData.position_name || 'Unassigned';
                     dbUsers[id] = {
                         name: empName,
@@ -1936,7 +1936,7 @@
             }
 
             const emp = dbUsers[id];
-            const eData = employeeData.find(e => e.user_id === id || e.username === id || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name);
+            const eData = employeeData.find(e => e.user_id === id || e.username === id || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name || e.FullNameTH === emp.name);
             let pName = emp.position;
             if(eData && eData.PositionNameThai) pName = eData.PositionNameThai;
             else if(eData && eData.position_name) pName = eData.position_name;
