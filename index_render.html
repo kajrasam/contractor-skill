@@ -245,107 +245,9 @@
         <!-- MAIN CONTENT -->
         <main class="flex-grow w-full md:w-[calc(100%-16rem)] md:h-screen overflow-y-auto px-4 sm:px-8 py-8 transition-all duration-300">
 
-            <!-- 1. HOME TAB -->
-            <section id="tab-home" class="tab-content space-y-8">
-                <div class="bg-white p-8 md:p-12 rounded-3xl border border-slate-100 shadow-sm text-center relative overflow-hidden mb-4">
-                    <div class="absolute -left-10 -top-10 opacity-5 text-scg-800 pointer-events-none"><i class="fa-solid fa-gears text-[200px]"></i></div>
-                    <div class="inline-flex bg-scg-50 text-scg-800 p-4 rounded-2xl mb-4 relative z-10"><i class="fa-solid fa-user-shield text-4xl"></i></div>
-                    <h2 class="text-3xl font-bold text-scg-900 mb-4 relative z-10">Competency System</h2>
-                    <p class="text-slate-500 max-w-2xl mx-auto relative z-10" id="home-welcome-text">
-                        ระบบจัดการทักษะและประเมินขีดความสามารถตามบทบาทหน้าที่ (Role & Responsibilities)
-                    </p>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Workflow for Employee -->
-                    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden transition-shadow hover:shadow-md">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-bl-[100px] z-0"></div>
-                        <h3 class="text-xl font-bold text-scg-900 mb-8 flex items-center relative z-10"><i class="fa-solid fa-user text-scg-500 mr-3 text-2xl"></i> สำหรับพนักงาน <span class="text-slate-400 text-base font-normal ml-2">(ผู้ถูกประเมิน)</span></h3>
-                        
-                        <div class="space-y-0 relative z-10 ml-2">
-                            <div class="flex items-start gap-5">
-                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">1</div>
-                                <div class="pb-8">
-                                    <h4 class="font-bold text-slate-800 text-lg">ศึกษาเป้าหมายตำแหน่ง</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('training')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Training Need"</button> เพื่อดูบทบาทหน้าที่ (Role) และระดับทักษะที่คาดหวัง (Target Level) ของตำแหน่งตนเอง</p>
-                                </div>
-                            </div>
-                            <div class="absolute left-[26px] top-[40px] w-0.5 h-16 bg-slate-100 z-0"></div>
-                            
-                            <div class="flex items-start gap-5 relative">
-                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">2</div>
-                                <div class="pb-8">
-                                    <h4 class="font-bold text-slate-800 text-lg">รวบรวมผลงานและหลักฐาน</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เตรียมข้อมูล ผลงาน หรือหลักฐานการทำงานจริง เพื่อใช้ประกอบการพูดคุยประเมินกับหัวหน้างาน</p>
-                                </div>
-                            </div>
-                            <div class="absolute left-[26px] top-[140px] w-0.5 h-16 bg-slate-100 z-0 hidden md:block"></div>
-                            
-                            <div class="flex items-start gap-5 relative">
-                                <div class="w-10 h-10 rounded-full bg-scg-50 text-scg-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">3</div>
-                                <div>
-                                    <h4 class="font-bold text-scg-800 text-lg">ดูผลประเมินและแผนพัฒนา</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('dashboard')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Dashboard"</button> เพื่อดูจุดแข็งและ Gap ของตนเอง พร้อมรับคำแนะนำหลักสูตรอบรมที่เหมาะสม</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Workflow for Supervisor -->
-                    <div class="bg-white p-8 rounded-3xl border border-scg-100 shadow-md relative overflow-hidden transition-shadow hover:shadow-lg">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-scg-50/50 rounded-bl-[100px] z-0"></div>
-                        <h3 class="text-xl font-bold text-scg-900 mb-8 flex items-center relative z-10"><i class="fa-solid fa-user-tie text-scg-500 mr-3 text-2xl"></i> สำหรับหัวหน้างาน <span class="text-slate-400 text-base font-normal ml-2">(ผู้ประเมิน)</span></h3>
-                        
-                        <div class="space-y-0 relative z-10 ml-2">
-                            <div class="flex items-start gap-5 relative">
-                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">1</div>
-                                <div class="pb-8">
-                                    <h4 class="font-bold text-slate-800 text-lg">ตรวจสอบโครงสร้างทักษะ</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('training')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Training Need"</button> เพื่อทบทวนบทบาทและทักษะที่คาดหวังของลูกน้องแต่ละตำแหน่งในทีม</p>
-                                </div>
-                            </div>
-                            <div class="absolute left-[26px] top-[40px] w-0.5 h-16 bg-slate-100 z-0"></div>
-                            
-                            <div class="flex items-start gap-5 relative">
-                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">2</div>
-                                <div class="pb-8">
-                                    <h4 class="font-bold text-slate-800 text-lg">ประเมินลูกน้องรายบุคคล</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('evaluation')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"การประเมิน"</button> เลือกลูกน้อง ให้คะแนนตามระดับความสามารถจริง พร้อมระบุหลักฐานประกอบ</p>
-                                </div>
-                            </div>
-                            <div class="absolute left-[26px] top-[140px] w-0.5 h-16 bg-slate-100 z-0 hidden md:block"></div>
-                            
-                            <div class="flex items-start gap-5 relative">
-                                <div class="w-10 h-10 rounded-full bg-scg-800 text-white flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-md z-10">3</div>
-                                <div>
-                                    <h4 class="font-bold text-scg-900 text-lg">วิเคราะห์ข้อมูลและวางแผนทีม</h4>
-                                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('dashboard')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Dashboard"</button> ดูภาพรวม %Complete ของทีม เพื่อวางแผนพัฒนาบุคลากรให้ตรงจุด</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 2. TRAINING NEED TAB -->
-            <section id="tab-training" class="tab-content space-y-6">
-                <div class="mb-2 flex flex-col md:flex-row justify-between md:items-end gap-4">
-                    <div>
-                        <h2 class="text-2xl font-bold text-scg-900">Training Need & Competency Mapping</h2>
-                        <p class="text-slate-500 text-sm">Role & Response และความคาดหวัง Skill Level ในแต่ละเรื่อง
-                            ตามโครงสร้างตำแหน่ง</p>
-                    </div>
-
-                    <!-- Admin Edit Mode Toggle -->
-                    <div id="admin-edit-toggle-container" class="hidden">
-                        <button onclick="toggleEditMode()" id="edit-mode-btn"
-                            class="bg-white hover:bg-slate-50 text-slate-700 px-5 py-2.5 rounded-xl font-bold text-sm transition-colors border-2 border-slate-300 shadow-sm flex items-center">
-                            <i class="fa-solid fa-pen-to-square mr-2"></i> เปิดโหมดแก้ไขโครงสร้าง (Edit Mode)
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Filters Section -->
+            <!-- GLOBAL FILTERS (Shared across tabs) -->
+            <div id="global-filters-container" class="hidden">
+<!-- Filters Section -->
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 mb-6 grid grid-cols-1 md:grid-cols-4 gap-6 relative z-20">
                     
                     <div class="w-full relative">
@@ -451,6 +353,110 @@
                         </div>
                     </div>
 
+                </div>
+
+                
+            </div>
+
+
+            <!-- 1. HOME TAB -->
+            <section id="tab-home" class="tab-content space-y-8">
+                <div class="bg-white p-8 md:p-12 rounded-3xl border border-slate-100 shadow-sm text-center relative overflow-hidden mb-4">
+                    <div class="absolute -left-10 -top-10 opacity-5 text-scg-800 pointer-events-none"><i class="fa-solid fa-gears text-[200px]"></i></div>
+                    <div class="inline-flex bg-scg-50 text-scg-800 p-4 rounded-2xl mb-4 relative z-10"><i class="fa-solid fa-user-shield text-4xl"></i></div>
+                    <h2 class="text-3xl font-bold text-scg-900 mb-4 relative z-10">Competency System</h2>
+                    <p class="text-slate-500 max-w-2xl mx-auto relative z-10" id="home-welcome-text">
+                        ระบบจัดการทักษะและประเมินขีดความสามารถตามบทบาทหน้าที่ (Role & Responsibilities)
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Workflow for Employee -->
+                    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden transition-shadow hover:shadow-md">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-bl-[100px] z-0"></div>
+                        <h3 class="text-xl font-bold text-scg-900 mb-8 flex items-center relative z-10"><i class="fa-solid fa-user text-scg-500 mr-3 text-2xl"></i> สำหรับพนักงาน <span class="text-slate-400 text-base font-normal ml-2">(ผู้ถูกประเมิน)</span></h3>
+                        
+                        <div class="space-y-0 relative z-10 ml-2">
+                            <div class="flex items-start gap-5">
+                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">1</div>
+                                <div class="pb-8">
+                                    <h4 class="font-bold text-slate-800 text-lg">ศึกษาเป้าหมายตำแหน่ง</h4>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('training')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Training Need"</button> เพื่อดูบทบาทหน้าที่ (Role) และระดับทักษะที่คาดหวัง (Target Level) ของตำแหน่งตนเอง</p>
+                                </div>
+                            </div>
+                            <div class="absolute left-[26px] top-[40px] w-0.5 h-16 bg-slate-100 z-0"></div>
+                            
+                            <div class="flex items-start gap-5 relative">
+                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">2</div>
+                                <div class="pb-8">
+                                    <h4 class="font-bold text-slate-800 text-lg">รวบรวมผลงานและหลักฐาน</h4>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เตรียมข้อมูล ผลงาน หรือหลักฐานการทำงานจริง เพื่อใช้ประกอบการพูดคุยประเมินกับหัวหน้างาน</p>
+                                </div>
+                            </div>
+                            <div class="absolute left-[26px] top-[140px] w-0.5 h-16 bg-slate-100 z-0 hidden md:block"></div>
+                            
+                            <div class="flex items-start gap-5 relative">
+                                <div class="w-10 h-10 rounded-full bg-scg-50 text-scg-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">3</div>
+                                <div>
+                                    <h4 class="font-bold text-scg-800 text-lg">ดูผลประเมินและแผนพัฒนา</h4>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('dashboard')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Dashboard"</button> เพื่อดูจุดแข็งและ Gap ของตนเอง พร้อมรับคำแนะนำหลักสูตรอบรมที่เหมาะสม</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Workflow for Supervisor -->
+                    <div class="bg-white p-8 rounded-3xl border border-scg-100 shadow-md relative overflow-hidden transition-shadow hover:shadow-lg">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-scg-50/50 rounded-bl-[100px] z-0"></div>
+                        <h3 class="text-xl font-bold text-scg-900 mb-8 flex items-center relative z-10"><i class="fa-solid fa-user-tie text-scg-500 mr-3 text-2xl"></i> สำหรับหัวหน้างาน <span class="text-slate-400 text-base font-normal ml-2">(ผู้ประเมิน)</span></h3>
+                        
+                        <div class="space-y-0 relative z-10 ml-2">
+                            <div class="flex items-start gap-5 relative">
+                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">1</div>
+                                <div class="pb-8">
+                                    <h4 class="font-bold text-slate-800 text-lg">ตรวจสอบโครงสร้างทักษะ</h4>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('training')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Training Need"</button> เพื่อทบทวนบทบาทและทักษะที่คาดหวังของลูกน้องแต่ละตำแหน่งในทีม</p>
+                                </div>
+                            </div>
+                            <div class="absolute left-[26px] top-[40px] w-0.5 h-16 bg-slate-100 z-0"></div>
+                            
+                            <div class="flex items-start gap-5 relative">
+                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">2</div>
+                                <div class="pb-8">
+                                    <h4 class="font-bold text-slate-800 text-lg">ประเมินลูกน้องรายบุคคล</h4>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('evaluation')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"การประเมิน"</button> เลือกลูกน้อง ให้คะแนนตามระดับความสามารถจริง พร้อมระบุหลักฐานประกอบ</p>
+                                </div>
+                            </div>
+                            <div class="absolute left-[26px] top-[140px] w-0.5 h-16 bg-slate-100 z-0 hidden md:block"></div>
+                            
+                            <div class="flex items-start gap-5 relative">
+                                <div class="w-10 h-10 rounded-full bg-scg-800 text-white flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-md z-10">3</div>
+                                <div>
+                                    <h4 class="font-bold text-scg-900 text-lg">วิเคราะห์ข้อมูลและวางแผนทีม</h4>
+                                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('dashboard')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Dashboard"</button> ดูภาพรวม %Complete ของทีม เพื่อวางแผนพัฒนาบุคลากรให้ตรงจุด</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 2. TRAINING NEED TAB -->
+            <section id="tab-training" class="tab-content space-y-6">
+                <div class="mb-2 flex flex-col md:flex-row justify-between md:items-end gap-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-scg-900">Training Need & Competency Mapping</h2>
+                        <p class="text-slate-500 text-sm">Role & Response และความคาดหวัง Skill Level ในแต่ละเรื่อง
+                            ตามโครงสร้างตำแหน่ง</p>
+                    </div>
+
+                    <!-- Admin Edit Mode Toggle -->
+                    <div id="admin-edit-toggle-container" class="hidden">
+                        <button onclick="toggleEditMode()" id="edit-mode-btn"
+                            class="bg-white hover:bg-slate-50 text-slate-700 px-5 py-2.5 rounded-xl font-bold text-sm transition-colors border-2 border-slate-300 shadow-sm flex items-center">
+                            <i class="fa-solid fa-pen-to-square mr-2"></i> เปิดโหมดแก้ไขโครงสร้าง (Edit Mode)
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Role & Response Section (Vertical Layout) -->
@@ -1009,11 +1015,18 @@
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.getElementById(`tab-${tabId}`).classList.add('active');
 
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.className = btn.id === 'nav-admin' 
-                    ? 'nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-scg-700 bg-scg-50 border border-scg-200 shadow-sm hover:bg-scg-100 text-left mt-2 transition-all' 
-                    : 'nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-600 hover:text-scg-800 hover:bg-scg-50 text-left transition-all';
-            });
+            const tabsWithFilters = ['training', 'evaluation', 'dashboard', 'idp', 'analytic'];
+            const globalFilters = document.getElementById('global-filters-container');
+            if(globalFilters) {
+                if (tabsWithFilters.includes(tabId)) {
+                    globalFilters.classList.remove('hidden');
+                } else {
+                    globalFilters.classList.add('hidden');
+                }
+            }
+
+            renderActiveTab();
+        });
             
             const activeBtn = document.getElementById(`nav-${tabId}`);
             if(activeBtn) {
@@ -1341,6 +1354,42 @@
             updateText('company-dropdown-text', selectedCompanyFilter, 'เลือก Company ทั้งหมด');
         }
 
+        
+        function isEmployeeMatchingOrgFilters(empId) {
+            let emp = dbUsers[empId];
+            if(!emp) return false;
+            
+            if(selectedJobGroupFilter.length > 0 && (!emp.position || !selectedJobGroupFilter.includes(positionGroups[emp.position]))) return false;
+            if(selectedPositionsFilter.length > 0 && (!emp.position || !selectedPositionsFilter.includes(emp.position))) return false;
+            
+            let eData = employeeData.find(e => e.username === empId || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name);
+            if(!eData) {
+                if(selectedSectionFilter.length > 0 || selectedDepartmentFilter.length > 0 || selectedSub1DivisionFilter.length > 0 || selectedDivisionFilter.length > 0 || selectedSub1CompanyFilter.length > 0 || selectedCompanyFilter.length > 0) return false;
+                return true;
+            }
+            
+            if(selectedSectionFilter.length > 0 && !selectedSectionFilter.includes(eData.SectionThai)) return false;
+            if(selectedDepartmentFilter.length > 0 && !selectedDepartmentFilter.includes(eData.DepartmentThai)) return false;
+            if(selectedSub1DivisionFilter.length > 0 && !selectedSub1DivisionFilter.includes(eData.Sub1DivisionThai)) return false;
+            if(selectedDivisionFilter.length > 0 && !selectedDivisionFilter.includes(eData.DivisionThai)) return false;
+            if(selectedSub1CompanyFilter.length > 0 && !selectedSub1CompanyFilter.includes(eData.Sub1CompanyThai)) return false;
+            if(selectedCompanyFilter.length > 0 && !selectedCompanyFilter.includes(eData.CompanyThai)) return false;
+            
+            return true;
+        }
+
+        function applyGlobalFiltersToSubIds(subIds) {
+            return subIds.filter(id => isEmployeeMatchingOrgFilters(id));
+        }
+
+        function renderActiveTab() {
+            if(document.getElementById('tab-training').classList.contains('active')) { buildRoleResponseSection(); buildTrainingMatrix(); }
+            if(document.getElementById('tab-evaluation').classList.contains('active')) updateEvalUI();
+            if(document.getElementById('tab-dashboard').classList.contains('active')) buildDashboard();
+            if(document.getElementById('tab-idp').classList.contains('active')) buildIDP();
+            if(document.getElementById('tab-analytic').classList.contains('active')) buildAnalytic();
+        }
+
         window.toggleFilterValue = function(type, v) {
             let arr;
             if(type === 'jobGroup') arr = selectedJobGroupFilter;
@@ -1357,7 +1406,7 @@
                 if(idx > -1) arr.splice(idx, 1);
                 else arr.push(v);
             }
-            buildFiltersUI(); buildRoleResponseSection(); buildTrainingMatrix();
+            buildFiltersUI(); renderActiveTab();
         }
 
         window.setAllFilter = function(type, isSelectAll) {
@@ -1385,7 +1434,7 @@
                     }
                 }
             }
-            buildFiltersUI(); buildRoleResponseSection(); buildTrainingMatrix();
+            buildFiltersUI(); renderActiveTab();
         }
 
         window.searchFilterList = function(input) {
@@ -1703,7 +1752,7 @@
             const selectEl = document.getElementById('eval-employee-select');
             selectEl.innerHTML = '';
             
-            const subs = actingAsRole === 'Admin' ? [] : getSubordinates(actingAsRole);
+            const subs = applyGlobalFiltersToSubIds(actingAsRole === 'Admin' ? [] : getSubordinates(actingAsRole));
             
             if (subs.length === 0) {
                 selectEl.innerHTML = '<option value="">-- ไม่มีผู้ใต้บังคับบัญชา --</option>';
@@ -1901,7 +1950,7 @@
             buildDashFiltersUI();
             
             const currentUserId = currentUser.id;
-            let subs = getSubordinates(currentUserId);
+            let subs = applyGlobalFiltersToSubIds(getSubordinates(currentUserId));
             let toShow = [];
 
             if (currentUserId === 'Admin') {
@@ -1948,7 +1997,7 @@
             
             // Get visible positions for filtering
             let visiblePosSet = new Set();
-            let visibleUsers = currentUser.id === 'Admin' ? Object.keys(dbUsers).filter(id => id !== 'Admin') : [currentUser.id, ...getSubordinates(currentUser.id)];
+            let visibleUsers = applyGlobalFiltersToSubIds(currentUser.id === 'Admin' ? Object.keys(dbUsers).filter(id => id !== 'Admin') : [currentUser.id, ...getSubordinates(currentUser.id)]);
             visibleUsers.forEach(uid => {
                 if(dbUsers[uid] && dbUsers[uid].position) visiblePosSet.add(dbUsers[uid].position);
             });
@@ -2398,9 +2447,9 @@
             // Allowable positions and employees based on access
             let visibleUsers = [];
             if (currentUser.id === 'Admin') {
-                visibleUsers = Object.keys(dbUsers).filter(uid => uid !== 'Admin');
+                visibleUsers = applyGlobalFiltersToSubIds(Object.keys(dbUsers).filter(uid => uid !== 'Admin'));
             } else {
-                visibleUsers = [currentUser.id, ...getSubordinates(currentUser.id)];
+                visibleUsers = applyGlobalFiltersToSubIds([currentUser.id, ...getSubordinates(currentUser.id)]);
             }
             
             let posSet = new Set();
