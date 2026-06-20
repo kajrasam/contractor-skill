@@ -1720,23 +1720,97 @@
             const selectEl = document.getElementById('eval-employee-select');
             selectEl.innerHTML = '';
             
-            const subs = applyGlobalFiltersToSubIds(actingAsRole === 'Admin' ? [] : getSubordinates(actingAsRole));
-            
-            if (subs.length === 0) {
-                selectEl.innerHTML = '<option value="">-- ไม่มีผู้ใต้บังคับบัญชา --</option>';
-                document.getElementById('sliders-container').innerHTML = '<div class="text-center text-slate-400 py-10">ไม่พบข้อมูลให้ประเมิน</div>';
+            let validEmps = [];
+            let actingName = dbUsers[actingAsRole] ? dbUsers[actingAsRole].name : '';
+
+            employeeData.forEach(e => {
+                let empName = e.FullName || e.EmployeeNameThai || e.EmployeeNameEng;
+                let pName = e.PositionNameThai || e.position_name;
+                let uid = e.user_id || e.username || e.SCGEmployeeID || empName;
+                
+                if (matchesFiltersExcept(e, null)) {
+                    let isSub = false;
+                    if (actingAsRole === 'Admin') {
+                        isSub = true;
+                    } else {
+                        let mName = e.ManagerName || e.ReportToName || '';
+                        if (actingName && mName.includes(actingName)) isSub = true;
+                        if (!isSub && getSubordinates(actingAsRole).includes(uid)) isSub = true;
+                    }
+                    
+                    if (isSub && empName) {
+                        validEmps.push({ id: uid, name: empName, position: pName || 'Unassigned', raw: e });
+                    }
+                }
+            });
+
+            if (validEmps.length === 0) {
+                selectEl.innerHTML = '<option value="">-- ไม่พบผู้ใต้บังคับบัญชา --</option>';
+                document.getElementById('sliders-container').innerHTML = '<div class="text-center text-slate-400 py-10">ไม่พบข้อมูล หรือ ยังไม่ได้เริ่มประเมิน</div>';
                 if(evalRadarChartInstance) evalRadarChartInstance.destroy();
                 return;
             }
-            subs.forEach(id => { selectEl.innerHTML += `<option value="${id}">${dbUsers[id].name} (${dbUsers[id].position})</option>`; });
+
+            // Remove duplicates by ID
+            let uniqueEmps = [];
+            let seenIds = new Set();
+            validEmps.forEach(emp => {
+                if(!seenIds.has(emp.id)) {
+                    seenIds.add(emp.id);
+                    uniqueEmps.push(emp);
+                }
+            });
+
+            uniqueEmps.forEach(emp => { 
+                selectEl.innerHTML += `<option value="${emp.id}">${emp.name} (${emp.position})</option>`; 
+            });
             updateEvalUI();
         }
 
         function updateEvalUI() {
             const id = document.getElementById('eval-employee-select').value;
             if(!id) return;
+            if (!dbUsers[id]) {
+                const rawEData = employeeData.find(e => e.user_id === id || e.username === id || e.SCGEmployeeID === id || (e.FullName || e.EmployeeNameThai || e.EmployeeNameEng) === id);
+                if (rawEData) {
+                    const empName = rawEData.FullName || rawEData.EmployeeNameThai || rawEData.EmployeeNameEng;
+                    const pName = rawEData.PositionNameThai || rawEData.position_name || 'Unassigned';
+                    dbUsers[id] = {
+                        name: empName,
+                        position: pName,
+                        actuals: [],
+                        evidences: [],
+                        additional_expectations: [],
+                        learning_topics: [],
+                        managerIds: []
+                    };
+                    // Auto create in backend
+                    fetch(`${API_BASE}/users`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ uid: id, pass: 'Pass@1234', name: empName, pos: pName, mgrs: [], num_comps: competencies.length })
+                    }).catch(e => console.error(e));
+                }
+            }
+
             const emp = dbUsers[id];
-            const targets = positionTargets[emp.position] || [];
+            const eData = employeeData.find(e => e.user_id === id || e.username === id || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name);
+            let pName = emp.position;
+            if(eData && eData.PositionNameThai) pName = eData.PositionNameThai;
+            else if(eData && eData.position_name) pName = eData.position_name;
+
+            const targets = positionTargets[pName] || [];
+            const hasMappedCompetency = targets.some(t => t > 0);
+            
+            if (!hasMappedCompetency) {
+                document.getElementById('sliders-container').innerHTML = `<div class="text-center py-16 bg-slate-50 rounded-xl border border-slate-200 shadow-sm mt-4">
+                    <i class="fa-solid fa-link-slash text-4xl text-amber-300 mb-4 block"></i>
+                    <p class="text-slate-600 font-bold text-lg">ผูก Competency ในตำแหน่งนี้ ก่อน</p>
+                    <p class="text-slate-400 text-sm mt-2">ผู้ดูแลระบบ (Admin) ต้องกำหนดความคาดหวังทักษะสำหรับตำแหน่ง "${pName}" ในหน้า Training Need ก่อนทำการประเมิน</p>
+                </div>`;
+                if(evalRadarChartInstance) evalRadarChartInstance.destroy();
+                return;
+            }
             const currentLabels = getLabels();
 
             document.getElementById('eval-emp-name').textContent = emp.name;
@@ -1830,8 +1904,47 @@
 
         function drawEvalRadar() {
             const id = document.getElementById('eval-employee-select').value;
+            if (!dbUsers[id]) {
+                const rawEData = employeeData.find(e => e.user_id === id || e.username === id || e.SCGEmployeeID === id || (e.FullName || e.EmployeeNameThai || e.EmployeeNameEng) === id);
+                if (rawEData) {
+                    const empName = rawEData.FullName || rawEData.EmployeeNameThai || rawEData.EmployeeNameEng;
+                    const pName = rawEData.PositionNameThai || rawEData.position_name || 'Unassigned';
+                    dbUsers[id] = {
+                        name: empName,
+                        position: pName,
+                        actuals: [],
+                        evidences: [],
+                        additional_expectations: [],
+                        learning_topics: [],
+                        managerIds: []
+                    };
+                    // Auto create in backend
+                    fetch(`${API_BASE}/users`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ uid: id, pass: 'Pass@1234', name: empName, pos: pName, mgrs: [], num_comps: competencies.length })
+                    }).catch(e => console.error(e));
+                }
+            }
+
             const emp = dbUsers[id];
-            const targets = positionTargets[emp.position] || [];
+            const eData = employeeData.find(e => e.user_id === id || e.username === id || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name);
+            let pName = emp.position;
+            if(eData && eData.PositionNameThai) pName = eData.PositionNameThai;
+            else if(eData && eData.position_name) pName = eData.position_name;
+
+            const targets = positionTargets[pName] || [];
+            const hasMappedCompetency = targets.some(t => t > 0);
+            
+            if (!hasMappedCompetency) {
+                document.getElementById('sliders-container').innerHTML = `<div class="text-center py-16 bg-slate-50 rounded-xl border border-slate-200 shadow-sm mt-4">
+                    <i class="fa-solid fa-link-slash text-4xl text-amber-300 mb-4 block"></i>
+                    <p class="text-slate-600 font-bold text-lg">ผูก Competency ในตำแหน่งนี้ ก่อน</p>
+                    <p class="text-slate-400 text-sm mt-2">ผู้ดูแลระบบ (Admin) ต้องกำหนดความคาดหวังทักษะสำหรับตำแหน่ง "${pName}" ในหน้า Training Need ก่อนทำการประเมิน</p>
+                </div>`;
+                if(evalRadarChartInstance) evalRadarChartInstance.destroy();
+                return;
+            }
             let actuals = [];
             let cleanLabels = [];
             let cleanTargets = [];
