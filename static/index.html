@@ -1551,14 +1551,7 @@
                 if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(comp.group)) return;
                 if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(comp.name)) return;
                 
-                if (!isAdmin || !isEditMode) {
-                    let hasTarget = false;
-                    visiblePos.forEach(pos => {
-                        const t = positionTargets[pos] && positionTargets[pos][compIndex] ? positionTargets[pos][compIndex] : 0;
-                        if (t > 0) hasTarget = true;
-                    });
-                    if (!hasTarget) return;
-                }
+                // Removed hasTarget check to always display all competencies
 
                 html += `<tr class="hover:bg-slate-50">`;
                 
