@@ -1212,17 +1212,14 @@
 
             // Build Org Filters AND Position Filter
             let sectionsSet = new Set(), deptsSet = new Set(), sub1DivsSet = new Set(), divsSet = new Set(), sub1CompsSet = new Set(), compsSet = new Set(), posSet = new Set();
-            visiblePos.forEach(p => {
-                const emps = employeeData.filter(e => p.includes(e.PositionNameThai) || (e.PositionNameThai && e.PositionNameThai.includes(p)));
-                emps.forEach(e => {
-                    if(e.SectionThai) sectionsSet.add(e.SectionThai);
-                    if(e.DepartmentThai) deptsSet.add(e.DepartmentThai);
-                    if(e.Sub1DivisionThai) sub1DivsSet.add(e.Sub1DivisionThai);
-                    if(e.DivisionThai) divsSet.add(e.DivisionThai);
-                    if(e.Sub1CompanyThai) sub1CompsSet.add(e.Sub1CompanyThai);
-                    if(e.CompanyThai) compsSet.add(e.CompanyThai);
-                    if(e.PositionNameThai) posSet.add(e.PositionNameThai);
-                });
+            employeeData.forEach(e => {
+                if(e.SectionThai) sectionsSet.add(e.SectionThai);
+                if(e.DepartmentThai) deptsSet.add(e.DepartmentThai);
+                if(e.Sub1DivisionThai) sub1DivsSet.add(e.Sub1DivisionThai);
+                if(e.DivisionThai) divsSet.add(e.DivisionThai);
+                if(e.Sub1CompanyThai) sub1CompsSet.add(e.Sub1CompanyThai);
+                if(e.CompanyThai) compsSet.add(e.CompanyThai);
+                if(e.PositionNameThai) posSet.add(e.PositionNameThai);
             });
 
             const buildFilterHtml = (items, selectedArr, filterType) => {
