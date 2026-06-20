@@ -1445,7 +1445,7 @@
             if(selectedCompetenciesFilter.includes(c)) selectedCompetenciesFilter = selectedCompetenciesFilter.filter(x => x !== c);
             else selectedCompetenciesFilter.push(c);
             buildFiltersUI();
-            buildTrainingMatrix();
+            renderActiveTab();
         }
 
         function buildRoleResponseSection() {
@@ -1720,6 +1720,7 @@
 
         function populateEvalDropdown() {
             const selectEl = document.getElementById('eval-employee-select');
+            const prevVal = selectEl.value;
             selectEl.innerHTML = '';
             
             let validEmps = [];
@@ -1766,6 +1767,11 @@
             uniqueEmps.forEach(emp => { 
                 selectEl.innerHTML += `<option value="${emp.id}">${emp.name} (${emp.position})</option>`; 
             });
+            
+            if (prevVal && Array.from(selectEl.options).some(o => o.value === prevVal)) {
+                selectEl.value = prevVal;
+            }
+            
             updateEvalUI();
         }
 
