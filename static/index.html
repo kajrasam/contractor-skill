@@ -1133,27 +1133,7 @@
         }
 
 
-        window.toggleFilterMenu = function(menuId) {
-            const allMenus = document.querySelectorAll('.filter-menu');
-            let found = false;
-            allMenus.forEach(el => {
-                if(el.id === menuId) {
-                    el.classList.toggle('hidden');
-                    found = true;
-                } else {
-                    el.classList.add('hidden');
-                }
-            });
-            // Fallback for dynamically added menus without the class
-            if (!found) {
-                const target = document.getElementById(menuId);
-                if (target) {
-                    target.classList.toggle('hidden');
-                }
-            }
-        }
-            });
-        };
+        window.toggleFilterMenu = function(menuId) { const allMenus = document.querySelectorAll('.filter-menu'); let found = false; allMenus.forEach(el => { if(el.id === menuId) { el.classList.toggle('hidden'); found = true; } else { el.classList.add('hidden'); } }); if (!found) { const target = document.getElementById(menuId); if (target) { target.classList.toggle('hidden'); } } };
 
         // Close dropdowns when clicking outside
         document.addEventListener('click', function(e) {
