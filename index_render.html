@@ -2754,6 +2754,8 @@
             let actuals = [];
             let cleanLabels = [];
             let cleanTargets = [];
+            let cleanDescs = [];
+            let cleanEvidences = [];
             
             const allLabels = getLabels().map(l => {
                 const parts = l.split('. ');
@@ -2766,9 +2768,13 @@
                 
                 const t = targets[i] || 0;
                 if (t === 0) continue;
+                
+                const a = emp.actuals[i] || 0;
                 cleanLabels.push(allLabels[i]);
                 cleanTargets.push(t);
-                actuals.push(emp.actuals[i] || 0);
+                actuals.push(a);
+                cleanDescs.push(competencies[i].levels[a] || "ไม่มีคำอธิบาย");
+                cleanEvidences.push(emp.evidences[i] || "ไม่มีหลักฐานที่ระบุ");
             }
 
             if(idpRadarChartInstance) idpRadarChartInstance.destroy();
@@ -2792,6 +2798,36 @@
                             callbacks: {
                                 label: function(context) {
                                     return context.dataset.label + ': Level ' + context.raw;
+                                },
+                                afterLabel: function(context) {
+                                    if(context.dataset.label === 'Actual') {
+                                        const idx = context.dataIndex;
+                                        
+                                        // Wrap text function to prevent extremely wide tooltips
+                                        const wrapText = (text, maxLineLen) => {
+                                            const words = text.split(' ');
+                                            let lines = [];
+                                            let currentLine = '';
+                                            words.forEach(word => {
+                                                if((currentLine + word).length > maxLineLen) {
+                                                    lines.push(currentLine.trim());
+                                                    currentLine = word + ' ';
+                                                } else {
+                                                    currentLine += word + ' ';
+                                                }
+                                            });
+                                            if(currentLine) lines.push(currentLine.trim());
+                                            return lines;
+                                        };
+
+                                        let result = [];
+                                        result.push('ความหมาย:');
+                                        result = result.concat(wrapText(cleanDescs[idx], 50).map(l => '  ' + l));
+                                        result.push('หลักฐาน (Evidence):');
+                                        result = result.concat(wrapText(cleanEvidences[idx], 50).map(l => '  ' + l));
+                                        return result;
+                                    }
+                                    return '';
                                 }
                             }
                         }
