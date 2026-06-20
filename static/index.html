@@ -250,7 +250,14 @@
             <!-- GLOBAL FILTERS (Shared across tabs) -->
             <div id="global-filters-container" class="hidden">
 <!-- Filters Section -->
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 mb-6 grid grid-cols-1 md:grid-cols-4 gap-6 relative z-20">
+                                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 mb-6 relative z-20">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2 border-b border-slate-100 pb-4">
+                        <h3 class="text-sm font-bold text-slate-800"><i class="fa-solid fa-sliders text-scg-600 mr-2"></i>ตัวกรองข้อมูลองค์กรและพนักงาน</h3>
+                        <button onclick="window.clearAllFilters()" class="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-sm font-medium rounded-xl transition-colors flex items-center gap-2 shadow-sm">
+                            <i class="fa-solid fa-eraser"></i> ล้างตัวกรองทั้งหมด
+                        </button>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
                     
                     <div class="w-full relative">
                         <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-layer-group text-scg-500 mr-1"></i> กรองตามกลุ่มงาน (Job Groups)</label>
@@ -354,11 +361,21 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="w-full relative">
+                        <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-user text-scg-500 mr-1"></i> ชื่อพนักงาน</label>
+                        <button onclick="toggleFilterMenu('employee-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                            <span class="text-sm font-medium text-slate-700 truncate" id="employee-dropdown-text">เลือกพนักงานทั้งหมด</span>
+                            <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
+                        </button>
+                        <div id="employee-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                            <div id="employee-filters" class="p-2 flex flex-col gap-1">
+                                <!-- Injected by JS -->
+                            </div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
-
-                
-            </div>
+</div>
 
 
             <!-- 1. HOME TAB -->
@@ -874,6 +891,7 @@
         let selectedDivisionFilter = [];
         let selectedSub1CompanyFilter = [];
         let selectedCompanyFilter = [];
+        let selectedEmployeeFilter = [];
         let selectedCompetencyGroupFilter = [];
         let selectedIDPPos = null;
         let selectedIDPEmp = null;
@@ -1223,6 +1241,10 @@
             let posName = e.PositionNameThai || e.position_name;
             if (ignoreFilter !== 'position' && selectedPositionsFilter.length > 0 && (!posName || !selectedPositionsFilter.includes(posName))) return false;
             
+            if (ignoreFilter !== 'employee' && selectedEmployeeFilter.length > 0) {
+                let empName = e.FullName || e.EmployeeNameThai || e.EmployeeNameEng;
+                if (!empName || !selectedEmployeeFilter.includes(empName)) return false;
+            }
             if (ignoreFilter !== 'jobGroup' && selectedJobGroupFilter.length > 0) {
                 let jg = posName ? positionGroups[posName] : null;
                 if (!jg || !selectedJobGroupFilter.includes(jg)) return false;
@@ -1241,11 +1263,12 @@
             const companyContainer = document.getElementById('company-filters');
             const compGroupContainer = document.getElementById('comp-group-filters');
             const compContainer = document.getElementById('competency-filters');
+            const employeeContainer = document.getElementById('employee-filters');
             if(!posContainer || !compContainer) return;
             
             const visiblePos = getVisiblePositions(currentUser.id);
             
-            let sectionsSet = new Set(), deptsSet = new Set(), sub1DivsSet = new Set(), divsSet = new Set(), sub1CompsSet = new Set(), compsSet = new Set(), posSet = new Set(), jobGroupsSet = new Set();
+            let sectionsSet = new Set(), deptsSet = new Set(), sub1DivsSet = new Set(), divsSet = new Set(), sub1CompsSet = new Set(), compsSet = new Set(), posSet = new Set(), jobGroupsSet = new Set(), employeesSet = new Set();
             
             employeeData.forEach(e => {
                 let posName = e.PositionNameThai || e.position_name;
@@ -1257,6 +1280,10 @@
                 if (matchesFiltersExcept(e, 'division')) if(e.DivisionThai) divsSet.add(e.DivisionThai);
                 if (matchesFiltersExcept(e, 'sub1company')) if(e.Sub1CompanyThai) sub1CompsSet.add(e.Sub1CompanyThai);
                 if (matchesFiltersExcept(e, 'company')) if(e.CompanyThai) compsSet.add(e.CompanyThai);
+                if (matchesFiltersExcept(e, 'employee')) {
+                    let empName = e.FullName || e.EmployeeNameThai || e.EmployeeNameEng;
+                    if(empName) employeesSet.add(empName);
+                }
                 
                 if (posName && visiblePos.includes(posName)) {
                     if (matchesFiltersExcept(e, 'position')) posSet.add(posName);
@@ -1298,6 +1325,7 @@
             if(divisionContainer) divisionContainer.innerHTML = buildFilterHtml(divsSet, selectedDivisionFilter, 'division');
             if(sub1CompanyContainer) sub1CompanyContainer.innerHTML = buildFilterHtml(sub1CompsSet, selectedSub1CompanyFilter, 'sub1company');
             if(companyContainer) companyContainer.innerHTML = buildFilterHtml(compsSet, selectedCompanyFilter, 'company');
+            if(employeeContainer) employeeContainer.innerHTML = buildFilterHtml(employeesSet, selectedEmployeeFilter, 'employee');
 
             // Build Competency Groups
             let compGroupsSet = new Set();
@@ -1363,6 +1391,7 @@
             updateText('division-dropdown-text', selectedDivisionFilter, 'เลือก Division ทั้งหมด');
             updateText('sub1company-dropdown-text', selectedSub1CompanyFilter, 'เลือก Sub1-Company ทั้งหมด');
             updateText('company-dropdown-text', selectedCompanyFilter, 'เลือก Company ทั้งหมด');
+            updateText('employee-dropdown-text', selectedEmployeeFilter, 'เลือกพนักงานทั้งหมด');
         }
 
         
@@ -1375,7 +1404,7 @@
             
             let eData = employeeData.find(e => e.username === empId || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name);
             if(!eData) {
-                if(selectedSectionFilter.length > 0 || selectedDepartmentFilter.length > 0 || selectedSub1DivisionFilter.length > 0 || selectedDivisionFilter.length > 0 || selectedSub1CompanyFilter.length > 0 || selectedCompanyFilter.length > 0) return false;
+                if(selectedEmployeeFilter.length > 0 || selectedSectionFilter.length > 0 || selectedDepartmentFilter.length > 0 || selectedSub1DivisionFilter.length > 0 || selectedDivisionFilter.length > 0 || selectedSub1CompanyFilter.length > 0 || selectedCompanyFilter.length > 0) return false;
                 return true;
             }
             
@@ -1411,6 +1440,7 @@
             else if(type === 'division') arr = selectedDivisionFilter;
             else if(type === 'sub1company') arr = selectedSub1CompanyFilter;
             else if(type === 'company') arr = selectedCompanyFilter;
+            else if(type === 'employee') arr = selectedEmployeeFilter;
             
             if(arr) {
                 const idx = arr.indexOf(v);
@@ -1419,6 +1449,25 @@
             }
             buildFiltersUI(); renderActiveTab();
         }
+
+        
+        window.clearAllFilters = function() {
+            selectedJobGroupFilter = [];
+            selectedPositionsFilter = [];
+            selectedSectionFilter = [];
+            selectedDepartmentFilter = [];
+            selectedSub1DivisionFilter = [];
+            selectedDivisionFilter = [];
+            selectedSub1CompanyFilter = [];
+            selectedCompanyFilter = [];
+            selectedEmployeeFilter = [];
+            
+            selectedCompetencyGroupFilter = [];
+            selectedCompetenciesFilter = [];
+            
+            buildFiltersUI();
+            renderActiveTab();
+        };
 
         window.setAllFilter = function(type, isSelectAll) {
             let arr;
@@ -1431,6 +1480,7 @@
             else if(type === 'division') { arr = selectedDivisionFilter; containerId = 'division-filters'; }
             else if(type === 'sub1company') { arr = selectedSub1CompanyFilter; containerId = 'sub1company-filters'; }
             else if(type === 'company') { arr = selectedCompanyFilter; containerId = 'company-filters'; }
+            else if(type === 'employee') { arr = selectedEmployeeFilter; containerId = 'employee-filters'; }
             
             if(arr && containerId) {
                 arr.length = 0; // Clear it
