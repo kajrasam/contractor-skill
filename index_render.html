@@ -2049,17 +2049,17 @@
         function setupDashboardTab() {
             
             const currentUserId = currentUser.id;
-            let subs = applyGlobalFiltersToSubIds(getSubordinates(currentUserId));
+            const mySubs = getSubordinates(currentUserId);
             let toShow = [];
 
             if (currentUserId === 'Admin') {
-                toShow = Object.keys(dbUsers).filter(id => id !== 'Admin');
+                toShow = applyGlobalFiltersToSubIds(Object.keys(dbUsers).filter(id => id !== 'Admin'));
                 document.getElementById('dash-manager-view').style.display = 'block';
-            } else if (subs.length === 0) {
-                toShow = [currentUserId];
+            } else if (mySubs.length === 0) {
+                toShow = applyGlobalFiltersToSubIds([currentUserId]);
                 document.getElementById('dash-manager-view').style.display = 'none';
             } else {
-                toShow = subs;
+                toShow = applyGlobalFiltersToSubIds(mySubs);
                 document.getElementById('dash-manager-view').style.display = 'block';
             }
             
