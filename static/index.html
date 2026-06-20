@@ -2212,8 +2212,11 @@
                 let totalTarget = 0; let totalActual = 0; let gaps = [];
                 
                 for(let i=0; i<competencies.length; i++) {
+                    if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                    if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+
                     const t = targets[i] || 0;
-                if (t === 0) continue;
+                    if (t === 0) continue;
                     if (t > 0) {
                         const a = emp.actuals[i] || 0;
                         totalTarget += t;
@@ -2224,7 +2227,7 @@
                 }
 
                 const readiness = totalTarget === 0 ? 0 : Math.round((totalActual / totalTarget) * 100);
-                const safeReadiness = readiness > 100 ? 100 : readiness;
+                const safeReadiness = readiness;
                 let readinessColor = safeReadiness >= 100 ? "text-green-400" : (safeReadiness >= 80 ? "text-yellow-400" : "text-red-400");
                 const gapText = gaps.length === 0 ? "พร้อมสมบูรณ์ (ไม่มี Gap)" : `พบ ${gaps.length} ทักษะที่ต้องพัฒนา`;
 
@@ -2284,6 +2287,9 @@
                 const cleanActuals = [];
                 
                 for (let i = 0; i < currentLabels.length; i++) {
+                    if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                    if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+
                     if (tData[i] && tData[i] > 0) {
                         const parts = currentLabels[i].split('. ');
                         cleanLabels.push(parts.length > 1 ? parts.slice(1).join('. ') : currentLabels[i]);
