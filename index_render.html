@@ -1048,9 +1048,6 @@
                     globalFilters.classList.add('hidden');
                 }
             }
-
-            renderActiveTab();
-            
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('bg-scg-800', 'text-white', 'shadow-md', 'text-scg-700', 'bg-scg-50');
                 btn.classList.add('text-slate-600', 'hover:bg-scg-50');
@@ -1437,10 +1434,10 @@
 
         function renderActiveTab() {
             if(document.getElementById('tab-training').classList.contains('active')) { buildRoleResponseSection(); buildTrainingMatrix(); }
-            if(document.getElementById('tab-evaluation').classList.contains('active')) updateEvalUI();
-            if(document.getElementById('tab-dashboard').classList.contains('active')) buildDashboard();
-            if(document.getElementById('tab-idp').classList.contains('active')) buildIDP();
-            if(document.getElementById('tab-analytic').classList.contains('active')) buildAnalytic();
+            if(document.getElementById('tab-evaluation').classList.contains('active')) setupEvaluationTab();
+            if(document.getElementById('tab-dashboard').classList.contains('active')) setupDashboardTab();
+            if(document.getElementById('tab-idp').classList.contains('active')) setupIDPTab();
+            if(document.getElementById('tab-analytic').classList.contains('active')) { buildAnalyticFiltersUI(); renderAnalyticTab(); }
         }
 
         window.toggleFilterValue = function(type, v) {
