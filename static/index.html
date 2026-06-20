@@ -3086,7 +3086,7 @@
                         <td class="py-3 px-6 border-r border-slate-100 text-scg-700 font-medium">${emp.user_id || emp.username || emp.USER || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100 text-slate-500">${emp.password || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.name_th || emp.FullName || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.name_en || (emp.FirstNameEnglish ? emp.FirstNameEnglish + ' ' + (emp.LastNameEnglish || '') : '') || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.name_en || emp.FullNameENG || (emp.FirstNameEnglish ? (emp.NamePrefixEnglish ? emp.NamePrefixEnglish + ' ' : '') + emp.FirstNameEnglish + ' ' + (emp.LastNameEnglish || '') : '') || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.nick_name || emp.NickName || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.position_name || emp.PositionNameThai || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100 text-center"><span class="bg-slate-100 text-slate-700 px-2 py-1 rounded font-bold text-xs">${emp.position_level || emp.PLGroup || '-'}</span></td>
