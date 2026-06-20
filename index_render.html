@@ -1554,6 +1554,15 @@
             competencies.forEach((comp, compIndex) => {
                 if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(comp.group)) return;
                 if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(comp.name)) return;
+                
+                if (!isAdmin || !isEditMode) {
+                    let hasTarget = false;
+                    visiblePos.forEach(pos => {
+                        const t = positionTargets[pos] && positionTargets[pos][compIndex] ? positionTargets[pos][compIndex] : 0;
+                        if (t > 0) hasTarget = true;
+                    });
+                    if (!hasTarget) return;
+                }
 
                 html += `<tr class="hover:bg-slate-50">`;
                 
@@ -1826,6 +1835,7 @@
                 if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
                 
                 const targetVal = targets[i] || 0;
+                if (targetVal === 0) continue;
                 
                 const targetText = targetVal === 0 ? 'None' : `L${targetVal}`;
                 const currentVal = (emp.actuals[i] || 0) === 0 ? 1 : emp.actuals[i];
@@ -1963,6 +1973,7 @@
                 if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
                 
                 const t = targets[i] || 0;
+                if (t === 0) continue;
                 
                 cleanLabels.push(allLabels[i]);
                 cleanTargets.push(t);
@@ -2083,6 +2094,7 @@
                 if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
                 
                 const t = targets[i] || 0;
+                if (t === 0) continue;
                     if (t > 0) {
                         sumTarget += t;
                         sumActual += (emp.actuals[i] || 0);
@@ -2204,6 +2216,7 @@
                 
                 for(let i=0; i<competencies.length; i++) {
                     const t = targets[i] || 0;
+                if (t === 0) continue;
                     if (t > 0) {
                         const a = emp.actuals[i] || 0;
                         totalTarget += t;
@@ -2420,6 +2433,7 @@
                 if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
                 
                 const targetVal = targets[i] || 0;
+                if (targetVal === 0) continue;
                     const actualVal = emp.actuals[i] || 0;
                     
                     const targetDesc = targetVal === 0 ? "ไม่มีเป้าหมายที่คาดหวัง" : (competencies[i].levels[targetVal] || "-");
@@ -2579,6 +2593,7 @@
                 if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
                 
                 const t = targets[i] || 0;
+                if (t === 0) continue;
                 if (t === 0) continue; // Only process relevant competencies
                 
                 const a = emp.actuals[i] || 0;
@@ -2750,6 +2765,7 @@
                 if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
                 
                 const t = targets[i] || 0;
+                if (t === 0) continue;
                 cleanLabels.push(allLabels[i]);
                 cleanTargets.push(t);
                 actuals.push(emp.actuals[i] || 0);
