@@ -3081,31 +3081,31 @@
             employeeData.forEach(emp => {
                 html += `
                     <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="py-3 px-6 border-r border-slate-100 font-medium">${emp.person_id || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 font-medium">${emp.person_id || emp.PersonID || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100 text-scg-700 font-medium">${emp.employee_id || emp.SCGEmployeeID || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100 text-scg-700 font-medium">${emp.user_id || emp.username || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 text-scg-700 font-medium">${emp.user_id || emp.username || emp.USER || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100 text-slate-500">${emp.password || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.name_th || emp.EmployeeNameThai || emp.FullName || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.name_en || emp.EmployeeNameEng || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.nick_name || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.name_th || emp.FullName || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.name_en || (emp.FirstNameEnglish ? emp.FirstNameEnglish + ' ' + (emp.LastNameEnglish || '') : '') || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.nick_name || emp.NickName || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.position_name || emp.PositionNameThai || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100 text-center"><span class="bg-slate-100 text-slate-700 px-2 py-1 rounded font-bold text-xs">${emp.position_level || emp.PositionLevel || '-'}</span></td>
+                        <td class="py-3 px-6 border-r border-slate-100 text-center"><span class="bg-slate-100 text-slate-700 px-2 py-1 rounded font-bold text-xs">${emp.position_level || emp.PLGroup || '-'}</span></td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.section || emp.SectionThai || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.department || emp.DepartmentThai || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.sub1_division || emp.Sub1DivisionThai || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.division || emp.DivisionThai || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.sub1_company || emp.Sub1CompanyThai || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.company || emp.CompanyThai || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.sub1_1_business_unit || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.working_location || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100 font-mono text-xs">${emp.cost_center_payment || emp.CostCenter || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100 font-mono text-xs">${emp.cost_center_organization || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.sub1_1_business_unit || emp.Sub11BusinessUnitThai || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.working_location || emp.WorkingLocation || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 font-mono text-xs">${emp.cost_center_payment || emp.CostCenterPayment || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 font-mono text-xs">${emp.cost_center_organization || emp.CostCenterOrganization || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100 text-center">${emp.retirement_year || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100 text-center">${emp.years_of_service !== null && emp.years_of_service !== undefined ? emp.years_of_service : '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100 text-center">${emp.age || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.report_to_name || emp.ManagerName || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.certificate_entry_degree || '-'}</td>
-                        <td class="py-3 px-6 text-blue-600 hover:underline"><a href="mailto:${emp.email_address_business || ''}">${emp.email_address_business || '-'}</a></td>
+                        <td class="py-3 px-6 text-blue-600 hover:underline"><a href="mailto:${emp.email_address_business || emp.EmailAddressBusiness || ''}">${emp.email_address_business || emp.EmailAddressBusiness || '-'}</a></td>
                     </tr>
                 `;
             });
