@@ -1202,7 +1202,7 @@
                     if(empName) employeesSet.add(empName);
                 }
                 
-                if (posName && visiblePos.includes(posName)) {
+                if (posName) {
                     if (matchesFiltersExcept(e, 'position')) posSet.add(posName);
                     if (matchesFiltersExcept(e, 'jobGroup')) {
                         let jg = positionGroups[posName];
@@ -1764,10 +1764,9 @@
                 if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
                 
                 const targetVal = targets[i] || 0;
-                if (targetVal === 0) continue; // Skip competencies with target 0
                 
                 const targetText = targetVal === 0 ? 'None' : `L${targetVal}`;
-                const currentVal = emp.actuals[i] === 0 ? 1 : emp.actuals[i];
+                const currentVal = (emp.actuals[i] || 0) === 0 ? 1 : emp.actuals[i];
                 const currentDesc = competencies[i].levels[currentVal] || "";
 
                 html += `
@@ -1863,7 +1862,6 @@
                 if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
                 
                 const t = targets[i] || 0;
-                if (t === 0) continue; // Only show on radar if target > 0
                 
                 cleanLabels.push(allLabels[i]);
                 cleanTargets.push(t);
@@ -2369,9 +2367,14 @@
             
             visibleUsers.forEach(uid => {
                 const emp = dbUsers[uid];
+                const eData = employeeData.find(e => e.user_id === uid || e.username === uid || e.EmployeeNameEng === (emp ? emp.name : '') || e.EmployeeNameThai === (emp ? emp.name : ''));
                 if (emp) {
-                    if(emp.position) posSet.add(emp.position);
-                    emps.push({ id: uid, name: emp.name, position: emp.position });
+                    let pName = emp.position;
+                    if(eData && eData.PositionNameThai) pName = eData.PositionNameThai;
+                    else if(eData && eData.position_name) pName = eData.position_name;
+                    
+                    if(pName) posSet.add(pName);
+                    emps.push({ id: uid, name: emp.name, position: pName });
                 }
             });
             
@@ -2646,7 +2649,6 @@
                 if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
                 
                 const t = targets[i] || 0;
-                if (t === 0) continue; 
                 cleanLabels.push(allLabels[i]);
                 cleanTargets.push(t);
                 actuals.push(emp.actuals[i] || 0);
