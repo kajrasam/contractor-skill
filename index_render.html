@@ -1138,7 +1138,7 @@
         // Close dropdowns when clicking outside
         document.addEventListener('click', function(e) {
             if(!e.target.closest('.relative.z-20') && !e.target.closest('.filter-dropdown-container')) {
-                const menus = ['job-group-menu', 'pos-dropdown-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu', 'dash-job-group-menu', 'dash-pos-menu', 'analytic-job-group-menu', 'analytic-pos-menu', 'analytic-emp-menu', 'analytic-group-menu', 'analytic-skill-menu'];
+                const menus = ['job-group-menu', 'pos-dropdown-menu', 'section-dropdown-menu', 'department-dropdown-menu', 'sub1division-dropdown-menu', 'division-dropdown-menu', 'sub1company-dropdown-menu', 'company-dropdown-menu', 'employee-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu', 'dash-job-group-menu', 'dash-pos-menu', 'analytic-job-group-menu', 'analytic-pos-menu', 'analytic-emp-menu', 'analytic-group-menu', 'analytic-skill-menu'];
                 menus.forEach(m => {
                     const el = document.getElementById(m);
                     if(el) el.classList.add('hidden');
@@ -1148,12 +1148,18 @@
 
 
         function matchesFiltersExcept(e, ignoreFilter) {
-            if (ignoreFilter !== 'company' && selectedCompanyFilter.length > 0 && (!e.CompanyThai || !selectedCompanyFilter.includes(e.CompanyThai))) return false;
-            if (ignoreFilter !== 'sub1company' && selectedSub1CompanyFilter.length > 0 && (!e.Sub1CompanyThai || !selectedSub1CompanyFilter.includes(e.Sub1CompanyThai))) return false;
-            if (ignoreFilter !== 'division' && selectedDivisionFilter.length > 0 && (!e.DivisionThai || !selectedDivisionFilter.includes(e.DivisionThai))) return false;
-            if (ignoreFilter !== 'sub1division' && selectedSub1DivisionFilter.length > 0 && (!e.Sub1DivisionThai || !selectedSub1DivisionFilter.includes(e.Sub1DivisionThai))) return false;
-            if (ignoreFilter !== 'department' && selectedDepartmentFilter.length > 0 && (!e.DepartmentThai || !selectedDepartmentFilter.includes(e.DepartmentThai))) return false;
-            if (ignoreFilter !== 'section' && selectedSectionFilter.length > 0 && (!e.SectionThai || !selectedSectionFilter.includes(e.SectionThai))) return false;
+            let eComp = e.company || e.CompanyThai;
+            if (ignoreFilter !== 'company' && selectedCompanyFilter.length > 0 && (!eComp || !selectedCompanyFilter.includes(eComp))) return false;
+            let eSub1Comp = e.sub1_company || e.Sub1CompanyThai;
+            if (ignoreFilter !== 'sub1company' && selectedSub1CompanyFilter.length > 0 && (!eSub1Comp || !selectedSub1CompanyFilter.includes(eSub1Comp))) return false;
+            let eDiv = e.division || e.DivisionThai;
+            if (ignoreFilter !== 'division' && selectedDivisionFilter.length > 0 && (!eDiv || !selectedDivisionFilter.includes(eDiv))) return false;
+            let eSub1Div = e.sub1_division || e.Sub1DivisionThai;
+            if (ignoreFilter !== 'sub1division' && selectedSub1DivisionFilter.length > 0 && (!eSub1Div || !selectedSub1DivisionFilter.includes(eSub1Div))) return false;
+            let eDept = e.department || e.DepartmentThai;
+            if (ignoreFilter !== 'department' && selectedDepartmentFilter.length > 0 && (!eDept || !selectedDepartmentFilter.includes(eDept))) return false;
+            let eSect = e.section || e.SectionThai;
+            if (ignoreFilter !== 'section' && selectedSectionFilter.length > 0 && (!eSect || !selectedSectionFilter.includes(eSect))) return false;
             
             let posName = e.PositionNameThai || e.position_name;
             if (ignoreFilter !== 'position' && selectedPositionsFilter.length > 0 && (!posName || !selectedPositionsFilter.includes(posName))) return false;
@@ -3265,14 +3271,14 @@
             
             employeeData.forEach(emp => {
                 const row = [
-                    emp.person_id || '', emp.employee_id || '', emp.name_th || '', emp.name_en || '',
-                    emp.nick_name || '', emp.position_name || '', emp.position_level || '',
-                    emp.section || '', emp.department || '', emp.sub1_division || '',
-                    emp.division || '', emp.sub1_company || '', emp.company || '',
+                    emp.person_id || '', emp.employee_id || emp.SCGEmployeeID || '', emp.name_th || emp.EmployeeNameThai || emp.FullName || '', emp.name_en || emp.EmployeeNameEng || '',
+                    emp.nick_name || '', emp.position_name || emp.PositionNameThai || '', emp.position_level || emp.PositionLevel || '',
+                    emp.section || emp.SectionThai || '', emp.department || emp.DepartmentThai || '', emp.sub1_division || emp.Sub1DivisionThai || '',
+                    emp.division || emp.DivisionThai || '', emp.sub1_company || emp.Sub1CompanyThai || '', emp.company || emp.CompanyThai || '',
                     emp.sub1_1_business_unit || '', emp.working_location || '',
-                    emp.cost_center_payment || '', emp.cost_center_organization || '',
+                    emp.cost_center_payment || emp.CostCenter || '', emp.cost_center_organization || '',
                     emp.retirement_year || '', emp.years_of_service !== null ? emp.years_of_service : '',
-                    emp.age || '', emp.report_to_name || '', emp.certificate_entry_degree || '',
+                    emp.age || '', emp.report_to_name || emp.ManagerName || '', emp.certificate_entry_degree || '',
                     emp.email_address_business || ''
                 ].map(val => `"${String(val).replace(/"/g, '""')}"`);
                 
