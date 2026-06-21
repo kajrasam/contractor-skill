@@ -1483,7 +1483,6 @@
             employeeData.forEach(e => {
                 if (matchesFiltersExcept(e, null)) {
                     let posName = e.PositionNameThai || e.position_name;
-            if (ignoreFilter !== 'competency' && !hasCompetencyFilterMatch(posName)) return false;
                     if (posName) visiblePosSet.add(posName);
                 }
             });
@@ -1556,7 +1555,6 @@
             employeeData.forEach(e => {
                 if (matchesFiltersExcept(e, null)) {
                     let posName = e.PositionNameThai || e.position_name;
-            if (ignoreFilter !== 'competency' && !hasCompetencyFilterMatch(posName)) return false;
                     if (posName) visiblePosSet.add(posName);
                 }
             });
