@@ -1151,6 +1151,7 @@
             if (ignoreFilter !== 'section' && selectedSectionFilter.length > 0 && (!eSect || !selectedSectionFilter.includes(eSect))) return false;
             
             let posName = e.PositionNameThai || e.position_name;
+            if (ignoreFilter !== 'competency' && !hasCompetencyFilterMatch(posName)) return false;
             if (ignoreFilter !== 'position' && selectedPositionsFilter.length > 0 && (!posName || !selectedPositionsFilter.includes(posName))) return false;
             
             if (ignoreFilter !== 'employee' && selectedEmployeeFilter.length > 0) {
@@ -1313,9 +1314,31 @@
 
         
         
+        function hasCompetencyFilterMatch(posName) {
+            if (selectedCompetencyGroupFilter.length === 0 && selectedCompetenciesFilter.length === 0) return true;
+            if (!posName || !trainingMatrix[posName]) return false;
+            
+            let filteredComps = competencies;
+            if (selectedCompetencyGroupFilter.length > 0) {
+                filteredComps = filteredComps.filter(c => selectedCompetencyGroupFilter.includes(c.group));
+            }
+            if (selectedCompetenciesFilter.length > 0) {
+                filteredComps = filteredComps.filter(c => selectedCompetenciesFilter.includes(c.name));
+            }
+            
+            const indices = filteredComps.map(c => competencies.findIndex(x => x.id === c.id));
+            const targets = trainingMatrix[posName];
+            
+            for (let idx of indices) {
+                if (targets[idx] && targets[idx] > 0) return true;
+            }
+            return false;
+        }
+
         function matchesOrgFiltersData(eData) {
             if(!eData) return true;
             let posName = eData.PositionNameThai || eData.position_name || eData.position;
+            if (!hasCompetencyFilterMatch(posName)) return false;
             if(selectedJobGroupFilter.length > 0 && (!posName || !selectedJobGroupFilter.includes(positionGroups[posName]))) return false;
             if(selectedPositionsFilter.length > 0 && (!posName || !selectedPositionsFilter.includes(posName))) return false;
             
@@ -1460,6 +1483,7 @@
             employeeData.forEach(e => {
                 if (matchesFiltersExcept(e, null)) {
                     let posName = e.PositionNameThai || e.position_name;
+            if (ignoreFilter !== 'competency' && !hasCompetencyFilterMatch(posName)) return false;
                     if (posName) visiblePosSet.add(posName);
                 }
             });
@@ -1532,6 +1556,7 @@
             employeeData.forEach(e => {
                 if (matchesFiltersExcept(e, null)) {
                     let posName = e.PositionNameThai || e.position_name;
+            if (ignoreFilter !== 'competency' && !hasCompetencyFilterMatch(posName)) return false;
                     if (posName) visiblePosSet.add(posName);
                 }
             });
