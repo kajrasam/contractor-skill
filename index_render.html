@@ -661,6 +661,7 @@
                                     <th class="py-3 px-4 border-r border-slate-100 text-center w-24">Evaluate?</th>
                                     <th class="py-3 px-4 border-r border-slate-100">Person ID</th>
                                     <th class="py-3 px-4 border-r border-slate-100">Name (TH)</th>
+                                    <th class="py-3 px-4 border-r border-slate-100">Position Name</th>
                                     <th class="py-3 px-4 border-r border-slate-100">Name (EN)</th>
                                     <th class="py-3 px-4 border-r border-slate-100 text-scg-700">Username</th>
                                     <th class="py-3 px-4 border-r border-slate-100 text-slate-500">Password</th>
@@ -2408,6 +2409,7 @@
                         </td>
                         <td class="py-2 px-4 border-r border-slate-100 font-medium">${emp.person_id}</td>
                         <td class="py-2 px-4 border-r border-slate-100">${emp.name_th}</td>
+                        <td class="py-2 px-4 border-r border-slate-100 text-xs text-slate-500">${eData ? (eData.PositionNameThai || eData.position_name || '-') : '-'}</td>
                         <td class="py-2 px-4 border-r border-slate-100">${emp.name_en}</td>
                         <td class="py-2 px-4 border-r border-slate-100">
                             <input type="text" class="px-2 py-1.5 border border-slate-200 rounded-lg w-full text-xs font-bold text-scg-700" 
