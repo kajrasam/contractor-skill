@@ -626,76 +626,54 @@
 
 
             <!-- 5. ADMIN SETTINGS TAB -->
-            <section id="tab-admin" class="tab-content">
+            
+            <section id="tab-admin" class="tab-content hidden">
                 <div class="mb-6 flex justify-between items-end">
                     <div>
                         <h2 class="text-2xl font-bold text-scg-900">Admin Control Panel</h2>
-                        <p class="text-slate-500 text-sm">บริหารจัดการโครงสร้างระบบ, สิทธิการประเมิน และนำออกข้อมูล</p>
+                        <p class="text-slate-500 text-sm">บริหารจัดการสิทธิผู้ถูกประเมิน และผูกสายบังคับบัญชา (Master Data)</p>
                     </div>
-                    <!-- Export Button -->
-                    <button onclick="exportToExcel()"
-                        class="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-xl font-bold shadow-md flex items-center gap-2 transition-colors shrink-0">
-                        <i class="fa-solid fa-file-excel"></i> Export Data (Excel)
-                    </button>
-                </div>
-
-                <!-- Add New User Form -->
-                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100 mb-6">
-                    <h3 class="font-bold text-lg text-slate-800 mb-4 border-b pb-2"><i
-                            class="fa-solid fa-user-plus text-scg-600 mr-2"></i> สร้างผู้ใช้งานใหม่ (Add User)</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 items-start">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Username</label>
-                            <input type="text" id="new-user-id"
-                                class="w-full text-sm p-2 border border-slate-200 rounded outline-none focus:border-scg-500 shadow-inner"
-                                placeholder="เช่น User01">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Password</label>
-                            <input type="text" id="new-user-pass"
-                                class="w-full text-sm p-2 border border-slate-200 rounded outline-none focus:border-scg-500 shadow-inner"
-                                placeholder="รหัสผ่าน">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">ชื่อ-นามสกุล</label>
-                            <input type="text" id="new-user-name"
-                                class="w-full text-sm p-2 border border-slate-200 rounded outline-none focus:border-scg-500 shadow-inner"
-                                placeholder="นาย สมชาย ใจดี">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">ตำแหน่ง</label>
-                            <select id="new-user-pos"
-                                class="w-full text-sm p-2 border border-slate-200 rounded outline-none focus:border-scg-500 shadow-inner bg-white">
-                                <!-- Injected by JS -->
-                            </select>
-                        </div>
-                        <div class="xl:col-span-2">
-                            <label class="block text-xs font-bold text-slate-700 mb-1">หัวหน้างาน
-                                (เลือกได้หลายคน)</label>
-                            <select id="new-user-mgr" multiple
-                                class="w-full text-xs p-1.5 border border-slate-200 rounded outline-none focus:border-scg-500 shadow-inner bg-white h-[60px]">
-                                <!-- Injected by JS -->
-                            </select>
-                            <p class="text-[9px] text-slate-400 mt-1 text-right">กด Ctrl/Cmd ค้างเพื่อเลือกหลายคน</p>
-                        </div>
-                    </div>
-                    <div class="mt-4 pt-4 border-t border-slate-100 flex justify-end">
-                        <button onclick="addNewUser()"
-                            class="bg-scg-800 hover:bg-scg-900 text-white px-6 py-2.5 rounded-xl font-bold shadow-md transition-colors"><i
-                                class="fa-solid fa-plus mr-2"></i> บันทึกผู้ใช้งานใหม่</button>
+                    <div class="flex gap-2">
+                        <button onclick="saveAdminData()" class="bg-scg-600 hover:bg-scg-700 text-white px-5 py-2.5 rounded-xl font-bold shadow-md flex items-center gap-2 transition-colors">
+                            <i class="fa-solid fa-save"></i> บันทึกข้อมูล (Save)
+                        </button>
+                        <button onclick="exportToExcel()" class="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-xl font-bold shadow-md flex items-center gap-2 transition-colors shrink-0">
+                            <i class="fa-solid fa-file-excel"></i> Export Data (Excel)
+                        </button>
                     </div>
                 </div>
 
-                <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100">
-                    <h3 class="font-bold text-lg text-slate-800 mb-4 border-b pb-2"><i
-                            class="fa-solid fa-sitemap text-scg-600 mr-2"></i> กำหนดสายบังคับบัญชา (Hierarchy)</h3>
-                    <p class="text-xs text-slate-500 mb-6">รายชื่อพนักงานทั้งหมดและผู้บังคับบัญชา
-                        (สามารถเปลี่ยนผู้บังคับบัญชาได้โดยคลิกเลือกในกล่องด้านขวา)</p>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4" id="admin-hierarchy-list">
-                                    <!-- Injected by JS -->                   
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-100 flex flex-col" style="max-height: calc(100vh - 150px);">
+                    <div class="p-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center rounded-t-3xl">
+                        <div class="flex items-center gap-4">
+                            <input type="text" id="admin-search" placeholder="ค้นหาชื่อ, รหัส..." class="px-3 py-2 border border-slate-200 rounded-lg text-sm w-64 focus:outline-none focus:border-scg-500" onkeyup="renderAdminTable()">
+                            <label class="flex items-center gap-2 cursor-pointer text-sm font-bold text-slate-700">
+                                <input type="checkbox" id="admin-select-all" class="w-4 h-4 rounded border-slate-300 text-scg-600 focus:ring-scg-500" onchange="toggleAdminSelectAll(this)">
+                                เลือกทั้งหมด (Select All)
+                            </label>
+                        </div>
+                        <div class="text-sm text-slate-500 font-bold" id="admin-count-info">กำลังโหลด...</div>
+                    </div>
+                    <div class="overflow-auto w-full custom-scrollbar flex-1 relative" style="min-height: 400px;">
+                        <table class="w-full text-left border-collapse whitespace-nowrap text-sm min-w-max relative" id="admin-table">
+                            <thead class="sticky top-0 z-30 bg-slate-50 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
+                                <tr class="text-slate-600 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
+                                    <th class="py-3 px-4 border-r border-slate-100 text-center w-24">Evaluate?</th>
+                                    <th class="py-3 px-4 border-r border-slate-100">Person ID</th>
+                                    <th class="py-3 px-4 border-r border-slate-100">Name (TH)</th>
+                                    <th class="py-3 px-4 border-r border-slate-100">Name (EN)</th>
+                                    <th class="py-3 px-4 border-r border-slate-100 text-scg-700">Username</th>
+                                    <th class="py-3 px-4 border-r border-slate-100 text-slate-500">Password</th>
+                                    <th class="py-3 px-4 border-r border-slate-100">Report To Name</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-tbody" class="text-slate-700">
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </section>
+
 
             <!-- 6. COMPETENCY ANALYTIC TAB -->
             <section id="tab-analytic" class="tab-content hidden space-y-6">
@@ -743,6 +721,7 @@
                                 <tr class="text-slate-600 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Person ID</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Employee ID</th>
+                                    <th class="align-top py-4 px-6 border-r border-slate-100 text-center text-scg-600">ถูกประเมิน</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100 text-scg-700">User ID</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100 text-scg-700">Password</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Name (TH)</th>
@@ -828,6 +807,7 @@
         let analyticRadarCharts = [];
         let analyticBarChartInstance = null;
         let employeeData = [];
+        let employeeDataAll = [];
 
         async function fetchInitialData(silent = false) {
             try {
@@ -839,7 +819,8 @@
                 roleResponses = data.roleResponses || {};
                 positionGroups = data.positionGroups || {};
                 dbUsers = data.dbUsers || {};
-                employeeData = data.employeeData || [];
+                employeeDataAll = data.employeeData || [];
+                employeeData = employeeDataAll.filter(e => e.Pipeline === 'Evaluated');
                 if (!silent) {
                     checkLoginState();
                 }
@@ -2305,49 +2286,142 @@
         }
 
         // --- 6. Admin Panel Export & Management ---
+        
+        let adminTempData = [];
+        
         function setupAdminTab() {
-            const posSelect = document.getElementById('new-user-pos');
-            posSelect.innerHTML = '';
-            positions.forEach(p => posSelect.innerHTML += `<option value="${p}">${p}</option>`);
-
-            const mgrSelect = document.getElementById('new-user-mgr');
-            mgrSelect.innerHTML = '';
-            for(let id in dbUsers) {
-                if (id !== 'Admin') mgrSelect.innerHTML += `<option value="${id}">${dbUsers[id].name}</option>`;
-            }
-
-            let hHtml = '';
-            for(let id in dbUsers) {
-                if(id !== 'Admin') {
-                    let mgrOptions = '';
-                    for(let potentialMgr in dbUsers) {
-                        if (potentialMgr !== 'Admin' && potentialMgr !== id) {
-                            const selected = dbUsers[id].managerIds && dbUsers[id].managerIds.includes(potentialMgr) ? 'selected' : '';
-                            mgrOptions += `<option value="${potentialMgr}" ${selected}>${dbUsers[potentialMgr].name}</option>`;
+            adminTempData = employeeDataAll.map(e => {
+                let n_en = e.name_en;
+                if(!n_en) {
+                    n_en = e.FullNameENG;
+                    if(!n_en) {
+                        const first = e.FirstNameEnglish;
+                        if(first) {
+                            const prefix = e.NamePrefixEnglish || '';
+                            const last = e.LastNameEnglish || '';
+                            n_en = (prefix ? prefix + ' ' : '') + first + ' ' + last;
+                        } else {
+                            n_en = '';
                         }
                     }
-
-                    hHtml += `
-                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col items-start gap-4 text-sm shadow-sm">
-                        <div class="w-full flex justify-between items-start border-b border-slate-200 pb-3">
-                            <div>
-                                <span class="font-bold text-scg-800 block text-base leading-tight">${dbUsers[id].name}</span>
-                                <span class="text-xs text-slate-500 font-medium">Username: ${id}</span>
-                            </div>
-                            <span class="text-[10px] text-scg-600 font-bold bg-scg-50 border border-scg-100 px-2 py-0.5 rounded">${dbUsers[id].position}</span>
-                        </div>
-                        <div class="w-full">
-                            <label class="text-xs font-bold text-slate-500 block mb-1.5"><i class="fa-solid fa-sitemap w-5 text-center"></i> สายบังคับบัญชา (เลือกได้หลายคน):</label>
-                            <select multiple onchange="updateUserManager('${id}', this)" class="w-full text-xs p-1.5 border border-slate-300 rounded-lg focus:border-scg-500 outline-none bg-white font-bold text-slate-700 h-20 shadow-inner">
-                                ${mgrOptions}
-                            </select>
-                            <p class="text-[9px] text-slate-400 mt-1 text-right">Ctrl/Cmd + คลิก เพื่อเลือกหลายคน</p>
-                        </div>
-                    </div>`;
                 }
-            }
-            document.getElementById('admin-hierarchy-list').innerHTML = hHtml;
+                
+                return {
+                    pk_field: e.PersonID ? 'PersonID' : (e.id ? 'id' : 'person_id'),
+                    pk_value: e.PersonID || e.id || e.person_id,
+                    person_id: e.PersonID || e.person_id || '-',
+                    name_th: e.FullNameTH || e.name_th || e.FullName || '-',
+                    name_en: n_en ? n_en.trim() : '-',
+                    user_id: e.user_id || e.username || e.USER || '',
+                    password: e.password || '',
+                    report_to_name: e.ReportToName || e.report_to_name || '',
+                    is_evaluated: e.Pipeline === 'Evaluated',
+                    position: e.PositionNameThai || e.position_name || ''
+                };
+            });
+            renderAdminTable();
         }
+        
+        function renderAdminTable() {
+            const tbody = document.getElementById('admin-tbody');
+            if(!tbody) return;
+            
+            const search = document.getElementById('admin-search').value.toLowerCase();
+            
+            // Build unique English names for the dropdown
+            const allEngNames = [...new Set(adminTempData.map(e => e.name_en).filter(n => n && n !== '-'))].sort();
+            let optionsHtml = `<option value="">-- ไม่ระบุ --</option>`;
+            allEngNames.forEach(n => {
+                optionsHtml += `<option value="${n}">${n}</option>`;
+            });
+
+            let html = '';
+            let count = 0;
+            
+            adminTempData.forEach((emp, index) => {
+                const searchStr = `${emp.person_id} ${emp.name_th} ${emp.name_en} ${emp.user_id}`.toLowerCase();
+                if(search && !searchStr.includes(search)) return;
+                
+                count++;
+                
+                let rowOpts = optionsHtml;
+                if(emp.report_to_name) {
+                    rowOpts = rowOpts.replace(`value="${emp.report_to_name}"`, `value="${emp.report_to_name}" selected`);
+                }
+                
+                html += `
+                    <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100">
+                        <td class="py-2 px-4 border-r border-slate-100 text-center">
+                            <input type="checkbox" class="w-5 h-5 rounded border-slate-300 text-scg-600 focus:ring-scg-500 cursor-pointer" 
+                                   ${emp.is_evaluated ? 'checked' : ''} 
+                                   onchange="adminTempData[${index}].is_evaluated = this.checked">
+                        </td>
+                        <td class="py-2 px-4 border-r border-slate-100 font-medium">${emp.person_id}</td>
+                        <td class="py-2 px-4 border-r border-slate-100">${emp.name_th}</td>
+                        <td class="py-2 px-4 border-r border-slate-100">${emp.name_en}</td>
+                        <td class="py-2 px-4 border-r border-slate-100">
+                            <input type="text" class="px-2 py-1.5 border border-slate-200 rounded-lg w-full text-xs font-bold text-scg-700" 
+                                   value="${emp.user_id}" 
+                                   onchange="adminTempData[${index}].user_id = this.value">
+                        </td>
+                        <td class="py-2 px-4 border-r border-slate-100">
+                            <input type="text" class="px-2 py-1.5 border border-slate-200 rounded-lg w-full text-xs" 
+                                   value="${emp.password}" 
+                                   onchange="adminTempData[${index}].password = this.value">
+                        </td>
+                        <td class="py-2 px-4 border-r border-slate-100">
+                            <select class="px-2 py-1.5 border border-slate-200 rounded-lg w-full text-xs bg-white cursor-pointer" 
+                                    onchange="adminTempData[${index}].report_to_name = this.value">
+                                ${rowOpts}
+                            </select>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            tbody.innerHTML = html;
+            document.getElementById('admin-count-info').innerText = `แสดง ${count} รายการ`;
+        }
+
+        function toggleAdminSelectAll(cb) {
+            const search = document.getElementById('admin-search').value.toLowerCase();
+            adminTempData.forEach((emp, index) => {
+                const searchStr = `${emp.person_id} ${emp.name_th} ${emp.name_en} ${emp.user_id}`.toLowerCase();
+                if(search && !searchStr.includes(search)) return;
+                emp.is_evaluated = cb.checked;
+            });
+            renderAdminTable();
+        }
+
+        async function saveAdminData() {
+            const btn = document.querySelector('button[onclick="saveAdminData()"]');
+            const oldHtml = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...`;
+            btn.disabled = true;
+            
+            try {
+                const response = await fetch(API_BASE + '/admin/sync_employees', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ employees: adminTempData })
+                });
+                
+                const result = await response.json();
+                if(result.status === 'success') {
+                    alert('บันทึกข้อมูลและอัปเดตสิทธิการเข้าถึงเรียบร้อยแล้ว!');
+                    window.location.reload();
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Failed to save data. Check console.');
+            } finally {
+                btn.innerHTML = oldHtml;
+                btn.disabled = false;
+            }
+        }
+
 
         async function updateUserManager(userId, selectElement) {
             const selectedManagers = Array.from(selectElement.selectedOptions).map(opt => opt.value);
@@ -3080,6 +3154,7 @@
                     <tr class="hover:bg-slate-50 transition-colors">
                         <td class="py-3 px-6 border-r border-slate-100 font-medium">${emp.person_id || emp.PersonID || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100 text-scg-700 font-medium">${emp.employee_id || emp.SCGEmployeeID || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 text-center"><i class="fa-solid fa-check-circle text-green-500 text-lg" title="Evaluated"></i></td>
                         <td class="py-3 px-6 border-r border-slate-100 text-scg-700 font-medium">${emp.user_id || emp.username || emp.USER || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100 text-slate-500">${emp.password || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.FullNameTH || emp.name_th || emp.FullName || '-'}</td>
