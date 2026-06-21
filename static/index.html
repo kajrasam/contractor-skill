@@ -364,7 +364,7 @@
                         </div>
 
                         <!-- Competency Group -->
-                        <div class="xl:w-1/4 bg-scg-50/50 border border-scg-100 rounded-xl p-4">
+                        <div id="global-competency-container" class="xl:w-1/4 bg-scg-50/50 border border-scg-100 rounded-xl p-4">
                             <h4 class="text-sm font-bold text-scg-700 mb-4 border-b border-scg-100 pb-2"><i class="fa-solid fa-star text-scg-500 mr-2"></i> ทักษะความคาดหวัง (Competency)</h4>
                             <div class="grid grid-cols-1 gap-4">
                                 <div class="w-full relative filter-dropdown-container">
@@ -930,6 +930,7 @@
 
             const tabsWithFilters = ['training', 'evaluation', 'dashboard', 'idp', 'analytic', 'admin'];
             const globalFilters = document.getElementById('global-filters-container');
+            const compContainer = document.getElementById('global-competency-container');
             if(globalFilters) {
                 if (tabsWithFilters.includes(tabId)) {
                     globalFilters.classList.remove('hidden');
@@ -937,6 +938,17 @@
                     globalFilters.classList.add('hidden');
                 }
             }
+            if(compContainer) {
+                if (tabId === 'admin') {
+                    compContainer.classList.add('hidden');
+                } else {
+                    compContainer.classList.remove('hidden');
+                }
+            }
+            
+            // Rebuild filters based on tab context (admin vs others)
+            buildFiltersUI(tabId);
+            
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('bg-scg-800', 'text-white', 'shadow-md', 'text-scg-700', 'bg-scg-50');
                 btn.classList.add('text-slate-600', 'hover:bg-scg-50');
@@ -1152,7 +1164,11 @@
             return true;
         }
 
-        function buildFiltersUI() {
+        function buildFiltersUI(tabId = null) {
+            if (!tabId) {
+                const activeTab = document.querySelector('.tab-content.active');
+                tabId = activeTab ? activeTab.id.replace('tab-', '') : 'dashboard';
+            }
             const jobGroupContainer = document.getElementById('job-group-filters');
             const posContainer = document.getElementById('position-filters');
             const sectionContainer = document.getElementById('section-filters');
@@ -1171,7 +1187,9 @@
             // Build Org Filters AND Position Filter with Hierarchy/Intersection
             let jobGroupsSet = new Set(), sectionsSet = new Set(), deptsSet = new Set(), sub1DivsSet = new Set(), divsSet = new Set(), sub1CompsSet = new Set(), compsSet = new Set(), posSet = new Set(), employeesSet = new Set();
             
-            employeeDataAll.forEach(e => {
+            const dataSource = (tabId === 'admin') ? employeeDataAll : employeeData;
+            
+            dataSource.forEach(e => {
                 let posName = e.position_name || e.PositionNameThai;
                 if (!posName) return;
                 
