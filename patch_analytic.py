@@ -21,6 +21,7 @@ for file_path in files:
 
     # 3. Remove setupAnalyticTab filter call
     content = content.replace('            buildAnalyticFiltersUI();\n', '')
+    content = content.replace(' { buildAnalyticFiltersUI(); renderAnalyticTab(); }', ' { renderAnalyticTab(); }')
 
     # 4. Remove toggle functions and buildAnalyticFiltersUI
     func_pattern = re.compile(r'window\.toggleAnalyticJobGroupFilter = function.*?function renderAnalyticTab\(\) \{', re.DOTALL)

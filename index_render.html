@@ -1352,7 +1352,7 @@
             if(document.getElementById('tab-evaluation').classList.contains('active')) setupEvaluationTab();
             if(document.getElementById('tab-dashboard').classList.contains('active')) setupDashboardTab();
             if(document.getElementById('tab-idp').classList.contains('active')) setupIDPTab();
-            if(document.getElementById('tab-analytic').classList.contains('active')) { buildAnalyticFiltersUI(); renderAnalyticTab(); }
+            if(document.getElementById('tab-analytic').classList.contains('active')) { renderAnalyticTab(); }
         }
 
         window.toggleFilterValue = function(type, v) {
