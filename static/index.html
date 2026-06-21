@@ -929,7 +929,7 @@
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.getElementById(`tab-${tabId}`).classList.add('active');
 
-            const tabsWithFilters = ['training', 'evaluation', 'dashboard', 'idp', 'analytic'];
+            const tabsWithFilters = ['training', 'evaluation', 'dashboard', 'idp', 'analytic', 'admin'];
             const globalFilters = document.getElementById('global-filters-container');
             if(globalFilters) {
                 if (tabsWithFilters.includes(tabId)) {
@@ -1295,23 +1295,12 @@
         }
 
         
-        function isEmployeeMatchingOrgFilters(empId) {
-            let emp = dbUsers[empId];
-            if(!emp) return false;
-            
-            let eData = employeeData.find(e => e.username === empId || e.user_id === empId || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name || e.FullNameTH === emp.name);
-            
-            let posName = emp.position;
-            if(eData && eData.PositionNameThai) posName = eData.PositionNameThai;
-            else if(eData && eData.position_name) posName = eData.position_name;
-            
+        
+        function matchesOrgFiltersData(eData) {
+            if(!eData) return true;
+            let posName = eData.PositionNameThai || eData.position_name || eData.position;
             if(selectedJobGroupFilter.length > 0 && (!posName || !selectedJobGroupFilter.includes(positionGroups[posName]))) return false;
             if(selectedPositionsFilter.length > 0 && (!posName || !selectedPositionsFilter.includes(posName))) return false;
-            
-            if(!eData) {
-                if(selectedEmployeeFilter.length > 0 || selectedSectionFilter.length > 0 || selectedDepartmentFilter.length > 0 || selectedSub1DivisionFilter.length > 0 || selectedDivisionFilter.length > 0 || selectedSub1CompanyFilter.length > 0 || selectedCompanyFilter.length > 0) return false;
-                return true;
-            }
             
             if(selectedEmployeeFilter.length > 0) {
                 let empName = eData.FullNameTH || eData.FullName || eData.EmployeeNameThai || eData.EmployeeNameEng;
@@ -1328,17 +1317,39 @@
             return true;
         }
 
+        function isEmployeeMatchingOrgFilters(empId) {
+            let emp = dbUsers[empId];
+            if(!emp) return false;
+            
+            let eData = employeeData.find(e => e.username === empId || e.user_id === empId || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name || e.FullNameTH === emp.name);
+            
+            if(!eData) {
+                let posName = emp.position;
+                if(selectedJobGroupFilter.length > 0 && (!posName || !selectedJobGroupFilter.includes(positionGroups[posName]))) return false;
+                if(selectedPositionsFilter.length > 0 && (!posName || !selectedPositionsFilter.includes(posName))) return false;
+                if(selectedEmployeeFilter.length > 0 || selectedSectionFilter.length > 0 || selectedDepartmentFilter.length > 0 || selectedSub1DivisionFilter.length > 0 || selectedDivisionFilter.length > 0 || selectedSub1CompanyFilter.length > 0 || selectedCompanyFilter.length > 0) return false;
+                return true;
+            }
+            return matchesOrgFiltersData(eData);
+        }
+
+
         function applyGlobalFiltersToSubIds(subIds) {
             return subIds.filter(id => isEmployeeMatchingOrgFilters(id));
         }
 
+        
         function renderActiveTab() {
-            if(document.getElementById('tab-training').classList.contains('active')) { buildRoleResponseSection(); buildTrainingMatrix(); }
-            if(document.getElementById('tab-evaluation').classList.contains('active')) setupEvaluationTab();
-            if(document.getElementById('tab-dashboard').classList.contains('active')) setupDashboardTab();
-            if(document.getElementById('tab-idp').classList.contains('active')) setupIDPTab();
-            if(document.getElementById('tab-analytic').classList.contains('active')) { renderAnalyticTab(); }
+            const activeTab = document.querySelector('.tab-content.active');
+            if(!activeTab) return;
+            const id = activeTab.id.replace('tab-', '');
+            if(id === 'training') buildTrainingMatrix();
+            if(id === 'dashboard') setupDashboardTab();
+            if(id === 'idp') renderIDPContent();
+            if(id === 'analytic') renderAnalyticTab();
+            if(id === 'admin') renderAdminTable();
         }
+
 
         window.toggleFilterValue = function(type, v) {
             let arr;
@@ -2351,6 +2362,9 @@
                 const searchStr = `${emp.person_id} ${emp.name_th} ${emp.name_en} ${emp.user_id}`.toLowerCase();
                 if(search && !searchStr.includes(search)) return;
                 
+                const eData = employeeDataAll[index];
+                if(eData && !matchesOrgFiltersData(eData)) return;
+                
                 count++;
                 
                 let rowOpts = optionsHtml;
@@ -2392,15 +2406,21 @@
             document.getElementById('admin-count-info').innerText = `แสดง ${count} รายการ`;
         }
 
+        
         function toggleAdminSelectAll(cb) {
             const search = document.getElementById('admin-search').value.toLowerCase();
             adminTempData.forEach((emp, index) => {
                 const searchStr = `${emp.person_id} ${emp.name_th} ${emp.name_en} ${emp.user_id}`.toLowerCase();
                 if(search && !searchStr.includes(search)) return;
+                
+                const eData = employeeDataAll[index];
+                if(eData && !matchesOrgFiltersData(eData)) return;
+                
                 emp.is_evaluated = cb.checked;
             });
             renderAdminTable();
         }
+
 
         async function saveAdminData() {
             const btn = document.querySelector('button[onclick="saveAdminData()"]');
