@@ -1377,7 +1377,11 @@
             const activeTab = document.querySelector('.tab-content.active');
             if(!activeTab) return;
             const id = activeTab.id.replace('tab-', '');
-            if(id === 'training') buildTrainingMatrix();
+            if(id === 'training') {
+                buildRoleResponseSection();
+                buildTrainingMatrix();
+            }
+            if(id === 'evaluation') setupEvaluationTab();
             if(id === 'dashboard') setupDashboardTab();
             if(id === 'idp') renderIDPContent();
             if(id === 'analytic') renderAnalyticTab();
