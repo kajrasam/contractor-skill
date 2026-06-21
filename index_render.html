@@ -3135,7 +3135,9 @@
                 const key = colKeys[index];
                 if(!key) return;
 
-                const uniqueValues = [...new Set(employeeData.map(e => e[key] !== null && e[key] !== undefined ? String(e[key]) : '-'))].sort();
+                const trs = tbody.querySelectorAll('tr');
+                if (trs.length === 1 && trs[0].cells.length === 1) return; // Empty message row
+                const uniqueValues = [...new Set(Array.from(trs).map(tr => tr.cells[index] ? tr.cells[index].innerText.trim() : '-'))].sort();
                 
                 const container = document.createElement('div');
                 container.className = 'emp-filter-container relative mt-2 font-normal text-slate-700';
