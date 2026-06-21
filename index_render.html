@@ -1310,7 +1310,7 @@
         
         function hasCompetencyFilterMatch(posName) {
             if (selectedCompetencyGroupFilter.length === 0 && selectedCompetenciesFilter.length === 0) return true;
-            if (!posName || !trainingMatrix[posName]) return false;
+            if (!posName || !positionTargets[posName]) return false;
             
             let filteredComps = competencies;
             if (selectedCompetencyGroupFilter.length > 0) {
@@ -1321,7 +1321,7 @@
             }
             
             const indices = filteredComps.map(c => competencies.findIndex(x => x.id === c.id));
-            const targets = trainingMatrix[posName];
+            const targets = positionTargets[posName];
             
             for (let idx of indices) {
                 if (targets[idx] && targets[idx] > 0) return true;
