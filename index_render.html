@@ -826,6 +826,40 @@
                 </div>
             </section>
 
+            <!-- Tracking Evaluation Tab -->
+            <section id="tab-tracking" class="tab-content hidden space-y-6">
+                <div class="flex flex-col md:flex-row justify-between md:items-end gap-4 mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-scg-900 tracking-tight"><i class="fa-solid fa-list-check text-scg-500 mr-2"></i> ติดตามการประเมิน</h2>
+                        <p class="text-slate-500 text-sm mt-1">สรุปสถานะการประเมินและจัดทำข้อมูล Competency</p>
+                    </div>
+                    <button onclick="exportTrackingData()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-xl transition-colors shadow-md flex items-center gap-2">
+                        <i class="fa-solid fa-file-excel"></i> Export Excel
+                    </button>
+                </div>
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-slate-50 text-slate-600 font-bold border-b border-slate-100 uppercase text-[10px] tracking-wider">
+                                <tr>
+                                    <th class="py-4 px-6 border-r border-slate-100 w-16 text-center">No.</th>
+                                    <th class="py-4 px-6 border-r border-slate-100">ชื่อผู้บังคับบัญชา</th>
+                                    <th class="py-4 px-6 border-r border-slate-100">ชื่อพนักงาน</th>
+                                    <th class="py-4 px-6 border-r border-slate-100">ตำแหน่ง</th>
+                                    <th class="py-4 px-6 border-r border-slate-100 text-center">จัดทำ R&R</th>
+                                    <th class="py-4 px-6 border-r border-slate-100 text-center">ผูก competency</th>
+                                    <th class="py-4 px-6 border-r border-slate-100 text-center">ประเมินตนเอง</th>
+                                    <th class="py-4 px-6 text-center">ผู้บังคับบัญชาประเมิน</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tracking-data-tbody" class="text-slate-700 divide-y divide-slate-100">
+                                <!-- Injected by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
             <!-- Employee Data Tab -->
             <section id="tab-employee-data" class="tab-content hidden space-y-6">
                 <div class="flex flex-col md:flex-row justify-between md:items-end gap-4 mb-6">
@@ -1152,6 +1186,7 @@
             html += `<button onclick="switchTab('idp')" id="nav-idp" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-address-card w-5 text-center"></i> IDP</button>`;
             if (currentUser.id === 'Admin') {
                 html += `<button onclick="switchTab('analytic')" id="nav-analytic" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-chart-line w-5 text-center"></i> Competency Analytic</button>`;
+                html += `<button onclick="switchTab('tracking')" id="nav-tracking" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-list-check w-5 text-center"></i> ติดตามการประเมิน</button>`;
                 html += `<button onclick="switchTab('employee-data')" id="nav-employee-data" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-users w-5 text-center"></i> Employee Data</button>`;
                 html += `<button onclick="switchTab('admin')" id="nav-admin" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold border border-scg-200 shadow-sm transition-all text-left mt-2"><i class="fa-solid fa-gear w-5 text-center"></i> Admin</button>`;
             }
@@ -1211,6 +1246,7 @@
                 renderAnalyticTab();
             }
             if (tabId === 'admin') setupAdminTab();
+            if (tabId === 'tracking') renderTrackingTable();
             if (tabId === 'employee-data') renderEmployeeDataTab();
         }
 
@@ -2395,7 +2431,21 @@
 
             emp.special_expertise = specExp;
             emp.special_expertise_detail = specDtl;
-            emp.evalDate = new Date().toLocaleDateString('th-TH');
+            
+            let datesObj = { self: '', mgr: '' };
+            try {
+                if (emp.evalDate && emp.evalDate.startsWith('{')) {
+                    datesObj = JSON.parse(emp.evalDate);
+                }
+            } catch (e) {}
+
+            const todayStr = new Date().toLocaleDateString('th-TH');
+            if (currentUser.id === id) {
+                datesObj.self = todayStr;
+            } else {
+                datesObj.mgr = todayStr;
+            }
+            emp.evalDate = JSON.stringify(datesObj);
 
             await fetch(`${API_BASE}/evaluations`, {
                 method: 'PUT',
@@ -3689,6 +3739,120 @@
                     }
                 }
             });
+        }
+
+        function renderTrackingTable() {
+            const tbody = document.getElementById('tracking-data-tbody');
+            if (!tbody) return;
+
+            let html = '';
+            
+            // Collect tracking data from dbUsers
+            let trackingList = [];
+            for (const uid in dbUsers) {
+                if (uid === 'Admin' || uid === 'admin' || !dbUsers[uid].name) continue;
+                
+                const u = dbUsers[uid];
+                let mgrName = '';
+                let empName = u.name || '';
+                let posName = u.position || '';
+                
+                // Try to get more accurate data from employeeData if available
+                if (employeeData && employeeData.length > 0) {
+                    const eData = employeeData.find(e => (e.user_id === uid || e.USER === uid || e.FullName === empName || e.FirstNameThai === empName));
+                    if (eData) {
+                        mgrName = eData.ReportToName || mgrName;
+                        empName = eData.FullName || eData.FirstNameThai || empName;
+                        posName = eData.PositionNameThai || posName;
+                    }
+                }
+                
+                let hasRole = (roleResponses[posName] && roleResponses[posName].trim() !== "" && roleResponses[posName] !== "ระบุหน้าที่ความรับผิดชอบ...") ? true : false;
+                
+                let hasTargets = false;
+                if (positionTargets[posName]) {
+                    hasTargets = positionTargets[posName].some(t => t >= 1);
+                }
+                
+                let selfDate = '';
+                let mgrDate = '';
+                if (u.evalDate && u.evalDate.startsWith('{')) {
+                    try {
+                        let parsed = JSON.parse(u.evalDate);
+                        selfDate = parsed.self || '';
+                        mgrDate = parsed.mgr || '';
+                    } catch(e) {}
+                } else if (u.evalDate) {
+                    // Fallback to legacy date if it exists
+                    selfDate = u.evalDate;
+                }
+                
+                trackingList.push({
+                    mgrName: mgrName,
+                    empName: empName,
+                    posName: posName,
+                    hasRole: hasRole,
+                    hasTargets: hasTargets,
+                    selfDate: selfDate,
+                    mgrDate: mgrDate
+                });
+            }
+
+            trackingList.forEach((t, i) => {
+                html += `<tr class="hover:bg-slate-50 transition-colors">
+                    <td class="py-3 px-6 border-r border-slate-100 text-center font-medium">${i + 1}</td>
+                    <td class="py-3 px-6 border-r border-slate-100">${t.mgrName}</td>
+                    <td class="py-3 px-6 border-r border-slate-100 font-bold">${t.empName}</td>
+                    <td class="py-3 px-6 border-r border-slate-100"><span class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-xs font-medium">${t.posName}</span></td>
+                    <td class="py-3 px-6 border-r border-slate-100 text-center">${t.hasRole ? '<i class="fa-solid fa-check text-emerald-500"></i>' : ''}</td>
+                    <td class="py-3 px-6 border-r border-slate-100 text-center">${t.hasTargets ? '<i class="fa-solid fa-check text-emerald-500"></i>' : ''}</td>
+                    <td class="py-3 px-6 border-r border-slate-100 text-center text-xs text-slate-600">${t.selfDate || ''}</td>
+                    <td class="py-3 px-6 text-center text-xs text-slate-600">${t.mgrDate || ''}</td>
+                </tr>`;
+            });
+            tbody.innerHTML = html;
+        }
+
+        function exportTrackingData() {
+            const tbody = document.getElementById('tracking-data-tbody');
+            if (!tbody || tbody.children.length === 0) {
+                showToast("ไม่มีข้อมูลให้ Export");
+                return;
+            }
+
+            const headers = [
+                "ชื่อผู้บังคับบัญชา", "ชื่อพนักงาน", "ตำแหน่ง", "จัดทำ R&R", "ผูก competency", "ประเมินตนเอง", "ผู้บังคับบัญชาประเมิน"
+            ];
+
+            let csvContent = "\uFEFF" + headers.join(",") + "\n";
+            
+            // Loop through all table rows
+            const rows = tbody.querySelectorAll('tr');
+            rows.forEach(tr => {
+                const cols = tr.querySelectorAll('td');
+                if (cols.length >= 8) {
+                    const rowData = [
+                        cols[1].innerText.trim(),
+                        cols[2].innerText.trim(),
+                        cols[3].innerText.trim(),
+                        cols[4].querySelector('i') ? 'Yes' : '',
+                        cols[5].querySelector('i') ? 'Yes' : '',
+                        cols[6].innerText.trim(),
+                        cols[7].innerText.trim()
+                    ].map(val => `"${val.replace(/"/g, '""')}"`);
+                    
+                    csvContent += rowData.join(",") + "\n";
+                }
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", `Tracking_Evaluation_${new Date().getTime()}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         function renderEmployeeDataTab() {
