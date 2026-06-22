@@ -479,44 +479,37 @@
                                 class="text-slate-400 text-base font-normal ml-2">(ผู้ถูกประเมิน)</span></h3>
 
                         <div class="space-y-0 relative z-10 ml-2">
-                            <div class="flex items-start gap-5">
-                                <div
-                                    class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">
-                                    1</div>
-                                <div class="pb-8">
-                                    <h4 class="font-bold text-slate-800 text-lg">ศึกษาเป้าหมายตำแหน่ง</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button
-                                            onclick="switchTab('training')"
-                                            class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Training
-                                            Need"</button> เพื่อดูบทบาทหน้าที่ (Role) และระดับทักษะที่คาดหวัง (Target
-                                        Level) ของตำแหน่งตนเอง</p>
+                            <div class="absolute left-[18px] top-[40px] bottom-[40px] w-0.5 bg-slate-100 z-0"></div>
+                            
+                            <div class="flex items-start gap-5 relative z-10">
+                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm">1</div>
+                                <div class="pb-6">
+                                    <h4 class="font-bold text-slate-800 text-lg">สำรวจความคาดหวัง</h4>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('training')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Training Need"</button> เพื่ออ่านบทบาทหน้าที่และเป้าหมาย (Target) ของตำแหน่งคุณ</p>
                                 </div>
                             </div>
-                            <div class="absolute left-[26px] top-[40px] w-0.5 h-16 bg-slate-100 z-0"></div>
 
-                            <div class="flex items-start gap-5 relative">
-                                <div
-                                    class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">
-                                    2</div>
-                                <div class="pb-8">
-                                    <h4 class="font-bold text-slate-800 text-lg">รวบรวมผลงานและหลักฐาน</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เตรียมข้อมูล ผลงาน
-                                        หรือหลักฐานการทำงานจริง เพื่อใช้ประกอบการพูดคุยประเมินกับหัวหน้างาน</p>
+                            <div class="flex items-start gap-5 relative z-10">
+                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm">2</div>
+                                <div class="pb-6">
+                                    <h4 class="font-bold text-slate-800 text-lg">ประเมินตนเอง</h4>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('evaluation')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"การประเมิน"</button> ปรับสไลเดอร์เพื่อประเมินทักษะตนเองตามจริง พร้อมระบุความต้องการเพิ่มเติม และกดบันทึก</p>
                                 </div>
                             </div>
-                            <div class="absolute left-[26px] top-[140px] w-0.5 h-16 bg-slate-100 z-0 hidden md:block">
+
+                            <div class="flex items-start gap-5 relative z-10">
+                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm">3</div>
+                                <div class="pb-6">
+                                    <h4 class="font-bold text-slate-800 text-lg">ดูผลลัพธ์</h4>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('dashboard')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Dashboard"</button> เพื่อดูกราฟ Radar เปรียบเทียบทักษะของคุณกับเป้าหมายที่ตั้งไว้</p>
+                                </div>
                             </div>
 
-                            <div class="flex items-start gap-5 relative">
-                                <div
-                                    class="w-10 h-10 rounded-full bg-scg-800 text-white flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-md z-10">
-                                    3</div>
+                            <div class="flex items-start gap-5 relative z-10">
+                                <div class="w-10 h-10 rounded-full bg-scg-800 text-white flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-md">4</div>
                                 <div>
-                                    <h4 class="font-bold text-scg-800 text-lg">ดูผลประเมินและแผนพัฒนา</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button
-                                            onclick="switchTab('dashboard')"
-                                            class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Dashboard"</button>
-                                        เพื่อดูจุดแข็งและ Gap ของตนเอง พร้อมรับคำแนะนำหลักสูตรอบรมที่เหมาะสม</p>
+                                    <h4 class="font-bold text-scg-800 text-lg">สร้างแผนพัฒนา (IDP)</h4>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('idp')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"IDP"</button> เพื่อดูสรุปช่องว่างทักษะและดูคอร์สเรียนแนะนำ เพื่อนำไปปรึกษาหัวหน้าต่อไป</p>
                                 </div>
                             </div>
                         </div>
@@ -531,46 +524,37 @@
                                 class="text-slate-400 text-base font-normal ml-2">(ผู้ประเมิน)</span></h3>
 
                         <div class="space-y-0 relative z-10 ml-2">
-                            <div class="flex items-start gap-5 relative">
-                                <div
-                                    class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">
-                                    1</div>
-                                <div class="pb-8">
-                                    <h4 class="font-bold text-slate-800 text-lg">ตรวจสอบโครงสร้างทักษะ</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button
-                                            onclick="switchTab('training')"
-                                            class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Training
-                                            Need"</button> เพื่อทบทวนบทบาทและทักษะที่คาดหวังของลูกน้องแต่ละตำแหน่งในทีม
-                                    </p>
+                            <div class="absolute left-[18px] top-[40px] bottom-[40px] w-0.5 bg-slate-100 z-0"></div>
+
+                            <div class="flex items-start gap-5 relative z-10">
+                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm">1</div>
+                                <div class="pb-6">
+                                    <h4 class="font-bold text-slate-800 text-lg">วิเคราะห์ภาพรวม</h4>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('dashboard')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Dashboard"</button> เพื่อดูภาพรวมความพร้อมของทีมผ่านกราฟแท่งและตาราง Heatmap</p>
                                 </div>
                             </div>
-                            <div class="absolute left-[26px] top-[40px] w-0.5 h-16 bg-slate-100 z-0"></div>
 
-                            <div class="flex items-start gap-5 relative">
-                                <div
-                                    class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">
-                                    2</div>
-                                <div class="pb-8">
+                            <div class="flex items-start gap-5 relative z-10">
+                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm">2</div>
+                                <div class="pb-6">
+                                    <h4 class="font-bold text-slate-800 text-lg">ตรวจสอบเกณฑ์</h4>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('training')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Training Need"</button> เพื่ออ่านคำอธิบายระดับทักษะ (Level 1-5) เพื่อใช้เป็นมาตรฐานการประเมิน</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-5 relative z-10">
+                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm">3</div>
+                                <div class="pb-6">
                                     <h4 class="font-bold text-slate-800 text-lg">ประเมินลูกน้องรายบุคคล</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button
-                                            onclick="switchTab('evaluation')"
-                                            class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"การประเมิน"</button>
-                                        เลือกลูกน้อง ให้คะแนนตามระดับความสามารถจริง พร้อมระบุหลักฐานประกอบ</p>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('evaluation')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"การประเมิน"</button> เลือกลูกน้องจากรายชื่อ อ่านสิ่งที่ลูกน้องประเมินตนเองมา และระบุระดับทักษะจริง (Actual) พร้อมให้ Feedback</p>
                                 </div>
                             </div>
-                            <div class="absolute left-[26px] top-[140px] w-0.5 h-16 bg-slate-100 z-0 hidden md:block">
-                            </div>
 
-                            <div class="flex items-start gap-5 relative">
-                                <div
-                                    class="w-10 h-10 rounded-full bg-scg-800 text-white flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-md z-10">
-                                    3</div>
+                            <div class="flex items-start gap-5 relative z-10">
+                                <div class="w-10 h-10 rounded-full bg-scg-800 text-white flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-md">4</div>
                                 <div>
-                                    <h4 class="font-bold text-scg-900 text-lg">วิเคราะห์ข้อมูลและวางแผนทีม</h4>
-                                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">เข้าเมนู <button
-                                            onclick="switchTab('dashboard')"
-                                            class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Dashboard"</button>
-                                        ดูภาพรวม %Complete ของทีม เพื่อวางแผนพัฒนาบุคลากรให้ตรงจุด</p>
+                                    <h4 class="font-bold text-scg-900 text-lg">พูดคุยแผนพัฒนา</h4>
+                                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('idp')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"IDP"</button> นำข้อมูลของพนักงานมาใช้ประชุมพูดคุย (1-on-1) เพื่อส่งเข้าคอร์สเรียนตามที่ระบบแนะนำ</p>
                                 </div>
                             </div>
                         </div>
