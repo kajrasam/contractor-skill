@@ -1656,6 +1656,7 @@
             if (id === 'idp') renderIDPContent();
             if (id === 'analytic') renderAnalyticTab();
             if (id === 'admin') renderAdminTable();
+            if (id === 'tracking') renderTrackingTable();
         }
 
 
@@ -3751,6 +3752,9 @@
             let trackingList = [];
             for (const uid in dbUsers) {
                 if (uid === 'Admin' || uid === 'admin' || !dbUsers[uid].name) continue;
+                
+                // Apply Global Filters
+                if (!isEmployeeMatchingOrgFilters(uid)) continue;
                 
                 const u = dbUsers[uid];
                 let mgrName = '';
