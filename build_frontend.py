@@ -1759,7 +1759,7 @@ new_js = """
                     <div class="flex items-center gap-3 p-3 bg-white border border-red-100 rounded-xl shadow-sm mb-3">
                         <div class="bg-red-50 p-3 rounded-lg text-red-500 flex-shrink-0"><i class="fa-solid ${icon} text-lg"></i></div>
                         <div>
-                            <p class="text-xs text-slate-500 font-medium">${gap.skill.replace(/^[0-9\.\s]+/, '')} <span class="text-red-600 font-bold bg-red-50 px-2 py-0.5 rounded-full ml-1 text-[10px]">Gap ${gap.gap}</span></p>
+                            <p class="text-xs text-slate-500 font-medium">${gap.skill.replace(/^[0-9\\.\\s]+/, '')} <span class="text-red-600 font-bold bg-red-50 px-2 py-0.5 rounded-full ml-1 text-[10px]">Gap ${gap.gap}</span></p>
                             <p class="text-sm font-bold text-scg-800 mt-1">${courseName}</p>
                         </div>
                     </div>`;
@@ -2501,7 +2501,7 @@ new_js = """
                 "EMAIL ADDRESS BUSINESS"
             ];
             
-            let csvContent = "\uFEFF" + headers.join(",") + "\n";
+            let csvContent = "\\uFEFF" + headers.join(",") + "\\n";
             
             employeeData.forEach(emp => {
                 const row = [
@@ -2512,7 +2512,7 @@ new_js = """
                     emp.ReportToEmail || '', emp.EmailAddressBusiness || ''
                 ].map(val => `"${String(val).replace(/"/g, '""')}"`);
                 
-                csvContent += row.join(",") + "\n";
+                csvContent += row.join(",") + "\\n";
             });
             
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
