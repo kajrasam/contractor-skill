@@ -188,7 +188,8 @@
                     <label class="block text-sm font-medium text-slate-700 mb-1">Password</label>
                     <input type="password" id="login-password"
                         class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-scg-500 bg-slate-50 focus:bg-white"
-                        placeholder="รหัสผ่านตรงกับ Username" onkeypress="if(event.key === 'Enter') handleLogin()">
+                        placeholder="รหัสผ่านตรงกับ Username"
+                        onkeypress="if(event.key === 'Enter') handleLogin()">
                 </div>
                 <button onclick="handleLogin()"
                     class="w-full bg-scg-800 hover:bg-scg-900 text-white font-medium py-2.5 rounded-xl transition-all shadow-md mt-6">
@@ -212,14 +213,14 @@
     <div id="app-container" class="hidden min-h-screen w-full flex-col md:flex-row bg-slate-50">
 
         <!-- SIDEBAR -->
-        <aside
-            class="w-full md:w-64 bg-white border-r border-slate-200 flex flex-col md:sticky md:top-0 md:h-screen z-40 shadow-sm shrink-0">
+        <aside class="w-full md:w-64 bg-white border-r border-slate-200 flex flex-col md:sticky md:top-0 md:h-screen z-40 shadow-sm shrink-0">
             <!-- Logo -->
             <div class="p-6 border-b border-slate-200 flex items-center gap-3 shrink-0">
-                <div class="bg-scg-800 text-white p-2.5 rounded-xl shadow-md"><i class="fa-solid fa-wrench text-xl"></i>
-                </div>
+                <div class="bg-scg-800 text-white p-2.5 rounded-xl shadow-md"><i
+                        class="fa-solid fa-wrench text-xl"></i></div>
                 <div class="flex flex-col justify-center">
-                    <span class="text-xl font-bold text-scg-900 tracking-tight leading-none">Competency<br /><span
+                    <span
+                        class="text-xl font-bold text-scg-900 tracking-tight leading-none">Competency<br/><span
                             class="text-scg-400"> system</span></span>
                 </div>
             </div>
@@ -244,163 +245,118 @@
         </aside>
 
         <!-- MAIN CONTENT -->
-        <main
-            class="flex-grow w-full md:w-[calc(100%-16rem)] md:h-screen overflow-y-auto px-4 sm:px-8 py-8 transition-all duration-300">
+        <main class="flex-grow w-full md:w-[calc(100%-16rem)] md:h-screen overflow-y-auto px-4 sm:px-8 py-8 transition-all duration-300">
 
             <!-- GLOBAL FILTERS (Shared across tabs) -->
             <div id="global-filters-container" class="hidden">
-                <!-- Filters Section -->
-                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 mb-6 relative z-20">
-                    <div
-                        class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2 border-b border-slate-100 pb-4">
-                        <h3 class="text-sm font-bold text-slate-800"><i
-                                class="fa-solid fa-sliders text-scg-600 mr-2"></i>ตัวกรองข้อมูลองค์กรและพนักงาน</h3>
-                        <button onclick="window.clearAllFilters()"
-                            class="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-sm font-medium rounded-xl transition-colors flex items-center gap-2 shadow-sm">
+<!-- Filters Section -->
+                                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 mb-6 relative z-20">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2 border-b border-slate-100 pb-4">
+                        <h3 class="text-sm font-bold text-slate-800"><i class="fa-solid fa-sliders text-scg-600 mr-2"></i>ตัวกรองข้อมูลองค์กรและพนักงาน</h3>
+                        <button onclick="window.clearAllFilters()" class="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-sm font-medium rounded-xl transition-colors flex items-center gap-2 shadow-sm">
                             <i class="fa-solid fa-eraser"></i> ล้างตัวกรองทั้งหมด
                         </button>
                     </div>
                     <div class="flex flex-col xl:flex-row gap-6">
                         <!-- Hierarchy Group -->
                         <div class="xl:w-3/4 bg-slate-50 border border-slate-200 rounded-xl p-4">
-                            <h4 class="text-sm font-bold text-slate-700 mb-4 border-b border-slate-200 pb-2"><i
-                                    class="fa-solid fa-sitemap text-scg-500 mr-2"></i> โครงสร้างองค์กรและบุคลากร
-                                (Hierarchy)</h4>
+                            <h4 class="text-sm font-bold text-slate-700 mb-4 border-b border-slate-200 pb-2"><i class="fa-solid fa-sitemap text-scg-500 mr-2"></i> โครงสร้างองค์กรและบุคลากร (Hierarchy)</h4>
                             <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4">
                                 <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
-                                            class="fa-solid fa-layer-group text-scg-500 mr-1"></i>
-                                        กรองตามกลุ่มงาน</label>
-                                    <button onclick="toggleFilterMenu('job-group-menu')"
-                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate"
-                                            id="job-group-dropdown-text">เลือกกลุ่มงานทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-layer-group text-scg-500 mr-1"></i> กรองตามกลุ่มงาน</label>
+                                    <button onclick="toggleFilterMenu('job-group-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate" id="job-group-dropdown-text">เลือกกลุ่มงานทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="job-group-menu"
-                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="job-group-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="job-group-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
                                 <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
-                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตามตำแหน่ง</label>
-                                    <button onclick="toggleFilterMenu('pos-dropdown-menu')"
-                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate"
-                                            id="pos-dropdown-text">เลือกตำแหน่งทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตามตำแหน่ง</label>
+                                    <button onclick="toggleFilterMenu('pos-dropdown-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate" id="pos-dropdown-text">เลือกตำแหน่งทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="pos-dropdown-menu"
-                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="pos-dropdown-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="position-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
                                 <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
-                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Section</label>
-                                    <button onclick="toggleFilterMenu('section-dropdown-menu')"
-                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate"
-                                            id="section-dropdown-text">เลือก Section ทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Section</label>
+                                    <button onclick="toggleFilterMenu('section-dropdown-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate" id="section-dropdown-text">เลือก Section ทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="section-dropdown-menu"
-                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="section-dropdown-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="section-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
                                 <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
-                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Department</label>
-                                    <button onclick="toggleFilterMenu('department-dropdown-menu')"
-                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate"
-                                            id="department-dropdown-text">เลือก Department ทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Department</label>
+                                    <button onclick="toggleFilterMenu('department-dropdown-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate" id="department-dropdown-text">เลือก Department ทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="department-dropdown-menu"
-                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="department-dropdown-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="department-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
                                 <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
-                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม
-                                        Sub1-Division</label>
-                                    <button onclick="toggleFilterMenu('sub1division-dropdown-menu')"
-                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate"
-                                            id="sub1division-dropdown-text">เลือก Sub1-Division ทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Sub1-Division</label>
+                                    <button onclick="toggleFilterMenu('sub1division-dropdown-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate" id="sub1division-dropdown-text">เลือก Sub1-Division ทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="sub1division-dropdown-menu"
-                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="sub1division-dropdown-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="sub1division-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
                                 <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
-                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Division</label>
-                                    <button onclick="toggleFilterMenu('division-dropdown-menu')"
-                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate"
-                                            id="division-dropdown-text">เลือก Division ทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Division</label>
+                                    <button onclick="toggleFilterMenu('division-dropdown-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate" id="division-dropdown-text">เลือก Division ทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="division-dropdown-menu"
-                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="division-dropdown-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="division-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
                                 <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
-                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม
-                                        Sub1-Company</label>
-                                    <button onclick="toggleFilterMenu('sub1company-dropdown-menu')"
-                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate"
-                                            id="sub1company-dropdown-text">เลือก Sub1-Company ทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Sub1-Company</label>
+                                    <button onclick="toggleFilterMenu('sub1company-dropdown-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate" id="sub1company-dropdown-text">เลือก Sub1-Company ทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="sub1company-dropdown-menu"
-                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="sub1company-dropdown-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="sub1company-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
                                 <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
-                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Company</label>
-                                    <button onclick="toggleFilterMenu('company-dropdown-menu')"
-                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate"
-                                            id="company-dropdown-text">เลือก Company ทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Company</label>
+                                    <button onclick="toggleFilterMenu('company-dropdown-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate" id="company-dropdown-text">เลือก Company ทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="company-dropdown-menu"
-                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="company-dropdown-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="company-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
                                 <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
-                                            class="fa-solid fa-user text-scg-500 mr-1"></i> ชื่อพนักงาน</label>
-                                    <button onclick="toggleFilterMenu('employee-menu')"
-                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate"
-                                            id="employee-dropdown-text">เลือกพนักงานทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-user text-scg-500 mr-1"></i> ชื่อพนักงาน</label>
+                                    <button onclick="toggleFilterMenu('employee-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate" id="employee-dropdown-text">เลือกพนักงานทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="employee-menu"
-                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="employee-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="employee-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
@@ -408,38 +364,27 @@
                         </div>
 
                         <!-- Competency Group -->
-                        <div id="global-competency-container"
-                            class="xl:w-1/4 bg-scg-50/50 border border-scg-100 rounded-xl p-4">
-                            <h4 class="text-sm font-bold text-scg-700 mb-4 border-b border-scg-100 pb-2"><i
-                                    class="fa-solid fa-star text-scg-500 mr-2"></i> ทักษะความคาดหวัง (Competency)</h4>
+                        <div id="global-competency-container" class="xl:w-1/4 bg-scg-50/50 border border-scg-100 rounded-xl p-4">
+                            <h4 class="text-sm font-bold text-scg-700 mb-4 border-b border-scg-100 pb-2"><i class="fa-solid fa-star text-scg-500 mr-2"></i> ทักษะความคาดหวัง (Competency)</h4>
                             <div class="grid grid-cols-1 gap-4">
                                 <div class="w-full relative filter-dropdown-container">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
-                                            class="fa-solid fa-layer-group text-scg-500 mr-1"></i> กลุ่ม
-                                        Competency</label>
-                                    <button onclick="toggleFilterMenu('comp-group-menu')"
-                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate"
-                                            id="comp-group-dropdown-text">เลือกกลุ่มทักษะทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-layer-group text-scg-500 mr-1"></i> กลุ่ม Competency</label>
+                                    <button onclick="toggleFilterMenu('comp-group-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate" id="comp-group-dropdown-text">เลือกกลุ่มทักษะทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="comp-group-menu"
-                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="comp-group-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="comp-group-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
                                 <div class="w-full relative filter-dropdown-container">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
-                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> หัวข้อ Competency</label>
-                                    <button onclick="toggleFilterMenu('comp-dropdown-menu')"
-                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate"
-                                            id="comp-dropdown-text">เลือกทักษะทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-filter text-scg-500 mr-1"></i> หัวข้อ Competency</label>
+                                    <button onclick="toggleFilterMenu('comp-dropdown-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate" id="comp-dropdown-text">เลือกทักษะทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="comp-dropdown-menu"
-                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="comp-dropdown-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="competency-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
@@ -447,17 +392,14 @@
                         </div>
                     </div>
                 </div>
-            </div>
+</div>
 
 
             <!-- 1. HOME TAB -->
             <section id="tab-home" class="tab-content space-y-8">
-                <div
-                    class="bg-white p-8 md:p-12 rounded-3xl border border-slate-100 shadow-sm text-center relative overflow-hidden mb-4">
-                    <div class="absolute -left-10 -top-10 opacity-5 text-scg-800 pointer-events-none"><i
-                            class="fa-solid fa-gears text-[200px]"></i></div>
-                    <div class="inline-flex bg-scg-50 text-scg-800 p-4 rounded-2xl mb-4 relative z-10"><i
-                            class="fa-solid fa-user-shield text-4xl"></i></div>
+                <div class="bg-white p-8 md:p-12 rounded-3xl border border-slate-100 shadow-sm text-center relative overflow-hidden mb-4">
+                    <div class="absolute -left-10 -top-10 opacity-5 text-scg-800 pointer-events-none"><i class="fa-solid fa-gears text-[200px]"></i></div>
+                    <div class="inline-flex bg-scg-50 text-scg-800 p-4 rounded-2xl mb-4 relative z-10"><i class="fa-solid fa-user-shield text-4xl"></i></div>
                     <h2 class="text-3xl font-bold text-scg-900 mb-4 relative z-10">Competency System</h2>
                     <p class="text-slate-500 max-w-2xl mx-auto relative z-10" id="home-welcome-text">
                         ระบบจัดการทักษะและประเมินขีดความสามารถตามบทบาทหน้าที่ (Role & Responsibilities)
@@ -466,106 +408,68 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Workflow for Employee -->
-                    <div
-                        class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden transition-shadow hover:shadow-md">
+                    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden transition-shadow hover:shadow-md">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-bl-[100px] z-0"></div>
-                        <h3 class="text-xl font-bold text-scg-900 mb-8 flex items-center relative z-10"><i
-                                class="fa-solid fa-user text-scg-500 mr-3 text-2xl"></i> สำหรับพนักงาน <span
-                                class="text-slate-400 text-base font-normal ml-2">(ผู้ถูกประเมิน)</span></h3>
-
+                        <h3 class="text-xl font-bold text-scg-900 mb-8 flex items-center relative z-10"><i class="fa-solid fa-user text-scg-500 mr-3 text-2xl"></i> สำหรับพนักงาน <span class="text-slate-400 text-base font-normal ml-2">(ผู้ถูกประเมิน)</span></h3>
+                        
                         <div class="space-y-0 relative z-10 ml-2">
                             <div class="flex items-start gap-5">
-                                <div
-                                    class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">
-                                    1</div>
+                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">1</div>
                                 <div class="pb-8">
                                     <h4 class="font-bold text-slate-800 text-lg">ศึกษาเป้าหมายตำแหน่ง</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button
-                                            onclick="switchTab('training')"
-                                            class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Training
-                                            Need"</button> เพื่อดูบทบาทหน้าที่ (Role) และระดับทักษะที่คาดหวัง (Target
-                                        Level) ของตำแหน่งตนเอง</p>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('training')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Training Need"</button> เพื่อดูบทบาทหน้าที่ (Role) และระดับทักษะที่คาดหวัง (Target Level) ของตำแหน่งตนเอง</p>
                                 </div>
                             </div>
                             <div class="absolute left-[26px] top-[40px] w-0.5 h-16 bg-slate-100 z-0"></div>
-
+                            
                             <div class="flex items-start gap-5 relative">
-                                <div
-                                    class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">
-                                    2</div>
+                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">2</div>
                                 <div class="pb-8">
                                     <h4 class="font-bold text-slate-800 text-lg">รวบรวมผลงานและหลักฐาน</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เตรียมข้อมูล ผลงาน
-                                        หรือหลักฐานการทำงานจริง เพื่อใช้ประกอบการพูดคุยประเมินกับหัวหน้างาน</p>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เตรียมข้อมูล ผลงาน หรือหลักฐานการทำงานจริง เพื่อใช้ประกอบการพูดคุยประเมินกับหัวหน้างาน</p>
                                 </div>
                             </div>
-                            <div class="absolute left-[26px] top-[140px] w-0.5 h-16 bg-slate-100 z-0 hidden md:block">
-                            </div>
-
+                            <div class="absolute left-[26px] top-[140px] w-0.5 h-16 bg-slate-100 z-0 hidden md:block"></div>
+                            
                             <div class="flex items-start gap-5 relative">
-                                <div
-                                    class="w-10 h-10 rounded-full bg-scg-800 text-white flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-md z-10">
-                                    3</div>
+                                <div class="w-10 h-10 rounded-full bg-scg-800 text-white flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-md z-10">3</div>
                                 <div>
                                     <h4 class="font-bold text-scg-800 text-lg">ดูผลประเมินและแผนพัฒนา</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button
-                                            onclick="switchTab('dashboard')"
-                                            class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Dashboard"</button>
-                                        เพื่อดูจุดแข็งและ Gap ของตนเอง พร้อมรับคำแนะนำหลักสูตรอบรมที่เหมาะสม</p>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('dashboard')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Dashboard"</button> เพื่อดูจุดแข็งและ Gap ของตนเอง พร้อมรับคำแนะนำหลักสูตรอบรมที่เหมาะสม</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Workflow for Supervisor -->
-                    <div
-                        class="bg-white p-8 rounded-3xl border border-scg-100 shadow-md relative overflow-hidden transition-shadow hover:shadow-lg">
+                    <div class="bg-white p-8 rounded-3xl border border-scg-100 shadow-md relative overflow-hidden transition-shadow hover:shadow-lg">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-scg-50/50 rounded-bl-[100px] z-0"></div>
-                        <h3 class="text-xl font-bold text-scg-900 mb-8 flex items-center relative z-10"><i
-                                class="fa-solid fa-user-tie text-scg-500 mr-3 text-2xl"></i> สำหรับหัวหน้างาน <span
-                                class="text-slate-400 text-base font-normal ml-2">(ผู้ประเมิน)</span></h3>
-
+                        <h3 class="text-xl font-bold text-scg-900 mb-8 flex items-center relative z-10"><i class="fa-solid fa-user-tie text-scg-500 mr-3 text-2xl"></i> สำหรับหัวหน้างาน <span class="text-slate-400 text-base font-normal ml-2">(ผู้ประเมิน)</span></h3>
+                        
                         <div class="space-y-0 relative z-10 ml-2">
                             <div class="flex items-start gap-5 relative">
-                                <div
-                                    class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">
-                                    1</div>
+                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">1</div>
                                 <div class="pb-8">
                                     <h4 class="font-bold text-slate-800 text-lg">ตรวจสอบโครงสร้างทักษะ</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button
-                                            onclick="switchTab('training')"
-                                            class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Training
-                                            Need"</button> เพื่อทบทวนบทบาทและทักษะที่คาดหวังของลูกน้องแต่ละตำแหน่งในทีม
-                                    </p>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('training')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Training Need"</button> เพื่อทบทวนบทบาทและทักษะที่คาดหวังของลูกน้องแต่ละตำแหน่งในทีม</p>
                                 </div>
                             </div>
                             <div class="absolute left-[26px] top-[40px] w-0.5 h-16 bg-slate-100 z-0"></div>
-
+                            
                             <div class="flex items-start gap-5 relative">
-                                <div
-                                    class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">
-                                    2</div>
+                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">2</div>
                                 <div class="pb-8">
                                     <h4 class="font-bold text-slate-800 text-lg">ประเมินลูกน้องรายบุคคล</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button
-                                            onclick="switchTab('evaluation')"
-                                            class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"การประเมิน"</button>
-                                        เลือกลูกน้อง ให้คะแนนตามระดับความสามารถจริง พร้อมระบุหลักฐานประกอบ</p>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('evaluation')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"การประเมิน"</button> เลือกลูกน้อง ให้คะแนนตามระดับความสามารถจริง พร้อมระบุหลักฐานประกอบ</p>
                                 </div>
                             </div>
-                            <div class="absolute left-[26px] top-[140px] w-0.5 h-16 bg-slate-100 z-0 hidden md:block">
-                            </div>
-
+                            <div class="absolute left-[26px] top-[140px] w-0.5 h-16 bg-slate-100 z-0 hidden md:block"></div>
+                            
                             <div class="flex items-start gap-5 relative">
-                                <div
-                                    class="w-10 h-10 rounded-full bg-scg-800 text-white flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-md z-10">
-                                    3</div>
+                                <div class="w-10 h-10 rounded-full bg-scg-800 text-white flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-md z-10">3</div>
                                 <div>
                                     <h4 class="font-bold text-scg-900 text-lg">วิเคราะห์ข้อมูลและวางแผนทีม</h4>
-                                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">เข้าเมนู <button
-                                            onclick="switchTab('dashboard')"
-                                            class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Dashboard"</button>
-                                        ดูภาพรวม %Complete ของทีม เพื่อวางแผนพัฒนาบุคลากรให้ตรงจุด</p>
+                                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('dashboard')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Dashboard"</button> ดูภาพรวม %Complete ของทีม เพื่อวางแผนพัฒนาบุคลากรให้ตรงจุด</p>
                                 </div>
                             </div>
                         </div>
@@ -606,13 +510,11 @@
 
                 <!-- Training Matrix Section -->
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 mb-6 relative">
-                    <div
-                        class="p-5 border-b border-slate-100 bg-slate-50 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 relative z-20 rounded-t-2xl">
-                        <h3 class="font-bold text-scg-900 shrink-0 text-lg"><i
-                                class="fa-solid fa-table text-scg-500 mr-2"></i>
+                    <div class="p-5 border-b border-slate-100 bg-slate-50 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 relative z-20 rounded-t-2xl">
+                        <h3 class="font-bold text-scg-900 shrink-0 text-lg"><i class="fa-solid fa-table text-scg-500 mr-2"></i>
                             ระดับทักษะที่คาดหวัง (Expected Skill Level)</h3>
-
-
+                        
+                        
                     </div>
                     <div class="overflow-x-auto relative z-10 rounded-b-2xl" id="training-matrix-container">
                         <!-- Table injected by JS -->
@@ -689,20 +591,20 @@
                     </div>
 
                     <!-- Manager Chart: Average Clustered Column -->
-                    <div id="dash-manager-view" class="mb-6 bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-                        <h3 class="font-bold text-lg text-slate-800 mb-1"><i
-                                class="fa-solid fa-chart-column text-scg-600 mr-2"></i> Average Skill Level ของทีม</h3>
-                        <p class="text-xs text-slate-500 mb-4">แสดงคะแนนเฉลี่ยรวมทุกทักษะ
-                            เปรียบเทียบความคาดหวังและประเมินจริงรายบุคคล (แกน X คือชื่อพนักงาน)</p>
-                        <div class="relative h-72 w-full">
-                            <canvas id="averageBarChart"></canvas>
-                        </div>
+                <div id="dash-manager-view" class="mb-6 bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                    <h3 class="font-bold text-lg text-slate-800 mb-1"><i
+                            class="fa-solid fa-chart-column text-scg-600 mr-2"></i> Average Skill Level ของทีม</h3>
+                    <p class="text-xs text-slate-500 mb-4">แสดงคะแนนเฉลี่ยรวมทุกทักษะ
+                        เปรียบเทียบความคาดหวังและประเมินจริงรายบุคคล (แกน X คือชื่อพนักงาน)</p>
+                    <div class="relative h-72 w-full">
+                        <canvas id="averageBarChart"></canvas>
                     </div>
+                </div>
 
-                    <!-- Individual Radar Charts -->
-                    <div id="dash-individual-cards-container" class="space-y-6">
-                        <!-- Cards injected by JS -->
-                    </div>
+                <!-- Individual Radar Charts -->
+                <div id="dash-individual-cards-container" class="space-y-6">
+                    <!-- Cards injected by JS -->
+                </div>
             </section>
 
             <!-- 5. IDP TAB -->
@@ -714,60 +616,48 @@
                     </div>
 
                     <div id="idp-content-container">
-                        <!-- IDP Data rendered by JS -->
-                        <div
-                            class="bg-white p-10 rounded-2xl border border-slate-100 shadow-sm text-center text-slate-500">
-                            <i class="fa-solid fa-address-card text-4xl mb-3 text-slate-300"></i>
-                            <p>กรุณาเลือกตำแหน่งและพนักงานเพื่อดูแผนพัฒนา (IDP)</p>
-                        </div>
+                    <!-- IDP Data rendered by JS -->
+                    <div class="bg-white p-10 rounded-2xl border border-slate-100 shadow-sm text-center text-slate-500">
+                        <i class="fa-solid fa-address-card text-4xl mb-3 text-slate-300"></i>
+                        <p>กรุณาเลือกตำแหน่งและพนักงานเพื่อดูแผนพัฒนา (IDP)</p>
                     </div>
+                </div>
             </section>
 
 
             <!-- 5. ADMIN SETTINGS TAB -->
-
+            
             <section id="tab-admin" class="tab-content hidden">
                 <div class="mb-6 flex justify-between items-end">
                     <div>
                         <h2 class="text-2xl font-bold text-scg-900">Admin Control Panel</h2>
-                        <p class="text-slate-500 text-sm">บริหารจัดการสิทธิผู้ถูกประเมิน และผูกสายบังคับบัญชา (Master
-                            Data)</p>
+                        <p class="text-slate-500 text-sm">บริหารจัดการสิทธิผู้ถูกประเมิน และผูกสายบังคับบัญชา (Master Data)</p>
                     </div>
                     <div class="flex gap-2">
-                        <button onclick="saveAdminData()"
-                            class="bg-scg-600 hover:bg-scg-700 text-white px-5 py-2.5 rounded-xl font-bold shadow-md flex items-center gap-2 transition-colors">
+                        <button onclick="saveAdminData()" class="bg-scg-600 hover:bg-scg-700 text-white px-5 py-2.5 rounded-xl font-bold shadow-md flex items-center gap-2 transition-colors">
                             <i class="fa-solid fa-save"></i> บันทึกข้อมูล (Save)
                         </button>
-                        <button onclick="exportToExcel()"
-                            class="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-xl font-bold shadow-md flex items-center gap-2 transition-colors shrink-0">
+                        <button onclick="exportToExcel()" class="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-xl font-bold shadow-md flex items-center gap-2 transition-colors shrink-0">
                             <i class="fa-solid fa-file-excel"></i> Export Data (Excel)
                         </button>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-3xl shadow-sm border border-slate-100 flex flex-col"
-                    style="max-height: calc(100vh - 150px);">
-                    <div
-                        class="p-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center rounded-t-3xl">
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-100 flex flex-col" style="max-height: calc(100vh - 150px);">
+                    <div class="p-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center rounded-t-3xl">
                         <div class="flex items-center gap-4">
-                            <input type="text" id="admin-search" placeholder="ค้นหาชื่อ, รหัส..."
-                                class="px-3 py-2 border border-slate-200 rounded-lg text-sm w-64 focus:outline-none focus:border-scg-500"
-                                onkeyup="renderAdminTable()">
+                            <input type="text" id="admin-search" placeholder="ค้นหาชื่อ, รหัส..." class="px-3 py-2 border border-slate-200 rounded-lg text-sm w-64 focus:outline-none focus:border-scg-500" onkeyup="renderAdminTable()">
                             <label class="flex items-center gap-2 cursor-pointer text-sm font-bold text-slate-700">
-                                <input type="checkbox" id="admin-select-all"
-                                    class="w-4 h-4 rounded border-slate-300 text-scg-600 focus:ring-scg-500"
-                                    onchange="toggleAdminSelectAll(this)">
+                                <input type="checkbox" id="admin-select-all" class="w-4 h-4 rounded border-slate-300 text-scg-600 focus:ring-scg-500" onchange="toggleAdminSelectAll(this)">
                                 เลือกทั้งหมด (Select All)
                             </label>
                         </div>
                         <div class="text-sm text-slate-500 font-bold" id="admin-count-info">กำลังโหลด...</div>
                     </div>
                     <div class="overflow-auto w-full custom-scrollbar flex-1 relative" style="min-height: 400px;">
-                        <table class="w-full text-left border-collapse whitespace-nowrap text-sm min-w-max relative"
-                            id="admin-table">
+                        <table class="w-full text-left border-collapse whitespace-nowrap text-sm min-w-max relative" id="admin-table">
                             <thead class="sticky top-0 z-30 bg-slate-50 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
-                                <tr
-                                    class="text-slate-600 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
+                                <tr class="text-slate-600 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
                                     <th class="py-3 px-4 border-r border-slate-100 text-center w-24">Evaluate?</th>
                                     <th class="py-3 px-4 border-r border-slate-100">Person ID</th>
                                     <th class="py-3 px-4 border-r border-slate-100">Name (TH)</th>
@@ -795,13 +685,11 @@
                     </div>
                 </div>
 
-
+                
 
                 <!-- Radar Charts Container -->
                 <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100">
-                    <h3 class="font-bold text-lg text-slate-800 mb-4 border-b pb-2"><i
-                            class="fa-solid fa-star text-scg-600 mr-2"></i> พนักงานที่มีความพร้อมสูงสุดแยกตามตำแหน่ง
-                        (Top Performers)</h3>
+                    <h3 class="font-bold text-lg text-slate-800 mb-4 border-b pb-2"><i class="fa-solid fa-star text-scg-600 mr-2"></i> พนักงานที่มีความพร้อมสูงสุดแยกตามตำแหน่ง (Top Performers)</h3>
                     <div id="analytic-radar-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <!-- Injected by JS -->
                     </div>
@@ -809,9 +697,7 @@
 
                 <!-- Gap Bar Chart Container -->
                 <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100">
-                    <h3 class="font-bold text-lg text-slate-800 mb-4 border-b pb-2"><i
-                            class="fa-solid fa-chart-bar text-scg-600 mr-2"></i> สถิติทักษะที่ต้องพัฒนา (Gap Frequency)
-                    </h3>
+                    <h3 class="font-bold text-lg text-slate-800 mb-4 border-b pb-2"><i class="fa-solid fa-chart-bar text-scg-600 mr-2"></i> สถิติทักษะที่ต้องพัฒนา (Gap Frequency)</h3>
                     <div class="w-full" style="height: 500px;">
                         <canvas id="analytic-bar-chart"></canvas>
                     </div>
@@ -825,18 +711,15 @@
                         <h2 class="font-bold text-2xl text-scg-900 mb-2">ข้อมูลพนักงาน (Employee Data)</h2>
                         <p class="text-slate-500">ตารางแสดงข้อมูลส่วนบุคคลและข้อมูลการทำงานของพนักงานทั้งหมดในระบบ</p>
                     </div>
-                    <button onclick="exportEmployeeData()"
-                        class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg shadow-sm transition-colors border border-slate-200 whitespace-nowrap">
+                    <button onclick="exportEmployeeData()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg shadow-sm transition-colors border border-slate-200 whitespace-nowrap">
                         <i class="fa-solid fa-file-export mr-2"></i> Export CSV
                     </button>
                 </div>
-                <div class="bg-white rounded-3xl shadow-sm border border-slate-100 flex flex-col"
-                    style="max-height: calc(100vh - 150px);">
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-100 flex flex-col" style="max-height: calc(100vh - 150px);">
                     <div class="overflow-auto w-full custom-scrollbar flex-1 relative" style="min-height: 400px;">
                         <table class="w-full text-left border-collapse whitespace-nowrap text-sm min-w-max relative">
                             <thead class="sticky top-0 z-30 bg-slate-50 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
-                                <tr
-                                    class="text-slate-600 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
+                                <tr class="text-slate-600 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Person ID</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Employee ID</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100 text-scg-700">User ID</th>
@@ -855,11 +738,9 @@
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Sub1-1 Business Unit</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Working Location</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Cost Center (Payment)</th>
-                                    <th class="align-top py-4 px-6 border-r border-slate-100">Cost Center (Organization)
-                                    </th>
+                                    <th class="align-top py-4 px-6 border-r border-slate-100">Cost Center (Organization)</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Report to Name</th>
-                                    <th class="align-top py-4 px-6 border-r border-slate-100">Certificate (Entry Degree)
-                                    </th>
+                                    <th class="align-top py-4 px-6 border-r border-slate-100">Certificate (Entry Degree)</th>
                                     <th class="align-top py-4 px-6">Email Address Business</th>
                                 </tr>
                             </thead>
@@ -918,22 +799,15 @@
         let selectedDivisionFilter = [];
         let selectedSub1CompanyFilter = [];
         let selectedCompanyFilter = [];
+        let selectedEmployeeFilter = [];
         let selectedCompetencyGroupFilter = [];
-        let selectedIDPPos = null;
-        let selectedIDPEmp = null;
         let idpRadarChartInstance = null;
-        let selectedDashJobGroupFilter = [];
-        let selectedDashPosFilter = [];
-        
+                
         // Analytic Tab State
         let analyticRadarCharts = [];
         let analyticBarChartInstance = null;
-        let analyticJobGroupFilter = [];
-        let analyticPosFilter = [];
-        let analyticEmpFilter = [];
-        let analyticSkillGroupFilter = [];
-        let analyticSkillFilter = [];
         let employeeData = [];
+        let employeeDataAll = [];
 
         async function fetchInitialData(silent = false) {
             try {
@@ -945,7 +819,8 @@
                 roleResponses = data.roleResponses || {};
                 positionGroups = data.positionGroups || {};
                 dbUsers = data.dbUsers || {};
-                employeeData = data.employeeData || [];
+                employeeDataAll = data.employeeData || [];
+                employeeData = employeeDataAll.filter(e => e.Pipeline === 'Evaluated');
                 if (!silent) {
                     checkLoginState();
                 }
@@ -984,8 +859,12 @@
         function handleLogin() {
             const user = document.getElementById('login-username').value;
             const pass = document.getElementById('login-password').value;
-            if (dbUsers[user] && dbUsers[user].pass === pass) {
-                localStorage.setItem('comp_sys_user', user);
+            
+            // Case-insensitive user lookup
+            const userKey = Object.keys(dbUsers).find(k => k.toLowerCase() === user.toLowerCase());
+            
+            if (userKey && dbUsers[userKey].pass === pass) {
+                localStorage.setItem('comp_sys_user', userKey);
                 checkLoginState();
             } else {
                 document.getElementById('login-error').classList.remove('hidden');
@@ -1050,16 +929,35 @@
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.getElementById(`tab-${tabId}`).classList.add('active');
 
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.className = btn.id === 'nav-admin' 
-                    ? 'nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-scg-700 bg-scg-50 border border-scg-200 shadow-sm hover:bg-scg-100 text-left mt-2 transition-all' 
-                    : 'nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-600 hover:text-scg-800 hover:bg-scg-50 text-left transition-all';
-            });
+            const tabsWithFilters = ['training', 'evaluation', 'dashboard', 'idp', 'analytic', 'admin'];
+            const globalFilters = document.getElementById('global-filters-container');
+            const compContainer = document.getElementById('global-competency-container');
+            if(globalFilters) {
+                if (tabsWithFilters.includes(tabId)) {
+                    globalFilters.classList.remove('hidden');
+                } else {
+                    globalFilters.classList.add('hidden');
+                }
+            }
+            if(compContainer) {
+                if (tabId === 'admin') {
+                    compContainer.classList.add('hidden');
+                } else {
+                    compContainer.classList.remove('hidden');
+                }
+            }
             
+            // Rebuild filters based on tab context (admin vs others)
+            buildFiltersUI(tabId);
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-scg-800', 'text-white', 'shadow-md', 'text-scg-700', 'bg-scg-50');
+                btn.classList.add('text-slate-600', 'hover:bg-scg-50');
+            });
             const activeBtn = document.getElementById(`nav-${tabId}`);
             if(activeBtn) {
                 activeBtn.classList.add('bg-scg-800', 'text-white', 'shadow-md');
-                activeBtn.classList.remove('text-slate-600', 'hover:bg-scg-50', 'text-scg-700', 'bg-scg-50');
+                activeBtn.classList.remove('text-slate-600', 'hover:bg-scg-50');
             }
 
             if(tabId === 'training') {
@@ -1077,8 +975,7 @@
             if(tabId === 'dashboard') setupDashboardTab();
             if(tabId === 'idp') setupIDPTab();
             if(tabId === 'analytic') {
-                buildAnalyticFiltersUI();
-                renderAnalyticTab();
+                    renderAnalyticTab();
             }
             if(tabId === 'admin') setupAdminTab();
             if(tabId === 'employee-data') renderEmployeeDataTab();
@@ -1226,22 +1123,54 @@
         }
 
 
-        window.toggleFilterMenu = function(menuId) {
-            document.querySelectorAll('.filter-menu').forEach(el => {
-                if(el.id !== menuId) el.classList.add('hidden');
-            });
-            const el = document.getElementById(menuId);
-            if(el) el.classList.toggle('hidden');
-        };
+        window.toggleFilterMenu = function(menuId) { const allMenus = document.querySelectorAll('.filter-menu'); let found = false; allMenus.forEach(el => { if(el.id === menuId) { el.classList.toggle('hidden'); found = true; } else { el.classList.add('hidden'); } }); if (!found) { const target = document.getElementById(menuId); if (target) { target.classList.toggle('hidden'); } } };
 
         // Close dropdowns when clicking outside
         document.addEventListener('click', function(e) {
-            if(!e.target.closest('.relative.z-20') && !e.target.closest('.filter-dropdown-container') && !e.target.closest('.w-full.relative')) {
-                document.querySelectorAll('.filter-menu').forEach(el => el.classList.add('hidden'));
+            if(!e.target.closest('.relative.z-20') && !e.target.closest('.filter-dropdown-container')) {
+                const menus = ['job-group-menu', 'pos-dropdown-menu', 'section-dropdown-menu', 'department-dropdown-menu', 'sub1division-dropdown-menu', 'division-dropdown-menu', 'sub1company-dropdown-menu', 'company-dropdown-menu', 'employee-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu', 'dash-job-group-menu', 'dash-pos-menu', 'analytic-job-group-menu', 'analytic-pos-menu', 'analytic-emp-menu', 'analytic-group-menu', 'analytic-skill-menu'];
+                menus.forEach(m => {
+                    const el = document.getElementById(m);
+                    if(el) el.classList.add('hidden');
+                });
             }
         });
 
-        function buildFiltersUI() {
+
+        function matchesFiltersExcept(e, ignoreFilter) {
+            let eComp = e.company || e.CompanyThai;
+            if (ignoreFilter !== 'company' && selectedCompanyFilter.length > 0 && (!eComp || !selectedCompanyFilter.includes(eComp))) return false;
+            let eSub1Comp = e.sub1_company || e.Sub1CompanyThai;
+            if (ignoreFilter !== 'sub1company' && selectedSub1CompanyFilter.length > 0 && (!eSub1Comp || !selectedSub1CompanyFilter.includes(eSub1Comp))) return false;
+            let eDiv = e.division || e.DivisionThai;
+            if (ignoreFilter !== 'division' && selectedDivisionFilter.length > 0 && (!eDiv || !selectedDivisionFilter.includes(eDiv))) return false;
+            let eSub1Div = e.sub1_division || e.Sub1DivisionThai;
+            if (ignoreFilter !== 'sub1division' && selectedSub1DivisionFilter.length > 0 && (!eSub1Div || !selectedSub1DivisionFilter.includes(eSub1Div))) return false;
+            let eDept = e.department || e.DepartmentThai;
+            if (ignoreFilter !== 'department' && selectedDepartmentFilter.length > 0 && (!eDept || !selectedDepartmentFilter.includes(eDept))) return false;
+            let eSect = e.section || e.SectionThai;
+            if (ignoreFilter !== 'section' && selectedSectionFilter.length > 0 && (!eSect || !selectedSectionFilter.includes(eSect))) return false;
+            
+            let posName = e.PositionNameThai || e.position_name;
+            if (ignoreFilter !== 'competency' && !hasCompetencyFilterMatch(posName)) return false;
+            if (ignoreFilter !== 'position' && selectedPositionsFilter.length > 0 && (!posName || !selectedPositionsFilter.includes(posName))) return false;
+            
+            if (ignoreFilter !== 'employee' && selectedEmployeeFilter.length > 0) {
+                let empName = e.FullNameTH || e.FullName || e.EmployeeNameThai || e.EmployeeNameEng;
+                if (!empName || !selectedEmployeeFilter.includes(empName)) return false;
+            }
+            if (ignoreFilter !== 'jobGroup' && selectedJobGroupFilter.length > 0) {
+                let jg = posName ? positionGroups[posName] : null;
+                if (!jg || !selectedJobGroupFilter.includes(jg)) return false;
+            }
+            return true;
+        }
+
+        function buildFiltersUI(tabId = null) {
+            if (!tabId) {
+                const activeTab = document.querySelector('.tab-content.active');
+                tabId = activeTab ? activeTab.id.replace('tab-', '') : 'dashboard';
+            }
             const jobGroupContainer = document.getElementById('job-group-filters');
             const posContainer = document.getElementById('position-filters');
             const sectionContainer = document.getElementById('section-filters');
@@ -1252,29 +1181,36 @@
             const companyContainer = document.getElementById('company-filters');
             const compGroupContainer = document.getElementById('comp-group-filters');
             const compContainer = document.getElementById('competency-filters');
+            const employeeContainer = document.getElementById('employee-filters');
             if(!posContainer || !compContainer) return;
             
             const visiblePos = getVisiblePositions(currentUser.id);
             
-            // Build Job Groups
-            let jobGroupsSet = new Set();
-            visiblePos.forEach(p => {
-                if(positionGroups[p]) jobGroupsSet.add(positionGroups[p]);
-            });
-
-            // Build Org Filters AND Position Filter
-            let sectionsSet = new Set(), deptsSet = new Set(), sub1DivsSet = new Set(), divsSet = new Set(), sub1CompsSet = new Set(), compsSet = new Set(), posSet = new Set();
-            visiblePos.forEach(p => {
-                const emps = employeeData.filter(e => p.includes(e.PositionNameThai) || (e.PositionNameThai && e.PositionNameThai.includes(p)));
-                emps.forEach(e => {
-                    if(e.SectionThai) sectionsSet.add(e.SectionThai);
-                    if(e.DepartmentThai) deptsSet.add(e.DepartmentThai);
-                    if(e.Sub1DivisionThai) sub1DivsSet.add(e.Sub1DivisionThai);
-                    if(e.DivisionThai) divsSet.add(e.DivisionThai);
-                    if(e.Sub1CompanyThai) sub1CompsSet.add(e.Sub1CompanyThai);
-                    if(e.CompanyThai) compsSet.add(e.CompanyThai);
-                    if(e.PositionNameThai) posSet.add(e.PositionNameThai);
-                });
+            // Build Org Filters AND Position Filter with Hierarchy/Intersection
+            let jobGroupsSet = new Set(), sectionsSet = new Set(), deptsSet = new Set(), sub1DivsSet = new Set(), divsSet = new Set(), sub1CompsSet = new Set(), compsSet = new Set(), posSet = new Set(), employeesSet = new Set();
+            
+            const dataSource = (tabId === 'admin') ? employeeDataAll : employeeData;
+            
+            dataSource.forEach(e => {
+                let posName = e.position_name || e.PositionNameThai;
+                if (!posName) return;
+                
+                const isVisible = visiblePos.some(p => p.includes(posName) || posName.includes(p));
+                if (!isVisible) return;
+                
+                if ((e.section || e.SectionThai) && matchesFiltersExcept(e, 'section')) sectionsSet.add(e.section || e.SectionThai);
+                if ((e.department || e.DepartmentThai) && matchesFiltersExcept(e, 'department')) deptsSet.add(e.department || e.DepartmentThai);
+                if ((e.sub1_division || e.Sub1DivisionThai) && matchesFiltersExcept(e, 'sub1division')) sub1DivsSet.add(e.sub1_division || e.Sub1DivisionThai);
+                if ((e.division || e.DivisionThai) && matchesFiltersExcept(e, 'division')) divsSet.add(e.division || e.DivisionThai);
+                if ((e.sub1_company || e.Sub1CompanyThai) && matchesFiltersExcept(e, 'sub1company')) sub1CompsSet.add(e.sub1_company || e.Sub1CompanyThai);
+                if ((e.company || e.CompanyThai) && matchesFiltersExcept(e, 'company')) compsSet.add(e.company || e.CompanyThai);
+                if (posName && matchesFiltersExcept(e, 'position')) posSet.add(posName);
+                
+                let empName = e.FullNameTH || e.FullName || e.EmployeeNameThai || e.EmployeeNameEng;
+                if (empName && matchesFiltersExcept(e, 'employee')) employeesSet.add(empName);
+                
+                let jg = positionGroups[posName];
+                if (jg && matchesFiltersExcept(e, 'jobGroup')) jobGroupsSet.add(jg);
             });
 
             const buildFilterHtml = (items, selectedArr, filterType) => {
@@ -1308,6 +1244,7 @@
             if(divisionContainer) divisionContainer.innerHTML = buildFilterHtml(divsSet, selectedDivisionFilter, 'division');
             if(sub1CompanyContainer) sub1CompanyContainer.innerHTML = buildFilterHtml(sub1CompsSet, selectedSub1CompanyFilter, 'sub1company');
             if(companyContainer) companyContainer.innerHTML = buildFilterHtml(compsSet, selectedCompanyFilter, 'company');
+            if(employeeContainer) employeeContainer.innerHTML = buildFilterHtml(employeesSet, selectedEmployeeFilter, 'employee');
 
             // Build Competency Groups
             let compGroupsSet = new Set();
@@ -1373,7 +1310,85 @@
             updateText('division-dropdown-text', selectedDivisionFilter, 'เลือก Division ทั้งหมด');
             updateText('sub1company-dropdown-text', selectedSub1CompanyFilter, 'เลือก Sub1-Company ทั้งหมด');
             updateText('company-dropdown-text', selectedCompanyFilter, 'เลือก Company ทั้งหมด');
+            updateText('employee-dropdown-text', selectedEmployeeFilter, 'เลือกพนักงานทั้งหมด');
         }
+
+        
+        
+        function hasCompetencyFilterMatch(posName) {
+            if (selectedCompetencyGroupFilter.length === 0 && selectedCompetenciesFilter.length === 0) return true;
+            if (!posName || !positionTargets[posName]) return false;
+            
+            let filteredComps = competencies;
+            if (selectedCompetencyGroupFilter.length > 0) {
+                filteredComps = filteredComps.filter(c => selectedCompetencyGroupFilter.includes(c.group));
+            }
+            if (selectedCompetenciesFilter.length > 0) {
+                filteredComps = filteredComps.filter(c => selectedCompetenciesFilter.includes(c.name));
+            }
+            
+            const indices = filteredComps.map(c => competencies.findIndex(x => x.id === c.id));
+            const targets = positionTargets[posName];
+            
+            for (let idx of indices) {
+                if (targets[idx] && targets[idx] > 0) return true;
+            }
+            return false;
+        }
+
+        function matchesOrgFiltersData(eData) {
+            if(!eData) return true;
+            let posName = eData.PositionNameThai || eData.position_name || eData.position;
+            if (!hasCompetencyFilterMatch(posName)) return false;
+            if(selectedJobGroupFilter.length > 0 && (!posName || !selectedJobGroupFilter.includes(positionGroups[posName]))) return false;
+            if(selectedPositionsFilter.length > 0 && (!posName || !selectedPositionsFilter.includes(posName))) return false;
+            
+            if(selectedEmployeeFilter.length > 0) {
+                let empName = eData.FullNameTH || eData.FullName || eData.EmployeeNameThai || eData.EmployeeNameEng;
+                if(!empName || !selectedEmployeeFilter.includes(empName)) return false;
+            }
+            
+            if(selectedSectionFilter.length > 0 && !selectedSectionFilter.includes(eData.SectionThai)) return false;
+            if(selectedDepartmentFilter.length > 0 && !selectedDepartmentFilter.includes(eData.DepartmentThai)) return false;
+            if(selectedSub1DivisionFilter.length > 0 && !selectedSub1DivisionFilter.includes(eData.Sub1DivisionThai)) return false;
+            if(selectedDivisionFilter.length > 0 && !selectedDivisionFilter.includes(eData.DivisionThai)) return false;
+            if(selectedSub1CompanyFilter.length > 0 && !selectedSub1CompanyFilter.includes(eData.Sub1CompanyThai)) return false;
+            if(selectedCompanyFilter.length > 0 && !selectedCompanyFilter.includes(eData.CompanyThai)) return false;
+            
+            return true;
+        }
+
+        function isEmployeeMatchingOrgFilters(empId) {
+            let emp = dbUsers[empId];
+            if(!emp) return false;
+            
+            let eData = employeeData.find(e => e.username === empId || e.user_id === empId || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name || e.FullNameTH === emp.name);
+            
+            if(!eData) return false;
+            return matchesOrgFiltersData(eData);
+        }
+
+
+        function applyGlobalFiltersToSubIds(subIds) {
+            return subIds.filter(id => isEmployeeMatchingOrgFilters(id));
+        }
+
+        
+        function renderActiveTab() {
+            const activeTab = document.querySelector('.tab-content.active');
+            if(!activeTab) return;
+            const id = activeTab.id.replace('tab-', '');
+            if(id === 'training') {
+                buildRoleResponseSection();
+                buildTrainingMatrix();
+            }
+            if(id === 'evaluation') setupEvaluationTab();
+            if(id === 'dashboard') setupDashboardTab();
+            if(id === 'idp') renderIDPContent();
+            if(id === 'analytic') renderAnalyticTab();
+            if(id === 'admin') renderAdminTable();
+        }
+
 
         window.toggleFilterValue = function(type, v) {
             let arr;
@@ -1385,14 +1400,34 @@
             else if(type === 'division') arr = selectedDivisionFilter;
             else if(type === 'sub1company') arr = selectedSub1CompanyFilter;
             else if(type === 'company') arr = selectedCompanyFilter;
+            else if(type === 'employee') arr = selectedEmployeeFilter;
             
             if(arr) {
                 const idx = arr.indexOf(v);
                 if(idx > -1) arr.splice(idx, 1);
                 else arr.push(v);
             }
-            buildFiltersUI(); buildRoleResponseSection(); buildTrainingMatrix();
+            buildFiltersUI(); renderActiveTab();
         }
+
+        
+        window.clearAllFilters = function() {
+            selectedJobGroupFilter = [];
+            selectedPositionsFilter = [];
+            selectedSectionFilter = [];
+            selectedDepartmentFilter = [];
+            selectedSub1DivisionFilter = [];
+            selectedDivisionFilter = [];
+            selectedSub1CompanyFilter = [];
+            selectedCompanyFilter = [];
+            selectedEmployeeFilter = [];
+            
+            selectedCompetencyGroupFilter = [];
+            selectedCompetenciesFilter = [];
+            
+            buildFiltersUI();
+            renderActiveTab();
+        };
 
         window.setAllFilter = function(type, isSelectAll) {
             let arr;
@@ -1405,6 +1440,7 @@
             else if(type === 'division') { arr = selectedDivisionFilter; containerId = 'division-filters'; }
             else if(type === 'sub1company') { arr = selectedSub1CompanyFilter; containerId = 'sub1company-filters'; }
             else if(type === 'company') { arr = selectedCompanyFilter; containerId = 'company-filters'; }
+            else if(type === 'employee') { arr = selectedEmployeeFilter; containerId = 'employee-filters'; }
             
             if(arr && containerId) {
                 arr.length = 0; // Clear it
@@ -1419,7 +1455,7 @@
                     }
                 }
             }
-            buildFiltersUI(); buildRoleResponseSection(); buildTrainingMatrix();
+            buildFiltersUI(); renderActiveTab();
         }
 
         window.searchFilterList = function(input) {
@@ -1435,85 +1471,83 @@
             if(selectedCompetencyGroupFilter.includes(g)) selectedCompetencyGroupFilter = selectedCompetencyGroupFilter.filter(x => x !== g);
             else selectedCompetencyGroupFilter.push(g);
             buildFiltersUI();
-            buildTrainingMatrix();
+            renderActiveTab();
         }
 
         window.toggleCompFilter = function(c) {
             if(selectedCompetenciesFilter.includes(c)) selectedCompetenciesFilter = selectedCompetenciesFilter.filter(x => x !== c);
             else selectedCompetenciesFilter.push(c);
             buildFiltersUI();
-            buildTrainingMatrix();
+            renderActiveTab();
         }
 
         function buildRoleResponseSection() {
             const container = document.getElementById('role-response-container');
-            let visiblePos = getVisiblePositions(currentUser.id);
-            if(selectedJobGroupFilter.length > 0) {
-                visiblePos = visiblePos.filter(p => selectedJobGroupFilter.includes(positionGroups[p]));
-            }
+            
+            let visiblePosSet = new Set();
+            employeeData.forEach(e => {
+                if (matchesFiltersExcept(e, null)) {
+                    let posName = e.PositionNameThai || e.position_name;
+                    if (posName) visiblePosSet.add(posName);
+                }
+            });
+            let visiblePos = Array.from(visiblePosSet).filter(p => p).sort();
 
-            let orgFiltersActive = selectedSectionFilter.length > 0 || selectedDepartmentFilter.length > 0 || selectedSub1DivisionFilter.length > 0 || selectedDivisionFilter.length > 0 || selectedSub1CompanyFilter.length > 0 || selectedCompanyFilter.length > 0;
-            if (orgFiltersActive) {
-                visiblePos = visiblePos.filter(p => {
-                                        const emps = employeeData.filter(e => p.includes(e.PositionNameThai) || (e.position_name && e.position_name.includes(p)));
-                    if(emps.length === 0) return false;
-                    return emps.some(e => {
-                        let match = true;
-                        if (selectedSectionFilter.length > 0 && !selectedSectionFilter.includes(e.SectionThai)) match = false;
-                        if (selectedDepartmentFilter.length > 0 && !selectedDepartmentFilter.includes(e.DepartmentThai)) match = false;
-                        if (selectedSub1DivisionFilter.length > 0 && !selectedSub1DivisionFilter.includes(e.Sub1DivisionThai)) match = false;
-                        if (selectedDivisionFilter.length > 0 && !selectedDivisionFilter.includes(e.DivisionThai)) match = false;
-                        if (selectedSub1CompanyFilter.length > 0 && !selectedSub1CompanyFilter.includes(e.Sub1CompanyThai)) match = false;
-                        if (selectedCompanyFilter.length > 0 && !selectedCompanyFilter.includes(e.CompanyThai)) match = false;
-                        return match;
-                    });
-                });
-            }
-
-                        if(selectedPositionsFilter.length > 0) {
-                visiblePos = visiblePos.filter(p => {
-                    return selectedPositionsFilter.some(sp => p.includes(sp) || sp.includes(p));
-                });
-            }
             const isAdmin = currentUser.id === 'Admin';
             
-            let html = '';
+            let html = '<div class="flex flex-col gap-3">';
+            if (visiblePos.length === 0) {
+                html += '<p class="text-slate-400 text-sm py-4">ไม่พบตำแหน่งที่ตรงกับเงื่อนไข</p>';
+            }
+            
             visiblePos.forEach(pos => {
                 const response = roleResponses[pos] || "ยังไม่ระบุหน้าที่ความรับผิดชอบ...";
-                html += `
-                <div class="bg-white p-5 rounded-2xl border ${isAdmin && isEditMode ? 'border-amber-200 bg-amber-50/10' : 'border-slate-100'} hover:shadow-md transition-shadow">
-                    <div class="flex items-start gap-3">
-                        <div class="bg-scg-50 p-2.5 rounded-xl shrink-0"><i class="fa-solid fa-user-gear text-scg-500"></i></div>
-                        <div class="w-full">
-                            `;
-                            
+                const group = positionGroups[pos] || '-';
+                
                 if(isAdmin && isEditMode) {
                     html += `
-                        <input type="text" value="${pos}" onchange="handlePositionChange('${pos}', this.value)" class="w-full font-bold text-scg-900 text-sm mb-2 border-b border-scg-300 bg-transparent px-1 py-1 focus:border-scg-600 outline-none" title="แก้ไขชื่อตำแหน่ง">
-                        <div class="mb-2">
-                            <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1 block">กลุ่มงาน (Job Group)</label>
-                            <input type="text" value="${positionGroups[pos] || ''}" onchange="handlePositionGroupChange('${pos}', this.value)" placeholder="ระบุกลุ่มงาน..." class="w-full text-xs text-slate-700 p-1.5 border border-slate-200 rounded outline-none focus:border-scg-500 bg-white">
+                    <div class="bg-white p-4 rounded-xl border border-amber-200 bg-amber-50/10 hover:shadow-md transition-shadow">
+                        <div class="flex flex-col md:flex-row items-start gap-4">
+                            <div class="flex items-center gap-3 md:w-1/3">
+                                <div class="w-10 h-10 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-user-gear"></i>
+                                </div>
+                                <div class="w-full">
+                                    <input type="text" value="${pos}" onchange="handlePositionChange('${pos}', this.value)" class="w-full font-bold text-scg-900 text-sm mb-1 border-b border-amber-300 bg-transparent px-1 py-1 focus:border-scg-600 outline-none" title="แก้ไขชื่อตำแหน่ง">
+                                    <input type="text" value="${group}" onchange="handlePositionGroupChange('${pos}', this.value)" placeholder="ระบุกลุ่มงาน..." class="w-full text-xs text-slate-700 p-1 border border-slate-200 rounded outline-none focus:border-amber-500 bg-white">
+                                </div>
+                            </div>
+                            <div class="md:w-2/3 flex w-full gap-2">
+                                <textarea rows="2" onchange="handleRoleResponseChange('${pos}', this.value)" class="w-full text-xs text-slate-600 p-2 border border-slate-200 rounded outline-none focus:border-amber-500 resize-none bg-white">${response}</textarea>
+                                <button onclick="deletePosition('${pos}')" class="text-red-400 hover:text-white hover:bg-red-500 p-2 rounded-lg transition-colors border border-red-100 flex-shrink-0" title="ลบตำแหน่งนี้"><i class="fa-solid fa-trash"></i></button>
+                            </div>
                         </div>
-                        <div class="flex justify-between items-start w-full gap-2">
-                            <textarea rows="3" onchange="handleRoleResponseChange('${pos}', this.value)" class="w-full text-xs text-slate-600 p-2 border border-slate-200 rounded outline-none focus:border-scg-500 resize-none bg-white">${response}</textarea>
-                            <button onclick="deletePosition('${pos}')" class="text-red-400 hover:text-white hover:bg-red-500 p-2 rounded-lg transition-colors border border-red-100 flex-shrink-0" title="ลบตำแหน่งนี้"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    `;
+                    </div>`;
                 } else {
                     html += `
-                        <h4 class="font-bold text-scg-900 text-sm mb-1">${pos}</h4>
-                        <p class="text-xs text-slate-500 leading-relaxed whitespace-pre-wrap">${response}</p>
-                    `;
+                    <div class="bg-white p-4 rounded-xl border border-slate-100 flex flex-col md:flex-row items-start md:items-center gap-4 hover:shadow-md transition-all">
+                        <div class="flex items-center gap-3 md:w-1/3 shrink-0">
+                            <div class="w-10 h-10 rounded-full bg-scg-50 text-scg-500 flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-briefcase"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-scg-900 text-sm">${pos}</h4>
+                                <span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-medium inline-block mt-1">${group}</span>
+                            </div>
+                        </div>
+                        <div class="md:w-2/3 w-full">
+                            <p class="text-xs text-slate-500 leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-50 min-h-[40px] whitespace-pre-wrap">${response}</p>
+                        </div>
+                    </div>`;
                 }
-                
-                html += `</div></div></div>`;
             });
+            html += '</div>';
             
             if (isAdmin && isEditMode) {
                 html += `
-                <div onclick="addNewPosition()" class="bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl flex flex-col items-center justify-center p-6 cursor-pointer hover:border-scg-400 hover:bg-scg-50 transition-colors group">
-                    <div class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center mb-2 group-hover:scale-110 transition-transform"><i class="fa-solid fa-plus text-scg-500"></i></div>
-                    <span class="text-sm font-bold text-slate-500 group-hover:text-scg-700">เพิ่มตำแหน่งใหม่</span>
+                <div onclick="addNewPosition()" class="mt-4 bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer hover:border-scg-400 hover:bg-scg-50 transition-colors group">
+                    <div class="w-8 h-8 rounded-full bg-white shadow-sm flex items-center justify-center mb-2 group-hover:scale-110 transition-transform"><i class="fa-solid fa-plus text-scg-500 text-sm"></i></div>
+                    <span class="text-xs font-bold text-slate-500 group-hover:text-scg-700">เพิ่มตำแหน่งใหม่</span>
                 </div>`;
             }
             container.innerHTML = html;
@@ -1521,34 +1555,16 @@
 
         function buildTrainingMatrix() {
             const container = document.getElementById('training-matrix-container');
-            let visiblePos = getVisiblePositions(currentUser.id);
-            if(selectedJobGroupFilter.length > 0) {
-                visiblePos = visiblePos.filter(p => selectedJobGroupFilter.includes(positionGroups[p]));
-            }
+            
+            let visiblePosSet = new Set();
+            employeeData.forEach(e => {
+                if (matchesFiltersExcept(e, null)) {
+                    let posName = e.PositionNameThai || e.position_name;
+                    if (posName) visiblePosSet.add(posName);
+                }
+            });
+            let visiblePos = Array.from(visiblePosSet).filter(p => p).sort();
 
-            let orgFiltersActive = selectedSectionFilter.length > 0 || selectedDepartmentFilter.length > 0 || selectedSub1DivisionFilter.length > 0 || selectedDivisionFilter.length > 0 || selectedSub1CompanyFilter.length > 0 || selectedCompanyFilter.length > 0;
-            if (orgFiltersActive) {
-                visiblePos = visiblePos.filter(p => {
-                                        const emps = employeeData.filter(e => p.includes(e.PositionNameThai) || (e.position_name && e.position_name.includes(p)));
-                    if(emps.length === 0) return false;
-                    return emps.some(e => {
-                        let match = true;
-                        if (selectedSectionFilter.length > 0 && !selectedSectionFilter.includes(e.SectionThai)) match = false;
-                        if (selectedDepartmentFilter.length > 0 && !selectedDepartmentFilter.includes(e.DepartmentThai)) match = false;
-                        if (selectedSub1DivisionFilter.length > 0 && !selectedSub1DivisionFilter.includes(e.Sub1DivisionThai)) match = false;
-                        if (selectedDivisionFilter.length > 0 && !selectedDivisionFilter.includes(e.DivisionThai)) match = false;
-                        if (selectedSub1CompanyFilter.length > 0 && !selectedSub1CompanyFilter.includes(e.Sub1CompanyThai)) match = false;
-                        if (selectedCompanyFilter.length > 0 && !selectedCompanyFilter.includes(e.CompanyThai)) match = false;
-                        return match;
-                    });
-                });
-            }
-
-                        if(selectedPositionsFilter.length > 0) {
-                visiblePos = visiblePos.filter(p => {
-                    return selectedPositionsFilter.some(sp => p.includes(sp) || sp.includes(p));
-                });
-            }
             const isAdmin = currentUser.id === 'Admin';
             
             let html = `<table class="w-full text-left border-collapse text-sm"><thead><tr class="bg-slate-50 border-b border-slate-100 text-slate-600"><th class="p-4 font-semibold min-w-[200px] w-1/4">Competency</th>`;
@@ -1567,6 +1583,8 @@
             competencies.forEach((comp, compIndex) => {
                 if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(comp.group)) return;
                 if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(comp.name)) return;
+                
+                // Removed hasTarget check to always display all competencies
 
                 html += `<tr class="hover:bg-slate-50">`;
                 
@@ -1735,25 +1753,105 @@
 
         function populateEvalDropdown() {
             const selectEl = document.getElementById('eval-employee-select');
+            const prevVal = selectEl.value;
             selectEl.innerHTML = '';
             
-            const subs = actingAsRole === 'Admin' ? [] : getSubordinates(actingAsRole);
-            
-            if (subs.length === 0) {
-                selectEl.innerHTML = '<option value="">-- ไม่มีผู้ใต้บังคับบัญชา --</option>';
-                document.getElementById('sliders-container').innerHTML = '<div class="text-center text-slate-400 py-10">ไม่พบข้อมูลให้ประเมิน</div>';
+            let validEmps = [];
+            let actingName = dbUsers[actingAsRole] ? dbUsers[actingAsRole].name : '';
+
+            employeeData.forEach(e => {
+                let empName = e.FullNameTH || e.FullName || e.EmployeeNameThai || e.EmployeeNameEng;
+                let pName = e.PositionNameThai || e.position_name;
+                let uid = e.user_id || e.username || e.SCGEmployeeID || empName;
+                
+                if (matchesFiltersExcept(e, null)) {
+                    let isSub = false;
+                    if (actingAsRole === 'Admin') {
+                        isSub = true;
+                    } else {
+                        let mName = e.ManagerName || e.ReportToName || '';
+                        if (actingName && mName.includes(actingName)) isSub = true;
+                        if (!isSub && getSubordinates(actingAsRole).includes(uid)) isSub = true;
+                    }
+                    
+                    if (isSub && empName) {
+                        validEmps.push({ id: uid, name: empName, position: pName || 'Unassigned', raw: e });
+                    }
+                }
+            });
+
+            if (validEmps.length === 0) {
+                selectEl.innerHTML = '<option value="">-- ไม่พบผู้ใต้บังคับบัญชา --</option>';
+                document.getElementById('sliders-container').innerHTML = '<div class="text-center text-slate-400 py-10">ไม่พบข้อมูล หรือ ยังไม่ได้เริ่มประเมิน</div>';
                 if(evalRadarChartInstance) evalRadarChartInstance.destroy();
                 return;
             }
-            subs.forEach(id => { selectEl.innerHTML += `<option value="${id}">${dbUsers[id].name} (${dbUsers[id].position})</option>`; });
+
+            // Remove duplicates by ID
+            let uniqueEmps = [];
+            let seenIds = new Set();
+            validEmps.forEach(emp => {
+                if(!seenIds.has(emp.id)) {
+                    seenIds.add(emp.id);
+                    uniqueEmps.push(emp);
+                }
+            });
+
+            uniqueEmps.forEach(emp => { 
+                selectEl.innerHTML += `<option value="${emp.id}">${emp.name} (${emp.position})</option>`; 
+            });
+            
+            if (prevVal && Array.from(selectEl.options).some(o => o.value === prevVal)) {
+                selectEl.value = prevVal;
+            }
+            
             updateEvalUI();
         }
 
         function updateEvalUI() {
             const id = document.getElementById('eval-employee-select').value;
             if(!id) return;
+            if (!dbUsers[id]) {
+                const rawEData = employeeData.find(e => e.user_id === id || e.username === id || e.SCGEmployeeID === id || (e.FullNameTH || e.FullName || e.EmployeeNameThai || e.EmployeeNameEng) === id);
+                if (rawEData) {
+                    const empName = rawEData.FullNameTH || rawEData.FullName || rawEData.EmployeeNameThai || rawEData.EmployeeNameEng;
+                    const pName = rawEData.PositionNameThai || rawEData.position_name || 'Unassigned';
+                    dbUsers[id] = {
+                        name: empName,
+                        position: pName,
+                        actuals: [],
+                        evidences: [],
+                        additional_expectations: [],
+                        learning_topics: [],
+                        managerIds: []
+                    };
+                    // Auto create in backend
+                    fetch(`${API_BASE}/users`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ uid: id, pass: 'Pass@1234', name: empName, pos: pName, mgrs: [], num_comps: competencies.length })
+                    }).catch(e => console.error(e));
+                }
+            }
+
             const emp = dbUsers[id];
-            const targets = positionTargets[emp.position] || [];
+            const eData = employeeData.find(e => e.user_id === id || e.username === id || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name || e.FullNameTH === emp.name);
+            let pName = emp.position;
+            if(eData && eData.PositionNameThai) pName = eData.PositionNameThai;
+            else if(eData && eData.position_name) pName = eData.position_name;
+
+            const targets = positionTargets[pName] || [];
+            const hasMappedCompetency = targets.some(t => t > 0);
+            
+            if (!hasMappedCompetency) {
+                document.getElementById('sliders-container').innerHTML = `<div class="text-center py-16 bg-slate-50 rounded-xl border border-slate-200 shadow-sm mt-4">
+                    <i class="fa-solid fa-link-slash text-4xl text-amber-300 mb-4 block"></i>
+                    <p class="text-slate-600 font-bold text-lg">กรุณาผูก Competency ในตำแหน่งนี้ ก่อน</p>
+                    <p class="text-slate-400 text-sm mt-2">ผู้ดูแลระบบ (Admin) ต้องกำหนดความคาดหวังทักษะสำหรับตำแหน่ง "${pName}" ในหน้า Training Need ก่อนทำการประเมิน</p>
+                </div>`;
+                if(evalRadarChartInstance) evalRadarChartInstance.destroy();
+                return;
+            }
             const currentLabels = getLabels();
 
             document.getElementById('eval-emp-name').textContent = emp.name;
@@ -1761,11 +1859,14 @@
 
             let html = '';
             for (let i = 0; i < competencies.length; i++) {
+                if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+                
                 const targetVal = targets[i] || 0;
-                if (targetVal === 0) continue; // Skip competencies with target 0
+                if (targetVal === 0) continue;
                 
                 const targetText = targetVal === 0 ? 'None' : `L${targetVal}`;
-                const currentVal = emp.actuals[i] === 0 ? 1 : emp.actuals[i];
+                const currentVal = (emp.actuals[i] || 0) === 0 ? 1 : emp.actuals[i];
                 const currentDesc = competencies[i].levels[currentVal] || "";
 
                 html += `
@@ -1845,8 +1946,47 @@
 
         function drawEvalRadar() {
             const id = document.getElementById('eval-employee-select').value;
+            if (!dbUsers[id]) {
+                const rawEData = employeeData.find(e => e.user_id === id || e.username === id || e.SCGEmployeeID === id || (e.FullNameTH || e.FullName || e.EmployeeNameThai || e.EmployeeNameEng) === id);
+                if (rawEData) {
+                    const empName = rawEData.FullNameTH || rawEData.FullName || rawEData.EmployeeNameThai || rawEData.EmployeeNameEng;
+                    const pName = rawEData.PositionNameThai || rawEData.position_name || 'Unassigned';
+                    dbUsers[id] = {
+                        name: empName,
+                        position: pName,
+                        actuals: [],
+                        evidences: [],
+                        additional_expectations: [],
+                        learning_topics: [],
+                        managerIds: []
+                    };
+                    // Auto create in backend
+                    fetch(`${API_BASE}/users`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ uid: id, pass: 'Pass@1234', name: empName, pos: pName, mgrs: [], num_comps: competencies.length })
+                    }).catch(e => console.error(e));
+                }
+            }
+
             const emp = dbUsers[id];
-            const targets = positionTargets[emp.position] || [];
+            const eData = employeeData.find(e => e.user_id === id || e.username === id || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name || e.FullNameTH === emp.name);
+            let pName = emp.position;
+            if(eData && eData.PositionNameThai) pName = eData.PositionNameThai;
+            else if(eData && eData.position_name) pName = eData.position_name;
+
+            const targets = positionTargets[pName] || [];
+            const hasMappedCompetency = targets.some(t => t > 0);
+            
+            if (!hasMappedCompetency) {
+                document.getElementById('sliders-container').innerHTML = `<div class="text-center py-16 bg-slate-50 rounded-xl border border-slate-200 shadow-sm mt-4">
+                    <i class="fa-solid fa-link-slash text-4xl text-amber-300 mb-4 block"></i>
+                    <p class="text-slate-600 font-bold text-lg">กรุณาผูก Competency ในตำแหน่งนี้ ก่อน</p>
+                    <p class="text-slate-400 text-sm mt-2">ผู้ดูแลระบบ (Admin) ต้องกำหนดความคาดหวังทักษะสำหรับตำแหน่ง "${pName}" ในหน้า Training Need ก่อนทำการประเมิน</p>
+                </div>`;
+                if(evalRadarChartInstance) evalRadarChartInstance.destroy();
+                return;
+            }
             let actuals = [];
             let cleanLabels = [];
             let cleanTargets = [];
@@ -1857,8 +1997,11 @@
             });
 
             for (let i = 0; i < competencies.length; i++) {
+                if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+                
                 const t = targets[i] || 0;
-                if (t === 0) continue; // Only show on radar if target > 0
+                if (t === 0) continue;
                 
                 cleanLabels.push(allLabels[i]);
                 cleanTargets.push(t);
@@ -1932,36 +2075,22 @@
 
         // --- 5. Dashboard Logic ---
         function setupDashboardTab() {
-            buildDashFiltersUI();
             
             const currentUserId = currentUser.id;
-            let subs = getSubordinates(currentUserId);
+            const mySubs = getSubordinates(currentUserId);
             let toShow = [];
 
             if (currentUserId === 'Admin') {
-                toShow = Object.keys(dbUsers).filter(id => id !== 'Admin');
+                toShow = applyGlobalFiltersToSubIds(Object.keys(dbUsers).filter(id => id !== 'Admin'));
                 document.getElementById('dash-manager-view').style.display = 'block';
-            } else if (subs.length === 0) {
-                toShow = [currentUserId];
+            } else if (mySubs.length === 0) {
+                toShow = applyGlobalFiltersToSubIds([currentUserId]);
                 document.getElementById('dash-manager-view').style.display = 'none';
             } else {
-                toShow = subs;
+                toShow = applyGlobalFiltersToSubIds(mySubs);
                 document.getElementById('dash-manager-view').style.display = 'block';
             }
             
-            // Apply Filters
-            if(selectedDashJobGroupFilter.length > 0) {
-                toShow = toShow.filter(id => {
-                    const emp = dbUsers[id];
-                    return emp && positionGroups[emp.position] === selectedDashJobGroupFilter[0];
-                });
-            }
-            if(selectedDashPosFilter.length > 0) {
-                toShow = toShow.filter(id => {
-                    const emp = dbUsers[id];
-                    return emp && selectedDashPosFilter.includes(emp.position);
-                });
-            }
 
             if(toShow.length === 0) {
                  document.getElementById('dash-individual-cards-container').innerHTML = '<div class="text-center bg-white p-10 rounded-3xl border border-slate-100 text-slate-400">ไม่พบข้อมูลให้แสดงผล</div>';
@@ -1969,82 +2098,13 @@
                  return;
             }
 
-            if(subs.length > 0 || currentUserId === 'Admin') {
+            if(mySubs.length > 0 || currentUserId === 'Admin') {
                 drawAverageBarChart(toShow);
             }
             renderIndividualDashboards(toShow);
         }
         
-        function buildDashFiltersUI() {
-            const jgContainer = document.getElementById('dash-job-group-filters');
-            const posContainer = document.getElementById('dash-pos-filters');
-            if(!jgContainer || !posContainer) return;
-            
-            // Get visible positions for filtering
-            let visiblePosSet = new Set();
-            let visibleUsers = currentUser.id === 'Admin' ? Object.keys(dbUsers).filter(id => id !== 'Admin') : [currentUser.id, ...getSubordinates(currentUser.id)];
-            visibleUsers.forEach(uid => {
-                if(dbUsers[uid] && dbUsers[uid].position) visiblePosSet.add(dbUsers[uid].position);
-            });
-            let visiblePos = Array.from(visiblePosSet).sort();
-
-            let groupsSet = new Set();
-            for(let p of visiblePos) {
-                if(positionGroups[p]) groupsSet.add(positionGroups[p]);
-            }
-            let jobGroups = Array.from(groupsSet).sort();
-
-            let jgHtml = '';
-            jobGroups.forEach(g => {
-                const checked = selectedDashJobGroupFilter.includes(g) ? 'checked' : '';
-                jgHtml += `<label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
-                    <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${checked} onchange="toggleDashFilter('jobGroup', '${g}')">
-                    <span class="text-sm font-medium ${checked ? 'text-scg-700' : 'text-slate-600'}">${g}</span>
-                </label>`;
-            });
-            jgContainer.innerHTML = jgHtml || '<p class="text-xs text-slate-400 p-2 text-center">ไม่มีกลุ่มงาน</p>';
-
-            let posHtml = '';
-            let filteredPositionsForDropdown = visiblePos;
-            if(selectedDashJobGroupFilter.length > 0) {
-                filteredPositionsForDropdown = visiblePos.filter(p => positionGroups[p] === selectedDashJobGroupFilter[0]);
-            }
-            
-            filteredPositionsForDropdown.forEach(p => {
-                const checked = selectedDashPosFilter.includes(p) ? 'checked' : '';
-                posHtml += `<label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
-                    <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${checked} onchange="toggleDashFilter('position', '${p}')">
-                    <span class="text-sm font-medium ${checked ? 'text-scg-700' : 'text-slate-600'}">${p}</span>
-                </label>`;
-            });
-            posContainer.innerHTML = posHtml || '<p class="text-xs text-slate-400 p-2 text-center">ไม่มีตำแหน่ง</p>';
-
-            const jgText = document.getElementById('dash-job-group-text');
-            if(selectedDashJobGroupFilter.length === 0) jgText.textContent = 'ทั้งหมด';
-            else if(selectedDashJobGroupFilter.length === 1) jgText.textContent = selectedDashJobGroupFilter[0];
-            else jgText.textContent = `เลือก ${selectedDashJobGroupFilter.length} กลุ่มงาน`;
-
-            const posText = document.getElementById('dash-pos-text');
-            if(selectedDashPosFilter.length === 0) posText.textContent = 'ทั้งหมด';
-            else if(selectedDashPosFilter.length === 1) posText.textContent = selectedDashPosFilter[0];
-            else posText.textContent = `เลือก ${selectedDashPosFilter.length} ตำแหน่ง`;
-        }
-
-        window.toggleDashFilter = function(type, value) {
-            if(type === 'jobGroup') {
-                const idx = selectedDashJobGroupFilter.indexOf(value);
-                if(idx > -1) selectedDashJobGroupFilter.splice(idx, 1);
-                else {
-                    selectedDashJobGroupFilter = [value];
-                    selectedDashPosFilter = [];
-                }
-            } else if(type === 'position') {
-                const idx = selectedDashPosFilter.indexOf(value);
-                if(idx > -1) selectedDashPosFilter.splice(idx, 1);
-                else selectedDashPosFilter.push(value);
-            }
-            setupDashboardTab();
-        };
+        
 
         function drawAverageBarChart(subIds) {
             const dataToSort = [];
@@ -2058,7 +2118,11 @@
                 let validCompsCount = 0;
 
                 for (let i = 0; i < competencies.length; i++) {
-                    const t = targets[i] || 0;
+                if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+                
+                const t = targets[i] || 0;
+                if (t === 0) continue;
                     if (t > 0) {
                         sumTarget += t;
                         sumActual += (emp.actuals[i] || 0);
@@ -2206,7 +2270,11 @@
                 let totalTarget = 0; let totalActual = 0; let gaps = [];
                 
                 for(let i=0; i<competencies.length; i++) {
+                    if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                    if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+
                     const t = targets[i] || 0;
+                    if (t === 0) continue;
                     if (t > 0) {
                         const a = emp.actuals[i] || 0;
                         totalTarget += t;
@@ -2217,7 +2285,7 @@
                 }
 
                 const readiness = totalTarget === 0 ? 0 : Math.round((totalActual / totalTarget) * 100);
-                const safeReadiness = readiness > 100 ? 100 : readiness;
+                const safeReadiness = readiness;
                 let readinessColor = safeReadiness >= 100 ? "text-green-400" : (safeReadiness >= 80 ? "text-yellow-400" : "text-red-400");
                 const gapText = gaps.length === 0 ? "พร้อมสมบูรณ์ (ไม่มี Gap)" : `พบ ${gaps.length} ทักษะที่ต้องพัฒนา`;
 
@@ -2277,6 +2345,9 @@
                 const cleanActuals = [];
                 
                 for (let i = 0; i < currentLabels.length; i++) {
+                    if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                    if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+
                     if (tData[i] && tData[i] > 0) {
                         const parts = currentLabels[i].split('. ');
                         cleanLabels.push(parts.length > 1 ? parts.slice(1).join('. ') : currentLabels[i]);
@@ -2301,49 +2372,152 @@
         }
 
         // --- 6. Admin Panel Export & Management ---
+        
+        let adminTempData = [];
+        
         function setupAdminTab() {
-            const posSelect = document.getElementById('new-user-pos');
-            posSelect.innerHTML = '';
-            positions.forEach(p => posSelect.innerHTML += `<option value="${p}">${p}</option>`);
-
-            const mgrSelect = document.getElementById('new-user-mgr');
-            mgrSelect.innerHTML = '';
-            for(let id in dbUsers) {
-                if (id !== 'Admin') mgrSelect.innerHTML += `<option value="${id}">${dbUsers[id].name}</option>`;
-            }
-
-            let hHtml = '';
-            for(let id in dbUsers) {
-                if(id !== 'Admin') {
-                    let mgrOptions = '';
-                    for(let potentialMgr in dbUsers) {
-                        if (potentialMgr !== 'Admin' && potentialMgr !== id) {
-                            const selected = dbUsers[id].managerIds && dbUsers[id].managerIds.includes(potentialMgr) ? 'selected' : '';
-                            mgrOptions += `<option value="${potentialMgr}" ${selected}>${dbUsers[potentialMgr].name}</option>`;
+            adminTempData = employeeDataAll.map(e => {
+                let n_en = e.name_en;
+                if(!n_en) {
+                    n_en = e.FullNameENG;
+                    if(!n_en) {
+                        const first = e.FirstNameEnglish;
+                        if(first) {
+                            const prefix = e.NamePrefixEnglish || '';
+                            const last = e.LastNameEnglish || '';
+                            n_en = (prefix ? prefix + ' ' : '') + first + ' ' + last;
+                        } else {
+                            n_en = '';
                         }
                     }
-
-                    hHtml += `
-                    <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 flex flex-col items-start gap-4 text-sm shadow-sm">
-                        <div class="w-full flex justify-between items-start border-b border-slate-200 pb-3">
-                            <div>
-                                <span class="font-bold text-scg-800 block text-base leading-tight">${dbUsers[id].name}</span>
-                                <span class="text-xs text-slate-500 font-medium">Username: ${id}</span>
-                            </div>
-                            <span class="text-[10px] text-scg-600 font-bold bg-scg-50 border border-scg-100 px-2 py-0.5 rounded">${dbUsers[id].position}</span>
-                        </div>
-                        <div class="w-full">
-                            <label class="text-xs font-bold text-slate-500 block mb-1.5"><i class="fa-solid fa-sitemap w-5 text-center"></i> สายบังคับบัญชา (เลือกได้หลายคน):</label>
-                            <select multiple onchange="updateUserManager('${id}', this)" class="w-full text-xs p-1.5 border border-slate-300 rounded-lg focus:border-scg-500 outline-none bg-white font-bold text-slate-700 h-20 shadow-inner">
-                                ${mgrOptions}
-                            </select>
-                            <p class="text-[9px] text-slate-400 mt-1 text-right">Ctrl/Cmd + คลิก เพื่อเลือกหลายคน</p>
-                        </div>
-                    </div>`;
                 }
-            }
-            document.getElementById('admin-hierarchy-list').innerHTML = hHtml;
+                
+                return {
+                    pk_field: e.PersonID ? 'PersonID' : (e.id ? 'id' : 'person_id'),
+                    pk_value: e.PersonID || e.id || e.person_id,
+                    person_id: e.PersonID || e.person_id || '-',
+                    name_th: e.FullNameTH || e.name_th || e.FullName || '-',
+                    name_en: n_en ? n_en.trim() : '-',
+                    user_id: e.user_id || e.username || e.USER || '',
+                    password: e.password || '',
+                    report_to_name: e.ReportToName || e.report_to_name || '',
+                    is_evaluated: e.Pipeline === 'Evaluated',
+                    position: e.PositionNameThai || e.position_name || ''
+                };
+            });
+            renderAdminTable();
         }
+        
+        function renderAdminTable() {
+            const tbody = document.getElementById('admin-tbody');
+            if(!tbody) return;
+            
+            const search = document.getElementById('admin-search').value.toLowerCase();
+            
+            // Build unique English names for the dropdown
+            const allEngNames = [...new Set(adminTempData.map(e => e.name_en).filter(n => n && n !== '-'))].sort();
+            let optionsHtml = `<option value="">-- ไม่ระบุ --</option>`;
+            allEngNames.forEach(n => {
+                optionsHtml += `<option value="${n}">${n}</option>`;
+            });
+
+            let html = '';
+            let count = 0;
+            
+            adminTempData.forEach((emp, index) => {
+                const searchStr = `${emp.person_id} ${emp.name_th} ${emp.name_en} ${emp.user_id}`.toLowerCase();
+                if(search && !searchStr.includes(search)) return;
+                
+                const eData = employeeDataAll[index];
+                if(eData && !matchesOrgFiltersData(eData)) return;
+                
+                count++;
+                
+                let rowOpts = optionsHtml;
+                if(emp.report_to_name) {
+                    rowOpts = rowOpts.replace(`value="${emp.report_to_name}"`, `value="${emp.report_to_name}" selected`);
+                }
+                
+                html += `
+                    <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100">
+                        <td class="py-2 px-4 border-r border-slate-100 text-center">
+                            <input type="checkbox" class="w-5 h-5 rounded border-slate-300 text-scg-600 focus:ring-scg-500 cursor-pointer" 
+                                   ${emp.is_evaluated ? 'checked' : ''} 
+                                   onchange="adminTempData[${index}].is_evaluated = this.checked">
+                        </td>
+                        <td class="py-2 px-4 border-r border-slate-100 font-medium">${emp.person_id}</td>
+                        <td class="py-2 px-4 border-r border-slate-100">${emp.name_th}</td>
+                        <td class="py-2 px-4 border-r border-slate-100 text-xs text-slate-500">${eData ? (eData.PositionNameThai || eData.position_name || '-') : '-'}</td>
+                        <td class="py-2 px-4 border-r border-slate-100">${emp.name_en}</td>
+                        <td class="py-2 px-4 border-r border-slate-100">
+                            <input type="text" class="px-2 py-1.5 border border-slate-200 rounded-lg w-full text-xs font-bold text-scg-700" 
+                                   value="${emp.user_id}" 
+                                   onchange="adminTempData[${index}].user_id = this.value">
+                        </td>
+                        <td class="py-2 px-4 border-r border-slate-100">
+                            <input type="text" class="px-2 py-1.5 border border-slate-200 rounded-lg w-full text-xs" 
+                                   value="${emp.password}" 
+                                   onchange="adminTempData[${index}].password = this.value">
+                        </td>
+                        <td class="py-2 px-4 border-r border-slate-100">
+                            <select class="px-2 py-1.5 border border-slate-200 rounded-lg w-full text-xs bg-white cursor-pointer" 
+                                    onchange="adminTempData[${index}].report_to_name = this.value">
+                                ${rowOpts}
+                            </select>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            tbody.innerHTML = html;
+            document.getElementById('admin-count-info').innerText = `แสดง ${count} รายการ`;
+        }
+
+        
+        function toggleAdminSelectAll(cb) {
+            const search = document.getElementById('admin-search').value.toLowerCase();
+            adminTempData.forEach((emp, index) => {
+                const searchStr = `${emp.person_id} ${emp.name_th} ${emp.name_en} ${emp.user_id}`.toLowerCase();
+                if(search && !searchStr.includes(search)) return;
+                
+                const eData = employeeDataAll[index];
+                if(eData && !matchesOrgFiltersData(eData)) return;
+                
+                emp.is_evaluated = cb.checked;
+            });
+            renderAdminTable();
+        }
+
+
+        async function saveAdminData() {
+            const btn = document.querySelector('button[onclick="saveAdminData()"]');
+            const oldHtml = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...`;
+            btn.disabled = true;
+            
+            try {
+                const response = await fetch(API_BASE + '/admin/sync_employees', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ employees: adminTempData })
+                });
+                
+                const result = await response.json();
+                if(result.status === 'success') {
+                    alert('บันทึกข้อมูลและอัปเดตสิทธิการเข้าถึงเรียบร้อยแล้ว!');
+                    window.location.reload();
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Failed to save data. Check console.');
+            } finally {
+                btn.innerHTML = oldHtml;
+                btn.disabled = false;
+            }
+        }
+
 
         async function updateUserManager(userId, selectElement) {
             const selectedManagers = Array.from(selectElement.selectedOptions).map(opt => opt.value);
@@ -2419,7 +2593,11 @@
                 }
 
                 for (let i = 0; i < competencies.length; i++) {
-                    const targetVal = targets[i] || 0;
+                if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+                
+                const targetVal = targets[i] || 0;
+                if (targetVal === 0) continue;
                     const actualVal = emp.actuals[i] || 0;
                     
                     const targetDesc = targetVal === 0 ? "ไม่มีเป้าหมายที่คาดหวัง" : (competencies[i].levels[targetVal] || "-");
@@ -2431,7 +2609,7 @@
                         `"${emp.evidences[i] || '-'}"`, `"${emp.evalDate || 'ยังไม่ถูกประเมิน'}"`,
                         `"${targetDesc}"`, `"${actualDesc}"`
                     ];
-                csvContent += row.join(",") + "\n";
+                    csvContent += row.join(",") + "\n";
                 }
             }
 
@@ -2447,7 +2625,6 @@
 
         // --- IDP Logic ---
         function setupIDPTab() {
-            buildIDPFilters();
             renderIDPContent();
         }
 
@@ -2459,9 +2636,9 @@
             // Allowable positions and employees based on access
             let visibleUsers = [];
             if (currentUser.id === 'Admin') {
-                visibleUsers = Object.keys(dbUsers).filter(uid => uid !== 'Admin');
+                visibleUsers = applyGlobalFiltersToSubIds(Object.keys(dbUsers).filter(uid => uid !== 'Admin'));
             } else {
-                visibleUsers = [currentUser.id, ...getSubordinates(currentUser.id)];
+                visibleUsers = applyGlobalFiltersToSubIds([currentUser.id, ...getSubordinates(currentUser.id)]);
             }
             
             let posSet = new Set();
@@ -2469,9 +2646,14 @@
             
             visibleUsers.forEach(uid => {
                 const emp = dbUsers[uid];
+                const eData = employeeData.find(e => e.user_id === uid || e.username === uid || e.EmployeeNameEng === (emp ? emp.name : '') || e.EmployeeNameThai === (emp ? emp.name : ''));
                 if (emp) {
-                    if(emp.position) posSet.add(emp.position);
-                    emps.push({ id: uid, name: emp.name, position: emp.position });
+                    let pName = emp.position;
+                    if(eData && eData.PositionNameThai) pName = eData.PositionNameThai;
+                    else if(eData && eData.position_name) pName = eData.position_name;
+                    
+                    if(pName) posSet.add(pName);
+                    emps.push({ id: uid, name: emp.name, position: pName });
                 }
             });
             
@@ -2521,13 +2703,11 @@
 
         window.toggleIDPPosFilter = function(p) {
             selectedIDPPos = p;
-            buildIDPFilters();
             renderIDPContent();
         }
 
         window.toggleIDPEmpFilter = function(uid) {
             selectedIDPEmp = uid;
-            buildIDPFilters();
             renderIDPContent();
         }
 
@@ -2535,16 +2715,33 @@
             const container = document.getElementById('idp-content-container');
             if (!container) return;
             
-            if (!selectedIDPEmp) {
+            let visibleUsers = [];
+            if (currentUser.id === 'Admin') {
+                visibleUsers = applyGlobalFiltersToSubIds(Object.keys(dbUsers).filter(uid => uid !== 'Admin'));
+            } else {
+                visibleUsers = applyGlobalFiltersToSubIds([currentUser.id, ...getSubordinates(currentUser.id)]);
+            }
+
+            if (visibleUsers.length === 0) {
                 container.innerHTML = `
                     <div class="bg-white p-10 rounded-2xl border border-slate-100 shadow-sm text-center text-slate-500">
-                        <i class="fa-solid fa-address-card text-4xl mb-3 text-slate-300"></i>
-                        <p>กรุณาเลือกพนักงานเพื่อดูแผนพัฒนา (IDP)</p>
+                        <i class="fa-solid fa-users-slash text-4xl mb-3 text-slate-300"></i>
+                        <p>ไม่พบพนักงานที่ตรงกับเงื่อนไข</p>
                     </div>`;
                 return;
             }
             
-            const emp = dbUsers[selectedIDPEmp];
+            if (visibleUsers.length > 1) {
+                container.innerHTML = `
+                    <div class="bg-white p-10 rounded-2xl border border-slate-100 shadow-sm text-center text-slate-500">
+                        <i class="fa-solid fa-address-card text-4xl mb-3 text-slate-300"></i>
+                        <p>กรุณาเลือกชื่อพนักงาน 1 ท่าน จากตัวกรองด้านบนเพื่อดูแผนพัฒนา (IDP)</p>
+                    </div>`;
+                return;
+            }
+
+            const empId = visibleUsers[0];
+            const emp = dbUsers[empId];
             const targets = positionTargets[emp.position] || [];
             
             let totalTarget = 0;
@@ -2556,7 +2753,11 @@
             const currentLabels = getLabels();
 
             for (let i = 0; i < competencies.length; i++) {
+                if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+                
                 const t = targets[i] || 0;
+                if (t === 0) continue;
                 if (t === 0) continue; // Only process relevant competencies
                 
                 const a = emp.actuals[i] || 0;
@@ -2717,6 +2918,8 @@
             let actuals = [];
             let cleanLabels = [];
             let cleanTargets = [];
+            let cleanDescs = [];
+            let cleanEvidences = [];
             
             const allLabels = getLabels().map(l => {
                 const parts = l.split('. ');
@@ -2724,11 +2927,18 @@
             });
 
             for (let i = 0; i < competencies.length; i++) {
+                if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+                
                 const t = targets[i] || 0;
-                if (t === 0) continue; 
+                if (t === 0) continue;
+                
+                const a = emp.actuals[i] || 0;
                 cleanLabels.push(allLabels[i]);
                 cleanTargets.push(t);
-                actuals.push(emp.actuals[i] || 0);
+                actuals.push(a);
+                cleanDescs.push(competencies[i].levels[a] || "ไม่มีคำอธิบาย");
+                cleanEvidences.push(emp.evidences[i] || "ไม่มีหลักฐานที่ระบุ");
             }
 
             if(idpRadarChartInstance) idpRadarChartInstance.destroy();
@@ -2752,6 +2962,36 @@
                             callbacks: {
                                 label: function(context) {
                                     return context.dataset.label + ': Level ' + context.raw;
+                                },
+                                afterLabel: function(context) {
+                                    if(context.dataset.label === 'Actual') {
+                                        const idx = context.dataIndex;
+                                        
+                                        // Wrap text function to prevent extremely wide tooltips
+                                        const wrapText = (text, maxLineLen) => {
+                                            const words = text.split(' ');
+                                            let lines = [];
+                                            let currentLine = '';
+                                            words.forEach(word => {
+                                                if((currentLine + word).length > maxLineLen) {
+                                                    lines.push(currentLine.trim());
+                                                    currentLine = word + ' ';
+                                                } else {
+                                                    currentLine += word + ' ';
+                                                }
+                                            });
+                                            if(currentLine) lines.push(currentLine.trim());
+                                            return lines;
+                                        };
+
+                                        let result = [];
+                                        result.push('ความหมาย:');
+                                        result = result.concat(wrapText(cleanDescs[idx], 50).map(l => '  ' + l));
+                                        result.push('หลักฐาน (Evidence):');
+                                        result = result.concat(wrapText(cleanEvidences[idx], 50).map(l => '  ' + l));
+                                        return result;
+                                    }
+                                    return '';
                                 }
                             }
                         }
@@ -2780,206 +3020,27 @@
 
         // --- 8. COMPETENCY ANALYTIC TAB ---
         function setupAnalyticTab() {
-            buildAnalyticFiltersUI();
             renderAnalyticTab();
-        }
-
-        window.toggleAnalyticJobGroupFilter = function(val) {
-            if(analyticJobGroupFilter.includes(val)) analyticJobGroupFilter = analyticJobGroupFilter.filter(v => v !== val);
-            else analyticJobGroupFilter.push(val);
-            buildAnalyticFiltersUI();
-            renderAnalyticTab();
-        };
-        window.toggleAnalyticPosFilter = function(val) {
-            if(analyticPosFilter.includes(val)) analyticPosFilter = analyticPosFilter.filter(v => v !== val);
-            else analyticPosFilter.push(val);
-            buildAnalyticFiltersUI();
-            renderAnalyticTab();
-        };
-        window.toggleAnalyticEmpFilter = function(val) {
-            if(analyticEmpFilter.includes(val)) analyticEmpFilter = analyticEmpFilter.filter(v => v !== val);
-            else analyticEmpFilter.push(val);
-            buildAnalyticFiltersUI();
-            renderAnalyticTab();
-        };
-        window.toggleAnalyticGroupFilter = function(val) {
-            if(analyticSkillGroupFilter.includes(val)) analyticSkillGroupFilter = analyticSkillGroupFilter.filter(v => v !== val);
-            else analyticSkillGroupFilter.push(val);
-            buildAnalyticFiltersUI();
-            renderAnalyticTab();
-        };
-        window.toggleAnalyticSkillFilter = function(val) {
-            if(analyticSkillFilter.includes(val)) analyticSkillFilter = analyticSkillFilter.filter(v => v !== val);
-            else analyticSkillFilter.push(val);
-            buildAnalyticFiltersUI();
-            renderAnalyticTab();
-        };
-
-        function buildAnalyticFiltersUI() {
-            const container = document.getElementById('analytic-filters');
-            
-            // Build Job Group List
-            let jgSet = new Set();
-            positions.forEach(p => {
-                if(positionGroups[p]) jgSet.add(positionGroups[p]);
-            });
-            let allJobGroups = Array.from(jgSet).sort();
-
-            let allPos = positions;
-            if(analyticJobGroupFilter.length > 0) {
-                allPos = allPos.filter(p => analyticJobGroupFilter.includes(positionGroups[p]));
-            }
-            
-            // Build Emp List
-            let allEmps = [];
-            for(let id in dbUsers) {
-                if(dbUsers[id].role !== 'Admin') allEmps.push({id: id, name: dbUsers[id].name});
-            }
-            allEmps.sort((a,b) => a.name.localeCompare(b.name));
-
-            // Build Skill Group List
-            let groupsSet = new Set();
-            competencies.forEach(c => {
-                if(c.group) groupsSet.add(c.group);
-            });
-            let skillGroups = Array.from(groupsSet).sort();
-
-            // Build Skills List
-            let skillsList = competencies.map(c => c.name);
-
-            const getDropdownText = (arr, allLabel) => arr.length === 0 ? allLabel : `เลือกแล้ว ${arr.length} รายการ`;
-
-            let html = `
-                <div class="w-full relative filter-dropdown-container">
-                    <label class="block text-xs font-bold text-slate-700 mb-1">กลุ่มงาน</label>
-                    <button onclick="toggleFilterMenu('analytic-job-group-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-3 py-2 rounded-lg text-left shadow-sm hover:bg-slate-50 focus:outline-none transition-colors">
-                        <span class="text-xs font-medium text-slate-700 truncate">${getDropdownText(analyticJobGroupFilter, 'เลือกกลุ่มงานทั้งหมด')}</span>
-                        <i class="fa-solid fa-chevron-down text-slate-400 ml-2 text-[10px]"></i>
-                    </button>
-                    <div id="analytic-job-group-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
-                        <div class="p-2 flex flex-col gap-1">
-                            ${allJobGroups.map(g => `
-                                <label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${analyticJobGroupFilter.includes(g) ? 'checked' : ''} onchange="toggleAnalyticJobGroupFilter('${g}')">
-                                    <span class="text-xs font-medium ${analyticJobGroupFilter.includes(g) ? 'text-scg-700' : 'text-slate-600'}">${g}</span>
-                                </label>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="w-full relative filter-dropdown-container">
-                    <label class="block text-xs font-bold text-slate-700 mb-1">ตำแหน่ง</label>
-                    <button onclick="toggleFilterMenu('analytic-pos-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-3 py-2 rounded-lg text-left shadow-sm hover:bg-slate-50 focus:outline-none transition-colors">
-                        <span class="text-xs font-medium text-slate-700 truncate">${getDropdownText(analyticPosFilter, 'เลือกตำแหน่งทั้งหมด')}</span>
-                        <i class="fa-solid fa-chevron-down text-slate-400 ml-2 text-[10px]"></i>
-                    </button>
-                    <div id="analytic-pos-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
-                        <div class="p-2 flex flex-col gap-1">
-                            ${allPos.map(p => `
-                                <label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${analyticPosFilter.includes(p) ? 'checked' : ''} onchange="toggleAnalyticPosFilter('${p}')">
-                                    <span class="text-xs font-medium ${analyticPosFilter.includes(p) ? 'text-scg-700' : 'text-slate-600'}">${p}</span>
-                                </label>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="w-full relative filter-dropdown-container">
-                    <label class="block text-xs font-bold text-slate-700 mb-1">รายชื่อพนักงาน</label>
-                    <button onclick="toggleFilterMenu('analytic-emp-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-3 py-2 rounded-lg text-left shadow-sm hover:bg-slate-50 focus:outline-none transition-colors">
-                        <span class="text-xs font-medium text-slate-700 truncate">${getDropdownText(analyticEmpFilter, 'เลือกพนักงานทั้งหมด')}</span>
-                        <i class="fa-solid fa-chevron-down text-slate-400 ml-2 text-[10px]"></i>
-                    </button>
-                    <div id="analytic-emp-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
-                        <div class="p-2 flex flex-col gap-1">
-                            ${allEmps.map(e => `
-                                <label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${analyticEmpFilter.includes(e.id) ? 'checked' : ''} onchange="toggleAnalyticEmpFilter('${e.id}')">
-                                    <span class="text-xs font-medium ${analyticEmpFilter.includes(e.id) ? 'text-scg-700' : 'text-slate-600'}">${e.name}</span>
-                                </label>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="w-full relative filter-dropdown-container">
-                    <label class="block text-xs font-bold text-slate-700 mb-1">กลุ่ม Skill</label>
-                    <button onclick="toggleFilterMenu('analytic-group-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-3 py-2 rounded-lg text-left shadow-sm hover:bg-slate-50 focus:outline-none transition-colors">
-                        <span class="text-xs font-medium text-slate-700 truncate">${getDropdownText(analyticSkillGroupFilter, 'เลือกกลุ่มทักษะทั้งหมด')}</span>
-                        <i class="fa-solid fa-chevron-down text-slate-400 ml-2 text-[10px]"></i>
-                    </button>
-                    <div id="analytic-group-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
-                        <div class="p-2 flex flex-col gap-1">
-                            ${skillGroups.map(g => `
-                                <label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${analyticSkillGroupFilter.includes(g) ? 'checked' : ''} onchange="toggleAnalyticGroupFilter('${g}')">
-                                    <span class="text-xs font-medium ${analyticSkillGroupFilter.includes(g) ? 'text-scg-700' : 'text-slate-600'}">${g}</span>
-                                </label>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="w-full relative filter-dropdown-container">
-                    <label class="block text-xs font-bold text-slate-700 mb-1">หัวข้อ Skill</label>
-                    <button onclick="toggleFilterMenu('analytic-skill-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-3 py-2 rounded-lg text-left shadow-sm hover:bg-slate-50 focus:outline-none transition-colors">
-                        <span class="text-xs font-medium text-slate-700 truncate">${getDropdownText(analyticSkillFilter, 'เลือกหัวข้อทั้งหมด')}</span>
-                        <i class="fa-solid fa-chevron-down text-slate-400 ml-2 text-[10px]"></i>
-                    </button>
-                    <div id="analytic-skill-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
-                        <div class="p-2 flex flex-col gap-1">
-                            ${skillsList.map(s => `
-                                <label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
-                                    <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${analyticSkillFilter.includes(s) ? 'checked' : ''} onchange="toggleAnalyticSkillFilter('${s}')">
-                                    <span class="text-xs font-medium ${analyticSkillFilter.includes(s) ? 'text-scg-700' : 'text-slate-600'}">${s.replace(/^[0-9\.\s]+/, '')}</span>
-                                </label>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-            `;
-            
-            // Just update inner HTML, but keep menus open if they were open before re-rendering
-            const jgMenuOpen = document.getElementById('analytic-job-group-menu') && !document.getElementById('analytic-job-group-menu').classList.contains('hidden');
-            const posMenuOpen = document.getElementById('analytic-pos-menu') && !document.getElementById('analytic-pos-menu').classList.contains('hidden');
-            const empMenuOpen = document.getElementById('analytic-emp-menu') && !document.getElementById('analytic-emp-menu').classList.contains('hidden');
-            const groupMenuOpen = document.getElementById('analytic-group-menu') && !document.getElementById('analytic-group-menu').classList.contains('hidden');
-            const skillMenuOpen = document.getElementById('analytic-skill-menu') && !document.getElementById('analytic-skill-menu').classList.contains('hidden');
-            
-            container.innerHTML = html;
-            
-            if(jgMenuOpen) document.getElementById('analytic-job-group-menu').classList.remove('hidden');
-            if(posMenuOpen) document.getElementById('analytic-pos-menu').classList.remove('hidden');
-            if(empMenuOpen) document.getElementById('analytic-emp-menu').classList.remove('hidden');
-            if(groupMenuOpen) document.getElementById('analytic-group-menu').classList.remove('hidden');
-            if(skillMenuOpen) document.getElementById('analytic-skill-menu').classList.remove('hidden');
         }
 
         function renderAnalyticTab() {
-            // Filter Comps
             let filteredComps = competencies;
-            if(analyticSkillGroupFilter.length > 0) {
-                filteredComps = filteredComps.filter(c => analyticSkillGroupFilter.includes(c.group));
+            if(selectedCompetencyGroupFilter.length > 0) {
+                filteredComps = filteredComps.filter(c => selectedCompetencyGroupFilter.includes(c.group));
             }
-            if(analyticSkillFilter.length > 0) {
-                filteredComps = filteredComps.filter(c => analyticSkillFilter.includes(c.name));
+            if(selectedCompetenciesFilter.length > 0) {
+                filteredComps = filteredComps.filter(c => selectedCompetenciesFilter.includes(c.name));
             }
             
             // Map Comp index
             const compIndices = filteredComps.map(c => competencies.findIndex(x => x.id === c.id));
 
             // Determine valid users
-            let validUserIds = Object.keys(dbUsers).filter(id => dbUsers[id].role !== 'Admin');
-            if(analyticJobGroupFilter.length > 0) {
-                validUserIds = validUserIds.filter(id => analyticJobGroupFilter.includes(positionGroups[dbUsers[id].position]));
-            }
-            if(analyticPosFilter.length > 0) {
-                validUserIds = validUserIds.filter(id => analyticPosFilter.includes(dbUsers[id].position));
-            }
-            if(analyticEmpFilter.length > 0) {
-                validUserIds = validUserIds.filter(id => analyticEmpFilter.includes(id));
+            let validUserIds = [];
+            if (currentUser.id === 'Admin') {
+                validUserIds = applyGlobalFiltersToSubIds(Object.keys(dbUsers).filter(uid => uid !== 'Admin'));
+            } else {
+                validUserIds = applyGlobalFiltersToSubIds([currentUser.id, ...getSubordinates(currentUser.id)]);
             }
 
             // 1. Radar Charts (Top Performers Per Position)
@@ -3179,7 +3240,7 @@
             if(!tbody) return;
             
             if(!employeeData || employeeData.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="14" class="text-center py-8 text-slate-500">ไม่พบข้อมูลพนักงาน หรือตารางยังไม่ได้ถูกสร้างขึ้นในฐานข้อมูล</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="23" class="text-center py-8 text-slate-500">ไม่พบข้อมูลพนักงาน หรือตารางยังไม่ได้ถูกสร้างขึ้นในฐานข้อมูล</td></tr>`;
                 return;
             }
 
@@ -3187,20 +3248,30 @@
             employeeData.forEach(emp => {
                 html += `
                     <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="py-3 px-6 border-r border-slate-100 text-scg-700 font-medium">${emp.user_id || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 font-medium">${emp.person_id || emp.PersonID || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 text-scg-700 font-medium">${emp.employee_id || emp.SCGEmployeeID || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 text-scg-700 font-medium">${emp.user_id || emp.username || emp.USER || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100 text-slate-500">${emp.password || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.FullName || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.PositionNameThai || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.SectionThai || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.DepartmentThai || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.Sub1DivisionThai || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.DivisionThai || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.Sub1CompanyThai || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.CompanyThai || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.PersonnelArea || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.ReportToName || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100 text-blue-600 hover:underline"><a href="mailto:${emp.ReportToEmail || ''}">${emp.ReportToEmail || '-'}</a></td>
-                        <td class="py-3 px-6 text-blue-600 hover:underline"><a href="mailto:${emp.EmailAddressBusiness || ''}">${emp.EmailAddressBusiness || '-'}</a></td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.FullNameTH || emp.name_th || emp.FullName || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.name_en || emp.FullNameENG || (emp.FirstNameEnglish ? (emp.NamePrefixEnglish ? emp.NamePrefixEnglish + ' ' : '') + emp.FirstNameEnglish + ' ' + (emp.LastNameEnglish || '') : '') || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.nick_name || emp.NickName || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.position_name || emp.PositionNameThai || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 text-center"><span class="bg-slate-100 text-slate-700 px-2 py-1 rounded font-bold text-xs">${emp.position_level || emp.PLGroup || '-'}</span></td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.section || emp.SectionThai || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.department || emp.DepartmentThai || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.sub1_division || emp.Sub1DivisionThai || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.division || emp.DivisionThai || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.sub1_company || emp.Sub1CompanyThai || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.company || emp.CompanyThai || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.sub1_1_business_unit || emp.Sub11BusinessUnitThai || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.working_location || emp.WorkingLocation || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 font-mono text-xs">${emp.cost_center_payment || emp.CostCenterPayment || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 font-mono text-xs">${emp.cost_center_organization || emp.CostCenterOrganization || '-'}</td>
+                        
+                        
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.ReportToName || emp.report_to_name || emp.ManagerName || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.certificate_entry_degree || '-'}</td>
+                        <td class="py-3 px-6 text-blue-600 hover:underline"><a href="mailto:${emp.email_address_business || emp.EmailAddressBusiness || ''}">${emp.email_address_business || emp.EmailAddressBusiness || '-'}</a></td>
                     </tr>
                 `;
             });
@@ -3218,9 +3289,11 @@
             const headers = thead.querySelectorAll('th');
             
             const colKeys = [
-                'user_id', 'password', 'FullName', 'PositionNameThai', 'SectionThai', 'DepartmentThai',
-                'Sub1DivisionThai', 'DivisionThai', 'Sub1CompanyThai', 'CompanyThai', 'PersonnelArea',
-                'ReportToName', 'ReportToEmail', 'EmailAddressBusiness'
+                'person_id', 'employee_id', 'user_id', 'password', 'name_th', 'name_en', 'nick_name',
+                'position_name', 'position_level', 'section', 'department', 'sub1_division', 'division',
+                'sub1_company', 'company', 'sub1_1_business_unit', 'working_location', 'cost_center_payment',
+                'cost_center_organization', 'retirement_year', 'years_of_service', 'age', 'report_to_name',
+                'certificate_entry_degree', 'email_address_business'
             ];
             
             headers.forEach((th, index) => {
@@ -3231,7 +3304,9 @@
                 const key = colKeys[index];
                 if(!key) return;
 
-                const uniqueValues = [...new Set(employeeData.map(e => e[key] !== null && e[key] !== undefined ? String(e[key]) : '-'))].sort();
+                const trs = tbody.querySelectorAll('tr');
+                if (trs.length === 1 && trs[0].cells.length === 1) return; // Empty message row
+                const uniqueValues = [...new Set(Array.from(trs).map(tr => tr.cells[index] ? tr.cells[index].innerText.trim() : '-'))].sort();
                 
                 const container = document.createElement('div');
                 container.className = 'emp-filter-container relative mt-2 font-normal text-slate-700';
@@ -3249,6 +3324,7 @@
                 
                 const dropdown = document.createElement('div');
                 dropdown.className = 'emp-filter-dropdown hidden absolute top-full left-0 w-48 mt-1 bg-white border border-slate-200 rounded-lg shadow-lg z-50 max-h-48 overflow-y-auto p-2';
+                dropdown.onclick = (e) => e.stopPropagation();
                 
                 const searchBox = document.createElement('input');
                 searchBox.type = 'text';
@@ -3353,21 +3429,26 @@
             }
             
             const headers = [
-                "USER ID", "PASSWORD", "Full Name", "POSITION", "SECTION (TH)", 
-                "DEPARTMENT (TH)", "SUB1-DIVISION (TH)", "DIVISION (TH)", "SUB1-COMPANY (TH)", 
-                "COMPANY (TH)", "PERSONNEL AREA", "REPORT TO NAME", "REPORT TO EMAIL", 
-                "EMAIL ADDRESS BUSINESS"
+                "Person ID", "Employee ID", "Name (TH)", "Name (EN)", "Nick Name", 
+                "Position Name", "Position Level", "Section", "Department", "Sub1-Division", 
+                "Division", "Sub1-Company", "Company", "Sub1-1 Business Unit", "Working Location", 
+                "Cost Center (Payment)", "Cost Center (Organization)", "Retirement Year", 
+                "อายุงาน", "Age", "Report to Name", "Certificate (Entry Degree)", "Email Address Business"
             ];
             
             let csvContent = "\uFEFF" + headers.join(",") + "\n";
             
             employeeData.forEach(emp => {
                 const row = [
-                    emp.user_id || '', emp.password || '', emp.FullName || '',
-                    emp.PositionNameThai || '', emp.SectionThai || '', emp.DepartmentThai || '',
-                    emp.Sub1DivisionThai || '', emp.DivisionThai || '', emp.Sub1CompanyThai || '',
-                    emp.CompanyThai || '', emp.PersonnelArea || '', emp.ReportToName || '',
-                    emp.ReportToEmail || '', emp.EmailAddressBusiness || ''
+                    emp.person_id || '', emp.employee_id || emp.SCGEmployeeID || '', emp.name_th || emp.EmployeeNameThai || emp.FullName || '', emp.name_en || emp.EmployeeNameEng || '',
+                    emp.nick_name || '', emp.position_name || emp.PositionNameThai || '', emp.position_level || emp.PositionLevel || '',
+                    emp.section || emp.SectionThai || '', emp.department || emp.DepartmentThai || '', emp.sub1_division || emp.Sub1DivisionThai || '',
+                    emp.division || emp.DivisionThai || '', emp.sub1_company || emp.Sub1CompanyThai || '', emp.company || emp.CompanyThai || '',
+                    emp.sub1_1_business_unit || '', emp.working_location || '',
+                    emp.cost_center_payment || emp.CostCenter || '', emp.cost_center_organization || '',
+                    emp.retirement_year || '', emp.years_of_service !== null ? emp.years_of_service : '',
+                    emp.age || '', emp.report_to_name || emp.ManagerName || '', emp.certificate_entry_degree || '',
+                    emp.email_address_business || ''
                 ].map(val => `"${String(val).replace(/"/g, '""')}"`);
                 
                 csvContent += row.join(",") + "\n";
