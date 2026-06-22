@@ -2466,6 +2466,76 @@
             });
         }
 
+        window.renderTeamHeatmap = function(subIds) {
+            const container = document.getElementById('dashboard-heatmap-container');
+            if (!container) return;
+            
+            if (subIds.length === 0) {
+                container.classList.add('hidden');
+                return;
+            }
+            container.classList.remove('hidden');
+
+            let html = '<h3 class="text-lg font-bold text-scg-800 mb-4">Team Skill Matrix</h3>';
+            html += '<table class="w-full text-left border-collapse min-w-[800px]">';
+            html += '<thead><tr class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider">';
+            html += '<th class="p-3 border-b border-slate-200 sticky left-0 bg-slate-50 z-10 w-48">Employee</th>';
+            
+            // Get visible competencies
+            let activeComps = [];
+            for (let i = 0; i < competencies.length; i++) {
+                if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                if (selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+                activeComps.push({ index: i, name: competencies[i].name });
+            }
+            
+            activeComps.forEach(comp => {
+                html += `<th class="p-3 border-b border-slate-200 truncate max-w-[120px]" title="${comp.name}">${comp.name}</th>`;
+            });
+            html += '</tr></thead><tbody>';
+
+            subIds.forEach(id => {
+                const emp = dbUsers[id];
+                const targets = positionTargets[emp.position] || [];
+                
+                html += `<tr class="border-b border-slate-100 hover:bg-slate-50">`;
+                html += `<td class="p-3 sticky left-0 bg-white group-hover:bg-slate-50 z-10 font-medium text-sm text-slate-800 shadow-[1px_0_0_0_#f1f5f9] truncate" title="${emp.name}">${emp.name}</td>`;
+                
+                activeComps.forEach(comp => {
+                    const t = targets[comp.index] || 0;
+                    const a = emp.actuals[comp.index] || 0;
+                    
+                    let bgClass = "bg-slate-50";
+                    let textClass = "text-slate-400";
+                    let content = "-";
+                    
+                    if (t > 0) {
+                        const diff = a - t;
+                        if (diff >= 0) {
+                            bgClass = "bg-green-100";
+                            textClass = "text-green-700 font-bold";
+                            content = a;
+                        } else if (diff === -1) {
+                            bgClass = "bg-yellow-100";
+                            textClass = "text-yellow-700 font-bold";
+                            content = a;
+                        } else {
+                            bgClass = "bg-red-100";
+                            textClass = "text-red-700 font-bold";
+                            content = a;
+                        }
+                    }
+                    
+                    html += `<td class="p-2 border-r border-slate-50 text-center"><div class="w-8 h-8 flex items-center justify-center rounded mx-auto ${bgClass} ${textClass} text-xs" title="Target: ${t}, Actual: ${a}">${content}</div></td>`;
+                });
+                
+                html += `</tr>`;
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
         function renderIndividualDashboards(subIds) {
             const container = document.getElementById('dash-individual-cards-container');
             container.innerHTML = '';
