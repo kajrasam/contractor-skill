@@ -1614,6 +1614,15 @@
             let visiblePos = Array.from(visiblePosSet).filter(p => p).sort();
 
             const isAdmin = currentUser.id === 'Admin';
+            const subs = getSubordinates(currentUser.id);
+            const isEmployee = !isAdmin && subs.length === 0;
+
+            if (isEmployee) {
+                let myEmpData = dbUsers[currentUser.id];
+                if (myEmpData && myEmpData.position) {
+                    visiblePos = visiblePos.filter(p => p === myEmpData.position);
+                }
+            }
 
             let html = '<div class="flex flex-col gap-3">';
             if (visiblePos.length === 0) {
@@ -1686,6 +1695,15 @@
             let visiblePos = Array.from(visiblePosSet).filter(p => p).sort();
 
             const isAdmin = currentUser.id === 'Admin';
+            const subs = getSubordinates(currentUser.id);
+            const isEmployee = !isAdmin && subs.length === 0;
+
+            if (isEmployee) {
+                let myEmpData = dbUsers[currentUser.id];
+                if (myEmpData && myEmpData.position) {
+                    visiblePos = visiblePos.filter(p => p === myEmpData.position);
+                }
+            }
 
             let html = `<table class="w-full text-left border-collapse text-sm"><thead><tr class="bg-slate-50 border-b border-slate-100 text-slate-600"><th class="p-4 font-semibold min-w-[200px] w-1/4">Competency</th>`;
 
