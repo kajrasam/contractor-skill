@@ -1033,9 +1033,7 @@
             html += `<button onclick="switchTab('training')" id="nav-training" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-book w-5 text-center"></i> Training Need</button>`;
 
             const hasSubs = getSubordinates(currentUser.id).length > 0;
-            if (currentUser.id === 'Admin' || hasSubs) {
-                html += `<button onclick="switchTab('evaluation')" id="nav-evaluation" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-clipboard-check w-5 text-center"></i> การประเมิน</button>`;
-            }
+            html += `<button onclick="switchTab('evaluation')" id="nav-evaluation" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-clipboard-check w-5 text-center"></i> การประเมิน</button>`;
 
             html += `<button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-chart-pie w-5 text-center"></i> Dashboard</button>`;
             html += `<button onclick="switchTab('idp')" id="nav-idp" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-address-card w-5 text-center"></i> IDP</button>`;
@@ -1894,6 +1892,7 @@
                         let mName = e.ManagerName || e.ReportToName || '';
                         if (actingName && mName.includes(actingName)) isSub = true;
                         if (!isSub && getSubordinates(actingAsRole).includes(uid)) isSub = true;
+                        if (uid === actingAsRole) isSub = true; // Add self to list
                     }
 
                     if (isSub && empName) {
@@ -2174,6 +2173,7 @@
             let actuals = [];
             let cleanLabels = [];
             let cleanTargets = [];
+            let selfEvals = [];
 
             const allLabels = getLabels().map(l => {
                 const parts = l.split('. ');
@@ -2190,8 +2190,12 @@
                 cleanLabels.push(allLabels[i]);
                 cleanTargets.push(t);
 
-                const el = document.getElementById(`eval-val-${i}`);
-                actuals.push(el ? parseInt(el.value) : (emp.actuals[i] || 0));
+                const elActual = document.getElementById(`eval-actual-${id}-${i}`);
+                actuals.push(elActual ? parseInt(elActual.value) : (emp.actuals[i] || 0));
+
+                const elSelf = document.getElementById(`eval-self-${id}-${i}`);
+                let defaultSelf = emp.self_evals ? (emp.self_evals[i] || 0) : 0;
+                selfEvals.push(elSelf ? parseInt(elSelf.value) : defaultSelf);
             }
 
             if (evalRadarChartInstance) evalRadarChartInstance.destroy();
@@ -2203,7 +2207,8 @@
                     labels: cleanLabels,
                     datasets: [
                         { label: 'Target', data: cleanTargets, borderColor: '#cbd5e1', backgroundColor: 'transparent', borderDash: [5, 5] },
-                        { label: 'Actual', data: actuals, borderColor: '#ca3656', backgroundColor: 'rgba(202, 54, 86, 0.2)' }
+                        { label: 'Actual', data: actuals, borderColor: '#ca3656', backgroundColor: 'rgba(202, 54, 86, 0.2)' },
+                        { label: 'Self Eva.', data: selfEvals, borderColor: '#fbbf24', backgroundColor: 'rgba(251, 191, 36, 0.2)' }
                     ]
                 },
                 options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 5, ticks: { display: false } } } }
@@ -2323,6 +2328,7 @@
 
                 let sumTarget = 0;
                 let sumActual = 0;
+                let sumSelf = 0;
                 let validCompsCount = 0;
 
                 for (let i = 0; i < competencies.length; i++) {
@@ -2334,12 +2340,14 @@
                     if (t > 0) {
                         sumTarget += t;
                         sumActual += (emp.actuals[i] || 0);
+                        sumSelf += emp.self_evals ? (emp.self_evals[i] || 0) : 0;
                         validCompsCount++;
                     }
                 }
 
                 const avgT = validCompsCount > 0 ? sumTarget / validCompsCount : 0;
                 const avgA = validCompsCount > 0 ? sumActual / validCompsCount : 0;
+                const avgS = validCompsCount > 0 ? sumSelf / validCompsCount : 0;
 
                 // Calculate % Complete
                 const percent = sumTarget > 0 ? Math.round((sumActual / sumTarget) * 100) : 0;
@@ -2348,6 +2356,7 @@
                     name: emp.name,
                     avgT: avgT.toFixed(1),
                     avgA: avgA.toFixed(1),
+                    avgS: avgS.toFixed(1),
                     percent: percent
                 });
             });
@@ -2358,6 +2367,7 @@
             const names = dataToSort.map(d => d.name);
             const avgTargets = dataToSort.map(d => d.avgT);
             const avgActuals = dataToSort.map(d => d.avgA);
+            const avgSelfs = dataToSort.map(d => d.avgS);
             const percentCompletes = dataToSort.map(d => d.percent);
 
             // คำนวณ max ของกราฟเส้นเผื่อไว้ 20% ของค่า max เพื่อไม่ให้ตัวหนังสือตกขอบ
@@ -2384,7 +2394,8 @@
                             yAxisID: 'y1'
                         },
                         { label: 'Average Expected', data: avgTargets, backgroundColor: '#cbd5e1', yAxisID: 'y', borderRadius: 6 },
-                        { label: 'Average Actual', data: avgActuals, backgroundColor: '#ca3656', yAxisID: 'y', borderRadius: 6 }
+                        { label: 'Average Actual', data: avgActuals, backgroundColor: '#ca3656', yAxisID: 'y', borderRadius: 6 },
+                        { label: 'Average Self Eva.', data: avgSelfs, backgroundColor: '#fbbf24', yAxisID: 'y', borderRadius: 6 }
                     ]
                 },
                 options: {
@@ -2453,6 +2464,18 @@
                             const value = data.datasets[2].data[index];
                             if (value > 0) {
                                 ctx.fillStyle = '#9f1239'; // rose-900
+                                ctx.font = 'bold 11px sans-serif';
+                                ctx.textAlign = 'center';
+                                ctx.textBaseline = 'bottom';
+                                ctx.fillText(value, datapoint.x, datapoint.y - 5);
+                            }
+                        });
+
+                        // Dataset 3 is the Average Self Eva.
+                        chart.getDatasetMeta(3).data.forEach((datapoint, index) => {
+                            const value = data.datasets[3].data[index];
+                            if (value > 0) {
+                                ctx.fillStyle = '#b45309'; // amber-700
                                 ctx.font = 'bold 11px sans-serif';
                                 ctx.textAlign = 'center';
                                 ctx.textBaseline = 'bottom';
