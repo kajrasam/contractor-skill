@@ -1253,20 +1253,23 @@ new_js = """
                             showLine: false,
                             yAxisID: 'y1'
                         },
-                        { label: 'Average Expected', data: avgTargets, backgroundColor: '#cbd5e1', yAxisID: 'y' },
-                        { label: 'Average Actual', data: avgActuals, backgroundColor: '#ca3656', yAxisID: 'y' }
+                        { label: 'Average Expected', data: avgTargets, backgroundColor: '#cbd5e1', yAxisID: 'y', borderRadius: 6 },
+                        { label: 'Average Actual', data: avgActuals, backgroundColor: '#ca3656', yAxisID: 'y', borderRadius: 6 }
                     ]
                 },
                 options: { 
                     responsive: true, 
                     maintainAspectRatio: false, 
                     scales: { 
-                        y: { min: 0, max: 5, position: 'left' },
+                        x: {
+                            grid: { display: false }
+                        },
+                        y: { min: 0, max: 5, position: 'left', grid: { display: false } },
                         y1: { 
                             min: 0, 
                             max: y1Max,
                             position: 'right',
-                            grid: { drawOnChartArea: false },
+                            grid: { drawOnChartArea: false, display: false },
                             ticks: { callback: function(value) { return value + '%'; } }
                         }
                     },
@@ -1301,6 +1304,30 @@ new_js = """
                             ctx.textAlign = 'center';
                             ctx.textBaseline = 'bottom';
                             ctx.fillText(value, datapoint.x, datapoint.y - 10);
+                        });
+
+                        // Dataset 1 is the Average Expected
+                        chart.getDatasetMeta(1).data.forEach((datapoint, index) => {
+                            const value = data.datasets[1].data[index];
+                            if (value > 0) {
+                                ctx.fillStyle = '#64748b'; // slate-500
+                                ctx.font = 'bold 11px sans-serif';
+                                ctx.textAlign = 'center';
+                                ctx.textBaseline = 'bottom';
+                                ctx.fillText(value, datapoint.x, datapoint.y - 5);
+                            }
+                        });
+
+                        // Dataset 2 is the Average Actual
+                        chart.getDatasetMeta(2).data.forEach((datapoint, index) => {
+                            const value = data.datasets[2].data[index];
+                            if (value > 0) {
+                                ctx.fillStyle = '#9f1239'; // rose-900
+                                ctx.font = 'bold 11px sans-serif';
+                                ctx.textAlign = 'center';
+                                ctx.textBaseline = 'bottom';
+                                ctx.fillText(value, datapoint.x, datapoint.y - 5);
+                            }
                         });
                         
                         ctx.restore();
@@ -2474,7 +2501,7 @@ new_js = """
                 "EMAIL ADDRESS BUSINESS"
             ];
             
-            let csvContent = "\\uFEFF" + headers.join(",") + "\\n";
+            let csvContent = "\uFEFF" + headers.join(",") + "\n";
             
             employeeData.forEach(emp => {
                 const row = [
@@ -2485,7 +2512,7 @@ new_js = """
                     emp.ReportToEmail || '', emp.EmailAddressBusiness || ''
                 ].map(val => `"${String(val).replace(/"/g, '""')}"`);
                 
-                csvContent += row.join(",") + "\\n";
+                csvContent += row.join(",") + "\n";
             });
             
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
