@@ -2641,10 +2641,12 @@
 
                 const tData = positionTargets[emp.position] || [];
                 const aData = emp.actuals || [];
+                const sData = emp.self_evals || [];
 
                 const cleanLabels = [];
                 const cleanTargets = [];
                 const cleanActuals = [];
+                const cleanSelfs = [];
 
                 for (let i = 0; i < currentLabels.length; i++) {
                     if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
@@ -2655,6 +2657,7 @@
                         cleanLabels.push(parts.length > 1 ? parts.slice(1).join('. ') : currentLabels[i]);
                         cleanTargets.push(tData[i]);
                         cleanActuals.push(aData[i] || 0);
+                        cleanSelfs.push(sData[i] || 0);
                     }
                 }
 
@@ -2664,7 +2667,8 @@
                         labels: cleanLabels,
                         datasets: [
                             { label: 'Target', data: cleanTargets, borderColor: '#94a3b8', backgroundColor: 'rgba(148, 163, 184, 0.2)' },
-                            { label: 'Actual', data: cleanActuals, borderColor: '#882239', backgroundColor: 'rgba(136, 34, 57, 0.3)' }
+                            { label: 'Actual', data: cleanActuals, borderColor: '#882239', backgroundColor: 'rgba(136, 34, 57, 0.3)' },
+                            { label: 'Self Eva.', data: cleanSelfs, borderColor: '#fbbf24', backgroundColor: 'rgba(251, 191, 36, 0.2)' }
                         ]
                     },
                     options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 5, ticks: { display: false } } } }
@@ -3230,6 +3234,7 @@
 
         function drawIDPRadar(emp, targets) {
             let actuals = [];
+            let selfEvals = [];
             let cleanLabels = [];
             let cleanTargets = [];
             let cleanDescs = [];
@@ -3248,9 +3253,11 @@
                 if (t === 0) continue;
 
                 const a = emp.actuals[i] || 0;
+                const s = emp.self_evals ? (emp.self_evals[i] || 0) : 0;
                 cleanLabels.push(allLabels[i]);
                 cleanTargets.push(t);
                 actuals.push(a);
+                selfEvals.push(s);
                 cleanDescs.push(competencies[i].levels[a] || "ไม่มีคำอธิบาย");
                 cleanEvidences.push(emp.evidences[i] || "ไม่มีหลักฐานที่ระบุ");
             }
@@ -3264,7 +3271,8 @@
                     labels: cleanLabels,
                     datasets: [
                         { label: 'Target', data: cleanTargets, borderColor: '#cbd5e1', backgroundColor: 'transparent', borderDash: [5, 5], borderWidth: 2, pointRadius: 0 },
-                        { label: 'Actual', data: actuals, borderColor: '#ca3656', backgroundColor: 'rgba(202, 54, 86, 0.25)', borderWidth: 2, pointBackgroundColor: '#ca3656', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#ca3656', pointRadius: 4 }
+                        { label: 'Actual', data: actuals, borderColor: '#ca3656', backgroundColor: 'rgba(202, 54, 86, 0.25)', borderWidth: 2, pointBackgroundColor: '#ca3656', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#ca3656', pointRadius: 4 },
+                        { label: 'Self Eva.', data: selfEvals, borderColor: '#fbbf24', backgroundColor: 'rgba(251, 191, 36, 0.2)', borderWidth: 2, pointBackgroundColor: '#fbbf24', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#fbbf24', pointRadius: 4 }
                     ]
                 },
                 options: {
@@ -3443,6 +3451,7 @@
                     let actualsData = [];
 
                     const topEmp = dbUsers[topUsers[0]];
+                    let selfData = [];
 
                     compIndices.forEach(idx => {
                         const t = targets[idx] || 0;
@@ -3450,6 +3459,7 @@
                             labels.push(competencies[idx].name.replace(/^[0-9\.\s]+/, ''));
                             targetData.push(t);
                             actualsData.push(topEmp.actuals[idx] || 0);
+                            selfData.push(topEmp.self_evals ? (topEmp.self_evals[idx] || 0) : 0);
                         }
                     });
 
@@ -3459,7 +3469,8 @@
                             labels: labels,
                             datasets: [
                                 { label: 'Target', data: targetData, borderColor: '#cbd5e1', backgroundColor: 'transparent', borderDash: [5, 5], borderWidth: 2, pointRadius: 0 },
-                                { label: 'Actual', data: actualsData, borderColor: '#ca3656', backgroundColor: 'rgba(202, 54, 86, 0.25)', borderWidth: 2, pointBackgroundColor: '#ca3656', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#ca3656', pointRadius: 3 }
+                                { label: 'Actual', data: actualsData, borderColor: '#ca3656', backgroundColor: 'rgba(202, 54, 86, 0.25)', borderWidth: 2, pointBackgroundColor: '#ca3656', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#ca3656', pointRadius: 3 },
+                                { label: 'Self Eva.', data: selfData, borderColor: '#fbbf24', backgroundColor: 'rgba(251, 191, 36, 0.2)', borderWidth: 2, pointBackgroundColor: '#fbbf24', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#fbbf24', pointRadius: 3 }
                             ]
                         },
                         options: {
