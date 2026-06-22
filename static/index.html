@@ -700,16 +700,9 @@
                     </div>
 
                     <!-- Individual Radar Charts -->
-                    
-                        <!-- Heatmap Container -->
-                        <div id="dashboard-heatmap-container" class="mt-8 overflow-x-auto bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hidden">
-                        </div>
-
-                    
-                        <!-- Heatmap Container -->
-                        <div id="dashboard-heatmap-container" class="mt-8 overflow-x-auto bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hidden">
-                        </div>
-
+                    <!-- Heatmap Container -->
+                    <div id="dashboard-heatmap-container" class="mt-8 overflow-x-auto bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hidden">
+                    </div>
                     <div id="dash-individual-cards-container" class="space-y-6">
                         <!-- Cards injected by JS -->
                     </div>
@@ -1997,6 +1990,10 @@
                 const targetText = targetVal === 0 ? 'None' : `L${targetVal}`;
                 const currentVal = (emp.actuals[i] || 0) === 0 ? 1 : emp.actuals[i];
                 const currentDesc = competencies[i].levels[currentVal] || "";
+                
+                const selfEvalVal = (emp.self_evals && emp.self_evals[i] !== undefined) ? emp.self_evals[i] : currentVal;
+                const selfDesc = competencies[i].levels[selfEvalVal] || "";
+                const supervisorFeedback = (emp.supervisor_feedback && emp.supervisor_feedback[i]) ? emp.supervisor_feedback[i] : '';
 
                 html += `
                 <div class="bg-white p-6 rounded-2xl border border-slate-200 mb-6 shadow-sm">
@@ -2004,21 +2001,70 @@
                         <label class="font-bold text-lg text-slate-800">${currentLabels[i]}</label>
                         <span class="text-xs font-medium text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">เป้าหมายตำแหน่ง: <strong class="text-scg-800 text-sm ml-1">${targetText}</strong></span>
                     </div>
+                `;
+
+                if (currentUser.id === id) {
+                    // Self Evaluation Mode
+                    let statText = '';
+                    if (emp.eval_status === 'Approved') statText = '<span class="text-green-600 font-bold ml-3 text-sm"><i class="fa-solid fa-circle-check"></i> Approved</span>';
+                    else if (emp.eval_status === 'Waiting for Approval') statText = '<span class="text-amber-500 font-bold ml-3 text-sm"><i class="fa-solid fa-clock"></i> Waiting for Approval</span>';
                     
-                    <div class="flex items-center gap-4 mb-4">
-                        <input type="range" id="eval-val-${i}" min="1" max="5" value="${currentVal}" 
-                            class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-scg-700" 
-                            oninput="updateEvalSliderDisplay(${i}, this.value)">
-                        <div id="disp-${i}" class="w-12 h-12 flex items-center justify-center bg-scg-800 text-white font-black text-xl rounded-xl shadow-inner shrink-0">${currentVal}</div>
+                    html += `
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold text-blue-700 mb-2">ประเมินตนเอง (Self-Evaluation) ${statText}</label>
+                        <div class="flex items-center gap-4 mb-2">
+                            <input type="range" id="eval-self-${id}-${i}" min="1" max="5" value="${selfEvalVal}" 
+                                class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600" 
+                                oninput="updateEvalSliderDisplay(${i}, this.value, 'self')">
+                            <div id="disp-self-${i}" class="w-12 h-12 flex items-center justify-center bg-blue-600 text-white font-black text-xl rounded-xl shadow-inner shrink-0">${selfEvalVal}</div>
+                        </div>
+                        <div class="bg-blue-50/50 p-3.5 rounded-xl border border-blue-100 text-sm flex items-start gap-3">
+                            <span id="badge-self-${i}" class="font-bold text-blue-700 bg-blue-100 px-2.5 py-1 rounded-md shrink-0 border border-blue-200">Level ${selfEvalVal}</span>
+                            <span id="desc-self-${i}" class="text-slate-600 leading-relaxed mt-0.5">${selfDesc}</span>
+                        </div>
+                    </div>`;
+                    
+                    if (supervisorFeedback) {
+                        html += `
+                        <div class="bg-amber-50 p-4 rounded-xl border border-amber-100 mt-4">
+                            <label class="block text-xs font-bold text-amber-700 mb-1"><i class="fa-solid fa-comment-dots text-amber-500"></i> Feedback จากหัวหน้า</label>
+                            <p class="text-sm text-slate-700">${supervisorFeedback}</p>
+                        </div>`;
+                    }
+                } else {
+                    // Supervisor Mode
+                    html += `
+                    <div class="bg-blue-50/30 p-4 rounded-xl border border-blue-100 mb-6 flex justify-between items-center">
+                        <div>
+                            <span class="block text-xs font-bold text-blue-700 mb-1">พนักงานประเมินตนเอง:</span>
+                            <span class="text-sm text-slate-600">${selfDesc}</span>
+                        </div>
+                        <div class="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-700 font-black text-lg rounded-lg shadow-inner shrink-0">${selfEvalVal}</div>
                     </div>
                     
-                    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-100 text-sm mb-4 flex items-start gap-3">
-                        <span id="badge-${i}" class="font-bold text-scg-700 bg-scg-100/50 px-2.5 py-1 rounded-md shrink-0 border border-scg-200/50">Level ${currentVal}</span>
-                        <span id="desc-${i}" class="text-slate-600 leading-relaxed mt-0.5">${currentDesc}</span>
-                    </div>
-                    
-                    <div class="pt-4 border-t border-slate-200 border-dashed">
-                        <label class="block text-xs font-bold text-slate-500 mb-2"><i class="fa-regular fa-comment-dots text-scg-500 w-5 text-center"></i> คำอธิบาย/หลักฐานอ้างอิง (Evidence)</label>
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold text-amber-700 mb-2">หัวหน้าประเมินจริง (Supervisor Evaluation)</label>
+                        <div class="flex items-center gap-4 mb-2">
+                            <input type="range" id="eval-actual-${id}-${i}" min="1" max="5" value="${currentVal}" 
+                                class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-amber-500" 
+                                oninput="updateEvalSliderDisplay(${i}, this.value, 'actual')">
+                            <div id="disp-actual-${i}" class="w-12 h-12 flex items-center justify-center bg-amber-500 text-white font-black text-xl rounded-xl shadow-inner shrink-0">${currentVal}</div>
+                        </div>
+                        <div class="bg-amber-50/30 p-3.5 rounded-xl border border-amber-100 text-sm flex items-start gap-3 mb-4">
+                            <span id="badge-actual-${i}" class="font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-md shrink-0 border border-amber-200">Level ${currentVal}</span>
+                            <span id="desc-actual-${i}" class="text-slate-600 leading-relaxed mt-0.5">${currentDesc}</span>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-2"><i class="fa-regular fa-comment-dots text-amber-500 w-5 text-center"></i> Feedback จากหัวหน้า</label>
+                            <textarea id="eval-feedback-${id}-${i}" rows="2" class="w-full text-sm p-3 border border-slate-200 rounded-xl outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 resize-none transition-colors" placeholder="ระบุข้อเสนอแนะหรือเหตุผลในการให้คะแนน...">${supervisorFeedback}</textarea>
+                        </div>
+                    </div>`;
+                }
+
+                html += `
+                    <div class="pt-4 border-t border-slate-200 border-dashed mt-4">
+                        <label class="block text-xs font-bold text-slate-500 mb-2"><i class="fa-regular fa-folder-open text-scg-500 w-5 text-center"></i> หลักฐานอ้างอิง (Evidence)</label>
                         <textarea id="eval-evi-${i}" rows="2" class="w-full text-sm p-3 border border-slate-200 rounded-xl outline-none focus:border-scg-500 focus:ring-1 focus:ring-scg-500 resize-none transition-colors" placeholder="ระบุพฤติกรรมหรือผลงานที่สนับสนุนคะแนนนี้...">${emp.evidences[i] || ''}</textarea>
                     </div>
                     
@@ -2066,10 +2112,19 @@
             drawEvalRadar();
         }
 
-        function updateEvalSliderDisplay(index, val) {
-            document.getElementById(`disp-${index}`).textContent = val;
-            document.getElementById(`badge-${index}`).textContent = `Level ${val}`;
-            document.getElementById(`desc-${index}`).textContent = competencies[index].levels[val];
+        function updateEvalSliderDisplay(index, val, type) {
+            const idPrefix = type === 'self' ? 'self-' : (type === 'actual' ? 'actual-' : '');
+            
+            // If the original UI is rendered (no type), idPrefix is empty.
+            if (!type) {
+                document.getElementById(`disp-${index}`).textContent = val;
+                document.getElementById(`badge-${index}`).textContent = `Level ${val}`;
+                document.getElementById(`desc-${index}`).textContent = competencies[index].levels[val];
+            } else {
+                document.getElementById(`disp-${idPrefix}${index}`).textContent = val;
+                document.getElementById(`badge-${idPrefix}${index}`).textContent = `Level ${val}`;
+                document.getElementById(`desc-${idPrefix}${index}`).textContent = competencies[index].levels[val];
+            }
             drawEvalRadar();
         }
 
@@ -2163,17 +2218,40 @@
             if (!emp.learning_topics) emp.learning_topics = new Array(competencies.length).fill('');
 
             for (let i = 0; i < competencies.length; i++) {
-                const elVal = document.getElementById(`eval-val-${i}`);
+                // Grab self eval if exists
+                const elSelf = document.getElementById(`eval-self-${id}-${i}`);
+                if (elSelf) {
+                    if (!emp.self_evals) emp.self_evals = [];
+                    emp.self_evals[i] = parseInt(elSelf.value);
+                }
+
+                // Grab actual eval if exists
+                const elActual = document.getElementById(`eval-actual-${id}-${i}`);
+                if (elActual) {
+                    emp.actuals[i] = parseInt(elActual.value);
+                }
+
+                // Grab feedback if exists
+                const elFeedback = document.getElementById(`eval-feedback-${id}-${i}`);
+                if (elFeedback) {
+                    if (!emp.supervisor_feedback) emp.supervisor_feedback = [];
+                    emp.supervisor_feedback[i] = elFeedback.value;
+                }
+
                 const elEvi = document.getElementById(`eval-evi-${i}`);
                 const elAddExp = document.getElementById(`eval-add-exp-${i}`);
                 const elLrnTop = document.getElementById(`eval-lrn-top-${i}`);
 
-                if (elVal && elEvi) {
-                    emp.actuals[i] = parseInt(elVal.value);
-                    emp.evidences[i] = elEvi.value;
-                }
+                if (elEvi) emp.evidences[i] = elEvi.value;
                 if (elAddExp) emp.additional_expectations[i] = elAddExp.value;
                 if (elLrnTop) emp.learning_topics[i] = elLrnTop.value;
+            }
+
+            // Update evaluation status
+            if (currentUser.id === id) {
+                emp.eval_status = 'Waiting for Approval';
+            } else {
+                emp.eval_status = 'Approved';
             }
 
             const specExp = document.getElementById('eval-spec-exp') ? document.getElementById('eval-spec-exp').value : '';
@@ -2231,7 +2309,6 @@
                 drawAverageBarChart(toShow);
             }
             renderIndividualDashboards(toShow);
-            renderTeamHeatmap(toShow);
             renderTeamHeatmap(toShow);
         }
 
@@ -2387,148 +2464,6 @@
                     }
                 }]
             });
-        }
-
-        
-        window.renderTeamHeatmap = function(subIds) {
-            const container = document.getElementById('dashboard-heatmap-container');
-            if (!container) return;
-            
-            if (subIds.length === 0) {
-                container.classList.add('hidden');
-                return;
-            }
-            container.classList.remove('hidden');
-
-            let html = '<h3 class="text-lg font-bold text-scg-800 mb-4">Team Skill Matrix</h3>';
-            html += '<table class="w-full text-left border-collapse min-w-[800px]">';
-            html += '<thead><tr class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider">';
-            html += '<th class="p-3 border-b border-slate-200 sticky left-0 bg-slate-50 z-10 w-48">Employee</th>';
-            
-            // Get visible competencies
-            let activeComps = [];
-            for (let i = 0; i < competencies.length; i++) {
-                if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
-                if (selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
-                activeComps.push({ index: i, name: competencies[i].name });
-            }
-            
-            activeComps.forEach(comp => {
-                html += `<th class="p-3 border-b border-slate-200 truncate max-w-[120px]" title="${comp.name}">${comp.name}</th>`;
-            });
-            html += '</tr></thead><tbody>';
-
-            subIds.forEach(id => {
-                const emp = dbUsers[id];
-                const targets = positionTargets[emp.position] || [];
-                
-                html += `<tr class="border-b border-slate-100 hover:bg-slate-50">`;
-                html += `<td class="p-3 sticky left-0 bg-white group-hover:bg-slate-50 z-10 font-medium text-sm text-slate-800 shadow-[1px_0_0_0_#f1f5f9] truncate" title="${emp.name}">${emp.name}</td>`;
-                
-                activeComps.forEach(comp => {
-                    const t = targets[comp.index] || 0;
-                    const a = emp.actuals[comp.index] || 0;
-                    
-                    let bgClass = "bg-slate-50";
-                    let textClass = "text-slate-400";
-                    let content = "-";
-                    
-                    if (t > 0) {
-                        const diff = a - t;
-                        if (diff >= 0) {
-                            bgClass = "bg-green-100";
-                            textClass = "text-green-700 font-bold";
-                            content = a;
-                        } else if (diff === -1) {
-                            bgClass = "bg-yellow-100";
-                            textClass = "text-yellow-700 font-bold";
-                            content = a;
-                        } else {
-                            bgClass = "bg-red-100";
-                            textClass = "text-red-700 font-bold";
-                            content = a;
-                        }
-                    }
-                    
-                    html += `<td class="p-2 border-r border-slate-50 text-center"><div class="w-8 h-8 flex items-center justify-center rounded mx-auto ${bgClass} ${textClass} text-xs" title="Target: ${t}, Actual: ${a}">${content}</div></td>`;
-                });
-                
-                html += `</tr>`;
-            });
-
-            html += '</tbody></table>';
-            container.innerHTML = html;
-        }
-
-        
-        window.renderTeamHeatmap = function(subIds) {
-            const container = document.getElementById('dashboard-heatmap-container');
-            if (!container) return;
-            
-            if (subIds.length === 0) {
-                container.classList.add('hidden');
-                return;
-            }
-            container.classList.remove('hidden');
-
-            let html = '<h3 class="text-lg font-bold text-scg-800 mb-4">Team Skill Matrix</h3>';
-            html += '<table class="w-full text-left border-collapse min-w-[800px]">';
-            html += '<thead><tr class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider">';
-            html += '<th class="p-3 border-b border-slate-200 sticky left-0 bg-slate-50 z-10 w-48">Employee</th>';
-            
-            // Get visible competencies
-            let activeComps = [];
-            for (let i = 0; i < competencies.length; i++) {
-                if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
-                if (selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
-                activeComps.push({ index: i, name: competencies[i].name });
-            }
-            
-            activeComps.forEach(comp => {
-                html += `<th class="p-3 border-b border-slate-200 truncate max-w-[120px]" title="${comp.name}">${comp.name}</th>`;
-            });
-            html += '</tr></thead><tbody>';
-
-            subIds.forEach(id => {
-                const emp = dbUsers[id];
-                const targets = positionTargets[emp.position] || [];
-                
-                html += `<tr class="border-b border-slate-100 hover:bg-slate-50">`;
-                html += `<td class="p-3 sticky left-0 bg-white group-hover:bg-slate-50 z-10 font-medium text-sm text-slate-800 shadow-[1px_0_0_0_#f1f5f9] truncate" title="${emp.name}">${emp.name}</td>`;
-                
-                activeComps.forEach(comp => {
-                    const t = targets[comp.index] || 0;
-                    const a = emp.actuals[comp.index] || 0;
-                    
-                    let bgClass = "bg-slate-50";
-                    let textClass = "text-slate-400";
-                    let content = "-";
-                    
-                    if (t > 0) {
-                        const diff = a - t;
-                        if (diff >= 0) {
-                            bgClass = "bg-green-100";
-                            textClass = "text-green-700 font-bold";
-                            content = a;
-                        } else if (diff === -1) {
-                            bgClass = "bg-yellow-100";
-                            textClass = "text-yellow-700 font-bold";
-                            content = a;
-                        } else {
-                            bgClass = "bg-red-100";
-                            textClass = "text-red-700 font-bold";
-                            content = a;
-                        }
-                    }
-                    
-                    html += `<td class="p-2 border-r border-slate-50 text-center"><div class="w-8 h-8 flex items-center justify-center rounded mx-auto ${bgClass} ${textClass} text-xs" title="Target: ${t}, Actual: ${a}">${content}</div></td>`;
-                });
-                
-                html += `</tr>`;
-            });
-
-            html += '</tbody></table>';
-            container.innerHTML = html;
         }
 
         function renderIndividualDashboards(subIds) {
@@ -2979,22 +2914,6 @@
             renderIDPContent();
         }
 
-        
-        window.updateIDPStatus = function(empId, skillName, status) {
-            if (!dbUsers[empId]) return;
-            if (!dbUsers[empId].idp_status) dbUsers[empId].idp_status = {};
-            dbUsers[empId].idp_status[skillName] = status;
-            showToast("บันทึกสถานะ IDP สำเร็จ!");
-        }
-
-        
-        window.updateIDPStatus = function(empId, skillName, status) {
-            if (!dbUsers[empId]) return;
-            if (!dbUsers[empId].idp_status) dbUsers[empId].idp_status = {};
-            dbUsers[empId].idp_status[skillName] = status;
-            showToast("บันทึกสถานะ IDP สำเร็จ!");
-        }
-
         window.toggleIDPEmpFilter = function (uid) {
             selectedIDPEmp = uid;
             renderIDPContent();
@@ -3103,7 +3022,6 @@
                     if (gap.skill.includes("ไฟฟ้า")) { courseName = "เทคนิคตู้ MDB และมอเตอร์ 3 เฟส"; icon = "fa-bolt"; }
                     else if (gap.skill.includes("เครื่องกล")) { courseName = "ซ่อมบำรุงปั๊มน้ำและระบบนิวเมติกส์"; icon = "fa-gear"; }
                     else if (gap.skill.includes("วิเคราะห์")) { courseName = "การอ่านแบบ Schematic Diagram"; icon = "fa-magnifying-glass-chart"; }
-                    
                     let idpStatus = (emp.idp_status && emp.idp_status[gap.skill]) ? emp.idp_status[gap.skill] : 'Not Started';
                     let statusColor = idpStatus === 'Completed' ? 'bg-green-100 text-green-700' : (idpStatus === 'In Progress' ? 'bg-yellow-100 text-yellow-700' : 'bg-slate-100 text-slate-600');
                     
