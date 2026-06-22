@@ -235,11 +235,16 @@
                     <span id="nav-user-name" class="text-sm font-bold text-scg-800 truncate"></span>
                     <span id="nav-user-role"
                         class="text-[10px] font-medium text-slate-500 uppercase bg-slate-200 px-1.5 py-0.5 rounded inline-block w-fit mt-1 truncate"></span>
+                <div class="flex flex-col gap-2">
+                    <button onclick="openQuickGuide()"
+                        class="w-full py-2 rounded-lg bg-blue-50 text-blue-600 font-bold text-sm hover:bg-blue-100 flex items-center justify-center gap-2 transition-colors border border-blue-100">
+                        <i class="fa-solid fa-circle-question"></i> คู่มือ (Help)
+                    </button>
+                    <button onclick="handleLogout()"
+                        class="w-full py-2 rounded-lg bg-red-50 text-red-600 font-bold text-sm hover:bg-red-100 flex items-center justify-center gap-2 transition-colors border border-red-100">
+                        <i class="fa-solid fa-power-off"></i> ออกจากระบบ
+                    </button>
                 </div>
-                <button onclick="handleLogout()"
-                    class="w-full py-2 rounded-lg bg-red-50 text-red-600 font-bold text-sm hover:bg-red-100 flex items-center justify-center gap-2 transition-colors border border-red-100">
-                    <i class="fa-solid fa-power-off"></i> ออกจากระบบ
-                </button>
             </div>
         </aside>
 
@@ -877,6 +882,106 @@
         </main>
     </div>
 
+    <!-- Quick Guide Modal -->
+    <div id="quick-guide-modal" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-4xl rounded-2xl shadow-2xl overflow-hidden animate-fade-in relative">
+            <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50 relative z-10 rounded-t-2xl">
+                <h2 class="text-2xl font-bold text-scg-900"><i class="fa-solid fa-book-open text-scg-500 mr-2"></i>คู่มือการใช้งานแบบย่อ (Quick Guide)</h2>
+                <button onclick="closeQuickGuide()" class="text-slate-400 hover:text-red-500 bg-white hover:bg-red-50 w-8 h-8 rounded-full flex items-center justify-center transition-colors shadow-sm">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-8 max-h-[80vh] overflow-y-auto">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Employee Column -->
+                    <div class="bg-slate-50 p-6 rounded-xl border border-slate-200">
+                        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-slate-200">
+                            <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-user"></i></div>
+                            <div>
+                                <h3 class="text-lg font-bold text-scg-900">สำหรับ พนักงาน</h3>
+                                <p class="text-xs text-slate-500">รู้เป้าหมาย ประเมินตนเอง และพัฒนาศักยภาพ</p>
+                            </div>
+                        </div>
+                        <ul class="space-y-4">
+                            <li class="flex gap-3">
+                                <div class="w-6 h-6 rounded-full bg-white border border-blue-200 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0 shadow-sm mt-0.5">1</div>
+                                <div>
+                                    <h4 class="font-bold text-scg-800 text-sm"><i class="fa-solid fa-book text-blue-400 w-4"></i> สำรวจความคาดหวัง</h4>
+                                    <p class="text-xs text-slate-600 mt-1">เข้าแท็บ <b>Training Need</b> เพื่ออ่านบทบาทหน้าที่และเป้าหมาย (Target) ของตำแหน่งคุณ</p>
+                                </div>
+                            </li>
+                            <li class="flex gap-3">
+                                <div class="w-6 h-6 rounded-full bg-white border border-blue-200 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0 shadow-sm mt-0.5">2</div>
+                                <div>
+                                    <h4 class="font-bold text-scg-800 text-sm"><i class="fa-solid fa-pen-to-square text-blue-400 w-4"></i> ประเมินตนเอง</h4>
+                                    <p class="text-xs text-slate-600 mt-1">เข้าแท็บ <b>การประเมิน</b> ปรับสไลเดอร์เพื่อประเมินทักษะตนเองตามจริง พร้อมระบุความต้องการเพิ่มเติม และกดบันทึก</p>
+                                </div>
+                            </li>
+                            <li class="flex gap-3">
+                                <div class="w-6 h-6 rounded-full bg-white border border-blue-200 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0 shadow-sm mt-0.5">3</div>
+                                <div>
+                                    <h4 class="font-bold text-scg-800 text-sm"><i class="fa-solid fa-chart-pie text-blue-400 w-4"></i> ดูผลลัพธ์</h4>
+                                    <p class="text-xs text-slate-600 mt-1">เข้าแท็บ <b>Dashboard</b> เพื่อดูกราฟ Radar เปรียบเทียบทักษะของคุณกับเป้าหมายที่ตั้งไว้</p>
+                                </div>
+                            </li>
+                            <li class="flex gap-3">
+                                <div class="w-6 h-6 rounded-full bg-white border border-blue-200 text-blue-600 flex items-center justify-center text-xs font-bold shrink-0 shadow-sm mt-0.5">4</div>
+                                <div>
+                                    <h4 class="font-bold text-scg-800 text-sm"><i class="fa-solid fa-route text-blue-400 w-4"></i> สร้างแผนพัฒนา (IDP)</h4>
+                                    <p class="text-xs text-slate-600 mt-1">เข้าแท็บ <b>IDP</b> เพื่อดูสรุปช่องว่างทักษะและดูคอร์สเรียนแนะนำ เพื่อนำไปปรึกษาหัวหน้าต่อไป</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Manager Column -->
+                    <div class="bg-amber-50/30 p-6 rounded-xl border border-amber-100">
+                        <div class="flex items-center gap-3 mb-6 pb-4 border-b border-amber-100">
+                            <div class="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-users-gear"></i></div>
+                            <div>
+                                <h3 class="text-lg font-bold text-amber-900">สำหรับ ผู้บังคับบัญชา</h3>
+                                <p class="text-xs text-amber-700/70">วิเคราะห์ภาพรวม ประเมินลูกน้อง และโค้ชชิ่ง</p>
+                            </div>
+                        </div>
+                        <ul class="space-y-4">
+                            <li class="flex gap-3">
+                                <div class="w-6 h-6 rounded-full bg-white border border-amber-200 text-amber-600 flex items-center justify-center text-xs font-bold shrink-0 shadow-sm mt-0.5">1</div>
+                                <div>
+                                    <h4 class="font-bold text-amber-900 text-sm"><i class="fa-solid fa-magnifying-glass-chart text-amber-500 w-4"></i> วิเคราะห์ภาพรวม</h4>
+                                    <p class="text-xs text-amber-800/80 mt-1">เข้าแท็บ <b>Dashboard</b> เพื่อดูภาพรวมความพร้อมของทีมผ่านกราฟแท่งและตาราง Heatmap</p>
+                                </div>
+                            </li>
+                            <li class="flex gap-3">
+                                <div class="w-6 h-6 rounded-full bg-white border border-amber-200 text-amber-600 flex items-center justify-center text-xs font-bold shrink-0 shadow-sm mt-0.5">2</div>
+                                <div>
+                                    <h4 class="font-bold text-amber-900 text-sm"><i class="fa-solid fa-list-check text-amber-500 w-4"></i> ตรวจสอบเกณฑ์</h4>
+                                    <p class="text-xs text-amber-800/80 mt-1">เข้าแท็บ <b>Training Need</b> เพื่ออ่านคำอธิบายระดับทักษะ (Level 1-5) เพื่อใช้เป็นมาตรฐานการประเมิน</p>
+                                </div>
+                            </li>
+                            <li class="flex gap-3">
+                                <div class="w-6 h-6 rounded-full bg-white border border-amber-200 text-amber-600 flex items-center justify-center text-xs font-bold shrink-0 shadow-sm mt-0.5">3</div>
+                                <div>
+                                    <h4 class="font-bold text-amber-900 text-sm"><i class="fa-solid fa-clipboard-user text-amber-500 w-4"></i> ประเมินลูกน้อง</h4>
+                                    <p class="text-xs text-amber-800/80 mt-1">เข้าแท็บ <b>การประเมิน</b> เลือกลูกน้องจากรายชื่อ อ่านสิ่งที่ลูกน้องประเมินตนเองมา และระบุระดับทักษะจริง (Actual) พร้อมให้ Feedback</p>
+                                </div>
+                            </li>
+                            <li class="flex gap-3">
+                                <div class="w-6 h-6 rounded-full bg-white border border-amber-200 text-amber-600 flex items-center justify-center text-xs font-bold shrink-0 shadow-sm mt-0.5">4</div>
+                                <div>
+                                    <h4 class="font-bold text-amber-900 text-sm"><i class="fa-solid fa-handshake-angle text-amber-500 w-4"></i> พูดคุยแผนพัฒนา</h4>
+                                    <p class="text-xs text-amber-800/80 mt-1">เข้าแท็บ <b>IDP</b> นำข้อมูลของพนักงานมาใช้ประชุมพูดคุย (1-on-1) เพื่อส่งเข้าคอร์สเรียนตามที่ระบบแนะนำ</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="p-6 border-t border-slate-100 bg-slate-50 flex justify-end">
+                <button onclick="closeQuickGuide()" class="bg-scg-800 hover:bg-scg-900 text-white font-bold py-2 px-6 rounded-xl transition-colors shadow-md">เข้าใจแล้ว, เริ่มใช้งานเลย</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ========================================== -->
     <!-- JAVASCRIPT LOGIC -->
     <!-- ========================================== -->
@@ -885,6 +990,14 @@
         const API_BASE = '/api';
 
         // --- System Functions ---
+        function openQuickGuide() {
+            document.getElementById('quick-guide-modal').classList.remove('hidden');
+        }
+
+        function closeQuickGuide() {
+            document.getElementById('quick-guide-modal').classList.add('hidden');
+        }
+
         function showToast(message) {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
