@@ -701,7 +701,7 @@
 
                     <!-- Individual Radar Charts -->
                     <!-- Heatmap Container -->
-                    <div id="dashboard-heatmap-container" class="mt-8 overflow-x-auto bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hidden">
+                    <div id="dashboard-heatmap-container" class="mt-8 bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hidden">
                     </div>
                     <div id="dash-individual-cards-container" class="space-y-6">
                         <!-- Cards injected by JS -->
@@ -2477,6 +2477,7 @@
             container.classList.remove('hidden');
 
             let html = '<h3 class="text-lg font-bold text-scg-800 mb-4">Team Skill Matrix</h3>';
+            html += '<div class="overflow-x-auto pb-4">';
             html += '<table class="w-full text-left border-collapse min-w-[800px]">';
             html += '<thead><tr class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider">';
             html += '<th class="p-3 border-b border-slate-200 sticky left-0 bg-slate-50 z-10 w-48">Employee</th>';
@@ -2490,7 +2491,7 @@
             }
             
             activeComps.forEach(comp => {
-                html += `<th class="p-3 border-b border-slate-200 truncate max-w-[120px]" title="${comp.name}">${comp.name}</th>`;
+                html += `<th class="p-3 border-b border-slate-200 align-top min-w-[140px] whitespace-normal leading-relaxed" title="${comp.name}">${comp.name}</th>`;
             });
             html += '</tr></thead><tbody>';
 
@@ -2532,7 +2533,7 @@
                 html += `</tr>`;
             });
 
-            html += '</tbody></table>';
+            html += '</tbody></table></div>';
             container.innerHTML = html;
         }
 
