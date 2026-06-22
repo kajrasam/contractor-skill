@@ -3582,12 +3582,34 @@
                 const topNames = topUsers.map(id => dbUsers[id].name).join(', ');
                 const readPct = Math.round(maxVal);
 
+                let evalDates = topUsers.map(id => {
+                    let mgrDate = 'ยังไม่ประเมิน';
+                    try {
+                        let uDate = dbUsers[id].evalDate;
+                        if (uDate) {
+                            if (uDate.startsWith('{')) {
+                                let obj = JSON.parse(uDate);
+                                if(obj.mgr) mgrDate = obj.mgr;
+                            } else {
+                                mgrDate = uDate;
+                            }
+                        }
+                    } catch(e) {}
+                    return mgrDate;
+                });
+                let evalDateText = evalDates.join(', ');
+
                 let cardHtml = `
                     <div class="border border-slate-200 rounded-2xl p-4 flex flex-col bg-slate-50">
                         <div class="mb-3 border-b border-slate-200 pb-2">
                             <p class="text-xs font-bold text-scg-600 mb-1">${pos}</p>
                             <h4 class="text-sm font-bold text-slate-800 line-clamp-2">${topNames}</h4>
-                            <p class="text-xs text-slate-500 mt-1">Readiness: <span class="font-bold text-scg-700">${readPct}%</span></p>
+                            <p class="text-xs text-slate-500 mt-1 flex justify-between">
+                                <span>Readiness: <span class="font-bold text-scg-700">${readPct}%</span></span>
+                            </p>
+                            <p class="text-xs text-slate-500 mt-1">
+                                ประเมินโดยหัวหน้า: <span class="font-bold text-slate-700">${evalDateText}</span>
+                            </p>
                         </div>
                         <div class="relative w-full aspect-square">
                             <canvas id="analytic-radar-${posIdx}"></canvas>
