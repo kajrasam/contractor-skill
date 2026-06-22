@@ -188,8 +188,7 @@
                     <label class="block text-sm font-medium text-slate-700 mb-1">Password</label>
                     <input type="password" id="login-password"
                         class="w-full px-4 py-2 border border-slate-200 rounded-xl focus:ring-2 focus:ring-scg-500 bg-slate-50 focus:bg-white"
-                        placeholder="รหัสผ่านตรงกับ Username"
-                        onkeypress="if(event.key === 'Enter') handleLogin()">
+                        placeholder="รหัสผ่านตรงกับ Username" onkeypress="if(event.key === 'Enter') handleLogin()">
                 </div>
                 <button onclick="handleLogin()"
                     class="w-full bg-scg-800 hover:bg-scg-900 text-white font-medium py-2.5 rounded-xl transition-all shadow-md mt-6">
@@ -213,14 +212,14 @@
     <div id="app-container" class="hidden min-h-screen w-full flex-col md:flex-row bg-slate-50">
 
         <!-- SIDEBAR -->
-        <aside class="w-full md:w-64 bg-white border-r border-slate-200 flex flex-col md:sticky md:top-0 md:h-screen z-40 shadow-sm shrink-0">
+        <aside
+            class="w-full md:w-64 bg-white border-r border-slate-200 flex flex-col md:sticky md:top-0 md:h-screen z-40 shadow-sm shrink-0">
             <!-- Logo -->
             <div class="p-6 border-b border-slate-200 flex items-center gap-3 shrink-0">
-                <div class="bg-scg-800 text-white p-2.5 rounded-xl shadow-md"><i
-                        class="fa-solid fa-wrench text-xl"></i></div>
+                <div class="bg-scg-800 text-white p-2.5 rounded-xl shadow-md"><i class="fa-solid fa-wrench text-xl"></i>
+                </div>
                 <div class="flex flex-col justify-center">
-                    <span
-                        class="text-xl font-bold text-scg-900 tracking-tight leading-none">Competency<br/><span
+                    <span class="text-xl font-bold text-scg-900 tracking-tight leading-none">Competency<br /><span
                             class="text-scg-400"> system</span></span>
                 </div>
             </div>
@@ -245,118 +244,163 @@
         </aside>
 
         <!-- MAIN CONTENT -->
-        <main class="flex-grow w-full md:w-[calc(100%-16rem)] md:h-screen overflow-y-auto px-4 sm:px-8 py-8 transition-all duration-300">
+        <main
+            class="flex-grow w-full md:w-[calc(100%-16rem)] md:h-screen overflow-y-auto px-4 sm:px-8 py-8 transition-all duration-300">
 
             <!-- GLOBAL FILTERS (Shared across tabs) -->
             <div id="global-filters-container" class="hidden">
-<!-- Filters Section -->
-                                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 mb-6 relative z-20">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2 border-b border-slate-100 pb-4">
-                        <h3 class="text-sm font-bold text-slate-800"><i class="fa-solid fa-sliders text-scg-600 mr-2"></i>ตัวกรองข้อมูลองค์กรและพนักงาน</h3>
-                        <button onclick="window.clearAllFilters()" class="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-sm font-medium rounded-xl transition-colors flex items-center gap-2 shadow-sm">
+                <!-- Filters Section -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-100 mb-6 relative z-20">
+                    <div
+                        class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2 border-b border-slate-100 pb-4">
+                        <h3 class="text-sm font-bold text-slate-800"><i
+                                class="fa-solid fa-sliders text-scg-600 mr-2"></i>ตัวกรองข้อมูลองค์กรและพนักงาน</h3>
+                        <button onclick="window.clearAllFilters()"
+                            class="px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 text-sm font-medium rounded-xl transition-colors flex items-center gap-2 shadow-sm">
                             <i class="fa-solid fa-eraser"></i> ล้างตัวกรองทั้งหมด
                         </button>
                     </div>
                     <div class="flex flex-col xl:flex-row gap-6">
                         <!-- Hierarchy Group -->
                         <div class="xl:w-3/4 bg-slate-50 border border-slate-200 rounded-xl p-4">
-                            <h4 class="text-sm font-bold text-slate-700 mb-4 border-b border-slate-200 pb-2"><i class="fa-solid fa-sitemap text-scg-500 mr-2"></i> โครงสร้างองค์กรและบุคลากร (Hierarchy)</h4>
+                            <h4 class="text-sm font-bold text-slate-700 mb-4 border-b border-slate-200 pb-2"><i
+                                    class="fa-solid fa-sitemap text-scg-500 mr-2"></i> โครงสร้างองค์กรและบุคลากร
+                                (Hierarchy)</h4>
                             <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4">
                                 <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-layer-group text-scg-500 mr-1"></i> กรองตามกลุ่มงาน</label>
-                                    <button onclick="toggleFilterMenu('job-group-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate" id="job-group-dropdown-text">เลือกกลุ่มงานทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
+                                            class="fa-solid fa-layer-group text-scg-500 mr-1"></i>
+                                        กรองตามกลุ่มงาน</label>
+                                    <button onclick="toggleFilterMenu('job-group-menu')"
+                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate"
+                                            id="job-group-dropdown-text">เลือกกลุ่มงานทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="job-group-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="job-group-menu"
+                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="job-group-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
                                 <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตามตำแหน่ง</label>
-                                    <button onclick="toggleFilterMenu('pos-dropdown-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate" id="pos-dropdown-text">เลือกตำแหน่งทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
+                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตามตำแหน่ง</label>
+                                    <button onclick="toggleFilterMenu('pos-dropdown-menu')"
+                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate"
+                                            id="pos-dropdown-text">เลือกตำแหน่งทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="pos-dropdown-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="pos-dropdown-menu"
+                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="position-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
                                 <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Section</label>
-                                    <button onclick="toggleFilterMenu('section-dropdown-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate" id="section-dropdown-text">เลือก Section ทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
+                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Section</label>
+                                    <button onclick="toggleFilterMenu('section-dropdown-menu')"
+                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate"
+                                            id="section-dropdown-text">เลือก Section ทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="section-dropdown-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="section-dropdown-menu"
+                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="section-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
                                 <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Department</label>
-                                    <button onclick="toggleFilterMenu('department-dropdown-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate" id="department-dropdown-text">เลือก Department ทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
+                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Department</label>
+                                    <button onclick="toggleFilterMenu('department-dropdown-menu')"
+                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate"
+                                            id="department-dropdown-text">เลือก Department ทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="department-dropdown-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="department-dropdown-menu"
+                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="department-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
                                 <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Sub1-Division</label>
-                                    <button onclick="toggleFilterMenu('sub1division-dropdown-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate" id="sub1division-dropdown-text">เลือก Sub1-Division ทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
+                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม
+                                        Sub1-Division</label>
+                                    <button onclick="toggleFilterMenu('sub1division-dropdown-menu')"
+                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate"
+                                            id="sub1division-dropdown-text">เลือก Sub1-Division ทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="sub1division-dropdown-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="sub1division-dropdown-menu"
+                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="sub1division-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
                                 <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Division</label>
-                                    <button onclick="toggleFilterMenu('division-dropdown-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate" id="division-dropdown-text">เลือก Division ทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
+                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Division</label>
+                                    <button onclick="toggleFilterMenu('division-dropdown-menu')"
+                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate"
+                                            id="division-dropdown-text">เลือก Division ทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="division-dropdown-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="division-dropdown-menu"
+                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="division-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
                                 <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Sub1-Company</label>
-                                    <button onclick="toggleFilterMenu('sub1company-dropdown-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate" id="sub1company-dropdown-text">เลือก Sub1-Company ทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
+                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม
+                                        Sub1-Company</label>
+                                    <button onclick="toggleFilterMenu('sub1company-dropdown-menu')"
+                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate"
+                                            id="sub1company-dropdown-text">เลือก Sub1-Company ทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="sub1company-dropdown-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="sub1company-dropdown-menu"
+                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="sub1company-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
                                 <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Company</label>
-                                    <button onclick="toggleFilterMenu('company-dropdown-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate" id="company-dropdown-text">เลือก Company ทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
+                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Company</label>
+                                    <button onclick="toggleFilterMenu('company-dropdown-menu')"
+                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate"
+                                            id="company-dropdown-text">เลือก Company ทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="company-dropdown-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="company-dropdown-menu"
+                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="company-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
                                 <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-user text-scg-500 mr-1"></i> ชื่อพนักงาน</label>
-                                    <button onclick="toggleFilterMenu('employee-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate" id="employee-dropdown-text">เลือกพนักงานทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
+                                            class="fa-solid fa-user text-scg-500 mr-1"></i> ชื่อพนักงาน</label>
+                                    <button onclick="toggleFilterMenu('employee-menu')"
+                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate"
+                                            id="employee-dropdown-text">เลือกพนักงานทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="employee-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="employee-menu"
+                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="employee-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
@@ -364,27 +408,38 @@
                         </div>
 
                         <!-- Competency Group -->
-                        <div id="global-competency-container" class="xl:w-1/4 bg-scg-50/50 border border-scg-100 rounded-xl p-4">
-                            <h4 class="text-sm font-bold text-scg-700 mb-4 border-b border-scg-100 pb-2"><i class="fa-solid fa-star text-scg-500 mr-2"></i> ทักษะความคาดหวัง (Competency)</h4>
+                        <div id="global-competency-container"
+                            class="xl:w-1/4 bg-scg-50/50 border border-scg-100 rounded-xl p-4">
+                            <h4 class="text-sm font-bold text-scg-700 mb-4 border-b border-scg-100 pb-2"><i
+                                    class="fa-solid fa-star text-scg-500 mr-2"></i> ทักษะความคาดหวัง (Competency)</h4>
                             <div class="grid grid-cols-1 gap-4">
                                 <div class="w-full relative filter-dropdown-container">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-layer-group text-scg-500 mr-1"></i> กลุ่ม Competency</label>
-                                    <button onclick="toggleFilterMenu('comp-group-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate" id="comp-group-dropdown-text">เลือกกลุ่มทักษะทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
+                                            class="fa-solid fa-layer-group text-scg-500 mr-1"></i> กลุ่ม
+                                        Competency</label>
+                                    <button onclick="toggleFilterMenu('comp-group-menu')"
+                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate"
+                                            id="comp-group-dropdown-text">เลือกกลุ่มทักษะทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="comp-group-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="comp-group-menu"
+                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="comp-group-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
                                 <div class="w-full relative filter-dropdown-container">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-filter text-scg-500 mr-1"></i> หัวข้อ Competency</label>
-                                    <button onclick="toggleFilterMenu('comp-dropdown-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate" id="comp-dropdown-text">เลือกทักษะทั้งหมด</span>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
+                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> หัวข้อ Competency</label>
+                                    <button onclick="toggleFilterMenu('comp-dropdown-menu')"
+                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate"
+                                            id="comp-dropdown-text">เลือกทักษะทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="comp-dropdown-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                    <div id="comp-dropdown-menu"
+                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="competency-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
@@ -392,14 +447,17 @@
                         </div>
                     </div>
                 </div>
-</div>
+            </div>
 
 
             <!-- 1. HOME TAB -->
             <section id="tab-home" class="tab-content space-y-8">
-                <div class="bg-white p-8 md:p-12 rounded-3xl border border-slate-100 shadow-sm text-center relative overflow-hidden mb-4">
-                    <div class="absolute -left-10 -top-10 opacity-5 text-scg-800 pointer-events-none"><i class="fa-solid fa-gears text-[200px]"></i></div>
-                    <div class="inline-flex bg-scg-50 text-scg-800 p-4 rounded-2xl mb-4 relative z-10"><i class="fa-solid fa-user-shield text-4xl"></i></div>
+                <div
+                    class="bg-white p-8 md:p-12 rounded-3xl border border-slate-100 shadow-sm text-center relative overflow-hidden mb-4">
+                    <div class="absolute -left-10 -top-10 opacity-5 text-scg-800 pointer-events-none"><i
+                            class="fa-solid fa-gears text-[200px]"></i></div>
+                    <div class="inline-flex bg-scg-50 text-scg-800 p-4 rounded-2xl mb-4 relative z-10"><i
+                            class="fa-solid fa-user-shield text-4xl"></i></div>
                     <h2 class="text-3xl font-bold text-scg-900 mb-4 relative z-10">Competency System</h2>
                     <p class="text-slate-500 max-w-2xl mx-auto relative z-10" id="home-welcome-text">
                         ระบบจัดการทักษะและประเมินขีดความสามารถตามบทบาทหน้าที่ (Role & Responsibilities)
@@ -408,68 +466,106 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <!-- Workflow for Employee -->
-                    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden transition-shadow hover:shadow-md">
+                    <div
+                        class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden transition-shadow hover:shadow-md">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-bl-[100px] z-0"></div>
-                        <h3 class="text-xl font-bold text-scg-900 mb-8 flex items-center relative z-10"><i class="fa-solid fa-user text-scg-500 mr-3 text-2xl"></i> สำหรับพนักงาน <span class="text-slate-400 text-base font-normal ml-2">(ผู้ถูกประเมิน)</span></h3>
-                        
+                        <h3 class="text-xl font-bold text-scg-900 mb-8 flex items-center relative z-10"><i
+                                class="fa-solid fa-user text-scg-500 mr-3 text-2xl"></i> สำหรับพนักงาน <span
+                                class="text-slate-400 text-base font-normal ml-2">(ผู้ถูกประเมิน)</span></h3>
+
                         <div class="space-y-0 relative z-10 ml-2">
                             <div class="flex items-start gap-5">
-                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">1</div>
+                                <div
+                                    class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">
+                                    1</div>
                                 <div class="pb-8">
                                     <h4 class="font-bold text-slate-800 text-lg">ศึกษาเป้าหมายตำแหน่ง</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('training')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Training Need"</button> เพื่อดูบทบาทหน้าที่ (Role) และระดับทักษะที่คาดหวัง (Target Level) ของตำแหน่งตนเอง</p>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button
+                                            onclick="switchTab('training')"
+                                            class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Training
+                                            Need"</button> เพื่อดูบทบาทหน้าที่ (Role) และระดับทักษะที่คาดหวัง (Target
+                                        Level) ของตำแหน่งตนเอง</p>
                                 </div>
                             </div>
                             <div class="absolute left-[26px] top-[40px] w-0.5 h-16 bg-slate-100 z-0"></div>
-                            
+
                             <div class="flex items-start gap-5 relative">
-                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">2</div>
+                                <div
+                                    class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">
+                                    2</div>
                                 <div class="pb-8">
                                     <h4 class="font-bold text-slate-800 text-lg">รวบรวมผลงานและหลักฐาน</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เตรียมข้อมูล ผลงาน หรือหลักฐานการทำงานจริง เพื่อใช้ประกอบการพูดคุยประเมินกับหัวหน้างาน</p>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เตรียมข้อมูล ผลงาน
+                                        หรือหลักฐานการทำงานจริง เพื่อใช้ประกอบการพูดคุยประเมินกับหัวหน้างาน</p>
                                 </div>
                             </div>
-                            <div class="absolute left-[26px] top-[140px] w-0.5 h-16 bg-slate-100 z-0 hidden md:block"></div>
-                            
+                            <div class="absolute left-[26px] top-[140px] w-0.5 h-16 bg-slate-100 z-0 hidden md:block">
+                            </div>
+
                             <div class="flex items-start gap-5 relative">
-                                <div class="w-10 h-10 rounded-full bg-scg-800 text-white flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-md z-10">3</div>
+                                <div
+                                    class="w-10 h-10 rounded-full bg-scg-800 text-white flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-md z-10">
+                                    3</div>
                                 <div>
                                     <h4 class="font-bold text-scg-800 text-lg">ดูผลประเมินและแผนพัฒนา</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('dashboard')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Dashboard"</button> เพื่อดูจุดแข็งและ Gap ของตนเอง พร้อมรับคำแนะนำหลักสูตรอบรมที่เหมาะสม</p>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button
+                                            onclick="switchTab('dashboard')"
+                                            class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Dashboard"</button>
+                                        เพื่อดูจุดแข็งและ Gap ของตนเอง พร้อมรับคำแนะนำหลักสูตรอบรมที่เหมาะสม</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Workflow for Supervisor -->
-                    <div class="bg-white p-8 rounded-3xl border border-scg-100 shadow-md relative overflow-hidden transition-shadow hover:shadow-lg">
+                    <div
+                        class="bg-white p-8 rounded-3xl border border-scg-100 shadow-md relative overflow-hidden transition-shadow hover:shadow-lg">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-scg-50/50 rounded-bl-[100px] z-0"></div>
-                        <h3 class="text-xl font-bold text-scg-900 mb-8 flex items-center relative z-10"><i class="fa-solid fa-user-tie text-scg-500 mr-3 text-2xl"></i> สำหรับหัวหน้างาน <span class="text-slate-400 text-base font-normal ml-2">(ผู้ประเมิน)</span></h3>
-                        
+                        <h3 class="text-xl font-bold text-scg-900 mb-8 flex items-center relative z-10"><i
+                                class="fa-solid fa-user-tie text-scg-500 mr-3 text-2xl"></i> สำหรับหัวหน้างาน <span
+                                class="text-slate-400 text-base font-normal ml-2">(ผู้ประเมิน)</span></h3>
+
                         <div class="space-y-0 relative z-10 ml-2">
                             <div class="flex items-start gap-5 relative">
-                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">1</div>
+                                <div
+                                    class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">
+                                    1</div>
                                 <div class="pb-8">
                                     <h4 class="font-bold text-slate-800 text-lg">ตรวจสอบโครงสร้างทักษะ</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('training')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Training Need"</button> เพื่อทบทวนบทบาทและทักษะที่คาดหวังของลูกน้องแต่ละตำแหน่งในทีม</p>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button
+                                            onclick="switchTab('training')"
+                                            class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Training
+                                            Need"</button> เพื่อทบทวนบทบาทและทักษะที่คาดหวังของลูกน้องแต่ละตำแหน่งในทีม
+                                    </p>
                                 </div>
                             </div>
                             <div class="absolute left-[26px] top-[40px] w-0.5 h-16 bg-slate-100 z-0"></div>
-                            
+
                             <div class="flex items-start gap-5 relative">
-                                <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">2</div>
+                                <div
+                                    class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-sm z-10">
+                                    2</div>
                                 <div class="pb-8">
                                     <h4 class="font-bold text-slate-800 text-lg">ประเมินลูกน้องรายบุคคล</h4>
-                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('evaluation')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"การประเมิน"</button> เลือกลูกน้อง ให้คะแนนตามระดับความสามารถจริง พร้อมระบุหลักฐานประกอบ</p>
+                                    <p class="text-sm text-slate-500 mt-1 leading-relaxed">เข้าเมนู <button
+                                            onclick="switchTab('evaluation')"
+                                            class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"การประเมิน"</button>
+                                        เลือกลูกน้อง ให้คะแนนตามระดับความสามารถจริง พร้อมระบุหลักฐานประกอบ</p>
                                 </div>
                             </div>
-                            <div class="absolute left-[26px] top-[140px] w-0.5 h-16 bg-slate-100 z-0 hidden md:block"></div>
-                            
+                            <div class="absolute left-[26px] top-[140px] w-0.5 h-16 bg-slate-100 z-0 hidden md:block">
+                            </div>
+
                             <div class="flex items-start gap-5 relative">
-                                <div class="w-10 h-10 rounded-full bg-scg-800 text-white flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-md z-10">3</div>
+                                <div
+                                    class="w-10 h-10 rounded-full bg-scg-800 text-white flex items-center justify-center font-bold shrink-0 border-4 border-white shadow-md z-10">
+                                    3</div>
                                 <div>
                                     <h4 class="font-bold text-scg-900 text-lg">วิเคราะห์ข้อมูลและวางแผนทีม</h4>
-                                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">เข้าเมนู <button onclick="switchTab('dashboard')" class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Dashboard"</button> ดูภาพรวม %Complete ของทีม เพื่อวางแผนพัฒนาบุคลากรให้ตรงจุด</p>
+                                    <p class="text-sm text-slate-600 mt-1 leading-relaxed">เข้าเมนู <button
+                                            onclick="switchTab('dashboard')"
+                                            class="font-bold text-scg-600 hover:text-scg-800 hover:underline decoration-2 underline-offset-2 transition-colors focus:outline-none">"Dashboard"</button>
+                                        ดูภาพรวม %Complete ของทีม เพื่อวางแผนพัฒนาบุคลากรให้ตรงจุด</p>
                                 </div>
                             </div>
                         </div>
@@ -510,11 +606,13 @@
 
                 <!-- Training Matrix Section -->
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-100 mb-6 relative">
-                    <div class="p-5 border-b border-slate-100 bg-slate-50 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 relative z-20 rounded-t-2xl">
-                        <h3 class="font-bold text-scg-900 shrink-0 text-lg"><i class="fa-solid fa-table text-scg-500 mr-2"></i>
+                    <div
+                        class="p-5 border-b border-slate-100 bg-slate-50 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4 relative z-20 rounded-t-2xl">
+                        <h3 class="font-bold text-scg-900 shrink-0 text-lg"><i
+                                class="fa-solid fa-table text-scg-500 mr-2"></i>
                             ระดับทักษะที่คาดหวัง (Expected Skill Level)</h3>
-                        
-                        
+
+
                     </div>
                     <div class="overflow-x-auto relative z-10 rounded-b-2xl" id="training-matrix-container">
                         <!-- Table injected by JS -->
@@ -591,20 +689,30 @@
                     </div>
 
                     <!-- Manager Chart: Average Clustered Column -->
-                <div id="dash-manager-view" class="mb-6 bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-                    <h3 class="font-bold text-lg text-slate-800 mb-1"><i
-                            class="fa-solid fa-chart-column text-scg-600 mr-2"></i> Average Skill Level ของทีม</h3>
-                    <p class="text-xs text-slate-500 mb-4">แสดงคะแนนเฉลี่ยรวมทุกทักษะ
-                        เปรียบเทียบความคาดหวังและประเมินจริงรายบุคคล (แกน X คือชื่อพนักงาน)</p>
-                    <div class="relative h-72 w-full">
-                        <canvas id="averageBarChart"></canvas>
+                    <div id="dash-manager-view" class="mb-6 bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
+                        <h3 class="font-bold text-lg text-slate-800 mb-1"><i
+                                class="fa-solid fa-chart-column text-scg-600 mr-2"></i> Average Skill Level ของทีม</h3>
+                        <p class="text-xs text-slate-500 mb-4">แสดงคะแนนเฉลี่ยรวมทุกทักษะ
+                            เปรียบเทียบความคาดหวังและประเมินจริงรายบุคคล (แกน X คือชื่อพนักงาน)</p>
+                        <div class="relative h-72 w-full">
+                            <canvas id="averageBarChart"></canvas>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Individual Radar Charts -->
-                <div id="dash-individual-cards-container" class="space-y-6">
-                    <!-- Cards injected by JS -->
-                </div>
+                    <!-- Individual Radar Charts -->
+                    
+                        <!-- Heatmap Container -->
+                        <div id="dashboard-heatmap-container" class="mt-8 overflow-x-auto bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hidden">
+                        </div>
+
+                    
+                        <!-- Heatmap Container -->
+                        <div id="dashboard-heatmap-container" class="mt-8 overflow-x-auto bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hidden">
+                        </div>
+
+                    <div id="dash-individual-cards-container" class="space-y-6">
+                        <!-- Cards injected by JS -->
+                    </div>
             </section>
 
             <!-- 5. IDP TAB -->
@@ -616,48 +724,60 @@
                     </div>
 
                     <div id="idp-content-container">
-                    <!-- IDP Data rendered by JS -->
-                    <div class="bg-white p-10 rounded-2xl border border-slate-100 shadow-sm text-center text-slate-500">
-                        <i class="fa-solid fa-address-card text-4xl mb-3 text-slate-300"></i>
-                        <p>กรุณาเลือกตำแหน่งและพนักงานเพื่อดูแผนพัฒนา (IDP)</p>
+                        <!-- IDP Data rendered by JS -->
+                        <div
+                            class="bg-white p-10 rounded-2xl border border-slate-100 shadow-sm text-center text-slate-500">
+                            <i class="fa-solid fa-address-card text-4xl mb-3 text-slate-300"></i>
+                            <p>กรุณาเลือกตำแหน่งและพนักงานเพื่อดูแผนพัฒนา (IDP)</p>
+                        </div>
                     </div>
-                </div>
             </section>
 
 
             <!-- 5. ADMIN SETTINGS TAB -->
-            
+
             <section id="tab-admin" class="tab-content hidden">
                 <div class="mb-6 flex justify-between items-end">
                     <div>
                         <h2 class="text-2xl font-bold text-scg-900">Admin Control Panel</h2>
-                        <p class="text-slate-500 text-sm">บริหารจัดการสิทธิผู้ถูกประเมิน และผูกสายบังคับบัญชา (Master Data)</p>
+                        <p class="text-slate-500 text-sm">บริหารจัดการสิทธิผู้ถูกประเมิน และผูกสายบังคับบัญชา (Master
+                            Data)</p>
                     </div>
                     <div class="flex gap-2">
-                        <button onclick="saveAdminData()" class="bg-scg-600 hover:bg-scg-700 text-white px-5 py-2.5 rounded-xl font-bold shadow-md flex items-center gap-2 transition-colors">
+                        <button onclick="saveAdminData()"
+                            class="bg-scg-600 hover:bg-scg-700 text-white px-5 py-2.5 rounded-xl font-bold shadow-md flex items-center gap-2 transition-colors">
                             <i class="fa-solid fa-save"></i> บันทึกข้อมูล (Save)
                         </button>
-                        <button onclick="exportToExcel()" class="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-xl font-bold shadow-md flex items-center gap-2 transition-colors shrink-0">
+                        <button onclick="exportToExcel()"
+                            class="bg-green-600 hover:bg-green-700 text-white px-5 py-2.5 rounded-xl font-bold shadow-md flex items-center gap-2 transition-colors shrink-0">
                             <i class="fa-solid fa-file-excel"></i> Export Data (Excel)
                         </button>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-3xl shadow-sm border border-slate-100 flex flex-col" style="max-height: calc(100vh - 150px);">
-                    <div class="p-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center rounded-t-3xl">
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-100 flex flex-col"
+                    style="max-height: calc(100vh - 150px);">
+                    <div
+                        class="p-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center rounded-t-3xl">
                         <div class="flex items-center gap-4">
-                            <input type="text" id="admin-search" placeholder="ค้นหาชื่อ, รหัส..." class="px-3 py-2 border border-slate-200 rounded-lg text-sm w-64 focus:outline-none focus:border-scg-500" onkeyup="renderAdminTable()">
+                            <input type="text" id="admin-search" placeholder="ค้นหาชื่อ, รหัส..."
+                                class="px-3 py-2 border border-slate-200 rounded-lg text-sm w-64 focus:outline-none focus:border-scg-500"
+                                onkeyup="renderAdminTable()">
                             <label class="flex items-center gap-2 cursor-pointer text-sm font-bold text-slate-700">
-                                <input type="checkbox" id="admin-select-all" class="w-4 h-4 rounded border-slate-300 text-scg-600 focus:ring-scg-500" onchange="toggleAdminSelectAll(this)">
+                                <input type="checkbox" id="admin-select-all"
+                                    class="w-4 h-4 rounded border-slate-300 text-scg-600 focus:ring-scg-500"
+                                    onchange="toggleAdminSelectAll(this)">
                                 เลือกทั้งหมด (Select All)
                             </label>
                         </div>
                         <div class="text-sm text-slate-500 font-bold" id="admin-count-info">กำลังโหลด...</div>
                     </div>
                     <div class="overflow-auto w-full custom-scrollbar flex-1 relative" style="min-height: 400px;">
-                        <table class="w-full text-left border-collapse whitespace-nowrap text-sm min-w-max relative" id="admin-table">
+                        <table class="w-full text-left border-collapse whitespace-nowrap text-sm min-w-max relative"
+                            id="admin-table">
                             <thead class="sticky top-0 z-30 bg-slate-50 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
-                                <tr class="text-slate-600 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
+                                <tr
+                                    class="text-slate-600 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
                                     <th class="py-3 px-4 border-r border-slate-100 text-center w-24">Evaluate?</th>
                                     <th class="py-3 px-4 border-r border-slate-100">Person ID</th>
                                     <th class="py-3 px-4 border-r border-slate-100">Name (TH)</th>
@@ -685,11 +805,13 @@
                     </div>
                 </div>
 
-                
+
 
                 <!-- Radar Charts Container -->
                 <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100">
-                    <h3 class="font-bold text-lg text-slate-800 mb-4 border-b pb-2"><i class="fa-solid fa-star text-scg-600 mr-2"></i> พนักงานที่มีความพร้อมสูงสุดแยกตามตำแหน่ง (Top Performers)</h3>
+                    <h3 class="font-bold text-lg text-slate-800 mb-4 border-b pb-2"><i
+                            class="fa-solid fa-star text-scg-600 mr-2"></i> พนักงานที่มีความพร้อมสูงสุดแยกตามตำแหน่ง
+                        (Top Performers)</h3>
                     <div id="analytic-radar-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <!-- Injected by JS -->
                     </div>
@@ -697,7 +819,9 @@
 
                 <!-- Gap Bar Chart Container -->
                 <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100">
-                    <h3 class="font-bold text-lg text-slate-800 mb-4 border-b pb-2"><i class="fa-solid fa-chart-bar text-scg-600 mr-2"></i> สถิติทักษะที่ต้องพัฒนา (Gap Frequency)</h3>
+                    <h3 class="font-bold text-lg text-slate-800 mb-4 border-b pb-2"><i
+                            class="fa-solid fa-chart-bar text-scg-600 mr-2"></i> สถิติทักษะที่ต้องพัฒนา (Gap Frequency)
+                    </h3>
                     <div class="w-full" style="height: 500px;">
                         <canvas id="analytic-bar-chart"></canvas>
                     </div>
@@ -711,15 +835,18 @@
                         <h2 class="font-bold text-2xl text-scg-900 mb-2">ข้อมูลพนักงาน (Employee Data)</h2>
                         <p class="text-slate-500">ตารางแสดงข้อมูลส่วนบุคคลและข้อมูลการทำงานของพนักงานทั้งหมดในระบบ</p>
                     </div>
-                    <button onclick="exportEmployeeData()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg shadow-sm transition-colors border border-slate-200 whitespace-nowrap">
+                    <button onclick="exportEmployeeData()"
+                        class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg shadow-sm transition-colors border border-slate-200 whitespace-nowrap">
                         <i class="fa-solid fa-file-export mr-2"></i> Export CSV
                     </button>
                 </div>
-                <div class="bg-white rounded-3xl shadow-sm border border-slate-100 flex flex-col" style="max-height: calc(100vh - 150px);">
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-100 flex flex-col"
+                    style="max-height: calc(100vh - 150px);">
                     <div class="overflow-auto w-full custom-scrollbar flex-1 relative" style="min-height: 400px;">
                         <table class="w-full text-left border-collapse whitespace-nowrap text-sm min-w-max relative">
                             <thead class="sticky top-0 z-30 bg-slate-50 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
-                                <tr class="text-slate-600 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
+                                <tr
+                                    class="text-slate-600 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Person ID</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Employee ID</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100 text-scg-700">User ID</th>
@@ -738,9 +865,11 @@
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Sub1-1 Business Unit</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Working Location</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Cost Center (Payment)</th>
-                                    <th class="align-top py-4 px-6 border-r border-slate-100">Cost Center (Organization)</th>
+                                    <th class="align-top py-4 px-6 border-r border-slate-100">Cost Center (Organization)
+                                    </th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Report to Name</th>
-                                    <th class="align-top py-4 px-6 border-r border-slate-100">Certificate (Entry Degree)</th>
+                                    <th class="align-top py-4 px-6 border-r border-slate-100">Certificate (Entry Degree)
+                                    </th>
                                     <th class="align-top py-4 px-6">Email Address Business</th>
                                 </tr>
                             </thead>
@@ -769,7 +898,7 @@
             toast.className = 'toast';
             toast.innerHTML = `<i class="fa-solid fa-circle-check"></i> <span>${message}</span>`;
             container.appendChild(toast);
-            
+
             setTimeout(() => toast.classList.add('show'), 10);
             setTimeout(() => {
                 toast.classList.remove('show');
@@ -784,8 +913,8 @@
         let roleResponses = {};
         let positionGroups = {};
         let dbUsers = {};
-        let currentUser = null; 
-        let actingAsRole = null; 
+        let currentUser = null;
+        let actingAsRole = null;
         let evalRadarChartInstance = null;
         let averageBarChartInstance = null;
         let individualCharts = [];
@@ -802,7 +931,7 @@
         let selectedEmployeeFilter = [];
         let selectedCompetencyGroupFilter = [];
         let idpRadarChartInstance = null;
-                
+
         // Analytic Tab State
         let analyticRadarCharts = [];
         let analyticBarChartInstance = null;
@@ -837,7 +966,7 @@
         // --- Recursive Hierarchy Logic ---
         function getSubordinates(managerId) {
             let subs = new Set();
-            
+
             function findSubs(mgrId) {
                 for (let id in dbUsers) {
                     if (dbUsers[id].managerIds && dbUsers[id].managerIds.includes(mgrId)) {
@@ -848,7 +977,7 @@
                     }
                 }
             }
-            
+
             findSubs(managerId);
             return Array.from(subs);
         }
@@ -859,10 +988,10 @@
         function handleLogin() {
             const user = document.getElementById('login-username').value;
             const pass = document.getElementById('login-password').value;
-            
+
             // Case-insensitive user lookup
             const userKey = Object.keys(dbUsers).find(k => k.toLowerCase() === user.toLowerCase());
-            
+
             if (userKey && dbUsers[userKey].pass === pass) {
                 localStorage.setItem('comp_sys_user', userKey);
                 checkLoginState();
@@ -887,12 +1016,12 @@
             if (loggedInUserId && dbUsers[loggedInUserId]) {
                 currentUser = dbUsers[loggedInUserId];
                 currentUser.id = loggedInUserId;
-                actingAsRole = currentUser.id; 
-                
+                actingAsRole = currentUser.id;
+
                 loginContainer.classList.add('hidden');
                 appContainer.classList.remove('hidden');
                 appContainer.classList.add('flex');
-                
+
                 document.getElementById('nav-user-name').textContent = currentUser.name;
                 document.getElementById('nav-user-role').textContent = currentUser.id;
 
@@ -909,12 +1038,12 @@
             const navContainer = document.getElementById('nav-tabs-container');
             let html = `<button onclick="switchTab('home')" id="nav-home" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-house w-5 text-center"></i> หน้าแรก</button>`;
             html += `<button onclick="switchTab('training')" id="nav-training" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-book w-5 text-center"></i> Training Need</button>`;
-            
+
             const hasSubs = getSubordinates(currentUser.id).length > 0;
             if (currentUser.id === 'Admin' || hasSubs) {
                 html += `<button onclick="switchTab('evaluation')" id="nav-evaluation" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-clipboard-check w-5 text-center"></i> การประเมิน</button>`;
             }
-            
+
             html += `<button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-chart-pie w-5 text-center"></i> Dashboard</button>`;
             html += `<button onclick="switchTab('idp')" id="nav-idp" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-address-card w-5 text-center"></i> IDP</button>`;
             if (currentUser.id === 'Admin') {
@@ -932,53 +1061,53 @@
             const tabsWithFilters = ['training', 'evaluation', 'dashboard', 'idp', 'analytic', 'admin'];
             const globalFilters = document.getElementById('global-filters-container');
             const compContainer = document.getElementById('global-competency-container');
-            if(globalFilters) {
+            if (globalFilters) {
                 if (tabsWithFilters.includes(tabId)) {
                     globalFilters.classList.remove('hidden');
                 } else {
                     globalFilters.classList.add('hidden');
                 }
             }
-            if(compContainer) {
+            if (compContainer) {
                 if (tabId === 'admin') {
                     compContainer.classList.add('hidden');
                 } else {
                     compContainer.classList.remove('hidden');
                 }
             }
-            
+
             // Rebuild filters based on tab context (admin vs others)
             buildFiltersUI(tabId);
-            
+
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.classList.remove('bg-scg-800', 'text-white', 'shadow-md', 'text-scg-700', 'bg-scg-50');
                 btn.classList.add('text-slate-600', 'hover:bg-scg-50');
             });
             const activeBtn = document.getElementById(`nav-${tabId}`);
-            if(activeBtn) {
+            if (activeBtn) {
                 activeBtn.classList.add('bg-scg-800', 'text-white', 'shadow-md');
                 activeBtn.classList.remove('text-slate-600', 'hover:bg-scg-50');
             }
 
-            if(tabId === 'training') {
+            if (tabId === 'training') {
                 const toggleContainer = document.getElementById('admin-edit-toggle-container');
-                if(currentUser.id === 'Admin') toggleContainer.classList.remove('hidden');
+                if (currentUser.id === 'Admin') toggleContainer.classList.remove('hidden');
                 else toggleContainer.classList.add('hidden');
-                
+
                 isEditMode = false;
                 updateEditModeButton();
                 buildFiltersUI();
                 buildRoleResponseSection();
                 buildTrainingMatrix();
             }
-            if(tabId === 'evaluation') setupEvaluationTab();
-            if(tabId === 'dashboard') setupDashboardTab();
-            if(tabId === 'idp') setupIDPTab();
-            if(tabId === 'analytic') {
-                    renderAnalyticTab();
+            if (tabId === 'evaluation') setupEvaluationTab();
+            if (tabId === 'dashboard') setupDashboardTab();
+            if (tabId === 'idp') setupIDPTab();
+            if (tabId === 'analytic') {
+                renderAnalyticTab();
             }
-            if(tabId === 'admin') setupAdminTab();
-            if(tabId === 'employee-data') renderEmployeeDataTab();
+            if (tabId === 'admin') setupAdminTab();
+            if (tabId === 'employee-data') renderEmployeeDataTab();
         }
 
         function toggleEditMode() {
@@ -990,8 +1119,8 @@
 
         function updateEditModeButton() {
             const btn = document.getElementById('edit-mode-btn');
-            if(!btn) return;
-            if(isEditMode) {
+            if (!btn) return;
+            if (isEditMode) {
                 btn.innerHTML = `<i class="fa-solid fa-check mr-2"></i> ปิดโหมดแก้ไข (Done)`;
                 btn.classList.replace('bg-white', 'bg-scg-800');
                 btn.classList.replace('text-slate-700', 'text-white');
@@ -1007,9 +1136,9 @@
         function getVisiblePositions(userId) {
             if (userId === 'Admin') return positions;
             let visible = new Set();
-            if(dbUsers[userId] && dbUsers[userId].position) visible.add(dbUsers[userId].position);
+            if (dbUsers[userId] && dbUsers[userId].position) visible.add(dbUsers[userId].position);
             getSubordinates(userId).forEach(subId => {
-                if(dbUsers[subId] && dbUsers[subId].position) visible.add(dbUsers[subId].position);
+                if (dbUsers[subId] && dbUsers[subId].position) visible.add(dbUsers[subId].position);
             });
             return Array.from(visible).filter(p => p !== undefined);
         }
@@ -1017,7 +1146,7 @@
         async function addNewPosition() {
             const newPos = "ตำแหน่งใหม่ " + (positions.length + 1);
             if (positions.includes(newPos)) return;
-            
+
             await fetch(`${API_BASE}/positions`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -1043,7 +1172,7 @@
         async function addNewCompetency() {
             const nextIndex = competencies.length + 1;
             const newCompName = nextIndex + ". ทักษะใหม่";
-            
+
             await fetch(`${API_BASE}/competencies`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -1055,14 +1184,14 @@
         }
 
         async function handlePositionChange(oldName, newName) {
-            if(oldName === newName || !newName) return;
-            
+            if (oldName === newName || !newName) return;
+
             await fetch(`${API_BASE}/positions/name`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ oldName: oldName, newName: newName })
             });
-            
+
             showToast("เปลี่ยนชื่อตำแหน่งสำเร็จ");
             fetchInitialData(true);
         }
@@ -1088,8 +1217,8 @@
         }
 
         async function handleCompetencyChange(index, newName) {
-            if(!newName) return;
-            
+            if (!newName) return;
+
             await fetch(`${API_BASE}/competencies/name`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -1100,7 +1229,7 @@
             buildTrainingMatrix();
         }
         function deleteCompetency(index) {
-            if(confirm("คุณต้องการลบทักษะนี้ใช่หรือไม่? ข้อมูลที่ถูกลบจะหายไปจากทุกตำแหน่งที่อ้างอิงถึงทักษะนี้")) {
+            if (confirm("คุณต้องการลบทักษะนี้ใช่หรือไม่? ข้อมูลที่ถูกลบจะหายไปจากทุกตำแหน่งที่อ้างอิงถึงทักษะนี้")) {
                 const compId = competencies[index].id;
                 competencies.splice(index, 1);
                 for (const pos in positionTargets) {
@@ -1111,7 +1240,7 @@
                 buildTrainingMatrix();
             }
         }
-        
+
         async function handleCompetencyGroupChange(index, groupName) {
             competencies[index].group = groupName;
             await fetch(`${API_BASE}/competencies/group`, {
@@ -1123,15 +1252,15 @@
         }
 
 
-        window.toggleFilterMenu = function(menuId) { const allMenus = document.querySelectorAll('.filter-menu'); let found = false; allMenus.forEach(el => { if(el.id === menuId) { el.classList.toggle('hidden'); found = true; } else { el.classList.add('hidden'); } }); if (!found) { const target = document.getElementById(menuId); if (target) { target.classList.toggle('hidden'); } } };
+        window.toggleFilterMenu = function (menuId) { const allMenus = document.querySelectorAll('.filter-menu'); let found = false; allMenus.forEach(el => { if (el.id === menuId) { el.classList.toggle('hidden'); found = true; } else { el.classList.add('hidden'); } }); if (!found) { const target = document.getElementById(menuId); if (target) { target.classList.toggle('hidden'); } } };
 
         // Close dropdowns when clicking outside
-        document.addEventListener('click', function(e) {
-            if(!e.target.closest('.relative.z-20') && !e.target.closest('.filter-dropdown-container')) {
+        document.addEventListener('click', function (e) {
+            if (!e.target.closest('.relative.z-20') && !e.target.closest('.filter-dropdown-container')) {
                 const menus = ['job-group-menu', 'pos-dropdown-menu', 'section-dropdown-menu', 'department-dropdown-menu', 'sub1division-dropdown-menu', 'division-dropdown-menu', 'sub1company-dropdown-menu', 'company-dropdown-menu', 'employee-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu', 'dash-job-group-menu', 'dash-pos-menu', 'analytic-job-group-menu', 'analytic-pos-menu', 'analytic-emp-menu', 'analytic-group-menu', 'analytic-skill-menu'];
                 menus.forEach(m => {
                     const el = document.getElementById(m);
-                    if(el) el.classList.add('hidden');
+                    if (el) el.classList.add('hidden');
                 });
             }
         });
@@ -1150,13 +1279,13 @@
             if (ignoreFilter !== 'department' && selectedDepartmentFilter.length > 0 && (!eDept || !selectedDepartmentFilter.includes(eDept))) return false;
             let eSect = e.section || e.SectionThai;
             if (ignoreFilter !== 'section' && selectedSectionFilter.length > 0 && (!eSect || !selectedSectionFilter.includes(eSect))) return false;
-            
+
             let posName = e.PositionNameThai || e.position_name;
             if (ignoreFilter !== 'competency' && !hasCompetencyFilterMatch(posName)) return false;
             if (ignoreFilter !== 'position' && selectedPositionsFilter.length > 0 && (!posName || !selectedPositionsFilter.includes(posName))) return false;
-            
+
             if (ignoreFilter !== 'employee' && selectedEmployeeFilter.length > 0) {
-                let empName = e.FullName || e.EmployeeNameThai || e.EmployeeNameEng;
+                let empName = e.FullNameTH || e.FullName || e.EmployeeNameThai || e.EmployeeNameEng;
                 if (!empName || !selectedEmployeeFilter.includes(empName)) return false;
             }
             if (ignoreFilter !== 'jobGroup' && selectedJobGroupFilter.length > 0) {
@@ -1182,29 +1311,35 @@
             const compGroupContainer = document.getElementById('comp-group-filters');
             const compContainer = document.getElementById('competency-filters');
             const employeeContainer = document.getElementById('employee-filters');
-            if(!posContainer || !compContainer) return;
-            
-            const visiblePos = getVisiblePositions(currentUser.id);
-            
-            // Build Job Groups
-            let jobGroupsSet = new Set();
-            visiblePos.forEach(p => {
-                if(positionGroups[p]) jobGroupsSet.add(positionGroups[p]);
-            });
+            if (!posContainer || !compContainer) return;
 
-            // Build Org Filters AND Position Filter
-            let sectionsSet = new Set(), deptsSet = new Set(), sub1DivsSet = new Set(), divsSet = new Set(), sub1CompsSet = new Set(), compsSet = new Set(), posSet = new Set();
-            visiblePos.forEach(p => {
-                const emps = employeeDataAll.filter(e => p.includes(e.position_name || e.PositionNameThai) || ((e.position_name || e.PositionNameThai) && (e.position_name || e.PositionNameThai).includes(p)));
-                emps.forEach(e => {
-                    if(e.section || e.SectionThai) sectionsSet.add(e.section || e.SectionThai);
-                    if(e.department || e.DepartmentThai) deptsSet.add(e.department || e.DepartmentThai);
-                    if(e.sub1_division || e.Sub1DivisionThai) sub1DivsSet.add(e.sub1_division || e.Sub1DivisionThai);
-                    if(e.division || e.DivisionThai) divsSet.add(e.division || e.DivisionThai);
-                    if(e.sub1_company || e.Sub1CompanyThai) sub1CompsSet.add(e.sub1_company || e.Sub1CompanyThai);
-                    if(e.company || e.CompanyThai) compsSet.add(e.company || e.CompanyThai);
-                    if(e.position_name || e.PositionNameThai) posSet.add(e.position_name || e.PositionNameThai);
-                });
+            const visiblePos = getVisiblePositions(currentUser.id);
+
+            // Build Org Filters AND Position Filter with Hierarchy/Intersection
+            let jobGroupsSet = new Set(), sectionsSet = new Set(), deptsSet = new Set(), sub1DivsSet = new Set(), divsSet = new Set(), sub1CompsSet = new Set(), compsSet = new Set(), posSet = new Set(), employeesSet = new Set();
+
+            const dataSource = (tabId === 'admin') ? employeeDataAll : employeeData;
+
+            dataSource.forEach(e => {
+                let posName = e.position_name || e.PositionNameThai;
+                if (!posName) return;
+
+                const isVisible = visiblePos.some(p => p.includes(posName) || posName.includes(p));
+                if (!isVisible) return;
+
+                if ((e.section || e.SectionThai) && matchesFiltersExcept(e, 'section')) sectionsSet.add(e.section || e.SectionThai);
+                if ((e.department || e.DepartmentThai) && matchesFiltersExcept(e, 'department')) deptsSet.add(e.department || e.DepartmentThai);
+                if ((e.sub1_division || e.Sub1DivisionThai) && matchesFiltersExcept(e, 'sub1division')) sub1DivsSet.add(e.sub1_division || e.Sub1DivisionThai);
+                if ((e.division || e.DivisionThai) && matchesFiltersExcept(e, 'division')) divsSet.add(e.division || e.DivisionThai);
+                if ((e.sub1_company || e.Sub1CompanyThai) && matchesFiltersExcept(e, 'sub1company')) sub1CompsSet.add(e.sub1_company || e.Sub1CompanyThai);
+                if ((e.company || e.CompanyThai) && matchesFiltersExcept(e, 'company')) compsSet.add(e.company || e.CompanyThai);
+                if (posName && matchesFiltersExcept(e, 'position')) posSet.add(posName);
+
+                let empName = e.FullNameTH || e.FullName || e.EmployeeNameThai || e.EmployeeNameEng;
+                if (empName && matchesFiltersExcept(e, 'employee')) employeesSet.add(empName);
+
+                let jg = positionGroups[posName];
+                if (jg && matchesFiltersExcept(e, 'jobGroup')) jobGroupsSet.add(jg);
             });
 
             const buildFilterHtml = (items, selectedArr, filterType) => {
@@ -1219,7 +1354,7 @@
                 <div class="filter-item-list p-1">
                 `;
                 Array.from(items).sort().forEach(item => {
-                    if(!item) return;
+                    if (!item) return;
                     const isSelected = selectedArr.includes(item);
                     html += `<label class="filter-item flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
                         <input type="checkbox" class="form-checkbox h-4 w-4 text-scg-600 rounded border-slate-300" ${isSelected ? 'checked' : ''} onchange="window.toggleFilterValue('${filterType}', '${item}')">
@@ -1230,24 +1365,24 @@
                 return html;
             };
 
-            if(jobGroupContainer) jobGroupContainer.innerHTML = buildFilterHtml(jobGroupsSet, selectedJobGroupFilter, 'jobGroup');
-            if(posContainer) posContainer.innerHTML = buildFilterHtml(posSet, selectedPositionsFilter, 'position');
-            if(sectionContainer) sectionContainer.innerHTML = buildFilterHtml(sectionsSet, selectedSectionFilter, 'section');
-            if(departmentContainer) departmentContainer.innerHTML = buildFilterHtml(deptsSet, selectedDepartmentFilter, 'department');
-            if(sub1DivisionContainer) sub1DivisionContainer.innerHTML = buildFilterHtml(sub1DivsSet, selectedSub1DivisionFilter, 'sub1division');
-            if(divisionContainer) divisionContainer.innerHTML = buildFilterHtml(divsSet, selectedDivisionFilter, 'division');
-            if(sub1CompanyContainer) sub1CompanyContainer.innerHTML = buildFilterHtml(sub1CompsSet, selectedSub1CompanyFilter, 'sub1company');
-            if(companyContainer) companyContainer.innerHTML = buildFilterHtml(compsSet, selectedCompanyFilter, 'company');
-            if(employeeContainer) employeeContainer.innerHTML = buildFilterHtml(employeesSet, selectedEmployeeFilter, 'employee');
+            if (jobGroupContainer) jobGroupContainer.innerHTML = buildFilterHtml(jobGroupsSet, selectedJobGroupFilter, 'jobGroup');
+            if (posContainer) posContainer.innerHTML = buildFilterHtml(posSet, selectedPositionsFilter, 'position');
+            if (sectionContainer) sectionContainer.innerHTML = buildFilterHtml(sectionsSet, selectedSectionFilter, 'section');
+            if (departmentContainer) departmentContainer.innerHTML = buildFilterHtml(deptsSet, selectedDepartmentFilter, 'department');
+            if (sub1DivisionContainer) sub1DivisionContainer.innerHTML = buildFilterHtml(sub1DivsSet, selectedSub1DivisionFilter, 'sub1division');
+            if (divisionContainer) divisionContainer.innerHTML = buildFilterHtml(divsSet, selectedDivisionFilter, 'division');
+            if (sub1CompanyContainer) sub1CompanyContainer.innerHTML = buildFilterHtml(sub1CompsSet, selectedSub1CompanyFilter, 'sub1company');
+            if (companyContainer) companyContainer.innerHTML = buildFilterHtml(compsSet, selectedCompanyFilter, 'company');
+            if (employeeContainer) employeeContainer.innerHTML = buildFilterHtml(employeesSet, selectedEmployeeFilter, 'employee');
 
             // Build Competency Groups
             let compGroupsSet = new Set();
             competencies.forEach(c => {
-                if(c.group) compGroupsSet.add(c.group);
+                if (c.group) compGroupsSet.add(c.group);
             });
             let compGroups = Array.from(compGroupsSet).sort();
 
-            if(compGroupContainer) {
+            if (compGroupContainer) {
                 let compGroupHtml = '';
                 compGroups.forEach(g => {
                     const isSelected = selectedCompetencyGroupFilter.includes(g);
@@ -1260,17 +1395,17 @@
             }
 
             const compGroupText = document.getElementById('comp-group-dropdown-text');
-            if(compGroupText) {
-                if(selectedCompetencyGroupFilter.length === 0) compGroupText.textContent = 'เลือก Competency Group ทั้งหมด';
+            if (compGroupText) {
+                if (selectedCompetencyGroupFilter.length === 0) compGroupText.textContent = 'เลือก Competency Group ทั้งหมด';
                 else compGroupText.textContent = `เลือกแล้ว ${selectedCompetencyGroupFilter.length} กลุ่ม`;
             }
 
             const compFilterContainer = document.getElementById('competency-filters');
             let filteredComps = competencies;
-            if(selectedCompetencyGroupFilter.length > 0) {
+            if (selectedCompetencyGroupFilter.length > 0) {
                 filteredComps = competencies.filter(c => selectedCompetencyGroupFilter.includes(c.group));
             }
-            if(compFilterContainer) {
+            if (compFilterContainer) {
                 let compHtml = '';
                 filteredComps.forEach(c => {
                     const isSelected = selectedCompetenciesFilter.includes(c.name);
@@ -1281,18 +1416,18 @@
                 });
                 compFilterContainer.innerHTML = compHtml;
             }
-            
+
             const compText = document.getElementById('comp-dropdown-text');
-            if(compText) {
-                if(selectedCompetenciesFilter.length === 0) compText.textContent = 'เลือก Competency ทั้งหมด';
+            if (compText) {
+                if (selectedCompetenciesFilter.length === 0) compText.textContent = 'เลือก Competency ทั้งหมด';
                 else compText.textContent = `เลือกแล้ว ${selectedCompetenciesFilter.length} รายการ`;
             }
 
             // Update texts
             const updateText = (id, arr, defaultText) => {
                 const el = document.getElementById(id);
-                if(el) {
-                    if(arr.length === 0) el.textContent = defaultText;
+                if (el) {
+                    if (arr.length === 0) el.textContent = defaultText;
                     else el.textContent = `เลือกแล้ว ${arr.length} รายการ`;
                 }
             };
@@ -1307,12 +1442,12 @@
             updateText('employee-dropdown-text', selectedEmployeeFilter, 'เลือกพนักงานทั้งหมด');
         }
 
-        
-        
+
+
         function hasCompetencyFilterMatch(posName) {
             if (selectedCompetencyGroupFilter.length === 0 && selectedCompetenciesFilter.length === 0) return true;
             if (!posName || !positionTargets[posName]) return false;
-            
+
             let filteredComps = competencies;
             if (selectedCompetencyGroupFilter.length > 0) {
                 filteredComps = filteredComps.filter(c => selectedCompetencyGroupFilter.includes(c.group));
@@ -1320,10 +1455,10 @@
             if (selectedCompetenciesFilter.length > 0) {
                 filteredComps = filteredComps.filter(c => selectedCompetenciesFilter.includes(c.name));
             }
-            
+
             const indices = filteredComps.map(c => competencies.findIndex(x => x.id === c.id));
             const targets = positionTargets[posName];
-            
+
             for (let idx of indices) {
                 if (targets[idx] && targets[idx] > 0) return true;
             }
@@ -1331,34 +1466,34 @@
         }
 
         function matchesOrgFiltersData(eData) {
-            if(!eData) return true;
+            if (!eData) return true;
             let posName = eData.PositionNameThai || eData.position_name || eData.position;
             if (!hasCompetencyFilterMatch(posName)) return false;
-            if(selectedJobGroupFilter.length > 0 && (!posName || !selectedJobGroupFilter.includes(positionGroups[posName]))) return false;
-            if(selectedPositionsFilter.length > 0 && (!posName || !selectedPositionsFilter.includes(posName))) return false;
-            
-            if(selectedEmployeeFilter.length > 0) {
+            if (selectedJobGroupFilter.length > 0 && (!posName || !selectedJobGroupFilter.includes(positionGroups[posName]))) return false;
+            if (selectedPositionsFilter.length > 0 && (!posName || !selectedPositionsFilter.includes(posName))) return false;
+
+            if (selectedEmployeeFilter.length > 0) {
                 let empName = eData.FullNameTH || eData.FullName || eData.EmployeeNameThai || eData.EmployeeNameEng;
-                if(!empName || !selectedEmployeeFilter.includes(empName)) return false;
+                if (!empName || !selectedEmployeeFilter.includes(empName)) return false;
             }
-            
-            if(selectedSectionFilter.length > 0 && !selectedSectionFilter.includes(eData.SectionThai)) return false;
-            if(selectedDepartmentFilter.length > 0 && !selectedDepartmentFilter.includes(eData.DepartmentThai)) return false;
-            if(selectedSub1DivisionFilter.length > 0 && !selectedSub1DivisionFilter.includes(eData.Sub1DivisionThai)) return false;
-            if(selectedDivisionFilter.length > 0 && !selectedDivisionFilter.includes(eData.DivisionThai)) return false;
-            if(selectedSub1CompanyFilter.length > 0 && !selectedSub1CompanyFilter.includes(eData.Sub1CompanyThai)) return false;
-            if(selectedCompanyFilter.length > 0 && !selectedCompanyFilter.includes(eData.CompanyThai)) return false;
-            
+
+            if (selectedSectionFilter.length > 0 && !selectedSectionFilter.includes(eData.SectionThai)) return false;
+            if (selectedDepartmentFilter.length > 0 && !selectedDepartmentFilter.includes(eData.DepartmentThai)) return false;
+            if (selectedSub1DivisionFilter.length > 0 && !selectedSub1DivisionFilter.includes(eData.Sub1DivisionThai)) return false;
+            if (selectedDivisionFilter.length > 0 && !selectedDivisionFilter.includes(eData.DivisionThai)) return false;
+            if (selectedSub1CompanyFilter.length > 0 && !selectedSub1CompanyFilter.includes(eData.Sub1CompanyThai)) return false;
+            if (selectedCompanyFilter.length > 0 && !selectedCompanyFilter.includes(eData.CompanyThai)) return false;
+
             return true;
         }
 
         function isEmployeeMatchingOrgFilters(empId) {
             let emp = dbUsers[empId];
-            if(!emp) return false;
-            
+            if (!emp) return false;
+
             let eData = employeeData.find(e => e.username === empId || e.user_id === empId || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name || e.FullNameTH === emp.name);
-            
-            if(!eData) return false;
+
+            if (!eData) return false;
             return matchesOrgFiltersData(eData);
         }
 
@@ -1367,45 +1502,45 @@
             return subIds.filter(id => isEmployeeMatchingOrgFilters(id));
         }
 
-        
+
         function renderActiveTab() {
             const activeTab = document.querySelector('.tab-content.active');
-            if(!activeTab) return;
+            if (!activeTab) return;
             const id = activeTab.id.replace('tab-', '');
-            if(id === 'training') {
+            if (id === 'training') {
                 buildRoleResponseSection();
                 buildTrainingMatrix();
             }
-            if(id === 'evaluation') setupEvaluationTab();
-            if(id === 'dashboard') setupDashboardTab();
-            if(id === 'idp') renderIDPContent();
-            if(id === 'analytic') renderAnalyticTab();
-            if(id === 'admin') renderAdminTable();
+            if (id === 'evaluation') setupEvaluationTab();
+            if (id === 'dashboard') setupDashboardTab();
+            if (id === 'idp') renderIDPContent();
+            if (id === 'analytic') renderAnalyticTab();
+            if (id === 'admin') renderAdminTable();
         }
 
 
-        window.toggleFilterValue = function(type, v) {
+        window.toggleFilterValue = function (type, v) {
             let arr;
-            if(type === 'jobGroup') arr = selectedJobGroupFilter;
-            else if(type === 'position') arr = selectedPositionsFilter;
-            else if(type === 'section') arr = selectedSectionFilter;
-            else if(type === 'department') arr = selectedDepartmentFilter;
-            else if(type === 'sub1division') arr = selectedSub1DivisionFilter;
-            else if(type === 'division') arr = selectedDivisionFilter;
-            else if(type === 'sub1company') arr = selectedSub1CompanyFilter;
-            else if(type === 'company') arr = selectedCompanyFilter;
-            else if(type === 'employee') arr = selectedEmployeeFilter;
-            
-            if(arr) {
+            if (type === 'jobGroup') arr = selectedJobGroupFilter;
+            else if (type === 'position') arr = selectedPositionsFilter;
+            else if (type === 'section') arr = selectedSectionFilter;
+            else if (type === 'department') arr = selectedDepartmentFilter;
+            else if (type === 'sub1division') arr = selectedSub1DivisionFilter;
+            else if (type === 'division') arr = selectedDivisionFilter;
+            else if (type === 'sub1company') arr = selectedSub1CompanyFilter;
+            else if (type === 'company') arr = selectedCompanyFilter;
+            else if (type === 'employee') arr = selectedEmployeeFilter;
+
+            if (arr) {
                 const idx = arr.indexOf(v);
-                if(idx > -1) arr.splice(idx, 1);
+                if (idx > -1) arr.splice(idx, 1);
                 else arr.push(v);
             }
             buildFiltersUI(); renderActiveTab();
         }
 
-        
-        window.clearAllFilters = function() {
+
+        window.clearAllFilters = function () {
             selectedJobGroupFilter = [];
             selectedPositionsFilter = [];
             selectedSectionFilter = [];
@@ -1415,34 +1550,34 @@
             selectedSub1CompanyFilter = [];
             selectedCompanyFilter = [];
             selectedEmployeeFilter = [];
-            
+
             selectedCompetencyGroupFilter = [];
             selectedCompetenciesFilter = [];
-            
+
             buildFiltersUI();
             renderActiveTab();
         };
 
-        window.setAllFilter = function(type, isSelectAll) {
+        window.setAllFilter = function (type, isSelectAll) {
             let arr;
             let containerId;
-            if(type === 'jobGroup') { arr = selectedJobGroupFilter; containerId = 'job-group-filters'; }
-            else if(type === 'position') { arr = selectedPositionsFilter; containerId = 'position-filters'; }
-            else if(type === 'section') { arr = selectedSectionFilter; containerId = 'section-filters'; }
-            else if(type === 'department') { arr = selectedDepartmentFilter; containerId = 'department-filters'; }
-            else if(type === 'sub1division') { arr = selectedSub1DivisionFilter; containerId = 'sub1division-filters'; }
-            else if(type === 'division') { arr = selectedDivisionFilter; containerId = 'division-filters'; }
-            else if(type === 'sub1company') { arr = selectedSub1CompanyFilter; containerId = 'sub1company-filters'; }
-            else if(type === 'company') { arr = selectedCompanyFilter; containerId = 'company-filters'; }
-            else if(type === 'employee') { arr = selectedEmployeeFilter; containerId = 'employee-filters'; }
-            
-            if(arr && containerId) {
+            if (type === 'jobGroup') { arr = selectedJobGroupFilter; containerId = 'job-group-filters'; }
+            else if (type === 'position') { arr = selectedPositionsFilter; containerId = 'position-filters'; }
+            else if (type === 'section') { arr = selectedSectionFilter; containerId = 'section-filters'; }
+            else if (type === 'department') { arr = selectedDepartmentFilter; containerId = 'department-filters'; }
+            else if (type === 'sub1division') { arr = selectedSub1DivisionFilter; containerId = 'sub1division-filters'; }
+            else if (type === 'division') { arr = selectedDivisionFilter; containerId = 'division-filters'; }
+            else if (type === 'sub1company') { arr = selectedSub1CompanyFilter; containerId = 'sub1company-filters'; }
+            else if (type === 'company') { arr = selectedCompanyFilter; containerId = 'company-filters'; }
+            else if (type === 'employee') { arr = selectedEmployeeFilter; containerId = 'employee-filters'; }
+
+            if (arr && containerId) {
                 arr.length = 0; // Clear it
-                if(isSelectAll) {
+                if (isSelectAll) {
                     const container = document.getElementById(containerId);
-                    if(container) {
+                    if (container) {
                         container.querySelectorAll('.item-text').forEach(span => {
-                            if(span.closest('.filter-item').style.display !== 'none') {
+                            if (span.closest('.filter-item').style.display !== 'none') {
                                 arr.push(span.innerText);
                             }
                         });
@@ -1452,7 +1587,7 @@
             buildFiltersUI(); renderActiveTab();
         }
 
-        window.searchFilterList = function(input) {
+        window.searchFilterList = function (input) {
             const q = input.value.toLowerCase();
             const list = input.closest('div').nextElementSibling;
             list.querySelectorAll('.filter-item').forEach(label => {
@@ -1460,24 +1595,24 @@
                 label.style.display = text.includes(q) ? 'flex' : 'none';
             });
         }
-        
-        window.toggleCompGroupFilter = function(g) {
-            if(selectedCompetencyGroupFilter.includes(g)) selectedCompetencyGroupFilter = selectedCompetencyGroupFilter.filter(x => x !== g);
+
+        window.toggleCompGroupFilter = function (g) {
+            if (selectedCompetencyGroupFilter.includes(g)) selectedCompetencyGroupFilter = selectedCompetencyGroupFilter.filter(x => x !== g);
             else selectedCompetencyGroupFilter.push(g);
             buildFiltersUI();
             renderActiveTab();
         }
 
-        window.toggleCompFilter = function(c) {
-            if(selectedCompetenciesFilter.includes(c)) selectedCompetenciesFilter = selectedCompetenciesFilter.filter(x => x !== c);
+        window.toggleCompFilter = function (c) {
+            if (selectedCompetenciesFilter.includes(c)) selectedCompetenciesFilter = selectedCompetenciesFilter.filter(x => x !== c);
             else selectedCompetenciesFilter.push(c);
             buildFiltersUI();
-            buildTrainingMatrix();
+            renderActiveTab();
         }
 
         function buildRoleResponseSection() {
             const container = document.getElementById('role-response-container');
-            
+
             let visiblePosSet = new Set();
             employeeData.forEach(e => {
                 if (matchesFiltersExcept(e, null)) {
@@ -1488,17 +1623,17 @@
             let visiblePos = Array.from(visiblePosSet).filter(p => p).sort();
 
             const isAdmin = currentUser.id === 'Admin';
-            
+
             let html = '<div class="flex flex-col gap-3">';
             if (visiblePos.length === 0) {
                 html += '<p class="text-slate-400 text-sm py-4">ไม่พบตำแหน่งที่ตรงกับเงื่อนไข</p>';
             }
-            
+
             visiblePos.forEach(pos => {
                 const response = roleResponses[pos] || "ยังไม่ระบุหน้าที่ความรับผิดชอบ...";
                 const group = positionGroups[pos] || '-';
-                
-                if(isAdmin && isEditMode) {
+
+                if (isAdmin && isEditMode) {
                     html += `
                     <div class="bg-white p-4 rounded-xl border border-amber-200 bg-amber-50/10 hover:shadow-md transition-shadow">
                         <div class="flex flex-col md:flex-row items-start gap-4">
@@ -1536,7 +1671,7 @@
                 }
             });
             html += '</div>';
-            
+
             if (isAdmin && isEditMode) {
                 html += `
                 <div onclick="addNewPosition()" class="mt-4 bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center p-4 cursor-pointer hover:border-scg-400 hover:bg-scg-50 transition-colors group">
@@ -1549,7 +1684,7 @@
 
         function buildTrainingMatrix() {
             const container = document.getElementById('training-matrix-container');
-            
+
             let visiblePosSet = new Set();
             employeeData.forEach(e => {
                 if (matchesFiltersExcept(e, null)) {
@@ -1560,11 +1695,11 @@
             let visiblePos = Array.from(visiblePosSet).filter(p => p).sort();
 
             const isAdmin = currentUser.id === 'Admin';
-            
+
             let html = `<table class="w-full text-left border-collapse text-sm"><thead><tr class="bg-slate-50 border-b border-slate-100 text-slate-600"><th class="p-4 font-semibold min-w-[200px] w-1/4">Competency</th>`;
-            
+
             visiblePos.forEach(pos => {
-                if(isAdmin && isEditMode) {
+                if (isAdmin && isEditMode) {
                     html += `<th class="p-4 font-semibold text-center align-top min-w-[150px] whitespace-nowrap bg-amber-50/30 border-l border-white">
                                 <input type="text" value="${pos}" onchange="handlePositionChange('${pos}', this.value)" class="w-full border-b border-scg-300 bg-transparent px-1 py-1 text-sm font-bold text-scg-900 focus:border-scg-600 outline-none text-center" title="แก้ไขชื่อตำแหน่ง">
                              </th>`;
@@ -1575,21 +1710,14 @@
             html += `<th class="w-full"></th></tr></thead><tbody class="divide-y divide-slate-100 text-slate-700">`;
 
             competencies.forEach((comp, compIndex) => {
-                if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(comp.group)) return;
-                if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(comp.name)) return;
-                
-                if (!isAdmin || !isEditMode) {
-                    let hasTarget = false;
-                    visiblePos.forEach(pos => {
-                        const t = positionTargets[pos] && positionTargets[pos][compIndex] ? positionTargets[pos][compIndex] : 0;
-                        if (t > 0) hasTarget = true;
-                    });
-                    if (!hasTarget) return;
-                }
+                if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(comp.group)) return;
+                if (selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(comp.name)) return;
+
+                // Removed hasTarget check to always display all competencies
 
                 html += `<tr class="hover:bg-slate-50">`;
-                
-                if(isAdmin && isEditMode) {
+
+                if (isAdmin && isEditMode) {
                     html += `<td class="p-4 font-medium align-top bg-amber-50/30">
                                 <div class="flex flex-col gap-2">
                                     <div class="flex items-start gap-2">
@@ -1613,17 +1741,17 @@
                 } else {
                     html += `<td class="p-4 font-medium"><i class="fa-solid ${comp.icon} text-scg-400 w-6"></i> ${comp.name}</td>`;
                 }
-                
+
                 visiblePos.forEach(pos => {
                     const t = positionTargets[pos] && positionTargets[pos][compIndex] ? positionTargets[pos][compIndex] : 0;
                     const safeId = `target-${pos.replace(/[^a-zA-Z0-9]/g, '')}-${compIndex}`;
-                    
+
                     if (isAdmin) {
-                        let selectHtml = `<select id="${safeId}" onchange="updateMatrixTarget('${pos}', ${compIndex}, this.value)" class="border border-slate-200 rounded px-2 py-1.5 font-bold outline-none focus:border-scg-500 text-xs w-full max-w-[140px] bg-white cursor-pointer ${t>=4?'text-scg-800':'text-slate-600'} ${isEditMode ? 'border-amber-200' : ''}">`;
-                        selectHtml += `<option value="0" ${t===0?'selected':''}>None</option>`;
-                        for(let i=1; i<=5; i++) {
+                        let selectHtml = `<select id="${safeId}" onchange="updateMatrixTarget('${pos}', ${compIndex}, this.value)" class="border border-slate-200 rounded px-2 py-1.5 font-bold outline-none focus:border-scg-500 text-xs w-full max-w-[140px] bg-white cursor-pointer ${t >= 4 ? 'text-scg-800' : 'text-slate-600'} ${isEditMode ? 'border-amber-200' : ''}">`;
+                        selectHtml += `<option value="0" ${t === 0 ? 'selected' : ''}>None</option>`;
+                        for (let i = 1; i <= 5; i++) {
                             const desc = comp.levels[i] || "";
-                            selectHtml += `<option value="${i}" ${t===i?'selected':''}>L${i}: ${desc}</option>`;
+                            selectHtml += `<option value="${i}" ${t === i ? 'selected' : ''}>L${i}: ${desc}</option>`;
                         }
                         selectHtml += `</select>`;
                         html += `<td class="p-3 text-center border-l border-slate-100 ${isEditMode ? 'bg-amber-50/10' : ''}">${selectHtml}</td>`;
@@ -1634,7 +1762,7 @@
                         html += `<td class="p-4 text-center border-l border-slate-100">
                                     <div class="group relative inline-block w-full">
                                         <div class="px-3 py-2 rounded-lg font-bold text-xs truncate ${badgeClass}">
-                                            ${levelText}${t>0 ? ': ' + desc : ''}
+                                            ${levelText}${t > 0 ? ': ' + desc : ''}
                                         </div>
                                         <div class="hidden group-hover:block absolute z-10 w-48 p-2 bg-slate-800 text-white text-xs rounded shadow-lg -top-10 left-1/2 transform -translate-x-1/2 whitespace-normal break-words">
                                             ${desc}
@@ -1664,13 +1792,13 @@
         async function updateMatrixTarget(pos, compIndex, value) {
             const val = parseInt(value);
             positionTargets[pos][compIndex] = val;
-            
+
             await fetch(`${API_BASE}/positions/targets`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ position: pos, compIndex, value: val })
             });
-            
+
             const selectEl = document.getElementById(`target-${pos.replace(/[^a-zA-Z0-9]/g, '')}-${compIndex}`);
             if (val >= 4) {
                 selectEl.classList.add('text-scg-800'); selectEl.classList.remove('text-slate-600');
@@ -1687,9 +1815,9 @@
             currentEditCompIndex = index;
             const comp = competencies[index];
             document.getElementById('modal-comp-name').textContent = comp.name;
-            
+
             let html = '';
-            for(let i = 1; i <= 5; i++) {
+            for (let i = 1; i <= 5; i++) {
                 html += `
                 <div class="bg-white p-3 rounded-xl border border-slate-200">
                     <label class="block text-xs font-bold text-scg-800 mb-1.5 bg-scg-50 w-fit px-2 py-0.5 rounded">Level ${i}</label>
@@ -1706,23 +1834,23 @@
         }
 
         async function saveLevelEdits() {
-            if(currentEditCompIndex === -1) return;
+            if (currentEditCompIndex === -1) return;
             const comp = competencies[currentEditCompIndex];
-            
+
             const levels = {};
-            for(let i = 1; i <= 5; i++) {
+            for (let i = 1; i <= 5; i++) {
                 levels[i] = document.getElementById(`modal-l${i}`).value;
                 comp.levels[i] = levels[i];
             }
-            
+
             await fetch(`${API_BASE}/competencies/levels`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ index: currentEditCompIndex, levels })
             });
-            
+
             closeLevelEditModal();
-            buildTrainingMatrix(); 
+            buildTrainingMatrix();
             showToast("บันทึกคำอธิบาย Level สำเร็จ");
         }
 
@@ -1730,15 +1858,15 @@
         function setupEvaluationTab() {
             if (currentUser.id === 'Admin') {
                 document.getElementById('admin-override-container').classList.remove('hidden');
-                
+
                 const overrideSelect = document.getElementById('admin-override-select');
                 const prevVal = overrideSelect.value;
                 overrideSelect.innerHTML = '<option value="Admin">-- เลือกสวมสิทธิหัวหน้า --</option>';
-                for(let id in dbUsers) {
+                for (let id in dbUsers) {
                     if (id !== 'Admin') overrideSelect.innerHTML += `<option value="${id}">สวมสิทธิ: ${dbUsers[id].name}</option>`;
                 }
                 overrideSelect.value = prevVal || 'Admin';
-                
+
                 actingAsRole = overrideSelect.value;
             } else {
                 document.getElementById('admin-override-container').classList.add('hidden');
@@ -1754,16 +1882,17 @@
 
         function populateEvalDropdown() {
             const selectEl = document.getElementById('eval-employee-select');
+            const prevVal = selectEl.value;
             selectEl.innerHTML = '';
-            
+
             let validEmps = [];
             let actingName = dbUsers[actingAsRole] ? dbUsers[actingAsRole].name : '';
 
             employeeData.forEach(e => {
-                let empName = e.FullName || e.EmployeeNameThai || e.EmployeeNameEng;
+                let empName = e.FullNameTH || e.FullName || e.EmployeeNameThai || e.EmployeeNameEng;
                 let pName = e.PositionNameThai || e.position_name;
                 let uid = e.user_id || e.username || e.SCGEmployeeID || empName;
-                
+
                 if (matchesFiltersExcept(e, null)) {
                     let isSub = false;
                     if (actingAsRole === 'Admin') {
@@ -1773,7 +1902,7 @@
                         if (actingName && mName.includes(actingName)) isSub = true;
                         if (!isSub && getSubordinates(actingAsRole).includes(uid)) isSub = true;
                     }
-                    
+
                     if (isSub && empName) {
                         validEmps.push({ id: uid, name: empName, position: pName || 'Unassigned', raw: e });
                     }
@@ -1783,7 +1912,7 @@
             if (validEmps.length === 0) {
                 selectEl.innerHTML = '<option value="">-- ไม่พบผู้ใต้บังคับบัญชา --</option>';
                 document.getElementById('sliders-container').innerHTML = '<div class="text-center text-slate-400 py-10">ไม่พบข้อมูล หรือ ยังไม่ได้เริ่มประเมิน</div>';
-                if(evalRadarChartInstance) evalRadarChartInstance.destroy();
+                if (evalRadarChartInstance) evalRadarChartInstance.destroy();
                 return;
             }
 
@@ -1791,25 +1920,30 @@
             let uniqueEmps = [];
             let seenIds = new Set();
             validEmps.forEach(emp => {
-                if(!seenIds.has(emp.id)) {
+                if (!seenIds.has(emp.id)) {
                     seenIds.add(emp.id);
                     uniqueEmps.push(emp);
                 }
             });
 
-            uniqueEmps.forEach(emp => { 
-                selectEl.innerHTML += `<option value="${emp.id}">${emp.name} (${emp.position})</option>`; 
+            uniqueEmps.forEach(emp => {
+                selectEl.innerHTML += `<option value="${emp.id}">${emp.name} (${emp.position})</option>`;
             });
+
+            if (prevVal && Array.from(selectEl.options).some(o => o.value === prevVal)) {
+                selectEl.value = prevVal;
+            }
+
             updateEvalUI();
         }
 
         function updateEvalUI() {
             const id = document.getElementById('eval-employee-select').value;
-            if(!id) return;
+            if (!id) return;
             if (!dbUsers[id]) {
-                const rawEData = employeeData.find(e => e.user_id === id || e.username === id || e.SCGEmployeeID === id || (e.FullName || e.EmployeeNameThai || e.EmployeeNameEng) === id);
+                const rawEData = employeeData.find(e => e.user_id === id || e.username === id || e.SCGEmployeeID === id || (e.FullNameTH || e.FullName || e.EmployeeNameThai || e.EmployeeNameEng) === id);
                 if (rawEData) {
-                    const empName = rawEData.FullName || rawEData.EmployeeNameThai || rawEData.EmployeeNameEng;
+                    const empName = rawEData.FullNameTH || rawEData.FullName || rawEData.EmployeeNameThai || rawEData.EmployeeNameEng;
                     const pName = rawEData.PositionNameThai || rawEData.position_name || 'Unassigned';
                     dbUsers[id] = {
                         name: empName,
@@ -1830,21 +1964,21 @@
             }
 
             const emp = dbUsers[id];
-            const eData = employeeData.find(e => e.user_id === id || e.username === id || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name);
+            const eData = employeeData.find(e => e.user_id === id || e.username === id || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name || e.FullNameTH === emp.name);
             let pName = emp.position;
-            if(eData && eData.PositionNameThai) pName = eData.PositionNameThai;
-            else if(eData && eData.position_name) pName = eData.position_name;
+            if (eData && eData.PositionNameThai) pName = eData.PositionNameThai;
+            else if (eData && eData.position_name) pName = eData.position_name;
 
             const targets = positionTargets[pName] || [];
             const hasMappedCompetency = targets.some(t => t > 0);
-            
+
             if (!hasMappedCompetency) {
                 document.getElementById('sliders-container').innerHTML = `<div class="text-center py-16 bg-slate-50 rounded-xl border border-slate-200 shadow-sm mt-4">
                     <i class="fa-solid fa-link-slash text-4xl text-amber-300 mb-4 block"></i>
                     <p class="text-slate-600 font-bold text-lg">กรุณาผูก Competency ในตำแหน่งนี้ ก่อน</p>
                     <p class="text-slate-400 text-sm mt-2">ผู้ดูแลระบบ (Admin) ต้องกำหนดความคาดหวังทักษะสำหรับตำแหน่ง "${pName}" ในหน้า Training Need ก่อนทำการประเมิน</p>
                 </div>`;
-                if(evalRadarChartInstance) evalRadarChartInstance.destroy();
+                if (evalRadarChartInstance) evalRadarChartInstance.destroy();
                 return;
             }
             const currentLabels = getLabels();
@@ -1854,12 +1988,12 @@
 
             let html = '';
             for (let i = 0; i < competencies.length; i++) {
-                if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
-                if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
-                
+                if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                if (selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+
                 const targetVal = targets[i] || 0;
                 if (targetVal === 0) continue;
-                
+
                 const targetText = targetVal === 0 ? 'None' : `L${targetVal}`;
                 const currentVal = (emp.actuals[i] || 0) === 0 ? 1 : emp.actuals[i];
                 const currentDesc = competencies[i].levels[currentVal] || "";
@@ -1900,7 +2034,7 @@
                     </div>
                 </div>`;
             }
-            
+
             html += `
                 <div class="bg-white p-6 rounded-2xl border border-scg-200 mb-6 shadow-md relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-24 h-24 bg-scg-50 rounded-bl-full z-0"></div>
@@ -1927,7 +2061,7 @@
                     </div>
                 </div>
             `;
-            
+
             document.getElementById('sliders-container').innerHTML = html;
             drawEvalRadar();
         }
@@ -1942,9 +2076,9 @@
         function drawEvalRadar() {
             const id = document.getElementById('eval-employee-select').value;
             if (!dbUsers[id]) {
-                const rawEData = employeeData.find(e => e.user_id === id || e.username === id || e.SCGEmployeeID === id || (e.FullName || e.EmployeeNameThai || e.EmployeeNameEng) === id);
+                const rawEData = employeeData.find(e => e.user_id === id || e.username === id || e.SCGEmployeeID === id || (e.FullNameTH || e.FullName || e.EmployeeNameThai || e.EmployeeNameEng) === id);
                 if (rawEData) {
-                    const empName = rawEData.FullName || rawEData.EmployeeNameThai || rawEData.EmployeeNameEng;
+                    const empName = rawEData.FullNameTH || rawEData.FullName || rawEData.EmployeeNameThai || rawEData.EmployeeNameEng;
                     const pName = rawEData.PositionNameThai || rawEData.position_name || 'Unassigned';
                     dbUsers[id] = {
                         name: empName,
@@ -1965,75 +2099,75 @@
             }
 
             const emp = dbUsers[id];
-            const eData = employeeData.find(e => e.user_id === id || e.username === id || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name);
+            const eData = employeeData.find(e => e.user_id === id || e.username === id || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name || e.FullNameTH === emp.name);
             let pName = emp.position;
-            if(eData && eData.PositionNameThai) pName = eData.PositionNameThai;
-            else if(eData && eData.position_name) pName = eData.position_name;
+            if (eData && eData.PositionNameThai) pName = eData.PositionNameThai;
+            else if (eData && eData.position_name) pName = eData.position_name;
 
             const targets = positionTargets[pName] || [];
             const hasMappedCompetency = targets.some(t => t > 0);
-            
+
             if (!hasMappedCompetency) {
                 document.getElementById('sliders-container').innerHTML = `<div class="text-center py-16 bg-slate-50 rounded-xl border border-slate-200 shadow-sm mt-4">
                     <i class="fa-solid fa-link-slash text-4xl text-amber-300 mb-4 block"></i>
                     <p class="text-slate-600 font-bold text-lg">กรุณาผูก Competency ในตำแหน่งนี้ ก่อน</p>
                     <p class="text-slate-400 text-sm mt-2">ผู้ดูแลระบบ (Admin) ต้องกำหนดความคาดหวังทักษะสำหรับตำแหน่ง "${pName}" ในหน้า Training Need ก่อนทำการประเมิน</p>
                 </div>`;
-                if(evalRadarChartInstance) evalRadarChartInstance.destroy();
+                if (evalRadarChartInstance) evalRadarChartInstance.destroy();
                 return;
             }
             let actuals = [];
             let cleanLabels = [];
             let cleanTargets = [];
-            
+
             const allLabels = getLabels().map(l => {
                 const parts = l.split('. ');
                 return parts.length > 1 ? parts.slice(1).join('. ') : l;
             });
 
             for (let i = 0; i < competencies.length; i++) {
-                if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
-                if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
-                
+                if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                if (selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+
                 const t = targets[i] || 0;
                 if (t === 0) continue;
-                
+
                 cleanLabels.push(allLabels[i]);
                 cleanTargets.push(t);
-                
+
                 const el = document.getElementById(`eval-val-${i}`);
                 actuals.push(el ? parseInt(el.value) : (emp.actuals[i] || 0));
             }
 
-            if(evalRadarChartInstance) evalRadarChartInstance.destroy();
+            if (evalRadarChartInstance) evalRadarChartInstance.destroy();
             const ctx = document.getElementById('evalRadarChart').getContext('2d');
 
             evalRadarChartInstance = new Chart(ctx, {
                 type: 'radar',
                 data: {
-                    labels: cleanLabels, 
+                    labels: cleanLabels,
                     datasets: [
-                        { label: 'Target', data: cleanTargets, borderColor: '#cbd5e1', backgroundColor: 'transparent', borderDash: [5,5] },
+                        { label: 'Target', data: cleanTargets, borderColor: '#cbd5e1', backgroundColor: 'transparent', borderDash: [5, 5] },
                         { label: 'Actual', data: actuals, borderColor: '#ca3656', backgroundColor: 'rgba(202, 54, 86, 0.2)' }
                     ]
                 },
-                options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 5, ticks:{display:false} } } }
+                options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 5, ticks: { display: false } } } }
             });
         }
 
         async function saveEvaluation() {
             const id = document.getElementById('eval-employee-select').value;
             const emp = dbUsers[id];
-            
+
             if (!emp.additional_expectations) emp.additional_expectations = new Array(competencies.length).fill('');
             if (!emp.learning_topics) emp.learning_topics = new Array(competencies.length).fill('');
-            
+
             for (let i = 0; i < competencies.length; i++) {
                 const elVal = document.getElementById(`eval-val-${i}`);
                 const elEvi = document.getElementById(`eval-evi-${i}`);
                 const elAddExp = document.getElementById(`eval-add-exp-${i}`);
                 const elLrnTop = document.getElementById(`eval-lrn-top-${i}`);
-                
+
                 if (elVal && elEvi) {
                     emp.actuals[i] = parseInt(elVal.value);
                     emp.evidences[i] = elEvi.value;
@@ -2041,14 +2175,14 @@
                 if (elAddExp) emp.additional_expectations[i] = elAddExp.value;
                 if (elLrnTop) emp.learning_topics[i] = elLrnTop.value;
             }
-            
+
             const specExp = document.getElementById('eval-spec-exp') ? document.getElementById('eval-spec-exp').value : '';
             const specDtl = document.getElementById('eval-spec-dtl') ? document.getElementById('eval-spec-dtl').value : '';
-            
+
             emp.special_expertise = specExp;
             emp.special_expertise_detail = specDtl;
             emp.evalDate = new Date().toLocaleDateString('th-TH');
-            
+
             await fetch(`${API_BASE}/evaluations`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -2063,14 +2197,14 @@
                     evalDate: emp.evalDate
                 })
             });
-            
+
             showToast("บันทึกประเมินสำเร็จ");
             setTimeout(() => { switchTab('dashboard'); }, 1000);
         }
 
         // --- 5. Dashboard Logic ---
         function setupDashboardTab() {
-            
+
             const currentUserId = currentUser.id;
             const mySubs = getSubordinates(currentUserId);
             let toShow = [];
@@ -2085,21 +2219,23 @@
                 toShow = applyGlobalFiltersToSubIds(mySubs);
                 document.getElementById('dash-manager-view').style.display = 'block';
             }
-            
 
-            if(toShow.length === 0) {
-                 document.getElementById('dash-individual-cards-container').innerHTML = '<div class="text-center bg-white p-10 rounded-3xl border border-slate-100 text-slate-400">ไม่พบข้อมูลให้แสดงผล</div>';
-                 if(averageBarChartInstance) averageBarChartInstance.destroy();
-                 return;
+
+            if (toShow.length === 0) {
+                document.getElementById('dash-individual-cards-container').innerHTML = '<div class="text-center bg-white p-10 rounded-3xl border border-slate-100 text-slate-400">ไม่พบข้อมูลให้แสดงผล</div>';
+                if (averageBarChartInstance) averageBarChartInstance.destroy();
+                return;
             }
 
-            if(subs.length > 0 || currentUserId === 'Admin') {
+            if (mySubs.length > 0 || currentUserId === 'Admin') {
                 drawAverageBarChart(toShow);
             }
             renderIndividualDashboards(toShow);
+            renderTeamHeatmap(toShow);
+            renderTeamHeatmap(toShow);
         }
-        
-        
+
+
 
         function drawAverageBarChart(subIds) {
             const dataToSort = [];
@@ -2107,30 +2243,30 @@
             subIds.forEach(id => {
                 const emp = dbUsers[id];
                 const targets = positionTargets[emp.position] || [];
-                
+
                 let sumTarget = 0;
                 let sumActual = 0;
                 let validCompsCount = 0;
 
                 for (let i = 0; i < competencies.length; i++) {
-                if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
-                if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
-                
-                const t = targets[i] || 0;
-                if (t === 0) continue;
+                    if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                    if (selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+
+                    const t = targets[i] || 0;
+                    if (t === 0) continue;
                     if (t > 0) {
                         sumTarget += t;
                         sumActual += (emp.actuals[i] || 0);
                         validCompsCount++;
                     }
                 }
-                
+
                 const avgT = validCompsCount > 0 ? sumTarget / validCompsCount : 0;
                 const avgA = validCompsCount > 0 ? sumActual / validCompsCount : 0;
-                
+
                 // Calculate % Complete
                 const percent = sumTarget > 0 ? Math.round((sumActual / sumTarget) * 100) : 0;
-                
+
                 dataToSort.push({
                     name: emp.name,
                     avgT: avgT.toFixed(1),
@@ -2151,17 +2287,17 @@
             const maxPercentVal = Math.max(...percentCompletes, 100);
             const y1Max = Math.ceil(maxPercentVal + (maxPercentVal * 0.2));
 
-            if(averageBarChartInstance) averageBarChartInstance.destroy();
+            if (averageBarChartInstance) averageBarChartInstance.destroy();
             const ctx = document.getElementById('averageBarChart').getContext('2d');
             averageBarChartInstance = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: names,
                     datasets: [
-                        { 
+                        {
                             type: 'line',
-                            label: '% Complete', 
-                            data: percentCompletes, 
+                            label: '% Complete',
+                            data: percentCompletes,
                             borderColor: '#eab308',
                             backgroundColor: '#eab308',
                             borderWidth: 2,
@@ -2174,26 +2310,26 @@
                         { label: 'Average Actual', data: avgActuals, backgroundColor: '#ca3656', yAxisID: 'y', borderRadius: 6 }
                     ]
                 },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
-                    scales: { 
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
                         x: {
                             grid: { display: false }
                         },
                         y: { min: 0, max: 5, position: 'left', grid: { display: false } },
-                        y1: { 
-                            min: 0, 
+                        y1: {
+                            min: 0,
                             max: y1Max,
                             position: 'right',
                             grid: { drawOnChartArea: false, display: false },
-                            ticks: { callback: function(value) { return value + '%'; } }
+                            ticks: { callback: function (value) { return value + '%'; } }
                         }
                     },
                     plugins: {
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     let label = context.dataset.label || '';
                                     if (label) { label += ': '; }
                                     if (context.dataset.yAxisID === 'y1') {
@@ -2212,7 +2348,7 @@
                     afterDatasetsDraw(chart, args, pluginOptions) {
                         const { ctx, data } = chart;
                         ctx.save();
-                        
+
                         // Dataset 0 is the % Complete line
                         chart.getDatasetMeta(0).data.forEach((datapoint, index) => {
                             const value = data.datasets[0].data[index] + '%';
@@ -2246,11 +2382,153 @@
                                 ctx.fillText(value, datapoint.x, datapoint.y - 5);
                             }
                         });
-                        
+
                         ctx.restore();
                     }
                 }]
             });
+        }
+
+        
+        window.renderTeamHeatmap = function(subIds) {
+            const container = document.getElementById('dashboard-heatmap-container');
+            if (!container) return;
+            
+            if (subIds.length === 0) {
+                container.classList.add('hidden');
+                return;
+            }
+            container.classList.remove('hidden');
+
+            let html = '<h3 class="text-lg font-bold text-scg-800 mb-4">Team Skill Matrix</h3>';
+            html += '<table class="w-full text-left border-collapse min-w-[800px]">';
+            html += '<thead><tr class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider">';
+            html += '<th class="p-3 border-b border-slate-200 sticky left-0 bg-slate-50 z-10 w-48">Employee</th>';
+            
+            // Get visible competencies
+            let activeComps = [];
+            for (let i = 0; i < competencies.length; i++) {
+                if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                if (selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+                activeComps.push({ index: i, name: competencies[i].name });
+            }
+            
+            activeComps.forEach(comp => {
+                html += `<th class="p-3 border-b border-slate-200 truncate max-w-[120px]" title="${comp.name}">${comp.name}</th>`;
+            });
+            html += '</tr></thead><tbody>';
+
+            subIds.forEach(id => {
+                const emp = dbUsers[id];
+                const targets = positionTargets[emp.position] || [];
+                
+                html += `<tr class="border-b border-slate-100 hover:bg-slate-50">`;
+                html += `<td class="p-3 sticky left-0 bg-white group-hover:bg-slate-50 z-10 font-medium text-sm text-slate-800 shadow-[1px_0_0_0_#f1f5f9] truncate" title="${emp.name}">${emp.name}</td>`;
+                
+                activeComps.forEach(comp => {
+                    const t = targets[comp.index] || 0;
+                    const a = emp.actuals[comp.index] || 0;
+                    
+                    let bgClass = "bg-slate-50";
+                    let textClass = "text-slate-400";
+                    let content = "-";
+                    
+                    if (t > 0) {
+                        const diff = a - t;
+                        if (diff >= 0) {
+                            bgClass = "bg-green-100";
+                            textClass = "text-green-700 font-bold";
+                            content = a;
+                        } else if (diff === -1) {
+                            bgClass = "bg-yellow-100";
+                            textClass = "text-yellow-700 font-bold";
+                            content = a;
+                        } else {
+                            bgClass = "bg-red-100";
+                            textClass = "text-red-700 font-bold";
+                            content = a;
+                        }
+                    }
+                    
+                    html += `<td class="p-2 border-r border-slate-50 text-center"><div class="w-8 h-8 flex items-center justify-center rounded mx-auto ${bgClass} ${textClass} text-xs" title="Target: ${t}, Actual: ${a}">${content}</div></td>`;
+                });
+                
+                html += `</tr>`;
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        
+        window.renderTeamHeatmap = function(subIds) {
+            const container = document.getElementById('dashboard-heatmap-container');
+            if (!container) return;
+            
+            if (subIds.length === 0) {
+                container.classList.add('hidden');
+                return;
+            }
+            container.classList.remove('hidden');
+
+            let html = '<h3 class="text-lg font-bold text-scg-800 mb-4">Team Skill Matrix</h3>';
+            html += '<table class="w-full text-left border-collapse min-w-[800px]">';
+            html += '<thead><tr class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider">';
+            html += '<th class="p-3 border-b border-slate-200 sticky left-0 bg-slate-50 z-10 w-48">Employee</th>';
+            
+            // Get visible competencies
+            let activeComps = [];
+            for (let i = 0; i < competencies.length; i++) {
+                if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                if (selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+                activeComps.push({ index: i, name: competencies[i].name });
+            }
+            
+            activeComps.forEach(comp => {
+                html += `<th class="p-3 border-b border-slate-200 truncate max-w-[120px]" title="${comp.name}">${comp.name}</th>`;
+            });
+            html += '</tr></thead><tbody>';
+
+            subIds.forEach(id => {
+                const emp = dbUsers[id];
+                const targets = positionTargets[emp.position] || [];
+                
+                html += `<tr class="border-b border-slate-100 hover:bg-slate-50">`;
+                html += `<td class="p-3 sticky left-0 bg-white group-hover:bg-slate-50 z-10 font-medium text-sm text-slate-800 shadow-[1px_0_0_0_#f1f5f9] truncate" title="${emp.name}">${emp.name}</td>`;
+                
+                activeComps.forEach(comp => {
+                    const t = targets[comp.index] || 0;
+                    const a = emp.actuals[comp.index] || 0;
+                    
+                    let bgClass = "bg-slate-50";
+                    let textClass = "text-slate-400";
+                    let content = "-";
+                    
+                    if (t > 0) {
+                        const diff = a - t;
+                        if (diff >= 0) {
+                            bgClass = "bg-green-100";
+                            textClass = "text-green-700 font-bold";
+                            content = a;
+                        } else if (diff === -1) {
+                            bgClass = "bg-yellow-100";
+                            textClass = "text-yellow-700 font-bold";
+                            content = a;
+                        } else {
+                            bgClass = "bg-red-100";
+                            textClass = "text-red-700 font-bold";
+                            content = a;
+                        }
+                    }
+                    
+                    html += `<td class="p-2 border-r border-slate-50 text-center"><div class="w-8 h-8 flex items-center justify-center rounded mx-auto ${bgClass} ${textClass} text-xs" title="Target: ${t}, Actual: ${a}">${content}</div></td>`;
+                });
+                
+                html += `</tr>`;
+            });
+
+            html += '</tbody></table>';
+            container.innerHTML = html;
         }
 
         function renderIndividualDashboards(subIds) {
@@ -2263,10 +2541,13 @@
                 const emp = dbUsers[id];
                 const targets = positionTargets[emp.position] || [];
                 let totalTarget = 0; let totalActual = 0; let gaps = [];
-                
-                for(let i=0; i<competencies.length; i++) {
+
+                for (let i = 0; i < competencies.length; i++) {
+                    if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                    if (selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+
                     const t = targets[i] || 0;
-                if (t === 0) continue;
+                    if (t === 0) continue;
                     if (t > 0) {
                         const a = emp.actuals[i] || 0;
                         totalTarget += t;
@@ -2277,7 +2558,7 @@
                 }
 
                 const readiness = totalTarget === 0 ? 0 : Math.round((totalActual / totalTarget) * 100);
-                const safeReadiness = readiness > 100 ? 100 : readiness;
+                const safeReadiness = readiness;
                 let readinessColor = safeReadiness >= 100 ? "text-green-400" : (safeReadiness >= 80 ? "text-yellow-400" : "text-red-400");
                 const gapText = gaps.length === 0 ? "พร้อมสมบูรณ์ (ไม่มี Gap)" : `พบ ${gaps.length} ทักษะที่ต้องพัฒนา`;
 
@@ -2287,9 +2568,9 @@
                 } else {
                     gaps.forEach(gap => {
                         let courseName = "หลักสูตรพัฒนาทักษะ (OJT)"; let icon = "fa-book";
-                        if (gap.skill.includes("ไฟฟ้า")) { courseName = "เทคนิคตู้ MDB และมอเตอร์ 3 เฟส"; icon="fa-bolt"; }
-                        else if (gap.skill.includes("เครื่องกล")) { courseName = "ซ่อมบำรุงปั๊มน้ำและระบบนิวเมติกส์"; icon="fa-gear"; }
-                        else if (gap.skill.includes("วิเคราะห์")) { courseName = "การอ่านแบบ Schematic Diagram"; icon="fa-magnifying-glass-chart"; }
+                        if (gap.skill.includes("ไฟฟ้า")) { courseName = "เทคนิคตู้ MDB และมอเตอร์ 3 เฟส"; icon = "fa-bolt"; }
+                        else if (gap.skill.includes("เครื่องกล")) { courseName = "ซ่อมบำรุงปั๊มน้ำและระบบนิวเมติกส์"; icon = "fa-gear"; }
+                        else if (gap.skill.includes("วิเคราะห์")) { courseName = "การอ่านแบบ Schematic Diagram"; icon = "fa-magnifying-glass-chart"; }
                         recsHtml += `
                         <div class="flex items-center gap-3 p-3 bg-white border border-slate-100 rounded-xl shadow-sm">
                             <div class="bg-scg-50 p-2 rounded-lg text-scg-600 flex-shrink-0"><i class="fa-solid ${icon}"></i></div>
@@ -2328,15 +2609,18 @@
             subIds.forEach(id => {
                 const emp = dbUsers[id];
                 const ctx = document.getElementById(`radar-${id}`).getContext('2d');
-                
+
                 const tData = positionTargets[emp.position] || [];
                 const aData = emp.actuals || [];
-                
+
                 const cleanLabels = [];
                 const cleanTargets = [];
                 const cleanActuals = [];
-                
+
                 for (let i = 0; i < currentLabels.length; i++) {
+                    if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                    if (selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+
                     if (tData[i] && tData[i] > 0) {
                         const parts = currentLabels[i].split('. ');
                         cleanLabels.push(parts.length > 1 ? parts.slice(1).join('. ') : currentLabels[i]);
@@ -2354,24 +2638,24 @@
                             { label: 'Actual', data: cleanActuals, borderColor: '#882239', backgroundColor: 'rgba(136, 34, 57, 0.3)' }
                         ]
                     },
-                    options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 5, ticks:{display:false} } } }
+                    options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 5, ticks: { display: false } } } }
                 });
                 individualCharts.push(chart);
             });
         }
 
         // --- 6. Admin Panel Export & Management ---
-        
+
         let adminTempData = [];
-        
+
         function setupAdminTab() {
             adminTempData = employeeDataAll.map(e => {
                 let n_en = e.name_en;
-                if(!n_en) {
+                if (!n_en) {
                     n_en = e.FullNameENG;
-                    if(!n_en) {
+                    if (!n_en) {
                         const first = e.FirstNameEnglish;
-                        if(first) {
+                        if (first) {
                             const prefix = e.NamePrefixEnglish || '';
                             const last = e.LastNameEnglish || '';
                             n_en = (prefix ? prefix + ' ' : '') + first + ' ' + last;
@@ -2380,7 +2664,7 @@
                         }
                     }
                 }
-                
+
                 return {
                     pk_field: e.PersonID ? 'PersonID' : (e.id ? 'id' : 'person_id'),
                     pk_value: e.PersonID || e.id || e.person_id,
@@ -2396,13 +2680,13 @@
             });
             renderAdminTable();
         }
-        
+
         function renderAdminTable() {
             const tbody = document.getElementById('admin-tbody');
-            if(!tbody) return;
-            
+            if (!tbody) return;
+
             const search = document.getElementById('admin-search').value.toLowerCase();
-            
+
             // Build unique English names for the dropdown
             const allEngNames = [...new Set(adminTempData.map(e => e.name_en).filter(n => n && n !== '-'))].sort();
             let optionsHtml = `<option value="">-- ไม่ระบุ --</option>`;
@@ -2412,21 +2696,21 @@
 
             let html = '';
             let count = 0;
-            
+
             adminTempData.forEach((emp, index) => {
                 const searchStr = `${emp.person_id} ${emp.name_th} ${emp.name_en} ${emp.user_id}`.toLowerCase();
-                if(search && !searchStr.includes(search)) return;
-                
+                if (search && !searchStr.includes(search)) return;
+
                 const eData = employeeDataAll[index];
-                if(eData && !matchesOrgFiltersData(eData)) return;
-                
+                if (eData && !matchesOrgFiltersData(eData)) return;
+
                 count++;
-                
+
                 let rowOpts = optionsHtml;
-                if(emp.report_to_name) {
+                if (emp.report_to_name) {
                     rowOpts = rowOpts.replace(`value="${emp.report_to_name}"`, `value="${emp.report_to_name}" selected`);
                 }
-                
+
                 html += `
                     <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100">
                         <td class="py-2 px-4 border-r border-slate-100 text-center">
@@ -2457,21 +2741,21 @@
                     </tr>
                 `;
             });
-            
+
             tbody.innerHTML = html;
             document.getElementById('admin-count-info').innerText = `แสดง ${count} รายการ`;
         }
 
-        
+
         function toggleAdminSelectAll(cb) {
             const search = document.getElementById('admin-search').value.toLowerCase();
             adminTempData.forEach((emp, index) => {
                 const searchStr = `${emp.person_id} ${emp.name_th} ${emp.name_en} ${emp.user_id}`.toLowerCase();
-                if(search && !searchStr.includes(search)) return;
-                
+                if (search && !searchStr.includes(search)) return;
+
                 const eData = employeeDataAll[index];
-                if(eData && !matchesOrgFiltersData(eData)) return;
-                
+                if (eData && !matchesOrgFiltersData(eData)) return;
+
                 emp.is_evaluated = cb.checked;
             });
             renderAdminTable();
@@ -2483,16 +2767,16 @@
             const oldHtml = btn.innerHTML;
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> กำลังบันทึก...`;
             btn.disabled = true;
-            
+
             try {
                 const response = await fetch(API_BASE + '/admin/sync_employees', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ employees: adminTempData })
                 });
-                
+
                 const result = await response.json();
-                if(result.status === 'success') {
+                if (result.status === 'success') {
                     alert('บันทึกข้อมูลและอัปเดตสิทธิการเข้าถึงเรียบร้อยแล้ว!');
                     window.location.reload();
                 } else {
@@ -2511,13 +2795,13 @@
         async function updateUserManager(userId, selectElement) {
             const selectedManagers = Array.from(selectElement.selectedOptions).map(opt => opt.value);
             dbUsers[userId].managerIds = selectedManagers;
-            
+
             await fetch(`${API_BASE}/users/${userId}/manager`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ managers: selectedManagers })
             });
-            
+
             showToast(`อัปเดตสายบังคับบัญชาของ ${userId} สำเร็จ`);
         }
 
@@ -2547,19 +2831,19 @@
                         uid, pass, name, pos, mgrs, num_comps: competencies.length
                     })
                 });
-                
+
                 if (!res.ok) throw new Error("Failed to create user");
-                
+
                 await fetchInitialData(true);
 
                 showToast(`เพิ่มผู้ใช้งาน ${name} สำเร็จ`);
-                
+
                 document.getElementById('new-user-id').value = '';
                 document.getElementById('new-user-pass').value = '';
                 document.getElementById('new-user-name').value = '';
                 selectMgrs.selectedIndex = -1;
-                
-                setupAdminTab(); 
+
+                setupAdminTab();
             } catch (err) {
                 alert("Failed to create user.");
                 console.error(err);
@@ -2567,7 +2851,7 @@
         }
 
         function exportToExcel() {
-            let csvContent = "\ufeff"; 
+            let csvContent = "\ufeff";
             csvContent += "ชื่อพนักงาน,ตำแหน่ง,ผู้บังคับบัญชา,Competency,Skill level ที่คาดหวัง,skill Level ที่ประเมินจริง,คำอธิบาย Evidence ที่ผู้บังคับบัญชาใส่,วันที่ประเมิน,ความหมาย skill level ที่คาดหวัง,ความหมาย skill level ที่ประเมินจริง\n";
             const currentLabels = getLabels();
 
@@ -2575,23 +2859,23 @@
                 if (id === 'Admin') continue;
                 const emp = dbUsers[id];
                 const targets = positionTargets[emp.position] || [];
-                
+
                 let mgrNames = "None";
                 if (emp.managerIds && emp.managerIds.length > 0) {
                     mgrNames = emp.managerIds.map(mId => dbUsers[mId] ? dbUsers[mId].name : mId).join(' และ ');
                 }
 
                 for (let i = 0; i < competencies.length; i++) {
-                if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
-                if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
-                
-                const targetVal = targets[i] || 0;
-                if (targetVal === 0) continue;
+                    if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                    if (selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+
+                    const targetVal = targets[i] || 0;
+                    if (targetVal === 0) continue;
                     const actualVal = emp.actuals[i] || 0;
-                    
+
                     const targetDesc = targetVal === 0 ? "ไม่มีเป้าหมายที่คาดหวัง" : (competencies[i].levels[targetVal] || "-");
                     const actualDesc = actualVal === 0 ? "-" : (competencies[i].levels[actualVal] || "-");
-                    
+
                     const row = [
                         `"${emp.name}"`, `"${emp.position}"`, `"${mgrNames}"`,
                         `"${currentLabels[i]}"`, targetVal, actualVal,
@@ -2620,8 +2904,8 @@
         function buildIDPFilters() {
             const posContainer = document.getElementById('idp-pos-filters');
             const empContainer = document.getElementById('idp-emp-filters');
-            if(!posContainer || !empContainer) return;
-            
+            if (!posContainer || !empContainer) return;
+
             // Allowable positions and employees based on access
             let visibleUsers = [];
             if (currentUser.id === 'Admin') {
@@ -2629,30 +2913,30 @@
             } else {
                 visibleUsers = applyGlobalFiltersToSubIds([currentUser.id, ...getSubordinates(currentUser.id)]);
             }
-            
+
             let posSet = new Set();
             let emps = [];
-            
+
             visibleUsers.forEach(uid => {
                 const emp = dbUsers[uid];
                 const eData = employeeData.find(e => e.user_id === uid || e.username === uid || e.EmployeeNameEng === (emp ? emp.name : '') || e.EmployeeNameThai === (emp ? emp.name : ''));
                 if (emp) {
                     let pName = emp.position;
-                    if(eData && eData.PositionNameThai) pName = eData.PositionNameThai;
-                    else if(eData && eData.position_name) pName = eData.position_name;
-                    
-                    if(pName) posSet.add(pName);
+                    if (eData && eData.PositionNameThai) pName = eData.PositionNameThai;
+                    else if (eData && eData.position_name) pName = eData.position_name;
+
+                    if (pName) posSet.add(pName);
                     emps.push({ id: uid, name: emp.name, position: pName });
                 }
             });
-            
+
             let posList = Array.from(posSet).sort();
-            
+
             let posHtml = `<label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
                     <input type="radio" name="idp-pos-radio" class="form-radio h-4 w-4 text-scg-600 border-slate-300" ${!selectedIDPPos ? 'checked' : ''} onchange="toggleIDPPosFilter('')">
                     <span class="text-sm font-medium ${!selectedIDPPos ? 'text-scg-700' : 'text-slate-600'}">-- แสดงทุกตำแหน่ง --</span>
                 </label>`;
-                
+
             posList.forEach(p => {
                 const isSelected = selectedIDPPos === p;
                 posHtml += `<label class="flex items-center gap-3 px-3 py-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors w-full">
@@ -2661,7 +2945,7 @@
                 </label>`;
             });
             posContainer.innerHTML = posHtml;
-            
+
             let filteredEmps = emps;
             if (selectedIDPPos) {
                 filteredEmps = emps.filter(e => e.position === selectedIDPPos);
@@ -2670,7 +2954,7 @@
                     selectedIDPEmp = null;
                 }
             }
-            
+
             let empHtml = '';
             filteredEmps.forEach(e => {
                 const isSelected = selectedIDPEmp === e.id;
@@ -2680,22 +2964,38 @@
                 </label>`;
             });
             empContainer.innerHTML = empHtml;
-            
+
             // Texts
             const posText = document.getElementById('idp-pos-text');
             posText.textContent = selectedIDPPos ? selectedIDPPos : 'เลือกตำแหน่ง';
-            
+
             const empText = document.getElementById('idp-emp-text');
             const selectedEmpData = emps.find(e => e.id === selectedIDPEmp);
             empText.textContent = selectedEmpData ? selectedEmpData.name : 'เลือกพนักงาน';
         }
 
-        window.toggleIDPPosFilter = function(p) {
+        window.toggleIDPPosFilter = function (p) {
             selectedIDPPos = p;
             renderIDPContent();
         }
 
-        window.toggleIDPEmpFilter = function(uid) {
+        
+        window.updateIDPStatus = function(empId, skillName, status) {
+            if (!dbUsers[empId]) return;
+            if (!dbUsers[empId].idp_status) dbUsers[empId].idp_status = {};
+            dbUsers[empId].idp_status[skillName] = status;
+            showToast("บันทึกสถานะ IDP สำเร็จ!");
+        }
+
+        
+        window.updateIDPStatus = function(empId, skillName, status) {
+            if (!dbUsers[empId]) return;
+            if (!dbUsers[empId].idp_status) dbUsers[empId].idp_status = {};
+            dbUsers[empId].idp_status[skillName] = status;
+            showToast("บันทึกสถานะ IDP สำเร็จ!");
+        }
+
+        window.toggleIDPEmpFilter = function (uid) {
             selectedIDPEmp = uid;
             renderIDPContent();
         }
@@ -2703,7 +3003,7 @@
         function renderIDPContent() {
             const container = document.getElementById('idp-content-container');
             if (!container) return;
-            
+
             let visibleUsers = [];
             if (currentUser.id === 'Admin') {
                 visibleUsers = applyGlobalFiltersToSubIds(Object.keys(dbUsers).filter(uid => uid !== 'Admin'));
@@ -2719,7 +3019,7 @@
                     </div>`;
                 return;
             }
-            
+
             if (visibleUsers.length > 1) {
                 container.innerHTML = `
                     <div class="bg-white p-10 rounded-2xl border border-slate-100 shadow-sm text-center text-slate-500">
@@ -2732,33 +3032,33 @@
             const empId = visibleUsers[0];
             const emp = dbUsers[empId];
             const targets = positionTargets[emp.position] || [];
-            
+
             let totalTarget = 0;
             let totalActual = 0;
-            
+
             let compRowsHtml = '';
             let gaps = [];
-            
+
             const currentLabels = getLabels();
 
             for (let i = 0; i < competencies.length; i++) {
-                if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
-                if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
-                
+                if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                if (selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+
                 const t = targets[i] || 0;
                 if (t === 0) continue;
                 if (t === 0) continue; // Only process relevant competencies
-                
+
                 const a = emp.actuals[i] || 0;
                 totalTarget += t;
-                totalActual += Math.min(a, t); 
-                
+                totalActual += Math.min(a, t);
+
                 let diff = a - t;
                 if (diff < 0 && t > 0) gaps.push({ skill: currentLabels[i], gap: diff, index: i });
-                
+
                 const addExp = (emp.additional_expectations && emp.additional_expectations[i]) ? emp.additional_expectations[i] : '-';
                 const lrnTop = (emp.learning_topics && emp.learning_topics[i]) ? emp.learning_topics[i] : '-';
-                
+
                 compRowsHtml += `
                     <div class="border border-slate-100 rounded-xl p-5 bg-slate-50 shadow-sm mb-4">
                         <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-3 border-b border-slate-200 pb-3 gap-3">
@@ -2787,7 +3087,7 @@
                     </div>
                 `;
             }
-            
+
             // Generate Gaps and Recs
             const gapText = gaps.length === 0 ? "พร้อมสมบูรณ์ (ไม่มี Gap)" : `พบ ${gaps.length} ทักษะที่ต้องพัฒนา (GAP)`;
             let recsHtml = '';
@@ -2800,20 +3100,33 @@
             } else {
                 gaps.forEach(gap => {
                     let courseName = "หลักสูตรพัฒนาทักษะ (OJT)"; let icon = "fa-book";
-                    if (gap.skill.includes("ไฟฟ้า")) { courseName = "เทคนิคตู้ MDB และมอเตอร์ 3 เฟส"; icon="fa-bolt"; }
-                    else if (gap.skill.includes("เครื่องกล")) { courseName = "ซ่อมบำรุงปั๊มน้ำและระบบนิวเมติกส์"; icon="fa-gear"; }
-                    else if (gap.skill.includes("วิเคราะห์")) { courseName = "การอ่านแบบ Schematic Diagram"; icon="fa-magnifying-glass-chart"; }
+                    if (gap.skill.includes("ไฟฟ้า")) { courseName = "เทคนิคตู้ MDB และมอเตอร์ 3 เฟส"; icon = "fa-bolt"; }
+                    else if (gap.skill.includes("เครื่องกล")) { courseName = "ซ่อมบำรุงปั๊มน้ำและระบบนิวเมติกส์"; icon = "fa-gear"; }
+                    else if (gap.skill.includes("วิเคราะห์")) { courseName = "การอ่านแบบ Schematic Diagram"; icon = "fa-magnifying-glass-chart"; }
+                    
+                    let idpStatus = (emp.idp_status && emp.idp_status[gap.skill]) ? emp.idp_status[gap.skill] : 'Not Started';
+                    let statusColor = idpStatus === 'Completed' ? 'bg-green-100 text-green-700' : (idpStatus === 'In Progress' ? 'bg-yellow-100 text-yellow-700' : 'bg-slate-100 text-slate-600');
+                    
                     recsHtml += `
-                    <div class="flex items-center gap-3 p-3 bg-white border border-red-100 rounded-xl shadow-sm mb-3">
-                        <div class="bg-red-50 p-3 rounded-lg text-red-500 flex-shrink-0"><i class="fa-solid ${icon} text-lg"></i></div>
-                        <div>
-                            <p class="text-xs text-slate-500 font-medium">${gap.skill.replace(/^[0-9\.\s]+/, '')} <span class="text-red-600 font-bold bg-red-50 px-2 py-0.5 rounded-full ml-1 text-[10px]">Gap ${gap.gap}</span></p>
-                            <p class="text-sm font-bold text-scg-800 mt-1">${courseName}</p>
+                    <div class="flex items-center justify-between p-3 bg-white border border-red-100 rounded-xl shadow-sm mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-red-50 p-3 rounded-lg text-red-500 flex-shrink-0"><i class="fa-solid ${icon} text-lg"></i></div>
+                            <div class="flex-grow">
+                                <p class="text-xs text-slate-500 font-medium">${gap.skill.replace(/^[0-9\.\s]+/, '')} <span class="text-red-600 font-bold bg-red-50 px-2 py-0.5 rounded-full ml-1 text-[10px]">Gap ${gap.gap}</span></p>
+                                <p class="text-sm font-bold text-scg-800 mt-1">${courseName}</p>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <select onchange="updateIDPStatus('${empId}', '${gap.skill}', this.value)" class="text-xs font-bold px-3 py-1.5 rounded-lg border-0 outline-none cursor-pointer ${statusColor}">
+                                <option value="Not Started" ${idpStatus === 'Not Started' ? 'selected' : ''} class="bg-white text-slate-700">Not Started</option>
+                                <option value="In Progress" ${idpStatus === 'In Progress' ? 'selected' : ''} class="bg-white text-slate-700">In Progress</option>
+                                <option value="Completed" ${idpStatus === 'Completed' ? 'selected' : ''} class="bg-white text-slate-700">Completed</option>
+                            </select>
                         </div>
                     </div>`;
                 });
             }
-            
+
             // Calculate % Complete (Sum of Actual / Sum of Target) * 100
             let totalActualForPct = 0;
             let totalTargetForPct = 0;
@@ -2824,14 +3137,14 @@
                 }
             }
             let pctComplete = totalTargetForPct > 0 ? Math.round((totalActualForPct / totalTargetForPct) * 100) : 0;
-            
+
             // Generate Special Expertise HTML
             let expertiseHtml = '';
             if (emp.special_expertise && emp.special_expertise !== '-' && emp.special_expertise !== '') {
                 let badgeClass = "bg-blue-50 text-blue-600 border-blue-200";
-                if(emp.special_expertise === 'Leadership') badgeClass = "bg-purple-50 text-purple-600 border-purple-200";
-                else if(emp.special_expertise === 'Digital' || emp.special_expertise === 'AI') badgeClass = "bg-teal-50 text-teal-600 border-teal-200";
-                else if(emp.special_expertise === 'Analytic') badgeClass = "bg-orange-50 text-orange-600 border-orange-200";
+                if (emp.special_expertise === 'Leadership') badgeClass = "bg-purple-50 text-purple-600 border-purple-200";
+                else if (emp.special_expertise === 'Digital' || emp.special_expertise === 'AI') badgeClass = "bg-teal-50 text-teal-600 border-teal-200";
+                else if (emp.special_expertise === 'Analytic') badgeClass = "bg-orange-50 text-orange-600 border-orange-200";
 
                 expertiseHtml = `
                     <div class="mb-5 pb-5 border-b border-slate-100">
@@ -2847,7 +3160,7 @@
                     </div>
                 `;
             }
-            
+
             container.innerHTML = `
                 <!-- IDP Header Section -->
                 <div class="flex flex-col xl:flex-row gap-6 mb-6">
@@ -2899,7 +3212,7 @@
                     ${compRowsHtml || '<p class="text-slate-500 text-sm text-center py-4">ไม่พบข้อมูลเป้าหมายทักษะสำหรับตำแหน่งนี้</p>'}
                 </div>
             `;
-            
+
             drawIDPRadar(emp, targets);
         }
 
@@ -2909,19 +3222,19 @@
             let cleanTargets = [];
             let cleanDescs = [];
             let cleanEvidences = [];
-            
+
             const allLabels = getLabels().map(l => {
                 const parts = l.split('. ');
                 return parts.length > 1 ? parts.slice(1).join('. ') : l;
             });
 
             for (let i = 0; i < competencies.length; i++) {
-                if(selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
-                if(selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
-                
+                if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
+                if (selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+
                 const t = targets[i] || 0;
                 if (t === 0) continue;
-                
+
                 const a = emp.actuals[i] || 0;
                 cleanLabels.push(allLabels[i]);
                 cleanTargets.push(t);
@@ -2930,46 +3243,46 @@
                 cleanEvidences.push(emp.evidences[i] || "ไม่มีหลักฐานที่ระบุ");
             }
 
-            if(idpRadarChartInstance) idpRadarChartInstance.destroy();
+            if (idpRadarChartInstance) idpRadarChartInstance.destroy();
             const ctx = document.getElementById('idpRadarChart').getContext('2d');
 
             idpRadarChartInstance = new Chart(ctx, {
                 type: 'radar',
                 data: {
-                    labels: cleanLabels, 
+                    labels: cleanLabels,
                     datasets: [
-                        { label: 'Target', data: cleanTargets, borderColor: '#cbd5e1', backgroundColor: 'transparent', borderDash: [5,5], borderWidth: 2, pointRadius: 0 },
+                        { label: 'Target', data: cleanTargets, borderColor: '#cbd5e1', backgroundColor: 'transparent', borderDash: [5, 5], borderWidth: 2, pointRadius: 0 },
                         { label: 'Actual', data: actuals, borderColor: '#ca3656', backgroundColor: 'rgba(202, 54, 86, 0.25)', borderWidth: 2, pointBackgroundColor: '#ca3656', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#ca3656', pointRadius: 4 }
                     ]
                 },
-                options: { 
-                    responsive: true, 
-                    maintainAspectRatio: false, 
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
                     plugins: {
                         legend: { display: true, position: 'bottom' },
                         tooltip: {
                             callbacks: {
-                                label: function(context) {
+                                label: function (context) {
                                     return context.dataset.label + ': Level ' + context.raw;
                                 },
-                                afterLabel: function(context) {
-                                    if(context.dataset.label === 'Actual') {
+                                afterLabel: function (context) {
+                                    if (context.dataset.label === 'Actual') {
                                         const idx = context.dataIndex;
-                                        
+
                                         // Wrap text function to prevent extremely wide tooltips
                                         const wrapText = (text, maxLineLen) => {
                                             const words = text.split(' ');
                                             let lines = [];
                                             let currentLine = '';
                                             words.forEach(word => {
-                                                if((currentLine + word).length > maxLineLen) {
+                                                if ((currentLine + word).length > maxLineLen) {
                                                     lines.push(currentLine.trim());
                                                     currentLine = word + ' ';
                                                 } else {
                                                     currentLine += word + ' ';
                                                 }
                                             });
-                                            if(currentLine) lines.push(currentLine.trim());
+                                            if (currentLine) lines.push(currentLine.trim());
                                             return lines;
                                         };
 
@@ -2985,24 +3298,24 @@
                             }
                         }
                     },
-                    scales: { 
-                        r: { 
-                            min: 0, 
-                            max: 5, 
-                            ticks:{display:false, stepSize: 1},
+                    scales: {
+                        r: {
+                            min: 0,
+                            max: 5,
+                            ticks: { display: false, stepSize: 1 },
                             grid: { color: '#f1f5f9' },
                             angleLines: { color: '#f1f5f9' },
                             pointLabels: {
                                 font: { size: 11, family: "'Sarabun', sans-serif" },
-                                color: function(context) {
+                                color: function (context) {
                                     const idx = context.index;
                                     const actual = actuals[idx] || 0;
                                     const target = cleanTargets[idx] || 0;
                                     return actual >= target ? '#16a34a' : '#991b1b';
                                 }
                             }
-                        } 
-                    } 
+                        }
+                    }
                 }
             });
         }
@@ -3014,13 +3327,13 @@
 
         function renderAnalyticTab() {
             let filteredComps = competencies;
-            if(selectedCompetencyGroupFilter.length > 0) {
+            if (selectedCompetencyGroupFilter.length > 0) {
                 filteredComps = filteredComps.filter(c => selectedCompetencyGroupFilter.includes(c.group));
             }
-            if(selectedCompetenciesFilter.length > 0) {
+            if (selectedCompetenciesFilter.length > 0) {
                 filteredComps = filteredComps.filter(c => selectedCompetenciesFilter.includes(c.name));
             }
-            
+
             // Map Comp index
             const compIndices = filteredComps.map(c => competencies.findIndex(x => x.id === c.id));
 
@@ -3037,7 +3350,7 @@
             let usersByPos = {};
             validUserIds.forEach(id => {
                 const emp = dbUsers[id];
-                if(!usersByPos[emp.position]) usersByPos[emp.position] = [];
+                if (!usersByPos[emp.position]) usersByPos[emp.position] = [];
                 usersByPos[emp.position].push(id);
             });
 
@@ -3049,7 +3362,7 @@
                 let totalT = 0; let totalA = 0;
                 compIndices.forEach(idx => {
                     const t = targets[idx] || 0;
-                    if(t > 0) {
+                    if (t > 0) {
                         totalT += t;
                         totalA += (emp.actuals[idx] || 0);
                     }
@@ -3059,7 +3372,7 @@
 
             const radarContainer = document.getElementById('analytic-radar-container');
             radarContainer.innerHTML = '';
-            
+
             // Destroy old charts
             analyticRadarCharts.forEach(c => c.destroy());
             analyticRadarCharts = [];
@@ -3067,17 +3380,17 @@
             // Identify top users per position
             Object.keys(usersByPos).sort().forEach((pos, posIdx) => {
                 const usersInPos = usersByPos[pos];
-                if(usersInPos.length === 0) return;
-                
+                if (usersInPos.length === 0) return;
+
                 // Find Max
                 let maxVal = -1;
                 usersInPos.forEach(id => {
-                    if(userReadiness[id] > maxVal) maxVal = userReadiness[id];
+                    if (userReadiness[id] > maxVal) maxVal = userReadiness[id];
                 });
 
                 // Top Users
                 let topUsers = usersInPos.filter(id => userReadiness[id] === maxVal);
-                if(topUsers.length === 0) return;
+                if (topUsers.length === 0) return;
 
                 // Build Card
                 const topNames = topUsers.map(id => dbUsers[id].name).join(', ');
@@ -3102,17 +3415,17 @@
             setTimeout(() => {
                 Object.keys(usersByPos).sort().forEach((pos, posIdx) => {
                     const usersInPos = usersByPos[pos];
-                    if(usersInPos.length === 0) return;
+                    if (usersInPos.length === 0) return;
                     let maxVal = Math.max(...usersInPos.map(id => userReadiness[id]));
                     let topUsers = usersInPos.filter(id => userReadiness[id] === maxVal);
-                    if(topUsers.length === 0) return;
+                    if (topUsers.length === 0) return;
 
                     const canvas = document.getElementById(`analytic-radar-${posIdx}`);
-                    if(!canvas) return;
+                    if (!canvas) return;
 
                     const ctx = canvas.getContext('2d');
                     const targets = positionTargets[pos] || [];
-                    
+
                     let labels = [];
                     let targetData = [];
                     let actualsData = [];
@@ -3121,7 +3434,7 @@
 
                     compIndices.forEach(idx => {
                         const t = targets[idx] || 0;
-                        if(t > 0) {
+                        if (t > 0) {
                             labels.push(competencies[idx].name.replace(/^[0-9\.\s]+/, ''));
                             targetData.push(t);
                             actualsData.push(topEmp.actuals[idx] || 0);
@@ -3133,7 +3446,7 @@
                         data: {
                             labels: labels,
                             datasets: [
-                                { label: 'Target', data: targetData, borderColor: '#cbd5e1', backgroundColor: 'transparent', borderDash: [5,5], borderWidth: 2, pointRadius: 0 },
+                                { label: 'Target', data: targetData, borderColor: '#cbd5e1', backgroundColor: 'transparent', borderDash: [5, 5], borderWidth: 2, pointRadius: 0 },
                                 { label: 'Actual', data: actualsData, borderColor: '#ca3656', backgroundColor: 'rgba(202, 54, 86, 0.25)', borderWidth: 2, pointBackgroundColor: '#ca3656', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#ca3656', pointRadius: 3 }
                             ]
                         },
@@ -3166,9 +3479,9 @@
                 const targets = positionTargets[emp.position] || [];
                 compIndices.forEach(idx => {
                     const t = targets[idx] || 0;
-                    if(t > 0) {
+                    if (t > 0) {
                         const a = emp.actuals[idx] || 0;
-                        if(a < t) {
+                        if (a < t) {
                             gapCounts[idx]++;
                         }
                     }
@@ -3177,7 +3490,7 @@
 
             let gapData = [];
             compIndices.forEach(idx => {
-                if(gapCounts[idx] > 0) {
+                if (gapCounts[idx] > 0) {
                     gapData.push({
                         label: competencies[idx].name.replace(/^[0-9\.\s]+/, ''),
                         count: gapCounts[idx]
@@ -3185,14 +3498,14 @@
                 }
             });
 
-            gapData.sort((a,b) => b.count - a.count);
+            gapData.sort((a, b) => b.count - a.count);
 
             const barLabels = gapData.map(d => d.label);
             const barCounts = gapData.map(d => d.count);
 
-            if(analyticBarChartInstance) analyticBarChartInstance.destroy();
+            if (analyticBarChartInstance) analyticBarChartInstance.destroy();
             const barCtx = document.getElementById('analytic-bar-chart').getContext('2d');
-            
+
             analyticBarChartInstance = new Chart(barCtx, {
                 type: 'bar',
                 data: {
@@ -3226,9 +3539,9 @@
 
         function renderEmployeeDataTab() {
             const tbody = document.getElementById('employee-data-tbody');
-            if(!tbody) return;
-            
-            if(!employeeData || employeeData.length === 0) {
+            if (!tbody) return;
+
+            if (!employeeData || employeeData.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="23" class="text-center py-8 text-slate-500">ไม่พบข้อมูลพนักงาน หรือตารางยังไม่ได้ถูกสร้างขึ้นในฐานข้อมูล</td></tr>`;
                 return;
             }
@@ -3270,13 +3583,13 @@
 
         let employeeFilters = {}; // { colIndex: new Set(['Val1', 'Val2']) }
 
-        window.buildEmployeeFilters = function() {
+        window.buildEmployeeFilters = function () {
             const tbody = document.querySelector('#employee-data-tbody');
-            if(!tbody) return;
+            if (!tbody) return;
             const table = tbody.parentElement;
             const thead = table.querySelector('thead');
             const headers = thead.querySelectorAll('th');
-            
+
             const colKeys = [
                 'person_id', 'employee_id', 'user_id', 'password', 'name_th', 'name_en', 'nick_name',
                 'position_name', 'position_level', 'section', 'department', 'sub1_division', 'division',
@@ -3284,37 +3597,37 @@
                 'cost_center_organization', 'retirement_year', 'years_of_service', 'age', 'report_to_name',
                 'certificate_entry_degree', 'email_address_business'
             ];
-            
+
             headers.forEach((th, index) => {
-                if(th.querySelector('.emp-filter-container')) {
+                if (th.querySelector('.emp-filter-container')) {
                     th.querySelector('.emp-filter-container').remove();
                 }
-                
+
                 const key = colKeys[index];
-                if(!key) return;
+                if (!key) return;
 
                 const trs = tbody.querySelectorAll('tr');
                 if (trs.length === 1 && trs[0].cells.length === 1) return; // Empty message row
                 const uniqueValues = [...new Set(Array.from(trs).map(tr => tr.cells[index] ? tr.cells[index].innerText.trim() : '-'))].sort();
-                
+
                 const container = document.createElement('div');
                 container.className = 'emp-filter-container relative mt-2 font-normal text-slate-700';
-                
+
                 const btn = document.createElement('button');
                 btn.className = 'w-full px-2 py-1 border border-slate-200 rounded text-xs text-left bg-white flex justify-between items-center hover:bg-slate-50';
                 btn.innerHTML = `<span class="truncate text-slate-400">All</span> <i class="fa-solid fa-chevron-down ml-1 text-[10px]"></i>`;
                 btn.onclick = (e) => {
                     e.stopPropagation();
                     document.querySelectorAll('.emp-filter-dropdown').forEach(d => {
-                        if(d !== dropdown) d.classList.add('hidden');
+                        if (d !== dropdown) d.classList.add('hidden');
                     });
                     dropdown.classList.toggle('hidden');
                 };
-                
+
                 const dropdown = document.createElement('div');
                 dropdown.className = 'emp-filter-dropdown hidden absolute top-full left-0 w-48 mt-1 bg-white border border-slate-200 rounded-lg shadow-lg z-50 max-h-48 overflow-y-auto p-2';
                 dropdown.onclick = (e) => e.stopPropagation();
-                
+
                 const searchBox = document.createElement('input');
                 searchBox.type = 'text';
                 searchBox.placeholder = 'Search...';
@@ -3327,7 +3640,7 @@
                     });
                 };
                 dropdown.appendChild(searchBox);
-                
+
                 const selectAllLbl = document.createElement('label');
                 selectAllLbl.className = 'flex items-center gap-2 px-2 py-1 text-xs hover:bg-slate-50 cursor-pointer border-b border-slate-100 mb-1';
                 selectAllLbl.innerHTML = `<input type="checkbox" class="rounded border-slate-300" checked> <span class="font-bold">Select All</span>`;
@@ -3355,14 +3668,14 @@
                     };
                     dropdown.appendChild(lbl);
                 });
-                
+
                 container.appendChild(btn);
                 container.appendChild(dropdown);
                 th.appendChild(container);
-                
+
                 employeeFilters[index] = new Set(uniqueValues);
             });
-            
+
             document.addEventListener('click', () => {
                 document.querySelectorAll('.emp-filter-dropdown').forEach(d => d.classList.add('hidden'));
             });
@@ -3372,16 +3685,16 @@
             const checkboxes = dropdown.querySelectorAll('.val-checkbox');
             const checkedVals = [];
             checkboxes.forEach(cb => {
-                if(cb.checked) checkedVals.push(cb.value);
+                if (cb.checked) checkedVals.push(cb.value);
             });
-            
+
             employeeFilters[index] = new Set(checkedVals);
-            
-            if(checkedVals.length === checkboxes.length) {
+
+            if (checkedVals.length === checkboxes.length) {
                 btn.querySelector('span').innerText = 'All';
                 btn.querySelector('span').classList.add('text-slate-400');
                 btn.querySelector('span').classList.remove('text-scg-700', 'font-bold');
-            } else if(checkedVals.length === 0) {
+            } else if (checkedVals.length === 0) {
                 btn.querySelector('span').innerText = 'None';
                 btn.querySelector('span').classList.remove('text-slate-400');
                 btn.querySelector('span').classList.add('text-red-500', 'font-bold');
@@ -3390,7 +3703,7 @@
                 btn.querySelector('span').classList.remove('text-slate-400');
                 btn.querySelector('span').classList.add('text-scg-700', 'font-bold');
             }
-            
+
             applyEmployeeFilters();
         }
 
@@ -3398,10 +3711,10 @@
             const trs = document.querySelectorAll('#employee-data-tbody tr');
             trs.forEach(tr => {
                 let show = true;
-                for(let i=0; i<tr.cells.length; i++) {
-                    if(employeeFilters[i]) {
+                for (let i = 0; i < tr.cells.length; i++) {
+                    if (employeeFilters[i]) {
                         const text = tr.cells[i].innerText;
-                        if(!employeeFilters[i].has(text)) {
+                        if (!employeeFilters[i].has(text)) {
                             show = false;
                             break;
                         }
@@ -3412,21 +3725,21 @@
         }
 
         function exportEmployeeData() {
-            if(!employeeData || employeeData.length === 0) {
+            if (!employeeData || employeeData.length === 0) {
                 showToast("ไม่มีข้อมูลให้ Export");
                 return;
             }
-            
+
             const headers = [
-                "Person ID", "Employee ID", "Name (TH)", "Name (EN)", "Nick Name", 
-                "Position Name", "Position Level", "Section", "Department", "Sub1-Division", 
-                "Division", "Sub1-Company", "Company", "Sub1-1 Business Unit", "Working Location", 
-                "Cost Center (Payment)", "Cost Center (Organization)", "Retirement Year", 
+                "Person ID", "Employee ID", "Name (TH)", "Name (EN)", "Nick Name",
+                "Position Name", "Position Level", "Section", "Department", "Sub1-Division",
+                "Division", "Sub1-Company", "Company", "Sub1-1 Business Unit", "Working Location",
+                "Cost Center (Payment)", "Cost Center (Organization)", "Retirement Year",
                 "อายุงาน", "Age", "Report to Name", "Certificate (Entry Degree)", "Email Address Business"
             ];
-            
+
             let csvContent = "\uFEFF" + headers.join(",") + "\n";
-            
+
             employeeData.forEach(emp => {
                 const row = [
                     emp.person_id || '', emp.employee_id || emp.SCGEmployeeID || '', emp.name_th || emp.EmployeeNameThai || emp.FullName || '', emp.name_en || emp.EmployeeNameEng || '',
@@ -3439,10 +3752,10 @@
                     emp.age || '', emp.report_to_name || emp.ManagerName || '', emp.certificate_entry_degree || '',
                     emp.email_address_business || ''
                 ].map(val => `"${String(val).replace(/"/g, '""')}"`);
-                
+
                 csvContent += row.join(",") + "\n";
             });
-            
+
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
             const url = URL.createObjectURL(blob);
@@ -3454,4 +3767,5 @@
         }
     </script>
 </body>
+
 </html>
