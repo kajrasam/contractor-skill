@@ -1354,7 +1354,7 @@
                 if (!empName || !selectedEmployeeFilter.includes(empName)) return false;
             }
             if (ignoreFilter !== 'jobGroup' && selectedJobGroupFilter.length > 0) {
-                let jg = posName ? positionGroups[posName] : null;
+                let jg = e.JobGroup || positionGroups[posName] || e.job_group;
                 if (!jg || !selectedJobGroupFilter.includes(jg)) return false;
             }
             return true;
@@ -1397,7 +1397,7 @@
                 let empName = e.FullNameTH || e.FullName || e.EmployeeNameThai || e.EmployeeNameEng;
                 if (empName && matchesFiltersExcept(e, 'employee')) employeesSet.add(empName);
 
-                let jg = positionGroups[posName];
+                let jg = e.JobGroup || positionGroups[posName] || e.job_group;
                 if (jg && matchesFiltersExcept(e, 'jobGroup')) jobGroupsSet.add(jg);
             });
 
@@ -1522,7 +1522,8 @@
             if (!eData) return true;
             let posName = eData.PositionNameThai || eData.position_name || eData.position;
             if (!hasCompetencyFilterMatch(posName)) return false;
-            if (selectedJobGroupFilter.length > 0 && (!posName || !selectedJobGroupFilter.includes(positionGroups[posName]))) return false;
+            let jg = e.JobGroup || positionGroups[posName] || e.job_group;
+            if (selectedJobGroupFilter.length > 0 && !selectedJobGroupFilter.includes(jg)) return false;
             if (selectedPositionsFilter.length > 0 && (!posName || !selectedPositionsFilter.includes(posName))) return false;
 
             if (selectedEmployeeFilter.length > 0) {
