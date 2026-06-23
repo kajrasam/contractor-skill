@@ -2788,7 +2788,16 @@
                     password: e.password || '',
                     report_to_name: e.ReportToName || e.report_to_name || '',
                     is_evaluated: e.Pipeline === 'Evaluated',
-                    position: e.PositionNameThai || e.position_name || ''
+                    position: e.PositionNameThai || e.position_name || '',
+                    position_level: e.PositionStructureLevel || e.position_level || '',
+                    job_group: e.JobGroup || e.job_group || '',
+                    section: e.SectionThai || e.section || '',
+                    department: e.DepartmentThai || e.department || '',
+                    sub1_division: e.Sub1DivisionThai || e.sub1_division || '',
+                    division: e.DivisionThai || e.division || '',
+                    sub1_company: e.Sub1CompanyThai || e.sub1_company || '',
+                    company: e.CompanyThai || e.company || '',
+                    certificate: e.Certificate || e.certificate || ''
                 };
             });
             renderAdminTable();
@@ -2851,9 +2860,14 @@
                             </select>
                         </td>
                         <td class="py-2 px-4 text-center">
-                            <button onclick="deleteAdminRow(${index})" class="text-red-500 hover:text-red-700 transition-colors" title="ลบพนักงาน">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
+                            <div class="flex items-center gap-2 justify-center">
+                                <button onclick="openEditEmployeeModal(${index})" class="text-amber-500 hover:text-amber-700 transition-colors" title="แก้ไขข้อมูล">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <button onclick="deleteAdminRow(${index})" class="text-red-500 hover:text-red-700 transition-colors" title="ลบพนักงาน">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
                         </td>
                     </tr>
                 `;
@@ -4002,7 +4016,7 @@
     <div id="add-employee-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center">
         <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-                <h3 class="font-bold text-lg text-scg-900"><i class="fa-solid fa-user-plus mr-2 text-scg-600"></i>เพิ่มพนักงานใหม่</h3>
+                <h3 class="font-bold text-lg text-scg-900" id="employee-modal-title"><i class="fa-solid fa-user-plus mr-2 text-scg-600"></i>เพิ่มพนักงานใหม่</h3>
                 <button onclick="closeAddEmployeeModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
             </div>
             <div class="p-6 overflow-y-auto custom-scrollbar flex-1">
@@ -4032,7 +4046,35 @@
     </div>
 
     <script>
+        let currentEditIndex = -1;
         function openAddEmployeeModal() {
+            currentEditIndex = -1;
+            document.getElementById('employee-modal-title').innerHTML = '<i class="fa-solid fa-user-plus mr-2 text-scg-600"></i>เพิ่มพนักงานใหม่';
+            document.getElementById('employee-modal-submit-btn').textContent = 'เพิ่มพนักงาน';
+            document.querySelectorAll('#add-employee-modal input').forEach(input => input.value = '');
+            document.getElementById('add-employee-modal').classList.remove('hidden');
+        }
+
+        function openEditEmployeeModal(index) {
+            currentEditIndex = index;
+            const emp = adminTempData[index];
+            document.getElementById('employee-modal-title').innerHTML = '<i class="fa-solid fa-pen-to-square mr-2 text-amber-500"></i>แก้ไขข้อมูลพนักงาน';
+            document.getElementById('employee-modal-submit-btn').textContent = 'บันทึกการแก้ไข';
+            
+            document.getElementById('add-emp-id').value = emp.person_id !== '-' ? emp.person_id : '';
+            document.getElementById('add-user-id').value = emp.user_id || '';
+            document.getElementById('add-password').value = emp.password || '';
+            document.getElementById('add-name').value = emp.name_th !== '-' ? emp.name_th : '';
+            document.getElementById('add-position').value = emp.position || '';
+            document.getElementById('add-level').value = emp.position_level || '';
+            document.getElementById('add-job-group').value = emp.job_group || '';
+            document.getElementById('add-section').value = emp.section || '';
+            document.getElementById('add-department').value = emp.department || '';
+            document.getElementById('add-sub1-div').value = emp.sub1_division || '';
+            document.getElementById('add-division').value = emp.division || '';
+            document.getElementById('add-sub1-comp').value = emp.sub1_company || '';
+            document.getElementById('add-company').value = emp.company || '';
+            
             document.getElementById('add-employee-modal').classList.remove('hidden');
         }
         function closeAddEmployeeModal() {
@@ -4043,36 +4085,52 @@
             const userId = document.getElementById('add-user-id').value;
             const name = document.getElementById('add-name').value;
             if (!personId || !userId || !name) {
-                alert('กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน (Employee ID, User ID, Name)');
+                alert('กรุณากรอกข้อมูลที่จำเป็น (Employee ID, User ID, Name)');
                 return;
             }
             
-            const newEmp = {
-                is_new: true,
-                is_evaluated: true,
-                person_id: personId,
-                user_id: userId,
-                password: document.getElementById('add-password').value,
-                name_th: name,
-                position: document.getElementById('add-position').value,
-                position_level: document.getElementById('add-level').value,
-                job_group: document.getElementById('add-job-group').value,
-                section: document.getElementById('add-section').value,
-                department: document.getElementById('add-department').value,
-                sub1_division: document.getElementById('add-sub1-div').value,
-                division: document.getElementById('add-division').value,
-                sub1_company: document.getElementById('add-sub1-comp').value,
-                company: document.getElementById('add-company').value,
-                report_to_name: document.getElementById('add-report-to').value,
-                certificate: document.getElementById('add-certificate').value
-            };
-            
-            adminTempData.push(newEmp);
+            if (currentEditIndex > -1) {
+                const emp = adminTempData[currentEditIndex];
+                emp.person_id = personId;
+                emp.user_id = userId;
+                emp.password = document.getElementById('add-password').value;
+                emp.name_th = name;
+                emp.position = document.getElementById('add-position').value;
+                emp.position_level = document.getElementById('add-level').value;
+                emp.job_group = document.getElementById('add-job-group').value;
+                emp.section = document.getElementById('add-section').value;
+                emp.department = document.getElementById('add-department').value;
+                emp.sub1_division = document.getElementById('add-sub1-div').value;
+                emp.division = document.getElementById('add-division').value;
+                emp.sub1_company = document.getElementById('add-sub1-comp').value;
+                emp.company = document.getElementById('add-company').value;
+                if (document.getElementById('add-report-to')) emp.report_to_name = document.getElementById('add-report-to').value;
+                if (document.getElementById('add-certificate')) emp.certificate = document.getElementById('add-certificate').value;
+                emp.is_modified = true;
+            } else {
+                const newEmp = {
+                    is_new: true,
+                    is_evaluated: true,
+                    person_id: personId,
+                    user_id: userId,
+                    password: document.getElementById('add-password').value,
+                    name_th: name,
+                    position: document.getElementById('add-position').value,
+                    position_level: document.getElementById('add-level').value,
+                    job_group: document.getElementById('add-job-group').value,
+                    section: document.getElementById('add-section').value,
+                    department: document.getElementById('add-department').value,
+                    sub1_division: document.getElementById('add-sub1-div').value,
+                    division: document.getElementById('add-division').value,
+                    sub1_company: document.getElementById('add-sub1-comp').value,
+                    company: document.getElementById('add-company').value
+                };
+                if (document.getElementById('add-report-to')) newEmp.report_to_name = document.getElementById('add-report-to').value;
+                if (document.getElementById('add-certificate')) newEmp.certificate = document.getElementById('add-certificate').value;
+                adminTempData.push(newEmp);
+            }
             closeAddEmployeeModal();
             renderAdminTable();
-            
-            // clear inputs
-            document.querySelectorAll('#add-employee-modal input').forEach(input => input.value = '');
         }
 
         function deleteAdminRow(index) {
