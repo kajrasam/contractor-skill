@@ -15,7 +15,11 @@ supabase: Client = create_client(url, key)
 
 @app.route('/')
 def index():
-    return app.send_static_file('index.html')
+    response = app.send_static_file('index.html')
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 @app.route('/api/data', methods=['GET'])
 def get_data():
