@@ -327,63 +327,16 @@
 
                                 <div class="w-full relative">
                                     <label class="block text-sm font-bold text-slate-700 mb-2"><i
-                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม
-                                        Sub1-Division</label>
-                                    <button onclick="toggleFilterMenu('sub1division-dropdown-menu')"
+                                            class="fa-solid fa-user-tie text-scg-500 mr-1"></i> กรองตามหัวหน้างาน</label>
+                                    <button onclick="toggleFilterMenu('report-to-menu')"
                                         class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
                                         <span class="text-sm font-medium text-slate-700 truncate"
-                                            id="sub1division-dropdown-text">เลือก Sub1-Division ทั้งหมด</span>
+                                            id="report-to-dropdown-text">เลือกหัวหน้างานทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="sub1division-dropdown-menu"
+                                    <div id="report-to-menu"
                                         class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
-                                        <div id="sub1division-filters" class="p-2 flex flex-col gap-1"></div>
-                                    </div>
-                                </div>
-
-                                <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
-                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Division</label>
-                                    <button onclick="toggleFilterMenu('division-dropdown-menu')"
-                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate"
-                                            id="division-dropdown-text">เลือก Division ทั้งหมด</span>
-                                        <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
-                                    </button>
-                                    <div id="division-dropdown-menu"
-                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
-                                        <div id="division-filters" class="p-2 flex flex-col gap-1"></div>
-                                    </div>
-                                </div>
-
-                                <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
-                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม
-                                        Sub1-Company</label>
-                                    <button onclick="toggleFilterMenu('sub1company-dropdown-menu')"
-                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate"
-                                            id="sub1company-dropdown-text">เลือก Sub1-Company ทั้งหมด</span>
-                                        <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
-                                    </button>
-                                    <div id="sub1company-dropdown-menu"
-                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
-                                        <div id="sub1company-filters" class="p-2 flex flex-col gap-1"></div>
-                                    </div>
-                                </div>
-
-                                <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
-                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Company</label>
-                                    <button onclick="toggleFilterMenu('company-dropdown-menu')"
-                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate"
-                                            id="company-dropdown-text">เลือก Company ทั้งหมด</span>
-                                        <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
-                                    </button>
-                                    <div id="company-dropdown-menu"
-                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
-                                        <div id="company-filters" class="p-2 flex flex-col gap-1"></div>
+                                        <div id="report-to-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
@@ -718,6 +671,10 @@
                             Data)</p>
                     </div>
                     <div class="flex gap-2">
+                        <button onclick="openAddEmployeeModal()"
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold shadow-md flex items-center gap-2 transition-colors shrink-0">
+                            <i class="fa-solid fa-user-plus"></i> เพิ่มพนักงาน
+                        </button>
                         <button onclick="saveAdminData()"
                             class="bg-scg-600 hover:bg-scg-700 text-white px-5 py-2.5 rounded-xl font-bold shadow-md flex items-center gap-2 transition-colors">
                             <i class="fa-solid fa-save"></i> บันทึกข้อมูล (Save)
@@ -754,15 +711,16 @@
                                     class="text-slate-600 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
                                     <th class="py-3 px-4 border-r border-slate-100 text-center w-24">Evaluate?</th>
                                     <th class="py-3 px-4 border-r border-slate-100">Person ID</th>
-                                    <th class="py-3 px-4 border-r border-slate-100">Name (TH)</th>
+                                    <th class="py-3 px-4 border-r border-slate-100">Name</th>
                                     <th class="py-3 px-4 border-r border-slate-100">Position Name</th>
-                                    <th class="py-3 px-4 border-r border-slate-100">Name (EN)</th>
-                                    <th class="py-3 px-4 border-r border-slate-100 text-scg-700">Username</th>
-                                    <th class="py-3 px-4 border-r border-slate-100 text-slate-500">Password</th>
+                                    <th class="py-3 px-4 border-r border-slate-100">Username</th>
+                                    <th class="py-3 px-4 border-r border-slate-100">Password</th>
                                     <th class="py-3 px-4 border-r border-slate-100">Report To Name</th>
+                                    <th class="py-3 px-4 text-center w-16">Action</th>
                                 </tr>
                             </thead>
                             <tbody id="admin-tbody" class="text-slate-700">
+                                <!-- Injected by JS -->
                             </tbody>
                         </table>
                     </div>
@@ -1020,6 +978,8 @@
         let roleResponses = {};
         let positionGroups = {};
         let dbUsers = {};
+        let adminTempData = [];
+        let deletedEmployeeIds = [];
         let currentUser = null;
         let actingAsRole = null;
         let evalRadarChartInstance = null;
@@ -2876,8 +2836,7 @@
                         </td>
                         <td class="py-2 px-4 border-r border-slate-100 font-medium">${emp.person_id}</td>
                         <td class="py-2 px-4 border-r border-slate-100">${emp.name_th}</td>
-                        <td class="py-2 px-4 border-r border-slate-100 text-xs text-slate-500">${eData ? (eData.PositionNameThai || eData.position_name || '-') : '-'}</td>
-                        <td class="py-2 px-4 border-r border-slate-100">${emp.name_en}</td>
+                        <td class="py-2 px-4 border-r border-slate-100 text-xs text-slate-500">${emp.position || '-'}</td>
                         <td class="py-2 px-4 border-r border-slate-100">
                             <input type="text" class="px-2 py-1.5 border border-slate-200 rounded-lg w-full text-xs font-bold text-scg-700" 
                                    value="${emp.user_id}" 
@@ -2893,6 +2852,11 @@
                                     onchange="adminTempData[${index}].report_to_name = this.value">
                                 ${rowOpts}
                             </select>
+                        </td>
+                        <td class="py-2 px-4 text-center">
+                            <button onclick="deleteAdminRow(${index})" class="text-red-500 hover:text-red-700 transition-colors" title="ลบพนักงาน">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
                         </td>
                     </tr>
                 `;
@@ -2928,7 +2892,7 @@
                 const response = await fetch(API_BASE + '/admin/sync_employees', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ employees: adminTempData })
+                    body: JSON.stringify({ employees: adminTempData, deleted_ids: deletedEmployeeIds })
                 });
 
                 const result = await response.json();
@@ -4032,6 +3996,93 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+        }
+    <!-- Add Employee Modal -->
+    <div id="add-employee-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl">
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <h3 class="font-bold text-lg text-scg-900"><i class="fa-solid fa-user-plus mr-2 text-scg-600"></i>เพิ่มพนักงานใหม่</h3>
+                <button onclick="closeAddEmployeeModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <div class="p-6 overflow-y-auto custom-scrollbar flex-1">
+                <div class="grid grid-cols-2 gap-4">
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Employee ID <span class="text-red-500">*</span></label><input type="text" id="add-emp-id" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">User ID <span class="text-red-500">*</span></label><input type="text" id="add-user-id" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Password</label><input type="text" id="add-password" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Name <span class="text-red-500">*</span></label><input type="text" id="add-name" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Position Name</label><input type="text" id="add-position" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Position Level</label><input type="text" id="add-level" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Job Group</label><input type="text" id="add-job-group" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Section</label><input type="text" id="add-section" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Department</label><input type="text" id="add-department" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Sub1-Division</label><input type="text" id="add-sub1-div" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Division</label><input type="text" id="add-division" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Sub1-Company</label><input type="text" id="add-sub1-comp" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Company</label><input type="text" id="add-company" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Report to Name</label><input type="text" id="add-report-to" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                    <div class="col-span-2"><label class="block text-xs font-bold text-slate-600 mb-1">Certificate</label><input type="text" id="add-certificate" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                </div>
+            </div>
+            <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-2">
+                <button onclick="closeAddEmployeeModal()" class="px-5 py-2 text-slate-600 font-bold hover:bg-slate-200 rounded-lg transition-colors">ยกเลิก</button>
+                <button onclick="submitAddEmployee()" class="px-5 py-2 bg-scg-600 text-white font-bold rounded-lg hover:bg-scg-700 transition-colors">เพิ่มพนักงาน</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openAddEmployeeModal() {
+            document.getElementById('add-employee-modal').classList.remove('hidden');
+        }
+        function closeAddEmployeeModal() {
+            document.getElementById('add-employee-modal').classList.add('hidden');
+        }
+        function submitAddEmployee() {
+            const personId = document.getElementById('add-emp-id').value;
+            const userId = document.getElementById('add-user-id').value;
+            const name = document.getElementById('add-name').value;
+            if (!personId || !userId || !name) {
+                alert('กรุณากรอกข้อมูลที่จำเป็นให้ครบถ้วน (Employee ID, User ID, Name)');
+                return;
+            }
+            
+            const newEmp = {
+                is_new: true,
+                is_evaluated: true,
+                person_id: personId,
+                user_id: userId,
+                password: document.getElementById('add-password').value,
+                name_th: name,
+                position: document.getElementById('add-position').value,
+                position_level: document.getElementById('add-level').value,
+                job_group: document.getElementById('add-job-group').value,
+                section: document.getElementById('add-section').value,
+                department: document.getElementById('add-department').value,
+                sub1_division: document.getElementById('add-sub1-div').value,
+                division: document.getElementById('add-division').value,
+                sub1_company: document.getElementById('add-sub1-comp').value,
+                company: document.getElementById('add-company').value,
+                report_to_name: document.getElementById('add-report-to').value,
+                certificate: document.getElementById('add-certificate').value
+            };
+            
+            adminTempData.push(newEmp);
+            closeAddEmployeeModal();
+            renderAdminTable();
+            
+            // clear inputs
+            document.querySelectorAll('#add-employee-modal input').forEach(input => input.value = '');
+        }
+
+        function deleteAdminRow(index) {
+            if (confirm('คุณแน่ใจหรือไม่ว่าต้องการลบพนักงานรายนี้ออกจากระบบ? (ระบบจะลบข้อมูลออกอย่างถาวรเมื่อกดบันทึก)')) {
+                const emp = adminTempData[index];
+                if (!emp.is_new && emp.pk_value) {
+                    deletedEmployeeIds.push(emp.pk_value);
+                }
+                adminTempData.splice(index, 1);
+                renderAdminTable();
+            }
         }
     </script>
 </body>

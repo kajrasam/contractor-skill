@@ -202,8 +202,32 @@ def add_user():
 def sync_employees():
     data = request.json
     employees = data.get('employees', [])
+    deleted_ids = data.get('deleted_ids', [])
     
-    name_to_emp = {e.get('name_en'): e for e in employees if e.get('name_en')}
+    # Process deletions first
+    if deleted_ids:
+        try:
+            # Get the user_ids associated with these employee_data rows to delete them from users table
+            del_emps = supabase.table("employee_data").select("id, user_id").in_("id", deleted_ids).execute()
+            del_uids = [e['user_id'] for e in del_emps.data if e.get('user_id')]
+            
+            # Delete from employee_data
+            supabase.table("employee_data").delete().in_("id", deleted_ids).execute()
+            
+            # Delete related data from users and other tables
+            if del_uids:
+                supabase.table("user_actuals").delete().in_("user_id", del_uids).execute()
+                supabase.table("user_managers").delete().in_("user_id", del_uids).execute()
+                supabase.table("user_managers").delete().in_("manager_id", del_uids).execute()
+                supabase.table("users").delete().in_("id", del_uids).execute()
+        except Exception as e:
+            print(f"Delete failed: {e}")
+
+    name_to_emp = {e.get('name_th'): e for e in employees if e.get('name_th')}
+    name_en_to_emp = {e.get('name_en'): e for e in employees if e.get('name_en')}
+    # Merge mappings for fallback
+    name_to_emp.update(name_en_to_emp)
+    
     users_to_upsert = {}
     managers_to_link = []
     
@@ -216,10 +240,32 @@ def sync_employees():
         pk_value = emp.get('pk_value')
         name_th = emp.get('name_th', '')
         pos = emp.get('position', '')
+        is_new = emp.get('is_new', False)
         
-        # 1. Update employee_data
-        pipeline_val = "Evaluated" if is_evaluated else None
-        if pk_field and pk_value:
+        # 1. Update or Insert employee_data
+        if is_new:
+            try:
+                new_data = {
+                    "user_id": uid,
+                    "password": pwd,
+                    "PersonnelNumber": emp.get('person_id', ''),
+                    "FullName": name_th,
+                    "PositionNameThai": pos,
+                    "PositionStructureLevel": emp.get('position_level', ''),
+                    "SectionThai": emp.get('section', ''),
+                    "DepartmentThai": emp.get('department', ''),
+                    "Sub1DivisionThai": emp.get('sub1_division', ''),
+                    "DivisionThai": emp.get('division', ''),
+                    "Sub1CompanyThai": emp.get('sub1_company', ''),
+                    "CompanyThai": emp.get('company', ''),
+                    "ReportToName": report_to,
+                    "Certificate": emp.get('certificate', ''),
+                    "JobGroup": emp.get('job_group', '')
+                }
+                supabase.table("employee_data").insert(new_data).execute()
+            except Exception as e:
+                print(f"employee_data insert failed for {name_th}: {e}")
+        elif pk_field and pk_value:
             try:
                 supabase.table("employee_data").update({
                     "user_id": uid,
