@@ -1205,7 +1205,14 @@
         }
 
         function getVisiblePositions(userId) {
-            if (userId === 'Admin') return positions;
+            if (userId === 'Admin') {
+                const allPos = new Set(positions);
+                employeeDataAll.forEach(e => {
+                    const p = e.position_name || e.PositionNameThai;
+                    if (p) allPos.add(p);
+                });
+                return Array.from(allPos);
+            }
             let visible = new Set();
             if (dbUsers[userId] && dbUsers[userId].position) visible.add(dbUsers[userId].position);
             getSubordinates(userId).forEach(subId => {

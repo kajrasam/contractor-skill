@@ -126,23 +126,41 @@ def update_evaluation():
     special_expertise_detail = data.get('specialExpertiseDetail', "")
     evalDate = data.get('evalDate')
     
-    supabase.table("users").update({
-        "special_expertise": special_expertise,
-        "special_expertise_detail": special_expertise_detail
-    }).eq("id", uid).execute()
+    try:
+        supabase.table("users").update({
+            "special_expertise": special_expertise,
+            "special_expertise_detail": special_expertise_detail
+        }).eq("id", uid).execute()
+    except Exception as e:
+        print(f"Failed to update users {uid}: {e}")
     
     for idx, aval in enumerate(actuals):
         evid = evidences[idx] if idx < len(evidences) else ""
         add_exp = additional_expectations[idx] if idx < len(additional_expectations) else ""
         lrn_top = learning_topics[idx] if idx < len(learning_topics) else ""
         
-        supabase.table("user_actuals").update({
-            "actual_level": aval,
-            "evidence": evid,
-            "additional_expectation": add_exp,
-            "learning_topic": lrn_top,
-            "eval_date": evalDate
-        }).eq("user_id", uid).eq("competency_idx", idx).execute()
+        try:
+            existing = supabase.table("user_actuals").select("user_id").eq("user_id", uid).eq("competency_idx", idx).execute()
+            if existing.data:
+                supabase.table("user_actuals").update({
+                    "actual_level": aval,
+                    "evidence": evid,
+                    "additional_expectation": add_exp,
+                    "learning_topic": lrn_top,
+                    "eval_date": evalDate
+                }).eq("user_id", uid).eq("competency_idx", idx).execute()
+            else:
+                supabase.table("user_actuals").insert({
+                    "user_id": uid,
+                    "competency_idx": idx,
+                    "actual_level": aval,
+                    "evidence": evid,
+                    "additional_expectation": add_exp,
+                    "learning_topic": lrn_top,
+                    "eval_date": evalDate
+                }).execute()
+        except Exception as e:
+            print(f"Failed to update user_actuals {uid} {idx}: {e}")
         
     return jsonify({"status": "success"})
 
@@ -389,16 +407,28 @@ def update_competency_levels():
         
     return jsonify({"status": "success"})
 
-@app.route('/api/positions/targets', methods=['PUT'])
-def update_position_targets():
+@app.route('/api/positions/target', methods=['PUT'])
+def update_position_target():
     data = request.json
     pos = data.get('position')
     comp_idx = data.get('compIndex')
     val = data.get('value')
     
-    supabase.table("position_targets").update({
-        "target_level": val
-    }).eq("position_name", pos).eq("competency_idx", comp_idx).execute()
+    try:
+        existing = supabase.table("position_targets").select("position_name").eq("position_name", pos).eq("competency_idx", comp_idx).execute()
+        if existing.data:
+            supabase.table("position_targets").update({
+                "target_level": val
+            }).eq("position_name", pos).eq("competency_idx", comp_idx).execute()
+        else:
+            supabase.table("position_targets").insert({
+                "position_name": pos,
+                "competency_idx": comp_idx,
+                "target_level": val
+            }).execute()
+    except Exception as e:
+        print(f"Failed to update position_targets for {pos} idx {comp_idx}: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
     
     return jsonify({"status": "success"})
 
