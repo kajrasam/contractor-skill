@@ -2476,7 +2476,6 @@
                             yAxisID: 'y1'
                         },
                         { label: 'Average Expected', data: avgTargets, backgroundColor: '#cbd5e1', yAxisID: 'y', borderRadius: 6 },
-                        { label: 'Average Self Eva.', data: avgSelfs, backgroundColor: '#60a5fa', yAxisID: 'y', borderRadius: 6 },
                         { label: 'Average Actual', data: avgActuals, backgroundColor: '#ca3656', yAxisID: 'y', borderRadius: 6 }
                     ]
                 },
@@ -2541,21 +2540,9 @@
                             }
                         });
 
-                        // Dataset 2 is the Average Self Eva.
+                        // Dataset 2 is the Average Actual
                         chart.getDatasetMeta(2).data.forEach((datapoint, index) => {
                             const value = data.datasets[2].data[index];
-                            if (value > 0) {
-                                ctx.fillStyle = '#1d4ed8'; // blue-700
-                                ctx.font = 'bold 11px sans-serif';
-                                ctx.textAlign = 'center';
-                                ctx.textBaseline = 'bottom';
-                                ctx.fillText(value, datapoint.x, datapoint.y - 5);
-                            }
-                        });
-
-                        // Dataset 3 is the Average Actual
-                        chart.getDatasetMeta(3).data.forEach((datapoint, index) => {
-                            const value = data.datasets[3].data[index];
                             if (value > 0) {
                                 ctx.fillStyle = '#9f1239'; // rose-900
                                 ctx.font = 'bold 11px sans-serif';
