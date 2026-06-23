@@ -1522,7 +1522,7 @@
             if (!eData) return true;
             let posName = eData.PositionNameThai || eData.position_name || eData.position;
             if (!hasCompetencyFilterMatch(posName)) return false;
-            let jg = e.JobGroup || positionGroups[posName] || e.job_group;
+            let jg = eData.JobGroup || positionGroups[posName] || eData.job_group;
             if (selectedJobGroupFilter.length > 0 && !selectedJobGroupFilter.includes(jg)) return false;
             if (selectedPositionsFilter.length > 0 && (!posName || !selectedPositionsFilter.includes(posName))) return false;
 
