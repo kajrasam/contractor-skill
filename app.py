@@ -262,7 +262,8 @@ def sync_employees():
                     "DivisionThai": emp.get('division', ''),
                     "Sub1CompanyThai": emp.get('sub1_company', ''),
                     "CompanyThai": emp.get('company', ''),
-                    "ReportToName": report_to
+                    "ReportToName": report_to,
+                    "Pipeline": "Evaluated" if is_evaluated else None
                 }
                 supabase.table("employee_data").insert(new_data).execute()
             except Exception as e:
@@ -272,7 +273,8 @@ def sync_employees():
                 supabase.table("employee_data").update({
                     "user_id": uid,
                     "password": pwd,
-                    "ReportToName": report_to
+                    "ReportToName": report_to,
+                    "Pipeline": "Evaluated" if is_evaluated else None
                 }).eq(pk_field, pk_value).execute()
             except Exception as e:
                 print(f"employee_data update failed for {pk_value}: {e}")
