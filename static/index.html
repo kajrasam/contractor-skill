@@ -2801,10 +2801,10 @@
 
             const search = document.getElementById('admin-search').value.toLowerCase();
 
-            // Build unique English names for the dropdown
-            const allEngNames = [...new Set(adminTempData.map(e => e.name_en).filter(n => n && n !== '-'))].sort();
+            // Build unique Thai names for the dropdown
+            const allNames = [...new Set(adminTempData.map(e => e.name_th).filter(n => n && n !== '-'))].sort();
             let optionsHtml = `<option value="">-- ไม่ระบุ --</option>`;
-            allEngNames.forEach(n => {
+            allNames.forEach(n => {
                 optionsHtml += `<option value="${n}">${n}</option>`;
             });
 
@@ -2896,7 +2896,9 @@
                 const result = await response.json();
                 if (result.status === 'success') {
                     alert('บันทึกข้อมูลและอัปเดตสิทธิการเข้าถึงเรียบร้อยแล้ว!');
-                    window.location.reload();
+                    deletedEmployeeIds = [];
+                    await fetchInitialData(true);
+                    setupAdminTab();
                 } else {
                     alert('Error: ' + result.message);
                 }

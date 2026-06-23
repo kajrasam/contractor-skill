@@ -262,9 +262,7 @@ def sync_employees():
                     "DivisionThai": emp.get('division', ''),
                     "Sub1CompanyThai": emp.get('sub1_company', ''),
                     "CompanyThai": emp.get('company', ''),
-                    "ReportToName": report_to,
-                    "Certificate": emp.get('certificate', ''),
-                    "JobGroup": emp.get('job_group', '')
+                    "ReportToName": report_to
                 }
                 supabase.table("employee_data").insert(new_data).execute()
             except Exception as e:
