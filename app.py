@@ -424,10 +424,21 @@ def update_position_role():
     pos = data.get('position')
     role = data.get('roleResponse')
     
-    supabase.table("positions").update({
-        "role_response": role
-    }).eq("name", pos).execute()
-    
+    try:
+        existing = supabase.table("positions").select("name").eq("name", pos).execute()
+        if existing.data:
+            supabase.table("positions").update({
+                "role_response": role
+            }).eq("name", pos).execute()
+        else:
+            supabase.table("positions").insert({
+                "name": pos,
+                "role_response": role
+            }).execute()
+    except Exception as e:
+        print(f"Failed to update role_response for {pos}: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
+        
     return jsonify({"status": "success"})
 
 @app.route('/api/positions/group', methods=['PUT'])
@@ -436,10 +447,21 @@ def update_position_group():
     pos = data.get('position')
     group = data.get('group')
     
-    supabase.table("positions").update({
-        "job_group": group
-    }).eq("name", pos).execute()
-    
+    try:
+        existing = supabase.table("positions").select("name").eq("name", pos).execute()
+        if existing.data:
+            supabase.table("positions").update({
+                "job_group": group
+            }).eq("name", pos).execute()
+        else:
+            supabase.table("positions").insert({
+                "name": pos,
+                "job_group": group
+            }).execute()
+    except Exception as e:
+        print(f"Failed to update job_group for {pos}: {e}")
+        return jsonify({"status": "error", "message": str(e)}), 500
+        
     return jsonify({"status": "success"})
 
 @app.route('/api/competencies/group', methods=['PUT'])
