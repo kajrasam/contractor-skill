@@ -168,26 +168,21 @@ def add_user():
     
     try:
         supabase.table("employee_data").insert({
-            "PersonID": random.randint(100000, 999999),
-            "PersonnelNumber": random.randint(1000000, 9999999),
+            "PersonnelNumber": str(random.randint(1000000, 9999999)),
             "user_id": uid,
             "password": passw,
-            "FirstNameThai": name,
-            "LastNameThai": "",
-            "FirstNameEnglish": f"{uid} English",
-            "LastNameEnglish": "Name",
-            "NickName": uid[:3],
+            "FullName": name,
             "PositionNameThai": pos,
+            "PositionStructureLevel": "",
             "SectionThai": "General",
             "DepartmentThai": "General",
             "Sub1DivisionThai": "Sub Division 1",
             "DivisionThai": "Main Division",
             "Sub1CompanyThai": "Group A",
             "CompanyThai": "Company A",
-            "CostCenterPayment": str(random.randint(10000, 99999)),
-            "CostCenterOrganization": str(random.randint(10000, 99999)),
             "ReportToName": "Manager",
-            "EmailAddressBusiness": f"{uid.lower()}@example.com"
+            "Certificate": "",
+            "JobGroup": ""
         }).execute()
     except Exception as e:
         print("Failed to auto-generate employee_data:", e)
@@ -229,8 +224,7 @@ def sync_employees():
                 supabase.table("employee_data").update({
                     "user_id": uid,
                     "password": pwd,
-                    "ReportToName": report_to,
-                    "Pipeline": pipeline_val
+                    "ReportToName": report_to
                 }).eq(pk_field, pk_value).execute()
             except Exception as e:
                 print(f"employee_data update failed for {pk_value}: {e}")

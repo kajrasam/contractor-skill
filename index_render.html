@@ -208,11 +208,11 @@
             class="w-full md:w-64 bg-white border-r border-slate-200 flex flex-col md:sticky md:top-0 md:h-screen z-40 shadow-sm shrink-0">
             <!-- Logo -->
             <div class="p-6 border-b border-slate-200 flex items-center gap-3 shrink-0">
-                <div class="bg-scg-800 text-white p-2.5 rounded-xl shadow-md"><i class="fa-solid fa-wrench text-xl"></i>
+                <div class="bg-scg-800 text-white p-2.5 rounded-xl shadow-md"><i class="fa-solid fa-handshake-angle text-xl"></i>
                 </div>
                 <div class="flex flex-col justify-center">
-                    <span class="text-xl font-bold text-scg-900 tracking-tight leading-none">Competency<br /><span
-                            class="text-scg-400"> system</span></span>
+                    <span class="text-xl font-bold text-scg-900 tracking-tight leading-none">Contractor<br /><span
+                            class="text-scg-400"> skill</span></span>
                 </div>
             </div>
 
@@ -327,63 +327,16 @@
 
                                 <div class="w-full relative">
                                     <label class="block text-sm font-bold text-slate-700 mb-2"><i
-                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม
-                                        Sub1-Division</label>
-                                    <button onclick="toggleFilterMenu('sub1division-dropdown-menu')"
+                                            class="fa-solid fa-user-tie text-scg-500 mr-1"></i> กรองตามหัวหน้างาน</label>
+                                    <button onclick="toggleFilterMenu('report-to-menu')"
                                         class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
                                         <span class="text-sm font-medium text-slate-700 truncate"
-                                            id="sub1division-dropdown-text">เลือก Sub1-Division ทั้งหมด</span>
+                                            id="report-to-dropdown-text">เลือกหัวหน้างานทั้งหมด</span>
                                         <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
                                     </button>
-                                    <div id="sub1division-dropdown-menu"
+                                    <div id="report-to-menu"
                                         class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
-                                        <div id="sub1division-filters" class="p-2 flex flex-col gap-1"></div>
-                                    </div>
-                                </div>
-
-                                <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
-                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Division</label>
-                                    <button onclick="toggleFilterMenu('division-dropdown-menu')"
-                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate"
-                                            id="division-dropdown-text">เลือก Division ทั้งหมด</span>
-                                        <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
-                                    </button>
-                                    <div id="division-dropdown-menu"
-                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
-                                        <div id="division-filters" class="p-2 flex flex-col gap-1"></div>
-                                    </div>
-                                </div>
-
-                                <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
-                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม
-                                        Sub1-Company</label>
-                                    <button onclick="toggleFilterMenu('sub1company-dropdown-menu')"
-                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate"
-                                            id="sub1company-dropdown-text">เลือก Sub1-Company ทั้งหมด</span>
-                                        <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
-                                    </button>
-                                    <div id="sub1company-dropdown-menu"
-                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
-                                        <div id="sub1company-filters" class="p-2 flex flex-col gap-1"></div>
-                                    </div>
-                                </div>
-
-                                <div class="w-full relative">
-                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i
-                                            class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตาม Company</label>
-                                    <button onclick="toggleFilterMenu('company-dropdown-menu')"
-                                        class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
-                                        <span class="text-sm font-medium text-slate-700 truncate"
-                                            id="company-dropdown-text">เลือก Company ทั้งหมด</span>
-                                        <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
-                                    </button>
-                                    <div id="company-dropdown-menu"
-                                        class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
-                                        <div id="company-filters" class="p-2 flex flex-col gap-1"></div>
+                                        <div id="report-to-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
@@ -855,13 +808,10 @@
                             <thead class="sticky top-0 z-30 bg-slate-50 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
                                 <tr
                                     class="text-slate-600 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
-                                    <th class="align-top py-4 px-6 border-r border-slate-100">Person ID</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Employee ID</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100 text-scg-700">User ID</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100 text-scg-700">Password</th>
-                                    <th class="align-top py-4 px-6 border-r border-slate-100">Name (TH)</th>
-                                    <th class="align-top py-4 px-6 border-r border-slate-100">Name (EN)</th>
-                                    <th class="align-top py-4 px-6 border-r border-slate-100">Nick Name</th>
+                                    <th class="align-top py-4 px-6 border-r border-slate-100">Name</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Position Name</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Position Level</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Section</th>
@@ -870,15 +820,9 @@
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Division</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Sub1-Company</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Company</th>
-                                    <th class="align-top py-4 px-6 border-r border-slate-100">Sub1-1 Business Unit</th>
-                                    <th class="align-top py-4 px-6 border-r border-slate-100">Working Location</th>
-                                    <th class="align-top py-4 px-6 border-r border-slate-100">Cost Center (Payment)</th>
-                                    <th class="align-top py-4 px-6 border-r border-slate-100">Cost Center (Organization)
-                                    </th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Report to Name</th>
-                                    <th class="align-top py-4 px-6 border-r border-slate-100">Certificate (Entry Degree)
-                                    </th>
-                                    <th class="align-top py-4 px-6">Email Address Business</th>
+                                    <th class="align-top py-4 px-6 border-r border-slate-100">Certificate</th>
+                                    <th class="align-top py-4 px-6 border-r border-slate-100">Job Group</th>
                                 </tr>
                             </thead>
                             <tbody id="employee-data-tbody" class="text-slate-700 divide-y divide-slate-100">
@@ -1040,10 +984,7 @@
         let selectedJobGroupFilter = [];
         let selectedSectionFilter = [];
         let selectedDepartmentFilter = [];
-        let selectedSub1DivisionFilter = [];
-        let selectedDivisionFilter = [];
-        let selectedSub1CompanyFilter = [];
-        let selectedCompanyFilter = [];
+        let selectedReportToFilter = [];
         let selectedEmployeeFilter = [];
         let selectedCompetencyGroupFilter = [];
         let idpRadarChartInstance = null;
@@ -1105,11 +1046,18 @@
             const user = document.getElementById('login-username').value;
             const pass = document.getElementById('login-password').value;
 
-            // Case-insensitive user lookup
-            const userKey = Object.keys(dbUsers).find(k => k.toLowerCase() === user.toLowerCase());
+            const matchedKeys = Object.keys(dbUsers).filter(k => k.toLowerCase() === user.toLowerCase());
+            
+            let validUserKey = null;
+            for (let k of matchedKeys) {
+                if (dbUsers[k].pass === pass) {
+                    validUserKey = k;
+                    break;
+                }
+            }
 
-            if (userKey && dbUsers[userKey].pass === pass) {
-                localStorage.setItem('comp_sys_user', userKey);
+            if (validUserKey) {
+                localStorage.setItem('comp_sys_user', validUserKey);
                 checkLoginState();
             } else {
                 document.getElementById('login-error').classList.remove('hidden');
@@ -1373,7 +1321,7 @@
         // Close dropdowns when clicking outside
         document.addEventListener('click', function (e) {
             if (!e.target.closest('.relative.z-20') && !e.target.closest('.filter-dropdown-container')) {
-                const menus = ['job-group-menu', 'pos-dropdown-menu', 'section-dropdown-menu', 'department-dropdown-menu', 'sub1division-dropdown-menu', 'division-dropdown-menu', 'sub1company-dropdown-menu', 'company-dropdown-menu', 'employee-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu', 'dash-job-group-menu', 'dash-pos-menu', 'analytic-job-group-menu', 'analytic-pos-menu', 'analytic-emp-menu', 'analytic-group-menu', 'analytic-skill-menu'];
+                const menus = ['job-group-menu', 'pos-dropdown-menu', 'section-dropdown-menu', 'department-dropdown-menu', 'report-to-menu', 'employee-menu', 'comp-group-menu', 'comp-dropdown-menu', 'idp-pos-menu', 'idp-emp-menu', 'dash-job-group-menu', 'dash-pos-menu', 'analytic-job-group-menu', 'analytic-pos-menu', 'analytic-emp-menu', 'analytic-group-menu', 'analytic-skill-menu'];
                 menus.forEach(m => {
                     const el = document.getElementById(m);
                     if (el) el.classList.add('hidden');
@@ -1383,14 +1331,8 @@
 
 
         function matchesFiltersExcept(e, ignoreFilter) {
-            let eComp = e.company || e.CompanyThai;
-            if (ignoreFilter !== 'company' && selectedCompanyFilter.length > 0 && (!eComp || !selectedCompanyFilter.includes(eComp))) return false;
-            let eSub1Comp = e.sub1_company || e.Sub1CompanyThai;
-            if (ignoreFilter !== 'sub1company' && selectedSub1CompanyFilter.length > 0 && (!eSub1Comp || !selectedSub1CompanyFilter.includes(eSub1Comp))) return false;
-            let eDiv = e.division || e.DivisionThai;
-            if (ignoreFilter !== 'division' && selectedDivisionFilter.length > 0 && (!eDiv || !selectedDivisionFilter.includes(eDiv))) return false;
-            let eSub1Div = e.sub1_division || e.Sub1DivisionThai;
-            if (ignoreFilter !== 'sub1division' && selectedSub1DivisionFilter.length > 0 && (!eSub1Div || !selectedSub1DivisionFilter.includes(eSub1Div))) return false;
+            let eReportTo = e.report_to_name || e.ReportToName;
+            if (ignoreFilter !== 'reportTo' && selectedReportToFilter.length > 0 && (!eReportTo || !selectedReportToFilter.includes(eReportTo))) return false;
             let eDept = e.department || e.DepartmentThai;
             if (ignoreFilter !== 'department' && selectedDepartmentFilter.length > 0 && (!eDept || !selectedDepartmentFilter.includes(eDept))) return false;
             let eSect = e.section || e.SectionThai;
@@ -1420,10 +1362,7 @@
             const posContainer = document.getElementById('position-filters');
             const sectionContainer = document.getElementById('section-filters');
             const departmentContainer = document.getElementById('department-filters');
-            const sub1DivisionContainer = document.getElementById('sub1division-filters');
-            const divisionContainer = document.getElementById('division-filters');
-            const sub1CompanyContainer = document.getElementById('sub1company-filters');
-            const companyContainer = document.getElementById('company-filters');
+            const reportToContainer = document.getElementById('report-to-filters');
             const compGroupContainer = document.getElementById('comp-group-filters');
             const compContainer = document.getElementById('competency-filters');
             const employeeContainer = document.getElementById('employee-filters');
@@ -1432,7 +1371,7 @@
             const visiblePos = getVisiblePositions(currentUser.id);
 
             // Build Org Filters AND Position Filter with Hierarchy/Intersection
-            let jobGroupsSet = new Set(), sectionsSet = new Set(), deptsSet = new Set(), sub1DivsSet = new Set(), divsSet = new Set(), sub1CompsSet = new Set(), compsSet = new Set(), posSet = new Set(), employeesSet = new Set();
+            let jobGroupsSet = new Set(), sectionsSet = new Set(), deptsSet = new Set(), reportToSet = new Set(), posSet = new Set(), employeesSet = new Set();
 
             const dataSource = (tabId === 'admin') ? employeeDataAll : employeeData;
 
@@ -1445,10 +1384,7 @@
 
                 if ((e.section || e.SectionThai) && matchesFiltersExcept(e, 'section')) sectionsSet.add(e.section || e.SectionThai);
                 if ((e.department || e.DepartmentThai) && matchesFiltersExcept(e, 'department')) deptsSet.add(e.department || e.DepartmentThai);
-                if ((e.sub1_division || e.Sub1DivisionThai) && matchesFiltersExcept(e, 'sub1division')) sub1DivsSet.add(e.sub1_division || e.Sub1DivisionThai);
-                if ((e.division || e.DivisionThai) && matchesFiltersExcept(e, 'division')) divsSet.add(e.division || e.DivisionThai);
-                if ((e.sub1_company || e.Sub1CompanyThai) && matchesFiltersExcept(e, 'sub1company')) sub1CompsSet.add(e.sub1_company || e.Sub1CompanyThai);
-                if ((e.company || e.CompanyThai) && matchesFiltersExcept(e, 'company')) compsSet.add(e.company || e.CompanyThai);
+                if ((e.report_to_name || e.ReportToName) && matchesFiltersExcept(e, 'reportTo')) reportToSet.add(e.report_to_name || e.ReportToName);
                 if (posName && matchesFiltersExcept(e, 'position')) posSet.add(posName);
 
                 let empName = e.FullNameTH || e.FullName || e.EmployeeNameThai || e.EmployeeNameEng;
@@ -1485,10 +1421,7 @@
             if (posContainer) posContainer.innerHTML = buildFilterHtml(posSet, selectedPositionsFilter, 'position');
             if (sectionContainer) sectionContainer.innerHTML = buildFilterHtml(sectionsSet, selectedSectionFilter, 'section');
             if (departmentContainer) departmentContainer.innerHTML = buildFilterHtml(deptsSet, selectedDepartmentFilter, 'department');
-            if (sub1DivisionContainer) sub1DivisionContainer.innerHTML = buildFilterHtml(sub1DivsSet, selectedSub1DivisionFilter, 'sub1division');
-            if (divisionContainer) divisionContainer.innerHTML = buildFilterHtml(divsSet, selectedDivisionFilter, 'division');
-            if (sub1CompanyContainer) sub1CompanyContainer.innerHTML = buildFilterHtml(sub1CompsSet, selectedSub1CompanyFilter, 'sub1company');
-            if (companyContainer) companyContainer.innerHTML = buildFilterHtml(compsSet, selectedCompanyFilter, 'company');
+            if (reportToContainer) reportToContainer.innerHTML = buildFilterHtml(reportToSet, selectedReportToFilter, 'reportTo');
             if (employeeContainer) employeeContainer.innerHTML = buildFilterHtml(employeesSet, selectedEmployeeFilter, 'employee');
 
             // Build Competency Groups
@@ -1551,10 +1484,7 @@
             updateText('position-dropdown-text', selectedPositionsFilter, 'เลือกตำแหน่งทั้งหมด');
             updateText('section-dropdown-text', selectedSectionFilter, 'เลือก Section ทั้งหมด');
             updateText('department-dropdown-text', selectedDepartmentFilter, 'เลือก Department ทั้งหมด');
-            updateText('sub1division-dropdown-text', selectedSub1DivisionFilter, 'เลือก Sub1-Division ทั้งหมด');
-            updateText('division-dropdown-text', selectedDivisionFilter, 'เลือก Division ทั้งหมด');
-            updateText('sub1company-dropdown-text', selectedSub1CompanyFilter, 'เลือก Sub1-Company ทั้งหมด');
-            updateText('company-dropdown-text', selectedCompanyFilter, 'เลือก Company ทั้งหมด');
+            updateText('report-to-dropdown-text', selectedReportToFilter, 'เลือกหัวหน้างานทั้งหมด');
             updateText('employee-dropdown-text', selectedEmployeeFilter, 'เลือกพนักงานทั้งหมด');
         }
 
@@ -1595,10 +1525,7 @@
 
             if (selectedSectionFilter.length > 0 && !selectedSectionFilter.includes(eData.SectionThai)) return false;
             if (selectedDepartmentFilter.length > 0 && !selectedDepartmentFilter.includes(eData.DepartmentThai)) return false;
-            if (selectedSub1DivisionFilter.length > 0 && !selectedSub1DivisionFilter.includes(eData.Sub1DivisionThai)) return false;
-            if (selectedDivisionFilter.length > 0 && !selectedDivisionFilter.includes(eData.DivisionThai)) return false;
-            if (selectedSub1CompanyFilter.length > 0 && !selectedSub1CompanyFilter.includes(eData.Sub1CompanyThai)) return false;
-            if (selectedCompanyFilter.length > 0 && !selectedCompanyFilter.includes(eData.CompanyThai)) return false;
+            if (selectedReportToFilter.length > 0 && !selectedReportToFilter.includes(eData.ReportToName)) return false;
 
             return true;
         }
@@ -1642,10 +1569,7 @@
             else if (type === 'position') arr = selectedPositionsFilter;
             else if (type === 'section') arr = selectedSectionFilter;
             else if (type === 'department') arr = selectedDepartmentFilter;
-            else if (type === 'sub1division') arr = selectedSub1DivisionFilter;
-            else if (type === 'division') arr = selectedDivisionFilter;
-            else if (type === 'sub1company') arr = selectedSub1CompanyFilter;
-            else if (type === 'company') arr = selectedCompanyFilter;
+            else if (type === 'reportTo') arr = selectedReportToFilter;
             else if (type === 'employee') arr = selectedEmployeeFilter;
 
             if (arr) {
@@ -1662,10 +1586,7 @@
             selectedPositionsFilter = [];
             selectedSectionFilter = [];
             selectedDepartmentFilter = [];
-            selectedSub1DivisionFilter = [];
-            selectedDivisionFilter = [];
-            selectedSub1CompanyFilter = [];
-            selectedCompanyFilter = [];
+            selectedReportToFilter = [];
             selectedEmployeeFilter = [];
 
             selectedCompetencyGroupFilter = [];
@@ -1682,10 +1603,7 @@
             else if (type === 'position') { arr = selectedPositionsFilter; containerId = 'position-filters'; }
             else if (type === 'section') { arr = selectedSectionFilter; containerId = 'section-filters'; }
             else if (type === 'department') { arr = selectedDepartmentFilter; containerId = 'department-filters'; }
-            else if (type === 'sub1division') { arr = selectedSub1DivisionFilter; containerId = 'sub1division-filters'; }
-            else if (type === 'division') { arr = selectedDivisionFilter; containerId = 'division-filters'; }
-            else if (type === 'sub1company') { arr = selectedSub1CompanyFilter; containerId = 'sub1company-filters'; }
-            else if (type === 'company') { arr = selectedCompanyFilter; containerId = 'company-filters'; }
+            else if (type === 'reportTo') { arr = selectedReportToFilter; containerId = 'report-to-filters'; }
             else if (type === 'employee') { arr = selectedEmployeeFilter; containerId = 'employee-filters'; }
 
             if (arr && containerId) {
@@ -3862,7 +3780,7 @@
             if (!tbody) return;
 
             if (!employeeData || employeeData.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="23" class="text-center py-8 text-slate-500">ไม่พบข้อมูลพนักงาน หรือตารางยังไม่ได้ถูกสร้างขึ้นในฐานข้อมูล</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="15" class="text-center py-8 text-slate-500">ไม่พบข้อมูลพนักงาน หรือตารางยังไม่ได้ถูกสร้างขึ้นในฐานข้อมูล</td></tr>`;
                 return;
             }
 
@@ -3870,30 +3788,21 @@
             employeeData.forEach(emp => {
                 html += `
                     <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="py-3 px-6 border-r border-slate-100 font-medium">${emp.person_id || emp.PersonID || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100 text-scg-700 font-medium">${emp.employee_id || emp.SCGEmployeeID || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100 text-scg-700 font-medium">${emp.user_id || emp.username || emp.USER || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 font-medium">${emp.PersonnelNumber || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 text-scg-700 font-medium">${emp.user_id || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100 text-slate-500">${emp.password || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.FullNameTH || emp.name_th || emp.FullName || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.name_en || emp.FullNameENG || (emp.FirstNameEnglish ? (emp.NamePrefixEnglish ? emp.NamePrefixEnglish + ' ' : '') + emp.FirstNameEnglish + ' ' + (emp.LastNameEnglish || '') : '') || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.nick_name || emp.NickName || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.position_name || emp.PositionNameThai || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100 text-center"><span class="bg-slate-100 text-slate-700 px-2 py-1 rounded font-bold text-xs">${emp.position_level || emp.PLGroup || '-'}</span></td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.section || emp.SectionThai || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.department || emp.DepartmentThai || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.sub1_division || emp.Sub1DivisionThai || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.division || emp.DivisionThai || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.sub1_company || emp.Sub1CompanyThai || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.company || emp.CompanyThai || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.sub1_1_business_unit || emp.Sub11BusinessUnitThai || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.working_location || emp.WorkingLocation || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100 font-mono text-xs">${emp.cost_center_payment || emp.CostCenterPayment || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100 font-mono text-xs">${emp.cost_center_organization || emp.CostCenterOrganization || '-'}</td>
-                        
-                        
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.ReportToName || emp.report_to_name || emp.ManagerName || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.certificate_entry_degree || '-'}</td>
-                        <td class="py-3 px-6 text-blue-600 hover:underline"><a href="mailto:${emp.email_address_business || emp.EmailAddressBusiness || ''}">${emp.email_address_business || emp.EmailAddressBusiness || '-'}</a></td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.FullName || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.PositionNameThai || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 text-center"><span class="bg-slate-100 text-slate-700 px-2 py-1 rounded font-bold text-xs">${emp.PositionStructureLevel || '-'}</span></td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.SectionThai || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.DepartmentThai || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.Sub1DivisionThai || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.DivisionThai || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.Sub1CompanyThai || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.CompanyThai || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.ReportToName || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.Certificate || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.JobGroup || '-'}</td>
                     </tr>
                 `;
             });
@@ -3911,11 +3820,9 @@
             const headers = thead.querySelectorAll('th');
 
             const colKeys = [
-                'person_id', 'employee_id', 'user_id', 'password', 'name_th', 'name_en', 'nick_name',
-                'position_name', 'position_level', 'section', 'department', 'sub1_division', 'division',
-                'sub1_company', 'company', 'sub1_1_business_unit', 'working_location', 'cost_center_payment',
-                'cost_center_organization', 'retirement_year', 'years_of_service', 'age', 'report_to_name',
-                'certificate_entry_degree', 'email_address_business'
+                'PersonnelNumber', 'user_id', 'password', 'FullName', 'PositionNameThai', 'PositionStructureLevel',
+                'SectionThai', 'DepartmentThai', 'Sub1DivisionThai', 'DivisionThai', 'Sub1CompanyThai', 'CompanyThai',
+                'ReportToName', 'Certificate', 'JobGroup'
             ];
 
             headers.forEach((th, index) => {
@@ -4051,26 +3958,20 @@
             }
 
             const headers = [
-                "Person ID", "Employee ID", "Name (TH)", "Name (EN)", "Nick Name",
-                "Position Name", "Position Level", "Section", "Department", "Sub1-Division",
-                "Division", "Sub1-Company", "Company", "Sub1-1 Business Unit", "Working Location",
-                "Cost Center (Payment)", "Cost Center (Organization)", "Retirement Year",
-                "อายุงาน", "Age", "Report to Name", "Certificate (Entry Degree)", "Email Address Business"
+                "Employee ID", "User ID", "Password", "Name", "Position Name",
+                "Position Level", "Section", "Department", "Sub1-Division", "Division",
+                "Sub1-Company", "Company", "Report to Name", "Certificate", "Job Group"
             ];
 
             let csvContent = "\uFEFF" + headers.join(",") + "\n";
 
             employeeData.forEach(emp => {
                 const row = [
-                    emp.person_id || '', emp.employee_id || emp.SCGEmployeeID || '', emp.name_th || emp.EmployeeNameThai || emp.FullName || '', emp.name_en || emp.EmployeeNameEng || '',
-                    emp.nick_name || '', emp.position_name || emp.PositionNameThai || '', emp.position_level || emp.PositionLevel || '',
-                    emp.section || emp.SectionThai || '', emp.department || emp.DepartmentThai || '', emp.sub1_division || emp.Sub1DivisionThai || '',
-                    emp.division || emp.DivisionThai || '', emp.sub1_company || emp.Sub1CompanyThai || '', emp.company || emp.CompanyThai || '',
-                    emp.sub1_1_business_unit || '', emp.working_location || '',
-                    emp.cost_center_payment || emp.CostCenter || '', emp.cost_center_organization || '',
-                    emp.retirement_year || '', emp.years_of_service !== null ? emp.years_of_service : '',
-                    emp.age || '', emp.report_to_name || emp.ManagerName || '', emp.certificate_entry_degree || '',
-                    emp.email_address_business || ''
+                    emp.PersonnelNumber || '', emp.user_id || '', emp.password || '', emp.FullName || '',
+                    emp.PositionNameThai || '', emp.PositionStructureLevel || '', emp.SectionThai || '',
+                    emp.DepartmentThai || '', emp.Sub1DivisionThai || '', emp.DivisionThai || '',
+                    emp.Sub1CompanyThai || '', emp.CompanyThai || '', emp.ReportToName || '',
+                    emp.Certificate || '', emp.JobGroup || ''
                 ].map(val => `"${String(val).replace(/"/g, '""')}"`);
 
                 csvContent += row.join(",") + "\n";
