@@ -1816,10 +1816,9 @@
 
                 visiblePos.forEach(pos => {
                     const t = positionTargets[pos] && positionTargets[pos][compIndex] ? positionTargets[pos][compIndex] : 0;
-                    const safeId = `target-${pos.replace(/[^a-zA-Z0-9]/g, '')}-${compIndex}`;
-
+                    
                     if (isAdmin) {
-                        let selectHtml = `<select id="${safeId}" onchange="updateMatrixTarget('${pos}', ${compIndex}, this.value)" class="border border-slate-200 rounded px-2 py-1.5 font-bold outline-none focus:border-scg-500 text-xs w-full max-w-[140px] bg-white cursor-pointer ${t >= 4 ? 'text-scg-800' : 'text-slate-600'} ${isEditMode ? 'border-amber-200' : ''}">`;
+                        let selectHtml = `<select onchange="updateMatrixTarget('${pos}', ${compIndex}, this)" class="border border-slate-200 rounded px-2 py-1.5 font-bold outline-none focus:border-scg-500 text-xs w-full max-w-[140px] bg-white cursor-pointer ${t >= 4 ? 'text-scg-800' : 'text-slate-600'} ${isEditMode ? 'border-amber-200' : ''}">`;
                         selectHtml += `<option value="0" ${t === 0 ? 'selected' : ''}>None</option>`;
                         for (let i = 1; i <= 5; i++) {
                             const desc = comp.levels[i] || "";
@@ -1861,8 +1860,9 @@
             container.innerHTML = html;
         }
 
-        async function updateMatrixTarget(pos, compIndex, value) {
-            const val = parseInt(value);
+        async function updateMatrixTarget(pos, compIndex, selectEl) {
+            const val = parseInt(selectEl.value);
+            if (!positionTargets[pos]) positionTargets[pos] = {};
             positionTargets[pos][compIndex] = val;
 
             await fetch(`${API_BASE}/positions/target`, {
@@ -1871,7 +1871,6 @@
                 body: JSON.stringify({ position: pos, compIndex, value: val })
             });
 
-            const selectEl = document.getElementById(`target-${pos.replace(/[^a-zA-Z0-9]/g, '')}-${compIndex}`);
             if (val >= 4) {
                 selectEl.classList.add('text-scg-800'); selectEl.classList.remove('text-slate-600');
             } else {
