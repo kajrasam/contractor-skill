@@ -1594,7 +1594,12 @@
 
             let eData = employeeData.find(e => e.username === empId || e.user_id === empId || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name || e.FullNameTH === emp.name);
 
-            if (!eData) return false;
+            if (!eData) {
+                let empName = emp.name;
+                if (selectedEmployeeFilter.length > 0 && (!empName || !selectedEmployeeFilter.includes(empName))) return false;
+                if (selectedSectionFilter.length > 0 || selectedDepartmentFilter.length > 0 || selectedReportToFilter.length > 0) return false;
+                return true;
+            }
             return matchesOrgFiltersData(eData);
         }
 
