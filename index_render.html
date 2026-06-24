@@ -1306,9 +1306,14 @@
             showToast("เปลี่ยนชื่อ Competency สำเร็จ");
             buildTrainingMatrix();
         }
-        function deleteCompetency(index) {
+        async function deleteCompetency(index) {
             if (confirm("คุณต้องการลบทักษะนี้ใช่หรือไม่? ข้อมูลที่ถูกลบจะหายไปจากทุกตำแหน่งที่อ้างอิงถึงทักษะนี้")) {
                 const compId = competencies[index].id;
+                
+                await fetch(`${API_BASE}/competencies/${index}`, {
+                    method: 'DELETE'
+                });
+                
                 competencies.splice(index, 1);
                 for (const pos in positionTargets) {
                     if (positionTargets[pos][compId] !== undefined) {
@@ -1316,6 +1321,7 @@
                     }
                 }
                 buildTrainingMatrix();
+                showToast("ลบ Competency สำเร็จ");
             }
         }
 
@@ -2361,12 +2367,15 @@
                 body: JSON.stringify({
                     userId: id,
                     actuals: emp.actuals,
+                    selfEvals: emp.self_evals,
+                    supervisorFeedbacks: emp.supervisor_feedback,
                     evidences: emp.evidences,
                     additionalExpectations: emp.additional_expectations,
                     learningTopics: emp.learning_topics,
                     specialExpertise: emp.special_expertise,
                     specialExpertiseDetail: emp.special_expertise_detail,
-                    evalDate: emp.evalDate
+                    evalDate: emp.evalDate,
+                    evalStatus: emp.eval_status
                 })
             });
 

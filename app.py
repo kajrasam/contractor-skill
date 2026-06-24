@@ -119,12 +119,15 @@ def update_evaluation():
     data = request.json
     uid = data.get('userId')
     actuals = data.get('actuals', [])
+    self_evals = data.get('selfEvals', [])
+    supervisor_feedbacks = data.get('supervisorFeedbacks', [])
     evidences = data.get('evidences', [])
     additional_expectations = data.get('additionalExpectations', [])
     learning_topics = data.get('learningTopics', [])
     special_expertise = data.get('specialExpertise', "")
     special_expertise_detail = data.get('specialExpertiseDetail', "")
     evalDate = data.get('evalDate')
+    evalStatus = data.get('evalStatus', "")
     
     try:
         supabase.table("users").update({
@@ -135,6 +138,8 @@ def update_evaluation():
         print(f"Failed to update users {uid}: {e}")
     
     for idx, aval in enumerate(actuals):
+        sval = self_evals[idx] if idx < len(self_evals) else None
+        sfb = supervisor_feedbacks[idx] if idx < len(supervisor_feedbacks) else ""
         evid = evidences[idx] if idx < len(evidences) else ""
         add_exp = additional_expectations[idx] if idx < len(additional_expectations) else ""
         lrn_top = learning_topics[idx] if idx < len(learning_topics) else ""
@@ -144,20 +149,26 @@ def update_evaluation():
             if existing.data:
                 supabase.table("user_actuals").update({
                     "actual_level": aval,
+                    "self_level": sval,
+                    "supervisor_feedback": sfb,
                     "evidence": evid,
                     "additional_expectation": add_exp,
                     "learning_topic": lrn_top,
-                    "eval_date": evalDate
+                    "eval_date": evalDate,
+                    "eval_status": evalStatus
                 }).eq("user_id", uid).eq("competency_idx", idx).execute()
             else:
                 supabase.table("user_actuals").insert({
                     "user_id": uid,
                     "competency_idx": idx,
                     "actual_level": aval,
+                    "self_level": sval,
+                    "supervisor_feedback": sfb,
                     "evidence": evid,
                     "additional_expectation": add_exp,
                     "learning_topic": lrn_top,
-                    "eval_date": evalDate
+                    "eval_date": evalDate,
+                    "eval_status": evalStatus
                 }).execute()
         except Exception as e:
             print(f"Failed to update user_actuals {uid} {idx}: {e}")
@@ -553,6 +564,7 @@ def update_position_name():
         # update related
         supabase.table("position_targets").update({"position_name": new_name}).eq("position_name", old_name).execute()
         supabase.table("users").update({"position": new_name}).eq("position", old_name).execute()
+        supabase.table("employee_data").update({"PositionNameThai": new_name}).eq("PositionNameThai", old_name).execute()
         
         # delete old
         supabase.table("positions").delete().eq("name", old_name).execute()
@@ -565,6 +577,29 @@ def delete_position(name):
     supabase.table("users").update({"position": ""}).eq("position", name).execute()
     supabase.table("positions").delete().eq("name", name).execute()
     
+    return jsonify({"status": "success"})
+
+@app.route('/api/competencies/<int:idx>', methods=['DELETE'])
+def delete_competency(idx):
+    comps = supabase.table("competencies").select("id").order("id").execute()
+    if idx < len(comps.data):
+        real_id = comps.data[idx]['id']
+        supabase.table("position_targets").delete().eq("competency_idx", idx).execute()
+        supabase.table("user_actuals").delete().eq("competency_idx", idx).execute()
+        supabase.table("competencies").delete().eq("id", real_id).execute()
+        
+        # We need to shift competency_idx for position_targets and user_actuals
+        # because the frontend uses array index. This is a complex operation.
+        # Given the frontend logic, deleting a competency splices the array, 
+        # meaning all subsequent indices decrease by 1.
+        targets = supabase.table("position_targets").select("*").gte("competency_idx", idx + 1).execute()
+        for t in targets.data:
+            supabase.table("position_targets").update({"competency_idx": t["competency_idx"] - 1}).eq("position_name", t["position_name"]).eq("competency_idx", t["competency_idx"]).execute()
+            
+        actuals = supabase.table("user_actuals").select("*").gte("competency_idx", idx + 1).execute()
+        for a in actuals.data:
+            supabase.table("user_actuals").update({"competency_idx": a["competency_idx"] - 1}).eq("user_id", a["user_id"]).eq("competency_idx", a["competency_idx"]).execute()
+        
     return jsonify({"status": "success"})
 
 if __name__ == '__main__':
