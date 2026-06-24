@@ -1859,7 +1859,7 @@
             const val = parseInt(value);
             positionTargets[pos][compIndex] = val;
 
-            await fetch(`${API_BASE}/positions/targets`, {
+            await fetch(`${API_BASE}/positions/target`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ position: pos, compIndex, value: val })
