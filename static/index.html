@@ -2103,13 +2103,7 @@
                         </div>
                     </div>`;
                     
-                    if (supervisorFeedback) {
-                        html += `
-                        <div class="bg-amber-50 p-4 rounded-xl border border-amber-100 mt-4">
-                            <label class="block text-xs font-bold text-amber-700 mb-1"><i class="fa-solid fa-comment-dots text-amber-500"></i> Feedback จากหัวหน้า</label>
-                            <p class="text-sm text-slate-700">${supervisorFeedback}</p>
-                        </div>`;
-                    }
+
                 } else {
                     // Supervisor Mode
                     html += `
@@ -2134,10 +2128,7 @@
                             <span id="desc-actual-${i}" class="text-slate-600 leading-relaxed mt-0.5">${currentDesc}</span>
                         </div>
                         
-                        <div>
-                            <label class="block text-xs font-bold text-slate-500 mb-2"><i class="fa-regular fa-comment-dots text-amber-500 w-5 text-center"></i> Feedback จากหัวหน้า</label>
-                            <textarea id="eval-feedback-${id}-${i}" rows="2" class="w-full text-sm p-3 border border-slate-200 rounded-xl outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 resize-none transition-colors" placeholder="ระบุข้อเสนอแนะหรือเหตุผลในการให้คะแนน...">${supervisorFeedback}</textarea>
-                        </div>
+
                     </div>`;
                 }
 
