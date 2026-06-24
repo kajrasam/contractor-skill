@@ -203,9 +203,29 @@
     <!-- Main App Container -->
     <div id="app-container" class="hidden min-h-screen w-full flex-col md:flex-row bg-slate-50">
 
+        <!-- MOBILE HEADER -->
+        <div class="md:hidden w-full bg-white border-b border-slate-200 flex items-center justify-between p-4 sticky top-0 z-30 shadow-sm shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="bg-scg-800 text-white p-2 rounded-lg shadow-sm"><i class="fa-solid fa-handshake-angle"></i></div>
+                <span class="text-lg font-bold text-scg-900 tracking-tight leading-none">Contractor<br/><span class="text-scg-400"> skill</span></span>
+            </div>
+            <button onclick="toggleMobileMenu()" class="text-slate-600 hover:text-scg-800 focus:outline-none p-2 bg-slate-50 rounded-lg border border-slate-100">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <!-- MOBILE OVERLAY -->
+        <div id="mobile-overlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden md:hidden" onclick="toggleMobileMenu()"></div>
+
         <!-- SIDEBAR -->
-        <aside
-            class="w-full md:w-64 bg-white border-r border-slate-200 flex flex-col md:sticky md:top-0 md:h-screen z-40 shadow-sm shrink-0">
+        <aside id="main-sidebar"
+            class="fixed md:static inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out w-[280px] md:w-64 bg-white border-r border-slate-200 flex flex-col md:sticky md:top-0 md:h-screen z-50 shadow-2xl md:shadow-sm shrink-0">
+            <!-- Close button for mobile -->
+            <div class="md:hidden absolute top-4 right-4 z-50">
+                <button onclick="toggleMobileMenu()" class="text-slate-400 hover:text-red-500 bg-slate-50 rounded-full p-2 w-8 h-8 flex items-center justify-center border border-slate-100 shadow-sm">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
             <!-- Logo -->
             <div class="p-6 border-b border-slate-200 flex items-center gap-3 shrink-0">
                 <div class="bg-scg-800 text-white p-2.5 rounded-xl shadow-md"><i class="fa-solid fa-handshake-angle text-xl"></i>
@@ -242,7 +262,7 @@
 
         <!-- MAIN CONTENT -->
         <main
-            class="flex-grow w-full md:w-[calc(100%-16rem)] md:h-screen overflow-y-auto px-4 sm:px-8 py-8 transition-all duration-300">
+            class="flex-grow w-full md:w-[calc(100%-16rem)] md:h-screen overflow-y-auto px-4 sm:px-8 py-4 sm:py-8 transition-all duration-300 relative">
 
             <!-- GLOBAL FILTERS (Shared across tabs) -->
             <div id="global-filters-container" class="hidden">
@@ -704,7 +724,7 @@
                         <div class="text-sm text-slate-500 font-bold" id="admin-count-info">กำลังโหลด...</div>
                     </div>
                     <div class="overflow-auto w-full custom-scrollbar flex-1 relative" style="min-height: 400px;">
-                        <table class="w-full text-left border-collapse whitespace-nowrap text-sm min-w-max relative"
+                        <div class="overflow-x-auto w-full">\n                            <table class="w-full text-left border-collapse whitespace-nowrap text-sm min-w-max relative"
                             id="admin-table">
                             <thead class="sticky top-0 z-30 bg-slate-50 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
                                 <tr
@@ -809,7 +829,7 @@
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-100 flex flex-col"
                     style="max-height: calc(100vh - 150px);">
                     <div class="overflow-auto w-full custom-scrollbar flex-1 relative" style="min-height: 400px;">
-                        <table class="w-full text-left border-collapse whitespace-nowrap text-sm min-w-max relative">
+                        <div class="overflow-x-auto w-full">\n                            <table class="w-full text-left border-collapse whitespace-nowrap text-sm min-w-max relative">
                             <thead class="sticky top-0 z-30 bg-slate-50 shadow-[0_1px_2px_rgba(0,0,0,0.05)]">
                                 <tr
                                     class="text-slate-600 font-bold border-b border-slate-200 text-xs uppercase tracking-wider">
@@ -1071,7 +1091,18 @@
             }
         }
 
-        function handleLogout() {
+                // Mobile menu toggle
+        window.toggleMobileMenu = function() {
+            const sidebar = document.getElementById('main-sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            if (sidebar.classList.contains('-translate-x-full')) {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        };\n\n        function handleLogout() {
             localStorage.removeItem('comp_sys_user');
             currentUser = null;
             actingAsRole = null;
@@ -1768,7 +1799,7 @@
                 }
             }
 
-            let html = `<table class="w-full text-left border-collapse text-sm"><thead><tr class="bg-slate-50 border-b border-slate-100 text-slate-600"><th class="p-4 font-semibold min-w-[200px] w-1/4">Competency</th>`;
+            let html = `<div class="overflow-x-auto w-full"><table class="w-full text-left border-collapse text-sm"><thead><tr class="bg-slate-50 border-b border-slate-100 text-slate-600"><th class="p-4 font-semibold min-w-[200px] w-1/4">Competency</th>`;
 
             visiblePos.forEach(pos => {
                 if (isAdmin && isEditMode) {
@@ -2576,7 +2607,7 @@
 
             let html = '<h3 class="text-lg font-bold text-scg-800 mb-4">Team Skill Matrix</h3>';
             html += '<div class="overflow-x-auto pb-4">';
-            html += '<table class="w-full text-left border-collapse min-w-[800px]">';
+            html += '<div class="overflow-x-auto w-full"><table class="w-full text-left border-collapse min-w-[800px]">';
             html += '<thead><tr class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider">';
             html += '<th class="p-3 border-b border-slate-200 sticky left-0 bg-slate-50 z-10 w-48">Employee</th>';
             
