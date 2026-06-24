@@ -76,6 +76,8 @@ def get_data():
         # get actuals
         user_acts = [a for a in act_res.data if a["user_id"] == uid]
         actuals = [a["actual_level"] for a in user_acts]
+        self_evals = [a.get("self_level") for a in user_acts]
+        supervisor_feedback = [a.get("supervisor_feedback", "") for a in user_acts]
         evidences = [a["evidence"] for a in user_acts]
         additional_expectations = [a.get("additional_expectation", "") for a in user_acts]
         learning_topics = [a.get("learning_topic", "") for a in user_acts]
@@ -89,6 +91,8 @@ def get_data():
             "special_expertise": u.get("special_expertise", ""),
             "special_expertise_detail": u.get("special_expertise_detail", ""),
             "actuals": actuals,
+            "self_evals": self_evals,
+            "supervisor_feedback": supervisor_feedback,
             "evidences": evidences,
             "additional_expectations": additional_expectations,
             "learning_topics": learning_topics,
