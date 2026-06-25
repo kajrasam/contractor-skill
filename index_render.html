@@ -3514,7 +3514,12 @@
             if (currentUser.id === 'Admin') {
                 validUserIds = applyGlobalFiltersToSubIds(Object.keys(dbUsers).filter(uid => uid !== 'Admin'));
             } else {
-                validUserIds = applyGlobalFiltersToSubIds([currentUser.id, ...getSubordinates(currentUser.id)]);
+                let subs = getSubordinates(currentUser.id);
+                if (subs.length > 0) {
+                    validUserIds = applyGlobalFiltersToSubIds(subs);
+                } else {
+                    validUserIds = applyGlobalFiltersToSubIds([currentUser.id]);
+                }
             }
 
             // 1. Radar Charts (Top Performers Per Position)
