@@ -644,8 +644,12 @@
 
                     <!-- Manager Chart: Average Clustered Column -->
                     <div id="dash-manager-view" class="mb-6 bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
-                        <h3 class="font-bold text-lg text-slate-800 mb-1"><i
-                                class="fa-solid fa-chart-column text-scg-600 mr-2"></i> Average Skill Level ของทีม</h3>
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-bold text-lg text-slate-800"><i class="fa-solid fa-chart-column text-scg-600 mr-2"></i> Average Skill Level ของทีม</h3>
+                            <button onclick="exportAverageSkillChart()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-2 transition-colors shrink-0">
+                                <i class="fa-solid fa-file-excel"></i> Export Excel
+                            </button>
+                        </div>
                         <p class="text-xs text-slate-500 mb-4">แสดงคะแนนเฉลี่ยรวมทุกทักษะ
                             เปรียบเทียบความคาดหวังและประเมินจริงรายบุคคล (แกน X คือชื่อพนักงาน)</p>
                         <div class="relative h-72 w-full">
@@ -2639,7 +2643,10 @@
             }
             container.classList.remove('hidden');
 
-            let html = '<h3 class="text-lg font-bold text-scg-800 mb-4">Team Skill Matrix</h3>';
+            let html = '<div class="flex justify-between items-start mb-4">';
+            html += '<h3 class="text-lg font-bold text-scg-800">Team Skill Matrix</h3>';
+            html += '<button onclick="exportTeamSkillMatrix()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-2 transition-colors shrink-0"><i class="fa-solid fa-file-excel"></i> Export Excel</button>';
+            html += '</div>';
             html += '<div class="overflow-x-auto pb-4">';
             html += '<div class="overflow-x-auto w-full"><table class="w-full text-left border-collapse min-w-[800px]">';
             html += '<thead><tr class="bg-slate-50 text-slate-600 text-xs uppercase tracking-wider">';
