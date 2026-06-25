@@ -3814,18 +3814,22 @@
                 });
             }
 
-            trackingList.forEach((t, i) => {
-                html += `<tr class="hover:bg-slate-50 transition-colors">
-                    <td class="py-3 px-6 border-r border-slate-100 text-center font-medium">${i + 1}</td>
-                    <td class="py-3 px-6 border-r border-slate-100">${t.mgrName}</td>
-                    <td class="py-3 px-6 border-r border-slate-100 font-bold">${t.empName}</td>
-                    <td class="py-3 px-6 border-r border-slate-100"><span class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-xs font-medium">${t.posName}</span></td>
-                    <td class="py-3 px-6 border-r border-slate-100 text-center">${t.hasRole ? '<i class="fa-solid fa-check text-emerald-500"></i>' : ''}</td>
-                    <td class="py-3 px-6 border-r border-slate-100 text-center">${t.hasTargets ? '<i class="fa-solid fa-check text-emerald-500"></i>' : ''}</td>
-                    <td class="py-3 px-6 border-r border-slate-100 text-center text-xs text-slate-600">${t.selfDate || ''}</td>
-                    <td class="py-3 px-6 text-center text-xs text-slate-600">${t.mgrDate || ''}</td>
-                </tr>`;
-            });
+            if (trackingList.length === 0) {
+                html += `<tr><td colspan="8" class="text-center py-8 text-slate-500">ไม่พบข้อมูล หรืออาจถูกกรอง (Filter) ออก</td></tr>`;
+            } else {
+                trackingList.forEach((t, i) => {
+                    html += `<tr class="hover:bg-slate-50 transition-colors">
+                        <td class="py-3 px-6 border-r border-slate-100 text-center font-medium">${i + 1}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${t.mgrName}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 font-bold">${t.empName}</td>
+                        <td class="py-3 px-6 border-r border-slate-100"><span class="bg-slate-100 text-slate-700 px-2 py-1 rounded text-xs font-medium">${t.posName}</span></td>
+                        <td class="py-3 px-6 border-r border-slate-100 text-center">${t.hasRole ? '<i class="fa-solid fa-check text-emerald-500"></i>' : ''}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 text-center">${t.hasTargets ? '<i class="fa-solid fa-check text-emerald-500"></i>' : ''}</td>
+                        <td class="py-3 px-6 border-r border-slate-100 text-center text-xs text-slate-600">${t.selfDate || ''}</td>
+                        <td class="py-3 px-6 text-center text-xs text-slate-600">${t.mgrDate || ''}</td>
+                    </tr>`;
+                });
+            }
             tbody.innerHTML = html;
         }
 
