@@ -3759,28 +3759,80 @@
 
             let html = '';
             
-            // Collect tracking data from dbUsers
+            // Collect tracking data from employeeData first
             let trackingList = [];
+            let processedEmpNames = new Set();
+            
+            if (employeeData && employeeData.length > 0) {
+                employeeData.forEach(e => {
+                    if (!matchesOrgFiltersData(e)) return;
+                    
+                    const empId = e.username || e.user_id || e.USER;
+                    if (empId === 'Admin' || empId === 'admin') return;
+
+                    let mgrName = e.ReportToName || '';
+                    let empName = e.FullNameTH || e.FullName || e.EmployeeNameThai || e.EmployeeNameEng || empId;
+                    let posName = e.PositionNameThai || e.position_name || e.position || '';
+
+                    processedEmpNames.add(empName);
+
+                    let u = null;
+                    if (empId && dbUsers[empId]) {
+                        u = dbUsers[empId];
+                    } else {
+                        for (const key in dbUsers) {
+                            if (dbUsers[key].name === empName) {
+                                u = dbUsers[key];
+                                break;
+                            }
+                        }
+                    }
+                    
+                    let hasRole = (roleResponses[posName] && roleResponses[posName].trim() !== "" && roleResponses[posName] !== "ระบุหน้าที่ความรับผิดชอบ...") ? true : false;
+                    
+                    let hasTargets = false;
+                    if (positionTargets[posName]) {
+                        hasTargets = positionTargets[posName].some(t => t >= 1);
+                    }
+                    
+                    let selfDate = '';
+                    let mgrDate = '';
+                    if (u) {
+                        if (u.evalDate && u.evalDate.startsWith('{')) {
+                            try {
+                                let parsed = JSON.parse(u.evalDate);
+                                selfDate = parsed.self || '';
+                                mgrDate = parsed.mgr || '';
+                            } catch(err) {}
+                        } else if (u.evalDate) {
+                            selfDate = u.evalDate;
+                        }
+                    }
+                    
+                    trackingList.push({
+                        mgrName: mgrName,
+                        empName: empName,
+                        posName: posName,
+                        hasRole: hasRole,
+                        hasTargets: hasTargets,
+                        selfDate: selfDate,
+                        mgrDate: mgrDate
+                    });
+                });
+            }
+            
+            // Fallback for dbUsers who are not in employeeData
             for (const uid in dbUsers) {
                 if (uid === 'Admin' || uid === 'admin' || !dbUsers[uid].name) continue;
                 
-                // Apply Global Filters
+                const u = dbUsers[uid];
+                let empName = u.name || '';
+                
+                if (processedEmpNames.has(empName)) continue;
                 if (!isEmployeeMatchingOrgFilters(uid)) continue;
                 
-                const u = dbUsers[uid];
                 let mgrName = '';
-                let empName = u.name || '';
                 let posName = u.position || '';
-                
-                // Try to get more accurate data from employeeData if available
-                if (employeeData && employeeData.length > 0) {
-                    const eData = employeeData.find(e => (e.user_id === uid || e.USER === uid || e.FullName === empName || e.FirstNameThai === empName));
-                    if (eData) {
-                        mgrName = eData.ReportToName || mgrName;
-                        empName = eData.FullName || eData.FirstNameThai || empName;
-                        posName = eData.PositionNameThai || posName;
-                    }
-                }
                 
                 let hasRole = (roleResponses[posName] && roleResponses[posName].trim() !== "" && roleResponses[posName] !== "ระบุหน้าที่ความรับผิดชอบ...") ? true : false;
                 
@@ -3796,9 +3848,8 @@
                         let parsed = JSON.parse(u.evalDate);
                         selfDate = parsed.self || '';
                         mgrDate = parsed.mgr || '';
-                    } catch(e) {}
+                    } catch(err) {}
                 } else if (u.evalDate) {
-                    // Fallback to legacy date if it exists
                     selfDate = u.evalDate;
                 }
                 
