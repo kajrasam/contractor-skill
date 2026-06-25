@@ -1723,13 +1723,20 @@
 
             const isAdmin = currentUser.id === 'Admin';
             const subs = getSubordinates(currentUser.id);
-            const isEmployee = !isAdmin && subs.length === 0;
 
-            if (isEmployee) {
+            if (!isAdmin) {
+                let allowedPos = new Set();
                 let myEmpData = dbUsers[currentUser.id];
                 if (myEmpData && myEmpData.position) {
-                    visiblePos = visiblePos.filter(p => p === myEmpData.position);
+                    allowedPos.add(myEmpData.position);
                 }
+                subs.forEach(subId => {
+                    let subEmpData = dbUsers[subId];
+                    if (subEmpData && subEmpData.position) {
+                        allowedPos.add(subEmpData.position);
+                    }
+                });
+                visiblePos = visiblePos.filter(p => allowedPos.has(p));
             }
 
             let html = '<div class="flex flex-col gap-3">';
@@ -1802,13 +1809,20 @@
 
             const isAdmin = currentUser.id === 'Admin';
             const subs = getSubordinates(currentUser.id);
-            const isEmployee = !isAdmin && subs.length === 0;
 
-            if (isEmployee) {
+            if (!isAdmin) {
+                let allowedPos = new Set();
                 let myEmpData = dbUsers[currentUser.id];
                 if (myEmpData && myEmpData.position) {
-                    visiblePos = visiblePos.filter(p => p === myEmpData.position);
+                    allowedPos.add(myEmpData.position);
                 }
+                subs.forEach(subId => {
+                    let subEmpData = dbUsers[subId];
+                    if (subEmpData && subEmpData.position) {
+                        allowedPos.add(subEmpData.position);
+                    }
+                });
+                visiblePos = visiblePos.filter(p => allowedPos.has(p));
             }
 
             let html = `<div class="overflow-x-auto w-full"><table class="w-full text-left border-collapse text-sm"><thead><tr class="bg-slate-50 border-b border-slate-100 text-slate-600"><th class="p-4 font-semibold min-w-[200px] w-1/4">Competency</th>`;
