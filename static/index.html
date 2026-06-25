@@ -1166,7 +1166,7 @@
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.getElementById(`tab-${tabId}`).classList.add('active');
 
-            const tabsWithFilters = ['training', 'evaluation', 'dashboard', 'idp', 'analytic', 'admin'];
+            const tabsWithFilters = ['training', 'evaluation', 'dashboard', 'idp', 'analytic', 'admin', 'tracking'];
             const globalFilters = document.getElementById('global-filters-container');
             const compContainer = document.getElementById('global-competency-container');
             if (globalFilters) {
