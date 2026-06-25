@@ -2100,6 +2100,15 @@
             document.getElementById('eval-emp-name').textContent = emp.name;
             document.getElementById('eval-emp-position').textContent = emp.position;
 
+            const evalTitle = document.querySelector('#tab-evaluation h2');
+            if (evalTitle) {
+                if (currentUser.id === id) {
+                    evalTitle.textContent = 'ประเมินตนเอง';
+                } else {
+                    evalTitle.textContent = 'ประเมินผลผู้ใต้บังคับบัญชา';
+                }
+            }
+
             let html = '';
             for (let i = 0; i < competencies.length; i++) {
                 if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
