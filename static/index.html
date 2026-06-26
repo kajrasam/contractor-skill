@@ -3829,48 +3829,6 @@
                 });
             }
             
-            // Fallback for dbUsers who are not in employeeData
-            for (const uid in dbUsers) {
-                if (uid === 'Admin' || uid === 'admin' || !dbUsers[uid].name) continue;
-                
-                const u = dbUsers[uid];
-                let empName = u.name || '';
-                
-                if (processedEmpNames.has(empName)) continue;
-                if (!isEmployeeMatchingOrgFilters(uid)) continue;
-                
-                let mgrName = '';
-                let posName = u.position || '';
-                
-                let hasRole = (roleResponses[posName] && roleResponses[posName].trim() !== "" && roleResponses[posName] !== "ระบุหน้าที่ความรับผิดชอบ...") ? true : false;
-                
-                let hasTargets = false;
-                if (positionTargets[posName]) {
-                    hasTargets = positionTargets[posName].some(t => t >= 1);
-                }
-                
-                let selfDate = '';
-                let mgrDate = '';
-                if (u.evalDate && u.evalDate.startsWith('{')) {
-                    try {
-                        let parsed = JSON.parse(u.evalDate);
-                        selfDate = parsed.self || '';
-                        mgrDate = parsed.mgr || '';
-                    } catch(err) {}
-                } else if (u.evalDate) {
-                    selfDate = u.evalDate;
-                }
-                
-                trackingList.push({
-                    mgrName: mgrName,
-                    empName: empName,
-                    posName: posName,
-                    hasRole: hasRole,
-                    hasTargets: hasTargets,
-                    selfDate: selfDate,
-                    mgrDate: mgrDate
-                });
-            }
 
             if (trackingList.length === 0) {
                 html += `<tr><td colspan="8" class="text-center py-8 text-slate-500">ไม่พบข้อมูล หรืออาจถูกกรอง (Filter) ออก</td></tr>`;
