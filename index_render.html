@@ -1243,12 +1243,24 @@
                 currentUser.id = loggedInUserId;
                 actingAsRole = currentUser.id;
 
+                if (currentUser.role === 'Super Admin') {
+                    currentUser.scope_section = 'ALL';
+                    currentUser.scope_department = 'ALL';
+                    const btn = document.getElementById('btn-manage-admins');
+                    if (btn) btn.classList.remove('hidden');
+                } else if (currentUser.role === 'Admin') {
+                    currentUser.scope_section = currentUser.scope_section || 'ALL';
+                    currentUser.scope_department = currentUser.scope_department || 'ALL';
+                    const btn = document.getElementById('btn-manage-admins');
+                    if (btn) btn.classList.add('hidden');
+                }
+
                 loginContainer.classList.add('hidden');
                 appContainer.classList.remove('hidden');
                 appContainer.classList.add('flex');
 
                 document.getElementById('nav-user-name').textContent = currentUser.name;
-                document.getElementById('nav-user-role').textContent = currentUser.id;
+                document.getElementById('nav-user-role').textContent = currentUser.role === 'Super Admin' ? 'Super Admin' : (currentUser.role === 'Admin' ? 'Admin' : currentUser.id);
 
                 buildNavigationByRole();
                 switchTab('home');
@@ -1269,7 +1281,7 @@
 
             html += `<button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-chart-pie w-5 text-center"></i> Dashboard</button>`;
             html += `<button onclick="switchTab('idp')" id="nav-idp" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-address-card w-5 text-center"></i> IDP</button>`;
-            if (currentUser.id === 'Admin') {
+            if (currentUser.role === 'Admin' || currentUser.role === 'Super Admin' || currentUser.id === 'Admin') {
                 html += `<button onclick="switchTab('analytic')" id="nav-analytic" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-chart-line w-5 text-center"></i> Competency Analytic</button>`;
                 html += `<button onclick="switchTab('tracking')" id="nav-tracking" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-list-check w-5 text-center"></i> ติดตามการประเมิน</button>`;
                 html += `<button onclick="switchTab('employee-data')" id="nav-employee-data" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all text-left"><i class="fa-solid fa-users w-5 text-center"></i> Employee Data</button>`;
