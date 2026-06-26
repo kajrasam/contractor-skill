@@ -1149,6 +1149,20 @@
                     if (btn) btn.classList.add('hidden');
                 }
 
+                // Apply scopes to globally filter data for this admin
+                if (currentUser.role === 'Admin' && currentUser.id !== 'Admin') {
+                    if (currentUser.scope_division && Array.isArray(currentUser.scope_division) && currentUser.scope_division.length > 0) {
+                        employeeDataAll = employeeDataAll.filter(e => currentUser.scope_division.includes(e.DivisionThai) || currentUser.scope_division.includes(e.division));
+                    }
+                    if (currentUser.scope_department && currentUser.scope_department !== 'ALL') {
+                        employeeDataAll = employeeDataAll.filter(e => e.DepartmentThai === currentUser.scope_department || e.department === currentUser.scope_department);
+                    }
+                    if (currentUser.scope_section && currentUser.scope_section !== 'ALL') {
+                        employeeDataAll = employeeDataAll.filter(e => e.SectionThai === currentUser.scope_section || e.section === currentUser.scope_section);
+                    }
+                    employeeData = employeeDataAll.filter(e => e.Pipeline === 'Evaluated');
+                }
+
                 loginContainer.classList.add('hidden');
                 appContainer.classList.remove('hidden');
                 appContainer.classList.add('flex');
@@ -1266,7 +1280,7 @@
         }
 
         function getVisiblePositions(userId) {
-            if (userId === 'Admin') {
+            if (userId === 'Admin' || userId.toLowerCase().includes('admin') || (dbUsers[userId] && dbUsers[userId].role && (dbUsers[userId].role === 'Admin' || dbUsers[userId].role === 'Super Admin'))) {
                 const allPos = new Set(positions);
                 employeeDataAll.forEach(e => {
                     const p = e.position_name || e.PositionNameThai;
@@ -2046,7 +2060,7 @@
 
                 if (matchesFiltersExcept(e, null)) {
                     let isSub = false;
-                    if (actingAsRole === 'Admin') {
+                    if (actingAsRole === 'Admin' || actingAsRole.toLowerCase().includes('admin') || (dbUsers[actingAsRole] && dbUsers[actingAsRole].role && (dbUsers[actingAsRole].role === 'Admin' || dbUsers[actingAsRole].role === 'Super Admin'))) {
                         isSub = true;
                     } else {
                         let mName = e.ManagerName || e.ReportToName || '';
@@ -2469,7 +2483,7 @@
             const mySubs = getSubordinates(currentUserId);
             let toShow = [];
 
-            if (currentUserId === 'Admin') {
+            if (currentUserId === 'Admin' || currentUserId.toLowerCase().includes('admin') || (dbUsers[currentUserId] && dbUsers[currentUserId].role && (dbUsers[currentUserId].role === 'Admin' || dbUsers[currentUserId].role === 'Super Admin'))) {
                 toShow = applyGlobalFiltersToSubIds(Object.keys(dbUsers).filter(id => id !== 'Admin'));
                 document.getElementById('dash-manager-view').style.display = 'block';
             } else if (mySubs.length === 0) {
@@ -2487,7 +2501,7 @@
                 return;
             }
 
-            if (mySubs.length > 0 || currentUserId === 'Admin') {
+            if (mySubs.length > 0 || currentUserId === 'Admin' || currentUserId.toLowerCase().includes('admin') || (dbUsers[currentUserId] && dbUsers[currentUserId].role && (dbUsers[currentUserId].role === 'Admin' || dbUsers[currentUserId].role === 'Super Admin'))) {
                 drawAverageBarChart(toShow);
             }
             renderIndividualDashboards(toShow);
@@ -3139,7 +3153,7 @@
 
             // Allowable positions and employees based on access
             let visibleUsers = [];
-            if (currentUser.id === 'Admin') {
+            if (currentUser.id === 'Admin' || currentUser.id.toLowerCase().includes('admin') || (currentUser.role && (currentUser.role === 'Admin' || currentUser.role === 'Super Admin'))) {
                 visibleUsers = applyGlobalFiltersToSubIds(Object.keys(dbUsers).filter(uid => uid !== 'Admin'));
             } else {
                 visibleUsers = applyGlobalFiltersToSubIds([currentUser.id, ...getSubordinates(currentUser.id)]);
@@ -3220,7 +3234,7 @@
             if (!container) return;
 
             let visibleUsers = [];
-            if (currentUser.id === 'Admin') {
+            if (currentUser.id === 'Admin' || currentUser.id.toLowerCase().includes('admin') || (currentUser.role && (currentUser.role === 'Admin' || currentUser.role === 'Super Admin'))) {
                 visibleUsers = applyGlobalFiltersToSubIds(Object.keys(dbUsers).filter(uid => uid !== 'Admin'));
             } else {
                 visibleUsers = applyGlobalFiltersToSubIds([currentUser.id, ...getSubordinates(currentUser.id)]);
@@ -3565,7 +3579,7 @@
 
             // Determine valid users
             let validUserIds = [];
-            if (currentUser.id === 'Admin') {
+            if (currentUser.id === 'Admin' || currentUser.id.toLowerCase().includes('admin') || (currentUser.role && (currentUser.role === 'Admin' || currentUser.role === 'Super Admin'))) {
                 validUserIds = applyGlobalFiltersToSubIds(Object.keys(dbUsers).filter(uid => uid !== 'Admin'));
             } else {
                 let subs = getSubordinates(currentUser.id);

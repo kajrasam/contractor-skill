@@ -85,6 +85,7 @@ def get_data():
         
         scope_sec = ""
         scope_dep = ""
+        scope_div = []
         detail = u.get("special_expertise_detail", "")
         if u["role"] == "Admin" and detail and detail.startswith("{"):
             import json
@@ -92,12 +93,14 @@ def get_data():
                 parsed = json.loads(detail)
                 scope_sec = parsed.get("scope_section", "")
                 scope_dep = parsed.get("scope_department", "")
+                scope_div = parsed.get("scope_division", [])
             except:
                 pass
 
         dbUsers[uid] = {
             "scope_section": scope_sec,
             "scope_department": scope_dep,
+            "scope_division": scope_div,
             "pass": u["pass"],
             "role": u["role"],
             "name": u["name"],
