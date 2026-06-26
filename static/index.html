@@ -3933,6 +3933,76 @@
             document.body.removeChild(link);
         }
 
+        function exportAverageSkillChart() {
+            if (!averageBarChartInstance) {
+                if (typeof showToast === 'function') showToast("ไม่มีข้อมูลสำหรับ Export");
+                else alert("ไม่มีข้อมูลสำหรับ Export");
+                return;
+            }
+            const data = averageBarChartInstance.data;
+            const labels = data.labels;
+            const percentCompletes = data.datasets.find(d => d.label === '% Complete').data;
+            const avgTargets = data.datasets.find(d => d.label === 'Average Expected').data;
+            const avgActuals = data.datasets.find(d => d.label === 'Average Actual').data;
+
+            let csvContent = "\uFEFF" + "Employee Name,Average Expected,Average Actual,% Complete\n";
+            for (let i = 0; i < labels.length; i++) {
+                csvContent += `"${labels[i]}",${avgTargets[i]},${avgActuals[i]},${percentCompletes[i]}%\n`;
+            }
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", "Average_Skill_Level.csv");
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function exportTeamSkillMatrix() {
+            const container = document.getElementById('dashboard-heatmap-container');
+            if (!container || container.classList.contains('hidden')) {
+                if (typeof showToast === 'function') showToast("ไม่มีข้อมูลสำหรับ Export");
+                else alert("ไม่มีข้อมูลสำหรับ Export");
+                return;
+            }
+            const table = container.querySelector('table');
+            if (!table) return;
+
+            let csvContent = "\uFEFF";
+            
+            const ths = table.querySelectorAll('thead th');
+            let headers = [];
+            ths.forEach(th => {
+                let text = th.innerText.replace(/,/g, " ").replace(/"/g, '""').trim();
+                headers.push(`"${text}"`);
+            });
+            csvContent += headers.join(",") + "\n";
+            
+            const trs = table.querySelectorAll('tbody tr');
+            trs.forEach(tr => {
+                let row = [];
+                const tds = tr.querySelectorAll('td');
+                tds.forEach(td => {
+                    let text = td.innerText.replace(/,/g, " ").replace(/"/g, '""').trim();
+                    row.push(`"${text}"`);
+                });
+                csvContent += row.join(",") + "\n";
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", "Team_Skill_Matrix.csv");
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
         function renderEmployeeDataTab() {
             const tbody = document.getElementById('employee-data-tbody');
             if (!tbody) return;
