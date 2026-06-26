@@ -83,13 +83,27 @@ def get_data():
         learning_topics = [a.get("learning_topic", "") for a in user_acts]
         evalDate = user_acts[0]["eval_date"] if len(user_acts) > 0 and user_acts[0]["eval_date"] else ""
         
+        scope_sec = ""
+        scope_dep = ""
+        detail = u.get("special_expertise_detail", "")
+        if u["role"] == "Admin" and detail and detail.startswith("{"):
+            import json
+            try:
+                parsed = json.loads(detail)
+                scope_sec = parsed.get("scope_section", "")
+                scope_dep = parsed.get("scope_department", "")
+            except:
+                pass
+
         dbUsers[uid] = {
+            "scope_section": scope_sec,
+            "scope_department": scope_dep,
             "pass": u["pass"],
             "role": u["role"],
             "name": u["name"],
             "position": u["position"],
             "special_expertise": u.get("special_expertise", ""),
-            "special_expertise_detail": u.get("special_expertise_detail", ""),
+            "special_expertise_detail": detail,
             "actuals": actuals,
             "self_evals": self_evals,
             "supervisor_feedback": supervisor_feedback,
@@ -177,6 +191,30 @@ def update_evaluation():
         except Exception as e:
             print(f"Failed to update user_actuals {uid} {idx}: {e}")
         
+    return jsonify({"status": "success"})
+
+@app.route('/api/admin_users', methods=['POST'])
+def add_admin_user():
+    data = request.json
+    uid = data.get('uid')
+    passw = data.get('pass')
+    name = data.get('name')
+    scope_sec = data.get('scope_section', '')
+    scope_dep = data.get('scope_department', '')
+    
+    existing = supabase.table("users").select("id").eq("id", uid).execute()
+    import json
+    detail = json.dumps({"scope_section": scope_sec, "scope_department": scope_dep})
+    
+    if len(existing.data) > 0:
+        supabase.table("users").update({"pass": passw, "name": name, "special_expertise_detail": detail}).eq("id", uid).execute()
+    else:
+        supabase.table("users").insert({"id": uid, "pass": passw, "role": "Admin", "name": name, "position": "Admin", "special_expertise_detail": detail}).execute()
+    return jsonify({"status": "success"})
+
+@app.route('/api/admin_users/<uid>', methods=['DELETE'])
+def delete_admin_user(uid):
+    supabase.table("users").delete().eq("id", uid).execute()
     return jsonify({"status": "success"})
 
 @app.route('/api/users', methods=['POST'])

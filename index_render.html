@@ -6,7 +6,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contractor Skill - Maintenance Department</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com">
+        function openManageAdminsModal() {
+            document.getElementById('manage-admins-modal').classList.remove('hidden');
+            renderAdminUsersTable();
+        }
+
+        function clearAdminForm() {
+            document.getElementById('admin-uid').value = '';
+            document.getElementById('admin-pass').value = '';
+            document.getElementById('admin-name').value = '';
+            document.getElementById('admin-scope-sec').value = '';
+            document.getElementById('admin-scope-dep').value = '';
+        }
+
+        function renderAdminUsersTable() {
+            const tbody = document.getElementById('admin-users-table-body');
+            tbody.innerHTML = '';
+            
+            for (const uid in dbUsers) {
+                const u = dbUsers[uid];
+                if (u.role === 'Admin' || u.role === 'Super Admin') {
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-slate-50 transition-colors';
+                    tr.innerHTML = `
+                        <td class="py-3 px-4">${uid} ${u.role === 'Super Admin' ? '<span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">Super</span>' : ''}</td>
+                        <td class="py-3 px-4">${u.name || '-'}</td>
+                        <td class="py-3 px-4">${u.scope_section || 'ALL'}</td>
+                        <td class="py-3 px-4">${u.scope_department || 'ALL'}</td>
+                        <td class="py-3 px-4 text-center">
+                            ${u.role !== 'Super Admin' ? `
+                                <button onclick="editAdminUser('${uid}')" class="text-blue-500 hover:text-blue-700 mr-2"><i class="fa-solid fa-edit"></i></button>
+                                <button onclick="deleteAdminUser('${uid}')" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>
+                            ` : ''}
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                }
+            }
+        }
+
+        function editAdminUser(uid) {
+            const u = dbUsers[uid];
+            if (!u) return;
+            document.getElementById('admin-uid').value = uid;
+            document.getElementById('admin-pass').value = u.pass || '';
+            document.getElementById('admin-name').value = u.name || '';
+            document.getElementById('admin-scope-sec').value = u.scope_section || '';
+            document.getElementById('admin-scope-dep').value = u.scope_department || '';
+        }
+
+        async function saveAdminUser() {
+            const uid = document.getElementById('admin-uid').value.trim();
+            const pass = document.getElementById('admin-pass').value.trim();
+            const name = document.getElementById('admin-name').value.trim();
+            let sec = document.getElementById('admin-scope-sec').value.trim();
+            let dep = document.getElementById('admin-scope-dep').value.trim();
+            
+            if (!uid || !pass) {
+                if (typeof showToast === 'function') showToast('กรุณากรอก ID และ Password', 'error');
+                return;
+            }
+            if (sec.toUpperCase() === 'ALL') sec = '';
+            if (dep.toUpperCase() === 'ALL') dep = '';
+
+            try {
+                const res = await fetch('/api/admin_users', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        uid: uid,
+                        pass: pass,
+                        name: name,
+                        scope_section: sec,
+                        scope_department: dep
+                    })
+                });
+                if (res.ok) {
+                    if (typeof showToast === 'function') showToast('บันทึกสำเร็จ', 'success');
+                    if (!dbUsers[uid]) dbUsers[uid] = {};
+                    dbUsers[uid].pass = pass;
+                    dbUsers[uid].name = name;
+                    dbUsers[uid].role = 'Admin';
+                    dbUsers[uid].scope_section = sec;
+                    dbUsers[uid].scope_department = dep;
+                    renderAdminUsersTable();
+                    clearAdminForm();
+                } else {
+                    if (typeof showToast === 'function') showToast('Error saving admin', 'error');
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function deleteAdminUser(uid) {
+            if (!confirm('ยืนยันการลบ Admin ' + uid + '?')) return;
+            try {
+                const res = await fetch('/api/admin_users/' + encodeURIComponent(uid), {
+                    method: 'DELETE'
+                });
+                if (res.ok) {
+                    delete dbUsers[uid];
+                    renderAdminUsersTable();
+                    if (typeof showToast === 'function') showToast('ลบสำเร็จ', 'success');
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+</script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -698,6 +808,9 @@
                         <button onclick="openAddEmployeeModal()"
                             class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold shadow-md flex items-center gap-2 transition-colors shrink-0">
                             <i class="fa-solid fa-user-plus"></i> เพิ่มพนักงาน
+                        </button>
+                        <button id="btn-manage-admins" onclick="openManageAdminsModal()" class="hidden bg-purple-600 hover:bg-purple-700 text-white px-5 py-2.5 rounded-xl font-bold shadow-md flex items-center gap-2 transition-colors">
+                            <i class="fa-solid fa-users-cog"></i> จัดการ Admin
                         </button>
                         <button onclick="saveAdminData()"
                             class="bg-scg-600 hover:bg-scg-700 text-white px-5 py-2.5 rounded-xl font-bold shadow-md flex items-center gap-2 transition-colors">
@@ -2827,7 +2940,17 @@
         // --- 6. Admin Panel Export & Management ---
 
         function setupAdminTab() {
-            adminTempData = employeeDataAll.map(e => {
+            let filteredEmployeeDataAll = employeeDataAll;
+            if (currentUser && currentUser.role === 'Admin') {
+                if (currentUser.scope_department && currentUser.scope_department !== 'ALL') {
+                    filteredEmployeeDataAll = filteredEmployeeDataAll.filter(e => e.DepartmentThai === currentUser.scope_department || e.department === currentUser.scope_department);
+                }
+                if (currentUser.scope_section && currentUser.scope_section !== 'ALL') {
+                    filteredEmployeeDataAll = filteredEmployeeDataAll.filter(e => e.SectionThai === currentUser.scope_section || e.section === currentUser.scope_section);
+                }
+            }
+
+            adminTempData = filteredEmployeeDataAll.map(e => {
                 let n_en = e.name_en;
                 if (!n_en) {
                     n_en = e.FullNameENG;
@@ -4174,6 +4297,69 @@
     </script>
     
     <!-- Add Employee Modal -->
+    
+    <!-- Manage Admins Modal -->
+    <div id="manage-admins-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-xl overflow-hidden">
+            <div class="p-6 border-b border-slate-100 bg-slate-50 flex justify-between items-center">
+                <h3 class="text-xl font-bold text-slate-800"><i class="fa-solid fa-users-cog text-purple-600 mr-2"></i>จัดการ Admin (Super Admin)</h3>
+                <button onclick="document.getElementById('manage-admins-modal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 transition-colors">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto flex-1 custom-scrollbar">
+                <!-- Add New Admin Form -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 mb-6">
+                    <h4 class="font-bold text-slate-700 mb-4">เพิ่ม/แก้ไข Admin</h4>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-1">Username (ID)</label>
+                            <input type="text" id="admin-uid" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-1">Password</label>
+                            <input type="text" id="admin-pass" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-1">Name</label>
+                            <input type="text" id="admin-name" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-1">Scope Section</label>
+                            <input type="text" id="admin-scope-sec" placeholder="ALL หรือ ชื่อ Section" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 mb-1">Scope Department</label>
+                            <input type="text" id="admin-scope-dep" placeholder="ALL หรือ ชื่อ Department" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white">
+                        </div>
+                    </div>
+                    <div class="mt-4 flex justify-end gap-2">
+                        <button onclick="clearAdminForm()" class="px-4 py-2 text-sm font-bold text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50">Clear</button>
+                        <button onclick="saveAdminUser()" class="px-4 py-2 text-sm font-bold text-white bg-purple-600 rounded-lg hover:bg-purple-700 shadow-sm">Save Admin</button>
+                    </div>
+                </div>
+
+                <!-- Admin List -->
+                <h4 class="font-bold text-slate-700 mb-4">รายชื่อ Admin ทั้งหมด</h4>
+                <div class="overflow-x-auto rounded-xl border border-slate-200">
+                    <table class="w-full text-left border-collapse text-sm">
+                        <thead class="bg-slate-50">
+                            <tr class="text-slate-600 font-bold border-b border-slate-200">
+                                <th class="py-3 px-4">ID</th>
+                                <th class="py-3 px-4">Name</th>
+                                <th class="py-3 px-4">Section Scope</th>
+                                <th class="py-3 px-4">Dept Scope</th>
+                                <th class="py-3 px-4 text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-users-table-body" class="bg-white divide-y divide-slate-100">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="add-employee-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center">
         <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
