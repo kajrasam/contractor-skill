@@ -201,10 +201,11 @@ def add_admin_user():
     name = data.get('name')
     scope_sec = data.get('scope_section', '')
     scope_dep = data.get('scope_department', '')
+    scope_div = data.get('scope_division', [])
     
     existing = supabase.table("users").select("id").eq("id", uid).execute()
     import json
-    detail = json.dumps({"scope_section": scope_sec, "scope_department": scope_dep})
+    detail = json.dumps({"scope_section": scope_sec, "scope_department": scope_dep, "scope_division": scope_div})
     
     if len(existing.data) > 0:
         supabase.table("users").update({"pass": passw, "name": name, "special_expertise_detail": detail}).eq("id", uid).execute()
