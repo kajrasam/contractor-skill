@@ -7,113 +7,7 @@
     <title>Contractor Skill - Maintenance Department</title>
 
     <script src="https://cdn.tailwindcss.com">
-        function openManageAdminsModal() {
-            document.getElementById('manage-admins-modal').classList.remove('hidden');
-            renderAdminUsersTable();
-        }
 
-        function clearAdminForm() {
-            document.getElementById('admin-uid').value = '';
-            document.getElementById('admin-pass').value = '';
-            document.getElementById('admin-name').value = '';
-            document.getElementById('admin-scope-sec').value = '';
-            document.getElementById('admin-scope-dep').value = '';
-        }
-
-        function renderAdminUsersTable() {
-            const tbody = document.getElementById('admin-users-table-body');
-            tbody.innerHTML = '';
-            
-            for (const uid in dbUsers) {
-                const u = dbUsers[uid];
-                if (u.role === 'Admin' || u.role === 'Super Admin') {
-                    const tr = document.createElement('tr');
-                    tr.className = 'hover:bg-slate-50 transition-colors';
-                    tr.innerHTML = `
-                        <td class="py-3 px-4">${uid} ${u.role === 'Super Admin' ? '<span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">Super</span>' : ''}</td>
-                        <td class="py-3 px-4">${u.name || '-'}</td>
-                        <td class="py-3 px-4">${u.scope_section || 'ALL'}</td>
-                        <td class="py-3 px-4">${u.scope_department || 'ALL'}</td>
-                        <td class="py-3 px-4 text-center">
-                            ${u.role !== 'Super Admin' ? `
-                                <button onclick="editAdminUser('${uid}')" class="text-blue-500 hover:text-blue-700 mr-2"><i class="fa-solid fa-edit"></i></button>
-                                <button onclick="deleteAdminUser('${uid}')" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>
-                            ` : ''}
-                        </td>
-                    `;
-                    tbody.appendChild(tr);
-                }
-            }
-        }
-
-        function editAdminUser(uid) {
-            const u = dbUsers[uid];
-            if (!u) return;
-            document.getElementById('admin-uid').value = uid;
-            document.getElementById('admin-pass').value = u.pass || '';
-            document.getElementById('admin-name').value = u.name || '';
-            document.getElementById('admin-scope-sec').value = u.scope_section || '';
-            document.getElementById('admin-scope-dep').value = u.scope_department || '';
-        }
-
-        async function saveAdminUser() {
-            const uid = document.getElementById('admin-uid').value.trim();
-            const pass = document.getElementById('admin-pass').value.trim();
-            const name = document.getElementById('admin-name').value.trim();
-            let sec = document.getElementById('admin-scope-sec').value.trim();
-            let dep = document.getElementById('admin-scope-dep').value.trim();
-            
-            if (!uid || !pass) {
-                if (typeof showToast === 'function') showToast('กรุณากรอก ID และ Password', 'error');
-                return;
-            }
-            if (sec.toUpperCase() === 'ALL') sec = '';
-            if (dep.toUpperCase() === 'ALL') dep = '';
-
-            try {
-                const res = await fetch('/api/admin_users', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        uid: uid,
-                        pass: pass,
-                        name: name,
-                        scope_section: sec,
-                        scope_department: dep
-                    })
-                });
-                if (res.ok) {
-                    if (typeof showToast === 'function') showToast('บันทึกสำเร็จ', 'success');
-                    if (!dbUsers[uid]) dbUsers[uid] = {};
-                    dbUsers[uid].pass = pass;
-                    dbUsers[uid].name = name;
-                    dbUsers[uid].role = 'Admin';
-                    dbUsers[uid].scope_section = sec;
-                    dbUsers[uid].scope_department = dep;
-                    renderAdminUsersTable();
-                    clearAdminForm();
-                } else {
-                    if (typeof showToast === 'function') showToast('Error saving admin', 'error');
-                }
-            } catch (e) {
-                console.error(e);
-            }
-        }
-
-        async function deleteAdminUser(uid) {
-            if (!confirm('ยืนยันการลบ Admin ' + uid + '?')) return;
-            try {
-                const res = await fetch('/api/admin_users/' + encodeURIComponent(uid), {
-                    method: 'DELETE'
-                });
-                if (res.ok) {
-                    delete dbUsers[uid];
-                    renderAdminUsersTable();
-                    if (typeof showToast === 'function') showToast('ลบสำเร็จ', 'success');
-                }
-            } catch (e) {
-                console.error(e);
-            }
         }
 
 </script>
@@ -4586,6 +4480,115 @@
                 renderAdminTable();
             }
         }
+    </script>
+    <script>
+        function openManageAdminsModal() {
+            document.getElementById('manage-admins-modal').classList.remove('hidden');
+            renderAdminUsersTable();
+        }
+
+        function clearAdminForm() {
+            document.getElementById('admin-uid').value = '';
+            document.getElementById('admin-pass').value = '';
+            document.getElementById('admin-name').value = '';
+            document.getElementById('admin-scope-sec').value = '';
+            document.getElementById('admin-scope-dep').value = '';
+        }
+
+        function renderAdminUsersTable() {
+            const tbody = document.getElementById('admin-users-table-body');
+            tbody.innerHTML = '';
+            
+            for (const uid in dbUsers) {
+                const u = dbUsers[uid];
+                if (u.role === 'Admin' || u.role === 'Super Admin') {
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-slate-50 transition-colors';
+                    tr.innerHTML = `
+                        <td class="py-3 px-4">${uid} ${u.role === 'Super Admin' ? '<span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">Super</span>' : ''}</td>
+                        <td class="py-3 px-4">${u.name || '-'}</td>
+                        <td class="py-3 px-4">${u.scope_section || 'ALL'}</td>
+                        <td class="py-3 px-4">${u.scope_department || 'ALL'}</td>
+                        <td class="py-3 px-4 text-center">
+                            ${u.role !== 'Super Admin' ? `
+                                <button onclick="editAdminUser('${uid}')" class="text-blue-500 hover:text-blue-700 mr-2"><i class="fa-solid fa-edit"></i></button>
+                                <button onclick="deleteAdminUser('${uid}')" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>
+                            ` : ''}
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                }
+            }
+        }
+
+        function editAdminUser(uid) {
+            const u = dbUsers[uid];
+            if (!u) return;
+            document.getElementById('admin-uid').value = uid;
+            document.getElementById('admin-pass').value = u.pass || '';
+            document.getElementById('admin-name').value = u.name || '';
+            document.getElementById('admin-scope-sec').value = u.scope_section || '';
+            document.getElementById('admin-scope-dep').value = u.scope_department || '';
+        }
+
+        async function saveAdminUser() {
+            const uid = document.getElementById('admin-uid').value.trim();
+            const pass = document.getElementById('admin-pass').value.trim();
+            const name = document.getElementById('admin-name').value.trim();
+            let sec = document.getElementById('admin-scope-sec').value.trim();
+            let dep = document.getElementById('admin-scope-dep').value.trim();
+            
+            if (!uid || !pass) {
+                if (typeof showToast === 'function') showToast('กรุณากรอก ID และ Password', 'error');
+                return;
+            }
+            if (sec.toUpperCase() === 'ALL') sec = '';
+            if (dep.toUpperCase() === 'ALL') dep = '';
+
+            try {
+                const res = await fetch('/api/admin_users', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        uid: uid,
+                        pass: pass,
+                        name: name,
+                        scope_section: sec,
+                        scope_department: dep
+                    })
+                });
+                if (res.ok) {
+                    if (typeof showToast === 'function') showToast('บันทึกสำเร็จ', 'success');
+                    if (!dbUsers[uid]) dbUsers[uid] = {};
+                    dbUsers[uid].pass = pass;
+                    dbUsers[uid].name = name;
+                    dbUsers[uid].role = 'Admin';
+                    dbUsers[uid].scope_section = sec;
+                    dbUsers[uid].scope_department = dep;
+                    renderAdminUsersTable();
+                    clearAdminForm();
+                } else {
+                    if (typeof showToast === 'function') showToast('Error saving admin', 'error');
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function deleteAdminUser(uid) {
+            if (!confirm('ยืนยันการลบ Admin ' + uid + '?')) return;
+            try {
+                const res = await fetch('/api/admin_users/' + encodeURIComponent(uid), {
+                    method: 'DELETE'
+                });
+                if (res.ok) {
+                    delete dbUsers[uid];
+                    renderAdminUsersTable();
+                    if (typeof showToast === 'function') showToast('ลบสำเร็จ', 'success');
+                }
+            } catch (e) {
+                console.error(e);
+            }
     </script>
 </body>
 
