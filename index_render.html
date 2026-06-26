@@ -4526,7 +4526,7 @@
                         <td class="py-3 px-4">${u.name || '-'}</td>
                         <td class="py-3 px-4">${u.scope_section || 'ALL'}</td>
                         <td class="py-3 px-4">${u.scope_department || 'ALL'}</td>
-                        <td class="py-3 px-4">${u.scope_division && u.scope_division.length > 0 ? u.scope_division.join(\', \') : \'ALL\'}</td>
+                        <td class="py-3 px-4">${u.scope_division && u.scope_division.length > 0 ? u.scope_division.join(', ') : 'ALL'}</td>
                         <td class="py-3 px-4 text-center">
                             ${u.role !== 'Super Admin' ? `
                                 <button onclick="editAdminUser('${uid}')" class="text-blue-500 hover:text-blue-700 mr-2"><i class="fa-solid fa-edit"></i></button>
