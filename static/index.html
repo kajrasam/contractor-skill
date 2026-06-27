@@ -2768,9 +2768,9 @@
             ];
             
             if (activeFilters.includes('target')) activeDatasetsBar.push({ label: 'Average Expected', data: avgTargets, backgroundColor: '#cbd5e1', yAxisID: 'y', borderRadius: 6 });
-            if (activeFilters.includes('actual')) activeDatasetsBar.push({ label: 'Average Actual', data: avgActuals, backgroundColor: '#ca3656', yAxisID: 'y', borderRadius: 6 });
-            if (activeFilters.includes('self')) activeDatasetsBar.push({ label: 'Average Self', data: avgSelfs, backgroundColor: '#fbbf24', yAxisID: 'y', borderRadius: 6 });
             if (activeFilters.includes('before')) activeDatasetsBar.push({ label: 'Average Before', data: avgBefores, backgroundColor: '#9333ea', yAxisID: 'y', borderRadius: 6 });
+            if (activeFilters.includes('self')) activeDatasetsBar.push({ label: 'Average Self', data: avgSelfs, backgroundColor: '#fbbf24', yAxisID: 'y', borderRadius: 6 });
+            if (activeFilters.includes('actual')) activeDatasetsBar.push({ label: 'Average Actual', data: avgActuals, backgroundColor: '#ca3656', yAxisID: 'y', borderRadius: 6 });
 
             averageBarChartInstance = new Chart(ctx, {
                 type: 'bar',
@@ -2839,6 +2839,18 @@
                                     ctx.fillText(value, datapoint.x, datapoint.y - 5);
                                 } else if (dataset.label === 'Average Actual' && value > 0) {
                                     ctx.fillStyle = '#9f1239';
+                                    ctx.font = 'bold 11px sans-serif';
+                                    ctx.textAlign = 'center';
+                                    ctx.textBaseline = 'bottom';
+                                    ctx.fillText(value, datapoint.x, datapoint.y - 5);
+                                } else if (dataset.label === 'Average Before' && value > 0) {
+                                    ctx.fillStyle = '#7e22ce';
+                                    ctx.font = 'bold 11px sans-serif';
+                                    ctx.textAlign = 'center';
+                                    ctx.textBaseline = 'bottom';
+                                    ctx.fillText(value, datapoint.x, datapoint.y - 5);
+                                } else if (dataset.label === 'Average Self' && value > 0) {
+                                    ctx.fillStyle = '#b45309';
                                     ctx.font = 'bold 11px sans-serif';
                                     ctx.textAlign = 'center';
                                     ctx.textBaseline = 'bottom';
@@ -3034,9 +3046,9 @@
                 const activeFilters = activeRadarFilters['dashboard'] || ['target', 'self', 'before', 'actual'];
                 let activeDatasets = [];
                 if (activeFilters.includes('target')) activeDatasets.push({ label: 'Target', data: cleanTargets, borderColor: '#94a3b8', backgroundColor: 'rgba(148, 163, 184, 0.2)' });
-                if (activeFilters.includes('actual')) activeDatasets.push({ label: 'Actual', data: cleanActuals, borderColor: '#882239', backgroundColor: 'rgba(136, 34, 57, 0.3)' });
-                if (activeFilters.includes('self')) activeDatasets.push({ label: 'Self Eva.', data: cleanSelfs, borderColor: '#fbbf24', backgroundColor: 'rgba(251, 191, 36, 0.2)' });
                 if (activeFilters.includes('before')) activeDatasets.push({ label: 'Before', data: cleanBefores, borderColor: '#9333ea', backgroundColor: 'transparent', borderDash: [2, 2] });
+                if (activeFilters.includes('self')) activeDatasets.push({ label: 'Self Eva.', data: cleanSelfs, borderColor: '#fbbf24', backgroundColor: 'rgba(251, 191, 36, 0.2)' });
+                if (activeFilters.includes('actual')) activeDatasets.push({ label: 'Actual', data: cleanActuals, borderColor: '#882239', backgroundColor: 'rgba(136, 34, 57, 0.3)' });
 
                 const chart = new Chart(ctx, {
                     type: 'radar',

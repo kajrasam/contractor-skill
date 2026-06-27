@@ -77,6 +77,7 @@ def get_data():
         user_acts = [a for a in act_res.data if a["user_id"] == uid]
         actuals = [a["actual_level"] for a in user_acts]
         self_evals = [a.get("self_level") for a in user_acts]
+        before_evals = [a.get("before_level") for a in user_acts]
         supervisor_feedback = [a.get("supervisor_feedback", "") for a in user_acts]
         evidences = [a["evidence"] for a in user_acts]
         additional_expectations = [a.get("additional_expectation", "") for a in user_acts]
@@ -109,6 +110,7 @@ def get_data():
             "special_expertise_detail": detail,
             "actuals": actuals,
             "self_evals": self_evals,
+            "before_evals": before_evals,
             "supervisor_feedback": supervisor_feedback,
             "evidences": evidences,
             "additional_expectations": additional_expectations,
@@ -141,6 +143,7 @@ def update_evaluation():
     uid = data.get('userId')
     actuals = data.get('actuals', [])
     self_evals = data.get('selfEvals', [])
+    before_evals = data.get('beforeEvals', [])
     supervisor_feedbacks = data.get('supervisorFeedbacks', [])
     evidences = data.get('evidences', [])
     additional_expectations = data.get('additionalExpectations', [])
@@ -160,6 +163,7 @@ def update_evaluation():
     
     for idx, aval in enumerate(actuals):
         sval = self_evals[idx] if idx < len(self_evals) else None
+        bval = before_evals[idx] if idx < len(before_evals) else None
         sfb = supervisor_feedbacks[idx] if idx < len(supervisor_feedbacks) else ""
         evid = evidences[idx] if idx < len(evidences) else ""
         add_exp = additional_expectations[idx] if idx < len(additional_expectations) else ""
@@ -171,6 +175,7 @@ def update_evaluation():
                 supabase.table("user_actuals").update({
                     "actual_level": aval,
                     "self_level": sval,
+                    "before_level": bval,
                     "supervisor_feedback": sfb,
                     "evidence": evid,
                     "additional_expectation": add_exp,
@@ -184,6 +189,7 @@ def update_evaluation():
                     "competency_idx": idx,
                     "actual_level": aval,
                     "self_level": sval,
+                    "before_level": bval,
                     "supervisor_feedback": sfb,
                     "evidence": evid,
                     "additional_expectation": add_exp,
