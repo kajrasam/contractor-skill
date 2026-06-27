@@ -2250,7 +2250,7 @@
                             <span class="text-sm text-slate-600">${selfDesc}</span>
                         </div>
                         <div class="w-10 h-10 flex items-center justify-center bg-blue-100 text-blue-700 font-black text-lg rounded-lg shadow-inner shrink-0">${selfEvalVal}</div>
-                    </div>
+                    </div>`;
                     
                     const beforeVal = (emp.before_evals && emp.before_evals[i]) ? emp.before_evals[i] : 1;
                     const beforeDesc = competencies[i].levels[beforeVal] || "";
@@ -2282,7 +2282,7 @@
                             <span id="badge-actual-${i}" class="font-bold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-md shrink-0 border border-amber-200">Level ${currentVal}</span>
                             <span id="desc-actual-${i}" class="text-slate-600 leading-relaxed mt-0.5">${currentDesc}</span>
                         </div>
-                    </div>`;`;
+                    </div>`;
                 }
 
                 html += `
