@@ -869,6 +869,29 @@
                         <h2 class="text-2xl font-bold text-scg-900">Competency Analytic</h2>
                         <p class="text-slate-500 text-sm">วิเคราะห์ข้อมูลความพร้อมและการเติบโตของพนักงาน</p>
                     </div>
+                    <div class="w-full sm:w-64">
+                        <label class="block text-[10px] font-bold text-slate-500 mb-1">แสดงข้อมูล (Filter)</label>
+                        <div class="relative filter-dropdown">
+                            <div class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs bg-white flex justify-between items-center cursor-pointer hover:bg-slate-50 transition-colors" onclick="this.nextElementSibling.classList.toggle('hidden');">
+                                <span class="text-slate-600">แสดงทั้งหมด</span>
+                                <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                            </div>
+                            <div class="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-100 rounded-lg shadow-xl z-[60] hidden p-2">
+                                <label class="flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
+                                    <input type="checkbox" checked value="target" onchange="toggleRadarFilter(this, 'analytic'); renderAnalyticTab();" class="w-3.5 h-3.5 rounded text-scg-600 border-slate-300 focus:ring-scg-500"> Target
+                                </label>
+                                <label class="flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
+                                    <input type="checkbox" checked value="before" onchange="toggleRadarFilter(this, 'analytic'); renderAnalyticTab();" class="w-3.5 h-3.5 rounded text-purple-500 border-slate-300 focus:ring-purple-500"> Before
+                                </label>
+                                <label class="flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
+                                    <input type="checkbox" checked value="self" onchange="toggleRadarFilter(this, 'analytic'); renderAnalyticTab();" class="w-3.5 h-3.5 rounded text-amber-500 border-slate-300 focus:ring-amber-500"> Self Eva.
+                                </label>
+                                <label class="flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
+                                    <input type="checkbox" checked value="actual" onchange="toggleRadarFilter(this, 'analytic'); renderAnalyticTab();" class="w-3.5 h-3.5 rounded text-red-600 border-slate-300 focus:ring-red-600"> Actual
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -3630,13 +3653,36 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="absolute top-6 right-6 text-right">
+                        <div class="absolute top-6 right-6 text-right w-full sm:w-1/2 flex flex-col items-end">
                             <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">% Completed Skill Level</h4>
                             <div class="text-4xl font-black text-scg-700">${pctComplete}%</div>
                             <div class="text-xs text-slate-400 mt-1">อัปเดต: ${formattedDate}</div>
-                        </div>
-                        
-                        <div class="w-full h-[400px] mt-16 lg:mt-10">
+                                                    
+                            <div class="w-full max-w-xs text-left mt-2 inline-block">
+                                <label class="block text-[10px] font-bold text-slate-500 mb-1">แสดงข้อมูล (Filter)</label>
+                                <div class="relative filter-dropdown">
+                                    <div class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs bg-white flex justify-between items-center cursor-pointer hover:bg-slate-50 transition-colors" onclick="this.nextElementSibling.classList.toggle('hidden');">
+                                        <span class="text-slate-600">แสดงทั้งหมด</span>
+                                        <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                                    </div>
+                                    <div class="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-100 rounded-lg shadow-xl z-[60] hidden p-2">
+                                        <label class="flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
+                                            <input type="checkbox" checked value="target" onchange="toggleRadarFilter(this, 'idp')" class="w-3.5 h-3.5 rounded text-scg-600 border-slate-300 focus:ring-scg-500"> Target
+                                        </label>
+                                        <label class="flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
+                                            <input type="checkbox" checked value="before" onchange="toggleRadarFilter(this, 'idp')" class="w-3.5 h-3.5 rounded text-purple-500 border-slate-300 focus:ring-purple-500"> Before
+                                        </label>
+                                        <label class="flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
+                                            <input type="checkbox" checked value="self" onchange="toggleRadarFilter(this, 'idp')" class="w-3.5 h-3.5 rounded text-amber-500 border-slate-300 focus:ring-amber-500"> Self Eva.
+                                        </label>
+                                        <label class="flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
+                                            <input type="checkbox" checked value="actual" onchange="toggleRadarFilter(this, 'idp')" class="w-3.5 h-3.5 rounded text-red-600 border-slate-300 focus:ring-red-600"> Actual
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+</div>
+                        <div class="w-full h-[400px] mt-32 lg:mt-32">
                             <canvas id="idpRadarChart"></canvas>
                         </div>
                     </div>
@@ -3695,6 +3741,7 @@
                 cleanTargets.push(t);
                 actuals.push(a);
                 selfEvals.push(s);
+                window.beforeEvalsLocal.push(emp.before_evals ? (emp.before_evals[i] || 0) : 0);
                 cleanDescs.push(competencies[i].levels[a] || "ไม่มีคำอธิบาย");
                 cleanEvidences.push(emp.evidences[i] || "ไม่มีหลักฐานที่ระบุ");
             }
@@ -3705,9 +3752,9 @@
             const activeFilters = activeRadarFilters['idp'] || ['target', 'self', 'before', 'actual'];
             let activeDatasetsIDP = [];
             if (activeFilters.includes('target')) activeDatasetsIDP.push({ label: 'Target', data: cleanTargets, borderColor: '#cbd5e1', backgroundColor: 'transparent', borderDash: [5, 5], borderWidth: 2, pointRadius: 0 });
-            if (activeFilters.includes('actual')) activeDatasetsIDP.push({ label: 'Actual', data: actuals, borderColor: '#ca3656', backgroundColor: 'rgba(202, 54, 86, 0.25)', borderWidth: 2, pointBackgroundColor: '#ca3656', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#ca3656', pointRadius: 4 });
-            if (activeFilters.includes('self')) activeDatasetsIDP.push({ label: 'Self Eva.', data: selfEvals, borderColor: '#fbbf24', backgroundColor: 'rgba(251, 191, 36, 0.2)', borderWidth: 2, pointBackgroundColor: '#fbbf24', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#fbbf24', pointRadius: 4 });
             if (activeFilters.includes('before')) activeDatasetsIDP.push({ label: 'Before', data: window.beforeEvalsLocal, borderColor: '#9333ea', backgroundColor: 'transparent', borderDash: [2, 2], borderWidth: 2, pointBackgroundColor: '#9333ea', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#9333ea', pointRadius: 4 });
+            if (activeFilters.includes('self')) activeDatasetsIDP.push({ label: 'Self Eva.', data: selfEvals, borderColor: '#fbbf24', backgroundColor: 'rgba(251, 191, 36, 0.2)', borderWidth: 2, pointBackgroundColor: '#fbbf24', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#fbbf24', pointRadius: 4 });
+            if (activeFilters.includes('actual')) activeDatasetsIDP.push({ label: 'Actual', data: actuals, borderColor: '#ca3656', backgroundColor: 'rgba(202, 54, 86, 0.25)', borderWidth: 2, pointBackgroundColor: '#ca3656', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#ca3656', pointRadius: 4 });
 
             idpRadarChartInstance = new Chart(ctx, {
                 type: 'radar',
