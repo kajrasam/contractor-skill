@@ -873,21 +873,21 @@
                         <label class="block text-[10px] font-bold text-slate-500 mb-1">แสดงข้อมูล (Filter)</label>
                         <div class="relative filter-dropdown">
                             <div class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs bg-white flex justify-between items-center cursor-pointer hover:bg-slate-50 transition-colors" onclick="this.nextElementSibling.classList.toggle('hidden');">
-                                <span class="text-slate-600">แสดงทั้งหมด</span>
-                                <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                                <span id="analytic-radar-filter-text" class="text-slate-600">แสดงทั้งหมด</span>
+                                <i class="analytic-radar-cb fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
                             </div>
-                            <div class="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-100 rounded-lg shadow-xl z-[60] hidden p-2">
-                                <label class="flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
-                                    <input type="checkbox" checked value="target" onchange="toggleRadarFilter(this, 'analytic'); renderAnalyticTab();" class="w-3.5 h-3.5 rounded text-scg-600 border-slate-300 focus:ring-scg-500"> Target
+                            <div id="analytic-radar-filter-dropdown" class="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-100 rounded-lg shadow-xl z-[60] hidden p-2">
+                                <label class="analytic-radar-cb flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
+                                    <input type="checkbox" checked value="target" onchange="updateRadarFilter('analytic')" class="analytic-radar-cb w-3.5 h-3.5 rounded text-scg-600 border-slate-300 focus:ring-scg-500"> Target
                                 </label>
-                                <label class="flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
-                                    <input type="checkbox" checked value="before" onchange="toggleRadarFilter(this, 'analytic'); renderAnalyticTab();" class="w-3.5 h-3.5 rounded text-purple-500 border-slate-300 focus:ring-purple-500"> Before
+                                <label class="analytic-radar-cb flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
+                                    <input type="checkbox" checked value="before" onchange="updateRadarFilter('analytic')" class="analytic-radar-cb w-3.5 h-3.5 rounded text-purple-500 border-slate-300 focus:ring-purple-500"> Before
                                 </label>
-                                <label class="flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
-                                    <input type="checkbox" checked value="self" onchange="toggleRadarFilter(this, 'analytic'); renderAnalyticTab();" class="w-3.5 h-3.5 rounded text-amber-500 border-slate-300 focus:ring-amber-500"> Self Eva.
+                                <label class="analytic-radar-cb flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
+                                    <input type="checkbox" checked value="self" onchange="updateRadarFilter('analytic')" class="analytic-radar-cb w-3.5 h-3.5 rounded text-amber-500 border-slate-300 focus:ring-amber-500"> Self Eva.
                                 </label>
-                                <label class="flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
-                                    <input type="checkbox" checked value="actual" onchange="toggleRadarFilter(this, 'analytic'); renderAnalyticTab();" class="w-3.5 h-3.5 rounded text-red-600 border-slate-300 focus:ring-red-600"> Actual
+                                <label class="analytic-radar-cb flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
+                                    <input type="checkbox" checked value="actual" onchange="updateRadarFilter('analytic')" class="w-3.5 h-3.5 rounded text-red-600 border-slate-300 focus:ring-red-600"> Actual
                                 </label>
                             </div>
                         </div>
@@ -3662,21 +3662,21 @@
                                 <label class="block text-[10px] font-bold text-slate-500 mb-1">แสดงข้อมูล (Filter)</label>
                                 <div class="relative filter-dropdown">
                                     <div class="w-full px-3 py-1.5 border border-slate-200 rounded-lg text-xs bg-white flex justify-between items-center cursor-pointer hover:bg-slate-50 transition-colors" onclick="this.nextElementSibling.classList.toggle('hidden');">
-                                        <span class="text-slate-600">แสดงทั้งหมด</span>
-                                        <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                                        <span id="idp-radar-filter-text" class="text-slate-600">แสดงทั้งหมด</span>
+                                        <i class="idp-radar-cb fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
                                     </div>
-                                    <div class="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-100 rounded-lg shadow-xl z-[60] hidden p-2">
-                                        <label class="flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
-                                            <input type="checkbox" checked value="target" onchange="toggleRadarFilter(this, 'idp')" class="w-3.5 h-3.5 rounded text-scg-600 border-slate-300 focus:ring-scg-500"> Target
+                                    <div id="idp-radar-filter-dropdown" class="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-100 rounded-lg shadow-xl z-[60] hidden p-2">
+                                        <label class="idp-radar-cb flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
+                                            <input type="checkbox" checked value="target" onchange="updateRadarFilter('idp')" class="idp-radar-cb w-3.5 h-3.5 rounded text-scg-600 border-slate-300 focus:ring-scg-500"> Target
                                         </label>
-                                        <label class="flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
-                                            <input type="checkbox" checked value="before" onchange="toggleRadarFilter(this, 'idp')" class="w-3.5 h-3.5 rounded text-purple-500 border-slate-300 focus:ring-purple-500"> Before
+                                        <label class="idp-radar-cb flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
+                                            <input type="checkbox" checked value="before" onchange="updateRadarFilter('idp')" class="idp-radar-cb w-3.5 h-3.5 rounded text-purple-500 border-slate-300 focus:ring-purple-500"> Before
                                         </label>
-                                        <label class="flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
-                                            <input type="checkbox" checked value="self" onchange="toggleRadarFilter(this, 'idp')" class="w-3.5 h-3.5 rounded text-amber-500 border-slate-300 focus:ring-amber-500"> Self Eva.
+                                        <label class="idp-radar-cb flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
+                                            <input type="checkbox" checked value="self" onchange="updateRadarFilter('idp')" class="idp-radar-cb w-3.5 h-3.5 rounded text-amber-500 border-slate-300 focus:ring-amber-500"> Self Eva.
                                         </label>
-                                        <label class="flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
-                                            <input type="checkbox" checked value="actual" onchange="toggleRadarFilter(this, 'idp')" class="w-3.5 h-3.5 rounded text-red-600 border-slate-300 focus:ring-red-600"> Actual
+                                        <label class="idp-radar-cb flex items-center gap-2 p-1.5 hover:bg-slate-50 rounded cursor-pointer text-xs">
+                                            <input type="checkbox" checked value="actual" onchange="updateRadarFilter('idp')" class="w-3.5 h-3.5 rounded text-red-600 border-slate-300 focus:ring-red-600"> Actual
                                         </label>
                                     </div>
                                 </div>
@@ -4729,7 +4729,7 @@
             
             if (type === 'eval') drawEvalRadar();
             if (type === 'dashboard') setupDashboardTab();
-            if (type === 'idp') drawIDPRadar();
+            if (type === 'idp') { if (typeof renderIDPContent === 'function') renderIDPContent(); }
             if (type === 'analytic') {
                 if (typeof renderAnalyticTab === 'function') renderAnalyticTab();
             }
