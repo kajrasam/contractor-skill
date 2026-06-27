@@ -2777,11 +2777,11 @@
                     type: 'line',
                     label: '% Complete',
                     data: percentCompletes,
-                    borderColor: '#eab308',
-                    backgroundColor: '#eab308',
+                    borderColor: '#16a34a',
+                    backgroundColor: '#16a34a',
                     borderWidth: 2,
-                    pointRadius: 6,
-                    pointHoverRadius: 8,
+                    pointRadius: 4.2,
+                    pointHoverRadius: 5.6,
                     showLine: false,
                     yAxisID: 'y1'
                 }
@@ -2846,11 +2846,11 @@
                                 if (value === undefined || value === null) return;
                                 
                                 if (dataset.label === '% Complete') {
-                                    ctx.fillStyle = '#b45309';
+                                    ctx.fillStyle = '#16a34a';
                                     ctx.font = 'bold 12px sans-serif';
                                     ctx.textAlign = 'center';
                                     ctx.textBaseline = 'bottom';
-                                    ctx.fillText(value + '%', datapoint.x, datapoint.y - 10);
+                                    ctx.fillText(value + '%', datapoint.x, datapoint.y - 8);
                                 } else if (dataset.label === 'Average Expected' && value > 0) {
                                     ctx.fillStyle = '#64748b';
                                     ctx.font = 'bold 11px sans-serif';
