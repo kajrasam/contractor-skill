@@ -940,7 +940,8 @@
                                     <th class="py-4 px-6 border-r border-slate-100 text-center">จัดทำ R&R</th>
                                     <th class="py-4 px-6 border-r border-slate-100 text-center">ผูก competency</th>
                                     <th class="py-4 px-6 border-r border-slate-100 text-center">ประเมินตนเอง</th>
-                                    <th class="py-4 px-6 text-center">ผู้บังคับบัญชาประเมิน</th>
+                                <th class="py-4 px-6 border-r border-slate-100 text-center">ประเมิน(Before)</th>
+                                <th class="py-4 px-6 text-center">ประเมิน(After)</th>
                                 </tr>
                             </thead>
                             <tbody id="tracking-data-tbody" class="text-slate-700 divide-y divide-slate-100">
@@ -4136,9 +4137,13 @@ validCompsCountForPct++;
                     }
                     
                     let selfDate = '';
-                    let mgrDate = '';
-                    if (u) {
-                        if (u.evalDate && u.evalDate.startsWith('{')) {
+        let mgrDate = '';
+        let hasBefore = false;
+        let hasAfter = false;
+        if (u) {
+            if (u.before_evals && u.before_evals.some(v => v > 0)) hasBefore = true;
+            if (u.actuals && u.actuals.some(v => v > 0)) hasAfter = true;
+            if (u.evalDate && u.evalDate.startsWith('{')) {
                             try {
                                 let parsed = JSON.parse(u.evalDate);
                                 selfDate = parsed.self || '';
@@ -4156,14 +4161,16 @@ validCompsCountForPct++;
                         hasRole: hasRole,
                         hasTargets: hasTargets,
                         selfDate: selfDate,
-                        mgrDate: mgrDate
-                    });
+                    mgrDate: mgrDate,
+                    hasBefore: hasBefore,
+                    hasAfter: hasAfter
+                });
                 });
             }
             
 
             if (trackingList.length === 0) {
-                html += `<tr><td colspan="8" class="text-center py-8 text-slate-500">ไม่พบข้อมูล หรืออาจถูกกรอง (Filter) ออก</td></tr>`;
+                html += `<tr><td colspan="9" class="text-center py-8 text-slate-500">ไม่พบข้อมูล หรืออาจถูกกรอง (Filter) ออก</td></tr>`;
             } else {
                 trackingList.forEach((t, i) => {
                     html += `<tr class="hover:bg-slate-50 transition-colors">
@@ -4174,7 +4181,8 @@ validCompsCountForPct++;
                         <td class="py-3 px-6 border-r border-slate-100 text-center">${t.hasRole ? '<i class="fa-solid fa-check text-emerald-500"></i>' : ''}</td>
                         <td class="py-3 px-6 border-r border-slate-100 text-center">${t.hasTargets ? '<i class="fa-solid fa-check text-emerald-500"></i>' : ''}</td>
                         <td class="py-3 px-6 border-r border-slate-100 text-center text-xs text-slate-600">${t.selfDate || ''}</td>
-                        <td class="py-3 px-6 text-center text-xs text-slate-600">${t.mgrDate || ''}</td>
+                                    <td class="py-3 px-6 border-r border-slate-100 text-center text-xs text-slate-600">${(t.hasBefore && t.mgrDate) ? t.mgrDate : ''}</td>
+                                    <td class="py-3 px-6 text-center text-xs text-slate-600">${(t.hasAfter && t.mgrDate) ? t.mgrDate : ''}</td>
                     </tr>`;
                 });
             }
@@ -4189,7 +4197,7 @@ validCompsCountForPct++;
             }
 
             const headers = [
-                "ชื่อผู้บังคับบัญชา", "ชื่อพนักงาน", "ตำแหน่ง", "จัดทำ R&R", "ผูก competency", "ประเมินตนเอง", "ผู้บังคับบัญชาประเมิน"
+                "ชื่อผู้บังคับบัญชา", "ชื่อพนักงาน", "ตำแหน่ง", "จัดทำ R&R", "ผูก competency", "ประเมินตนเอง", "ประเมิน(Before)", "ประเมิน(After)"
             ];
 
             let csvContent = "\uFEFF" + headers.join(",") + "\n";
@@ -4198,16 +4206,17 @@ validCompsCountForPct++;
             const rows = tbody.querySelectorAll('tr');
             rows.forEach(tr => {
                 const cols = tr.querySelectorAll('td');
-                if (cols.length >= 8) {
-                    const rowData = [
-                        cols[1].innerText.trim(),
-                        cols[2].innerText.trim(),
-                        cols[3].innerText.trim(),
-                        cols[4].querySelector('i') ? 'Yes' : '',
-                        cols[5].querySelector('i') ? 'Yes' : '',
-                        cols[6].innerText.trim(),
-                        cols[7].innerText.trim()
-                    ].map(val => `"${val.replace(/"/g, '""')}"`);
+                if (cols.length >= 9) {
+                const rowData = [
+                    cols[1].innerText.trim(),
+                    cols[2].innerText.trim(),
+                    cols[3].innerText.trim(),
+                    cols[4].querySelector('i') ? 'Yes' : '',
+                    cols[5].querySelector('i') ? 'Yes' : '',
+                    cols[6].innerText.trim(),
+                    cols[7].innerText.trim(),
+                    cols[8].innerText.trim()
+                ].map(val => `"${val.replace(/"/g, '""')}"`);
                     
                     csvContent += rowData.join(",") + "\n";
                 }
