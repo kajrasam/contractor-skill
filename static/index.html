@@ -2710,6 +2710,7 @@
                 let sumTarget = 0;
                 let sumActual = 0;
                 let sumSelf = 0;
+                let sumBefore = 0;
                 let validCompsCount = 0;
 
                 for (let i = 0; i < competencies.length; i++) {
@@ -2722,6 +2723,7 @@
                         sumTarget += t;
                         sumActual += (emp.actuals[i] || 0);
                         sumSelf += emp.self_evals ? (emp.self_evals[i] || 0) : 0;
+                        sumBefore += emp.before_evals ? (emp.before_evals[i] || 0) : 0;
                         validCompsCount++;
                     }
                 }
@@ -2729,6 +2731,7 @@
                 const avgT = validCompsCount > 0 ? sumTarget / validCompsCount : 0;
                 const avgA = validCompsCount > 0 ? sumActual / validCompsCount : 0;
                 const avgS = validCompsCount > 0 ? sumSelf / validCompsCount : 0;
+                const avgB = validCompsCount > 0 ? sumBefore / validCompsCount : 0;
 
                 // Calculate % Complete
                 const percent = sumTarget > 0 ? Math.round((sumActual / sumTarget) * 100) : 0;
@@ -2738,6 +2741,7 @@
                     avgT: avgT.toFixed(1),
                     avgA: avgA.toFixed(1),
                     avgS: avgS.toFixed(1),
+                    avgB: avgB.toFixed(1),
                     percent: percent
                 });
             });
