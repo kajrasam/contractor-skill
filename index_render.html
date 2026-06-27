@@ -645,13 +645,30 @@
                             <h3 class="text-center font-bold text-scg-900 mb-4">Live Preview</h3>
                                                         <div class="mb-4">
                                 <label class="block text-xs font-bold text-slate-500 mb-1">แสดงข้อมูล (Filter)</label>
-                                <select id="radar-filter" onchange="updateEvalUI()" class="w-full text-sm p-2 border border-slate-200 rounded-lg outline-none">
-                                    <option value="all">แสดงทั้งหมด</option>
-                                    <option value="target">Level Expect (Target) อย่างเดียว</option>
-                                    <option value="self">Self Eva. อย่างเดียว</option>
-                                    <option value="before">Before (ประเมินก่อน) อย่างเดียว</option>
-                                    <option value="actual">Actual (ประเมินหลัง) อย่างเดียว</option>
-                                </select>
+                                <div class="relative w-full text-sm">
+                                    <div onclick="toggleRadarFilterDropdown('eval')" class="w-full p-2 border border-slate-200 rounded-lg bg-white flex justify-between items-center cursor-pointer hover:bg-slate-50 transition-colors">
+                                        <span id="eval-radar-filter-text" class="text-slate-700 truncate font-medium">แสดงทั้งหมด</span>
+                                        <i class="fa-solid fa-chevron-down text-slate-400 text-xs"></i>
+                                    </div>
+                                    <div id="eval-radar-filter-dropdown" class="absolute z-50 w-full mt-1 bg-white border border-slate-200 rounded-lg shadow-lg hidden flex-col py-1">
+                                        <label class="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 cursor-pointer">
+                                            <input type="checkbox" value="target" checked class="eval-radar-cb rounded border-slate-300 text-scg-600 focus:ring-scg-500" onchange="updateRadarFilter('eval')">
+                                            <span class="text-slate-700">Level Expect (Target)</span>
+                                        </label>
+                                        <label class="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 cursor-pointer">
+                                            <input type="checkbox" value="self" checked class="eval-radar-cb rounded border-slate-300 text-scg-600 focus:ring-scg-500" onchange="updateRadarFilter('eval')">
+                                            <span class="text-slate-700">Self Eva.</span>
+                                        </label>
+                                        <label class="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 cursor-pointer">
+                                            <input type="checkbox" value="before" checked class="eval-radar-cb rounded border-slate-300 text-scg-600 focus:ring-scg-500" onchange="updateRadarFilter('eval')">
+                                            <span class="text-slate-700">Before (ประเมินก่อน)</span>
+                                        </label>
+                                        <label class="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 cursor-pointer">
+                                            <input type="checkbox" value="actual" checked class="eval-radar-cb rounded border-slate-300 text-scg-600 focus:ring-scg-500" onchange="updateRadarFilter('eval')">
+                                            <span class="text-slate-700">Actual (ประเมินจริง)</span>
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                             <div class="relative h-64 w-full"><canvas id="evalRadarChart"></canvas></div>
                         </div>
@@ -665,7 +682,35 @@
                     <div>
                         <h2 class="text-2xl font-bold text-scg-900">Dashboard วิเคราะห์สมรรถนะ</h2>
                         <p class="text-slate-500 text-sm">เปรียบเทียบ Target vs Actual ของพนักงาน</p>
+                    
+                    <div class="mb-4 w-full md:w-64 ml-auto">
+                        <label class="block text-xs font-bold text-slate-500 mb-1">แสดงข้อมูล (Filter)</label>
+                        <div class="relative w-full text-sm">
+                            <div onclick="toggleRadarFilterDropdown('dashboard')" class="w-full p-2 border border-slate-200 rounded-lg bg-white flex justify-between items-center cursor-pointer hover:bg-slate-50 transition-colors">
+                                <span id="dashboard-radar-filter-text" class="text-slate-700 truncate font-medium">แสดงทั้งหมด</span>
+                                <i class="fa-solid fa-chevron-down text-slate-400 text-xs"></i>
+                            </div>
+                            <div id="dashboard-radar-filter-dropdown" class="absolute z-50 w-full mt-1 bg-white border border-slate-200 rounded-lg shadow-lg hidden flex-col py-1">
+                                <label class="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 cursor-pointer">
+                                    <input type="checkbox" value="target" checked class="dashboard-radar-cb rounded border-slate-300 text-scg-600 focus:ring-scg-500" onchange="updateRadarFilter('dashboard')">
+                                    <span class="text-slate-700">Level Expect (Target)</span>
+                                </label>
+                                <label class="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 cursor-pointer">
+                                    <input type="checkbox" value="self" checked class="dashboard-radar-cb rounded border-slate-300 text-scg-600 focus:ring-scg-500" onchange="updateRadarFilter('dashboard')">
+                                    <span class="text-slate-700">Self Eva.</span>
+                                </label>
+                                <label class="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 cursor-pointer">
+                                    <input type="checkbox" value="before" checked class="dashboard-radar-cb rounded border-slate-300 text-scg-600 focus:ring-scg-500" onchange="updateRadarFilter('dashboard')">
+                                    <span class="text-slate-700">Before (ประเมินก่อน)</span>
+                                </label>
+                                <label class="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 cursor-pointer">
+                                    <input type="checkbox" value="actual" checked class="dashboard-radar-cb rounded border-slate-300 text-scg-600 focus:ring-scg-500" onchange="updateRadarFilter('dashboard')">
+                                    <span class="text-slate-700">Actual (ประเมินจริง)</span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
+</div>
 
                     <!-- Manager Chart: Average Clustered Column -->
                     <div id="dash-manager-view" class="mb-6 bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
@@ -2450,19 +2495,18 @@
             const ctx = document.getElementById('evalRadarChart').getContext('2d');
 
                         let activeDatasets = [];
-            const rFilter = document.getElementById('radar-filter');
-            const fVal = rFilter ? rFilter.value : 'all';
+            const filters = activeRadarFilters['eval'];
             
-            if (fVal === 'all' || fVal === 'target') {
+            if (filters.includes('target')) {
                 activeDatasets.push({ label: 'Target', data: cleanTargets, borderColor: '#cbd5e1', backgroundColor: 'transparent', borderDash: [5, 5] });
             }
-            if (fVal === 'all' || fVal === 'self') {
+            if (filters.includes('self')) {
                 activeDatasets.push({ label: 'Self Eva.', data: selfEvals, borderColor: '#fbbf24', backgroundColor: 'rgba(251, 191, 36, 0.2)' });
             }
-            if (fVal === 'all' || fVal === 'before') {
+            if (filters.includes('before')) {
                 activeDatasets.push({ label: 'Before', data: beforeEvals, borderColor: '#9333ea', backgroundColor: 'transparent', borderDash: [2, 2] });
             }
-            if (fVal === 'all' || fVal === 'actual') {
+            if (filters.includes('actual')) {
                 activeDatasets.push({ label: 'Actual', data: actuals, borderColor: '#ca3656', backgroundColor: 'rgba(202, 54, 86, 0.2)' });
             }
             
@@ -4501,6 +4545,67 @@
     </div>
 
     <script>
+        
+        // --- Radar Chart Multi-Select Filter Logic ---
+        let activeRadarFilters = {
+            'eval': ['target', 'self', 'before', 'actual'],
+            'dashboard': ['target', 'self', 'before', 'actual'],
+            'idp': ['target', 'self', 'before', 'actual'],
+            'analytic': ['target', 'self', 'before', 'actual']
+        };
+
+        function toggleRadarFilterDropdown(type) {
+            const dropdown = document.getElementById(`${type}-radar-filter-dropdown`);
+            if (dropdown) {
+                dropdown.classList.toggle('hidden');
+            }
+        }
+
+        function updateRadarFilter(type) {
+            const checkboxes = document.querySelectorAll(`.${type}-radar-cb`);
+            let checkedVals = [];
+            checkboxes.forEach(cb => {
+                if (cb.checked) checkedVals.push(cb.value);
+            });
+            activeRadarFilters[type] = checkedVals;
+            
+            const textEl = document.getElementById(`${type}-radar-filter-text`);
+            if (textEl) {
+                if (checkedVals.length === 4) {
+                    textEl.textContent = 'แสดงทั้งหมด';
+                } else if (checkedVals.length === 0) {
+                    textEl.textContent = 'ซ่อนทั้งหมด';
+                } else {
+                    const labels = {
+                        'target': 'Target',
+                        'self': 'Self',
+                        'before': 'Before',
+                        'actual': 'Actual'
+                    };
+                    textEl.textContent = checkedVals.map(v => labels[v]).join(', ');
+                }
+            }
+            
+            if (type === 'eval') drawEvalRadar();
+            if (type === 'dashboard') setupDashboardTab();
+            if (type === 'idp') drawIDPRadar();
+            if (type === 'analytic') {
+                if (typeof renderAnalyticTab === 'function') renderAnalyticTab();
+            }
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(e) {
+            ['eval', 'dashboard', 'idp', 'analytic'].forEach(type => {
+                const dropdown = document.getElementById(`${type}-radar-filter-dropdown`);
+                const container = dropdown ? dropdown.parentElement : null;
+                if (container && !container.contains(e.target)) {
+                    dropdown.classList.add('hidden');
+                }
+            });
+        });
+        // ---------------------------------------------
+
         let currentEditIndex = -1;
         function openAddEmployeeModal() {
             currentEditIndex = -1;
