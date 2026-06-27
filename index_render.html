@@ -3600,14 +3600,20 @@
 
             // Calculate % Complete (Sum of Actual / Sum of Target) * 100
             let totalActualForPct = 0;
-            let totalTargetForPct = 0;
+let totalTargetForPct = 0;
+let totalPercentForPct = 0;
+let validCompsCountForPct = 0;
             for (let i = 0; i < competencies.length; i++) {
-                if (targets[i] > 0) {
-                    totalTargetForPct += targets[i];
-                    totalActualForPct += (emp.actuals[i] || 0);
+                const t = targets[i] || 0;
+if (t > 0) {
+                    totalTargetForPct += t;
+                    const a = (emp.actuals[i] || 0);
+totalActualForPct += a;
+totalPercentForPct += Math.min(100, (a / t) * 100);
+validCompsCountForPct++;
                 }
             }
-            let pctComplete = totalTargetForPct > 0 ? Math.round((totalActualForPct / totalTargetForPct) * 100) : 0;
+            let pctComplete = validCompsCountForPct > 0 ? Math.round(totalPercentForPct / validCompsCountForPct) : 0;
 
             // Generate Special Expertise HTML
             let expertiseHtml = '';
