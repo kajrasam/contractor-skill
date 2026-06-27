@@ -2726,10 +2726,11 @@
                 const targets = positionTargets[emp.position] || [];
 
                 let sumTarget = 0;
-                let sumActual = 0;
-                let sumSelf = 0;
-                let sumBefore = 0;
-                let validCompsCount = 0;
+            let sumActual = 0;
+            let sumSelf = 0;
+            let sumBefore = 0;
+            let validCompsCount = 0;
+            let sumPercent = 0;
 
                 for (let i = 0; i < competencies.length; i++) {
                     if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
@@ -2739,7 +2740,10 @@
                     if (t === 0) continue;
                     if (t > 0) {
                         sumTarget += t;
-                        sumActual += (emp.actuals[i] || 0);
+                        const a = emp.actuals[i] || 0;
+                    sumActual += a;
+                    let compPercent = Math.min(100, (a / t) * 100);
+                    sumPercent += compPercent;
                         sumSelf += emp.self_evals ? (emp.self_evals[i] || 0) : 0;
                         sumBefore += emp.before_evals ? (emp.before_evals[i] || 0) : 0;
                         validCompsCount++;
@@ -2752,7 +2756,7 @@
                 const avgB = validCompsCount > 0 ? sumBefore / validCompsCount : 0;
 
                 // Calculate % Complete
-                const percent = sumTarget > 0 ? Math.round((sumActual / sumTarget) * 100) : 0;
+                const percent = validCompsCount > 0 ? Math.round(sumPercent / validCompsCount) : 0;
 
                 dataToSort.push({
                     name: emp.name,
@@ -4232,7 +4236,7 @@
             position = emp.position || "Unassigned";
             
             const targets = positionTargets[emp.position] || [];
-            let sumTarget = 0, sumActual = 0, sumSelf = 0, sumBefore = 0, validCompsCount = 0;
+            let sumTarget = 0, sumActual = 0, sumSelf = 0, sumBefore = 0, validCompsCount = 0, sumPercent = 0;
             
             for (let j = 0; j < competencies.length; j++) {
                 if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[j].group)) continue;
@@ -4242,7 +4246,10 @@
                 if (t === 0) continue;
                 if (t > 0) {
                     sumTarget += t;
-                    sumActual += (emp.actuals[j] || 0);
+                    const a = emp.actuals[j] || 0;
+                    sumActual += a;
+                    let compPercent = Math.min(100, (a / t) * 100);
+                    sumPercent += compPercent;
                     sumSelf += emp.self_evals ? (emp.self_evals[j] || 0) : 0;
                     sumBefore += emp.before_evals ? (emp.before_evals[j] || 0) : 0;
                     validCompsCount++;
@@ -4253,7 +4260,7 @@
             avgA = validCompsCount > 0 ? (sumActual / validCompsCount).toFixed(1) : "0.0";
             avgS = validCompsCount > 0 ? (sumSelf / validCompsCount).toFixed(1) : "0.0";
             avgB = validCompsCount > 0 ? (sumBefore / validCompsCount).toFixed(1) : "0.0";
-            percent = sumTarget > 0 ? Math.round((sumActual / sumTarget) * 100) : 0;
+            percent = validCompsCount > 0 ? Math.round(sumPercent / validCompsCount) : 0;
         }
         
         csvContent += `"${empName}","${position}",${avgT},${avgB},${avgS},${avgA},${percent}%
