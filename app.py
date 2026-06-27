@@ -58,8 +58,10 @@ def get_data():
     for pt in pt_res.data:
         pos = pt["position_name"]
         if pos not in positionTargets:
-            positionTargets[pos] = []
-        positionTargets[pos].append(pt["target_level"])
+            positionTargets[pos] = [0] * len(competencies)
+        idx = pt["competency_idx"]
+        if idx < len(competencies):
+            positionTargets[pos][idx] = pt["target_level"]
         
     # 4. dbUsers
     user_res = supabase.table("users").select("*").execute()

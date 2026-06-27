@@ -2090,7 +2090,7 @@
 
         async function updateMatrixTarget(pos, compIndex, selectEl) {
             const val = parseInt(selectEl.value);
-            if (!positionTargets[pos]) positionTargets[pos] = {};
+            if (!positionTargets[pos]) positionTargets[pos] = Array(competencies.length).fill(0);
             positionTargets[pos][compIndex] = val;
 
             await fetch(`${API_BASE}/positions/target`, {
@@ -2283,7 +2283,7 @@
             else if (eData && eData.position_name) pName = eData.position_name;
 
             const targets = positionTargets[pName] || [];
-            const hasMappedCompetency = targets.some(t => t > 0);
+            const hasMappedCompetency = Array.isArray(targets) ? targets.some(t => t > 0) : Object.values(targets).some(t => t > 0);
 
             if (!hasMappedCompetency) {
                 document.getElementById('sliders-container').innerHTML = `<div class="text-center py-16 bg-slate-50 rounded-xl border border-slate-200 shadow-sm mt-4">
@@ -2530,7 +2530,7 @@
             else if (eData && eData.position_name) pName = eData.position_name;
 
             const targets = positionTargets[pName] || [];
-            const hasMappedCompetency = targets.some(t => t > 0);
+            const hasMappedCompetency = Array.isArray(targets) ? targets.some(t => t > 0) : Object.values(targets).some(t => t > 0);
 
             if (!hasMappedCompetency) {
                 document.getElementById('sliders-container').innerHTML = `<div class="text-center py-16 bg-slate-50 rounded-xl border border-slate-200 shadow-sm mt-4">
@@ -4129,7 +4129,7 @@
                     
                     let hasTargets = false;
                     if (positionTargets[posName]) {
-                        hasTargets = positionTargets[posName].some(t => t >= 1);
+                        hasTargets = Array.isArray(positionTargets[posName]) ? positionTargets[posName].some(t => t >= 1) : Object.values(positionTargets[posName]).some(t => t >= 1);
                     }
                     
                     let selfDate = '';
