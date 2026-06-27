@@ -2982,7 +2982,10 @@
             subIds.forEach(id => {
                 const emp = dbUsers[id];
                 const targets = positionTargets[emp.position] || [];
-                let totalTarget = 0; let totalActual = 0; let gaps = [];
+                let totalTarget = 0;
+    let totalActual = 0;
+    let totalPercent = 0;
+    let validCompsCount = 0; let gaps = [];
 
                 for (let i = 0; i < competencies.length; i++) {
                     if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
@@ -2994,12 +2997,14 @@
                         const a = emp.actuals[i] || 0;
                         totalTarget += t;
                         totalActual += a;
+            totalPercent += Math.min(100, (a / t) * 100);
+            validCompsCount++;
                         let diff = a - t;
                         if (diff < 0) gaps.push({ skill: currentLabels[i], gap: diff, index: i });
                     }
                 }
 
-                const readiness = totalTarget === 0 ? 0 : Math.round((totalActual / totalTarget) * 100);
+                const readiness = validCompsCount === 0 ? 0 : Math.round(totalPercent / validCompsCount);
                 const safeReadiness = readiness;
                 let readinessColor = safeReadiness >= 100 ? "text-green-400" : (safeReadiness >= 80 ? "text-yellow-400" : "text-red-400");
                 const gapText = gaps.length === 0 ? "พร้อมสมบูรณ์ (ไม่มี Gap)" : `พบ ${gaps.length} ทักษะที่ต้องพัฒนา`;
@@ -3871,15 +3876,18 @@
             validUserIds.forEach(id => {
                 const emp = dbUsers[id];
                 const targets = positionTargets[emp.position] || [];
-                let totalT = 0; let totalA = 0;
+                let totalT = 0; let totalA = 0; let totalP = 0; let validCompsCount = 0;
                 compIndices.forEach(idx => {
                     const t = targets[idx] || 0;
                     if (t > 0) {
                         totalT += t;
-                        totalA += (emp.actuals[idx] || 0);
+                        const a = (emp.actuals[idx] || 0);
+                    totalA += a;
+                    totalP += Math.min(100, (a / t) * 100);
+                    validCompsCount++;
                     }
                 });
-                userReadiness[id] = totalT > 0 ? (totalA / totalT) * 100 : 0;
+                userReadiness[id] = validCompsCount > 0 ? (totalP / validCompsCount) : 0;
             });
 
             const radarContainer = document.getElementById('analytic-radar-container');

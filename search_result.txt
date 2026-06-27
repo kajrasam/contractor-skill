@@ -1,0 +1,19 @@
+COMPLETED SKILL LEVEL:
+3671: <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">% Completed Skill Level</h4>
+
+READINESS:
+3016: const readiness = totalTarget === 0 ? 0 : Math.round((totalActual / totalTarget) * 100);
+3017: const safeReadiness = readiness;
+3018: let readinessColor = safeReadiness >= 100 ? "text-green-400" : (safeReadiness >= 80 ? "text-yellow-400" : "text-red-400");
+3052: <div class="flex items-baseline gap-2"><span class="text-5xl font-bold ${readinessColor}">${safeReadiness}%</span><span class="text-sm text-scg-200">จากเป้าหมาย</span></div>
+3883: // Calculate readiness per user
+3884: let userReadiness = {};
+3896: userReadiness[id] = totalT > 0 ? (totalA / totalT) * 100 : 0;
+3914: if (userReadiness[id] > maxVal) maxVal = userReadiness[id];
+3918: let topUsers = usersInPos.filter(id => userReadiness[id] === maxVal);
+3948: <span>Readiness: <span class="font-bold text-scg-700">${readPct}%</span></span>
+3967: let maxVal = Math.max(...usersInPos.map(id => userReadiness[id]));
+3968: let topUsers = usersInPos.filter(id => userReadiness[id] === maxVal);
+
+ความพร้อมโดยรวม:
+3051: <h3 class="font-medium text-scg-100 mb-1">ความพร้อมโดยรวม</h3>
