@@ -2724,10 +2724,10 @@ graph TD
                 activeDatasets.push({ label: 'Target', data: cleanTargets, borderColor: '#cbd5e1', backgroundColor: 'transparent', borderDash: [5, 5] });
             }
             if (filters.includes('self')) {
-                activeDatasets.push({ label: 'Self Eva.', data: selfEvals, borderColor: '#fbbf24', backgroundColor: 'rgba(251, 191, 36, 0.2)' });
+                activeDatasets.push({ label: 'Self Eva.', data: selfEvals, borderColor: '#9333ea', backgroundColor: 'transparent', borderDash: [5, 5] });
             }
             if (filters.includes('before')) {
-                activeDatasets.push({ label: 'Before', data: beforeEvals, borderColor: '#9333ea', backgroundColor: 'transparent', borderDash: [2, 2] });
+                activeDatasets.push({ label: 'Before', data: beforeEvals, borderColor: '#fbbf24', backgroundColor: 'rgba(251, 191, 36, 0.2)' });
             }
             if (filters.includes('actual')) {
                 activeDatasets.push({ label: 'Actual', data: actuals, borderColor: '#ca3656', backgroundColor: 'rgba(202, 54, 86, 0.2)' });
@@ -3239,8 +3239,8 @@ graph TD
                 const activeFilters = activeRadarFilters['dashboard'] || ['target', 'self', 'before', 'actual'];
                 let activeDatasets = [];
                 if (activeFilters.includes('target')) activeDatasets.push({ label: 'Target', data: cleanTargets, borderColor: '#94a3b8', backgroundColor: 'rgba(148, 163, 184, 0.2)' });
-                if (activeFilters.includes('before')) activeDatasets.push({ label: 'Before', data: cleanBefores, borderColor: '#9333ea', backgroundColor: 'transparent', borderDash: [2, 2] });
-                if (activeFilters.includes('self')) activeDatasets.push({ label: 'Self Eva.', data: cleanSelfs, borderColor: '#fbbf24', backgroundColor: 'rgba(251, 191, 36, 0.2)' });
+                if (activeFilters.includes('before')) activeDatasets.push({ label: 'Before', data: cleanBefores, borderColor: '#fbbf24', backgroundColor: 'rgba(251, 191, 36, 0.2)' });
+                if (activeFilters.includes('self')) activeDatasets.push({ label: 'Self Eva.', data: cleanSelfs, borderColor: '#9333ea', backgroundColor: 'transparent', borderDash: [5, 5] });
                 if (activeFilters.includes('actual')) activeDatasets.push({ label: 'Actual', data: cleanActuals, borderColor: '#882239', backgroundColor: 'rgba(136, 34, 57, 0.3)' });
 
                 const chart = new Chart(ctx, {
@@ -3917,8 +3917,8 @@ validCompsCountForPct++;
             const activeFilters = activeRadarFilters['idp'] || ['target', 'self', 'before', 'actual'];
             let activeDatasetsIDP = [];
             if (activeFilters.includes('target')) activeDatasetsIDP.push({ label: 'Target', data: cleanTargets, borderColor: '#cbd5e1', backgroundColor: 'transparent', borderDash: [5, 5], borderWidth: 2, pointRadius: 0 });
-            if (activeFilters.includes('before')) activeDatasetsIDP.push({ label: 'Before', data: window.beforeEvalsLocal, borderColor: '#9333ea', backgroundColor: 'transparent', borderDash: [2, 2], borderWidth: 2, pointBackgroundColor: '#9333ea', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#9333ea', pointRadius: 4 });
-            if (activeFilters.includes('self')) activeDatasetsIDP.push({ label: 'Self Eva.', data: selfEvals, borderColor: '#fbbf24', backgroundColor: 'rgba(251, 191, 36, 0.2)', borderWidth: 2, pointBackgroundColor: '#fbbf24', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#fbbf24', pointRadius: 4 });
+            if (activeFilters.includes('before')) activeDatasetsIDP.push({ label: 'Before', data: window.beforeEvalsLocal, borderColor: '#fbbf24', backgroundColor: 'rgba(251, 191, 36, 0.2)', borderWidth: 2, pointBackgroundColor: '#fbbf24', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#fbbf24', pointRadius: 4 });
+            if (activeFilters.includes('self')) activeDatasetsIDP.push({ label: 'Self Eva.', data: selfEvals, borderColor: '#9333ea', backgroundColor: 'transparent', borderDash: [5, 5], borderWidth: 2, pointBackgroundColor: '#9333ea', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#9333ea', pointRadius: 4 });
             if (activeFilters.includes('actual')) activeDatasetsIDP.push({ label: 'Actual', data: actuals, borderColor: '#ca3656', backgroundColor: 'rgba(202, 54, 86, 0.25)', borderWidth: 2, pointBackgroundColor: '#ca3656', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#ca3656', pointRadius: 4 });
 
             idpRadarChartInstance = new Chart(ctx, {
@@ -4151,8 +4151,8 @@ validCompsCountForPct++;
                     let activeDatasetsAnalytic = [];
                     if (activeFilters.includes('target')) activeDatasetsAnalytic.push({ label: 'Target', data: targetData, borderColor: '#cbd5e1', backgroundColor: 'transparent', borderDash: [5, 5], borderWidth: 2, pointRadius: 0 });
                     if (activeFilters.includes('actual')) activeDatasetsAnalytic.push({ label: 'Actual', data: actualsData, borderColor: '#ca3656', backgroundColor: 'rgba(202, 54, 86, 0.25)', borderWidth: 2, pointBackgroundColor: '#ca3656', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#ca3656', pointRadius: 3 });
-                    if (activeFilters.includes('self')) activeDatasetsAnalytic.push({ label: 'Self Eva.', data: selfData, borderColor: '#fbbf24', backgroundColor: 'rgba(251, 191, 36, 0.2)', borderWidth: 2, pointBackgroundColor: '#fbbf24', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#fbbf24', pointRadius: 3 });
-                    if (activeFilters.includes('before')) activeDatasetsAnalytic.push({ label: 'Before', data: beforeData, borderColor: '#9333ea', backgroundColor: 'transparent', borderDash: [2, 2], borderWidth: 2, pointBackgroundColor: '#9333ea', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#9333ea', pointRadius: 3 });
+                    if (activeFilters.includes('self')) activeDatasetsAnalytic.push({ label: 'Self Eva.', data: selfData, borderColor: '#9333ea', backgroundColor: 'transparent', borderDash: [5, 5], borderWidth: 2, pointBackgroundColor: '#9333ea', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#9333ea', pointRadius: 3 });
+                    if (activeFilters.includes('before')) activeDatasetsAnalytic.push({ label: 'Before', data: beforeData, borderColor: '#fbbf24', backgroundColor: 'rgba(251, 191, 36, 0.2)', borderWidth: 2, pointBackgroundColor: '#fbbf24', pointBorderColor: '#fff', pointHoverBackgroundColor: '#fff', pointHoverBorderColor: '#fbbf24', pointRadius: 3 });
 
                     const chart = new Chart(ctx, {
                         type: 'radar',
