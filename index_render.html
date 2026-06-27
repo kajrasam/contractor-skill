@@ -2577,6 +2577,13 @@
                     emp.actuals[i] = parseInt(elActual.value);
                 }
 
+                // Grab before eval if exists
+                const elBefore = document.getElementById(`eval-before-${id}-${i}`);
+                if (elBefore) {
+                    if (!emp.before_evals) emp.before_evals = [];
+                    emp.before_evals[i] = parseInt(elBefore.value);
+                }
+
                 // Grab feedback if exists
                 const elFeedback = document.getElementById(`eval-feedback-${id}-${i}`);
                 if (elFeedback) {
@@ -2628,6 +2635,7 @@
                     userId: id,
                     actuals: emp.actuals,
                     selfEvals: emp.self_evals,
+                    beforeEvals: emp.before_evals,
                     supervisorFeedbacks: emp.supervisor_feedback,
                     evidences: emp.evidences,
                     additionalExpectations: emp.additional_expectations,
