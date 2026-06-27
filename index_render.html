@@ -2317,6 +2317,20 @@
             `;
 
             document.getElementById('sliders-container').innerHTML = html;
+            
+            const evalModeToggle = document.getElementById('eval-mode-toggle');
+            if (evalModeToggle) {
+                if (currentUser.id === id) {
+                    evalModeToggle.classList.add('hidden');
+                } else {
+                    evalModeToggle.classList.remove('hidden');
+                    const actualRadio = document.querySelector('input[name="evalModeToggle"][value="actual"]');
+                    if (actualRadio) actualRadio.checked = true;
+                    if (typeof toggleEvalViewMode === 'function') {
+                        toggleEvalViewMode('actual');
+                    }
+                }
+            }
             drawEvalRadar();
         }
 
