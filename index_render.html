@@ -4218,8 +4218,7 @@
     const data = averageBarChartInstance.data;
     const labels = data.labels;
 
-    let csvContent = "\uFEFF" + "Employee Name,Position name,Average Expected,Average Before,Average Self Eva,Average Actual,% Complete
-";
+    let csvContent = "\uFEFF" + "Employee Name,Position name,Average Expected,Average Before,Average Self Eva,Average Actual,% Complete\n";
     
     for (let i = 0; i < labels.length; i++) {
         const empName = labels[i];
@@ -4263,8 +4262,7 @@
             percent = validCompsCount > 0 ? Math.round(sumPercent / validCompsCount) : 0;
         }
         
-        csvContent += `"${empName}","${position}",${avgT},${avgB},${avgS},${avgA},${percent}%
-`;
+        csvContent += `"${empName}","${position}",${avgT},${avgB},${avgS},${avgA},${percent}%\n`;
     }
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
