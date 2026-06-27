@@ -1757,7 +1757,17 @@
             let eData = employeeData.find(e => e.username === empId || e.user_id === empId || e.EmployeeNameEng === emp.name || e.EmployeeNameThai === emp.name || e.FullNameTH === emp.name);
 
             if (!eData) {
-                let empName = emp.name;
+                let hasScopeRestriction = false;
+        if (currentUser.scope_division && currentUser.scope_division.length > 0) hasScopeRestriction = true;
+        if (currentUser.scope_department && currentUser.scope_department !== 'ALL') hasScopeRestriction = true;
+        if (currentUser.scope_section && currentUser.scope_section !== 'ALL') hasScopeRestriction = true;
+        
+        const isAdmin = (currentUser.id === 'Admin' || currentUser.id.toLowerCase().includes('admin') || (currentUser.role && (currentUser.role === 'Admin' || currentUser.role === 'Super Admin')));
+        if (hasScopeRestriction && isAdmin) {
+            return false;
+        }
+
+        let empName = emp.name;
                 if (selectedEmployeeFilter.length > 0 && (!empName || !selectedEmployeeFilter.includes(empName))) return false;
                 if (selectedSectionFilter.length > 0 || selectedDepartmentFilter.length > 0 || selectedReportToFilter.length > 0) return false;
                 return true;
