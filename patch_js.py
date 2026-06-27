@@ -1,4 +1,6 @@
+import os
 
+js_code = '''
         function openManageAdminsModal() {
             document.getElementById('manage-admins-modal').classList.remove('hidden');
             renderAdminUsersTable();
@@ -10,7 +12,6 @@
             document.getElementById('admin-name').value = '';
             document.getElementById('admin-scope-sec').value = '';
             document.getElementById('admin-scope-dep').value = '';
-            Array.from(document.getElementById('admin-scope-div').options).forEach(o => o.selected = false);
         }
 
         function renderAdminUsersTable() {
@@ -27,7 +28,6 @@
                         <td class="py-3 px-4">${u.name || '-'}</td>
                         <td class="py-3 px-4">${u.scope_section || 'ALL'}</td>
                         <td class="py-3 px-4">${u.scope_department || 'ALL'}</td>
-                        <td class="py-3 px-4">${u.scope_division && u.scope_division.length > 0 ? u.scope_division.join(\', \') : \'ALL\'}</td>
                         <td class="py-3 px-4 text-center">
                             ${u.role !== 'Super Admin' ? `
                                 <button onclick="editAdminUser('${uid}')" class="text-blue-500 hover:text-blue-700 mr-2"><i class="fa-solid fa-edit"></i></button>
@@ -48,13 +48,6 @@
             document.getElementById('admin-name').value = u.name || '';
             document.getElementById('admin-scope-sec').value = u.scope_section || '';
             document.getElementById('admin-scope-dep').value = u.scope_department || '';
-            const divSelect = document.getElementById('admin-scope-div');
-            Array.from(divSelect.options).forEach(o => o.selected = false);
-            if (u.scope_division && Array.isArray(u.scope_division)) {
-                Array.from(divSelect.options).forEach(o => {
-                    if (u.scope_division.includes(o.value)) o.selected = true;
-                });
-            }
         }
 
         async function saveAdminUser() {
@@ -63,7 +56,6 @@
             const name = document.getElementById('admin-name').value.trim();
             let sec = document.getElementById('admin-scope-sec').value.trim();
             let dep = document.getElementById('admin-scope-dep').value.trim();
-            let div = Array.from(document.getElementById('admin-scope-div').selectedOptions).map(o => o.value);
             
             if (!uid || !pass) {
                 if (typeof showToast === 'function') showToast('กรุณากรอก ID และ Password', 'error');
@@ -81,8 +73,7 @@
                         pass: pass,
                         name: name,
                         scope_section: sec,
-                        scope_department: dep,
-                        scope_division: div
+                        scope_department: dep
                     })
                 });
                 if (res.ok) {
@@ -93,7 +84,6 @@
                     dbUsers[uid].role = 'Admin';
                     dbUsers[uid].scope_section = sec;
                     dbUsers[uid].scope_department = dep;
-                    dbUsers[uid].scope_division = div;
                     renderAdminUsersTable();
                     clearAdminForm();
                 } else {
@@ -119,4 +109,99 @@
                 console.error(e);
             }
         }
-    
+'''
+
+def patch_file(filepath):
+    with open(filepath, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    # 1. Add JS functions at the end of scripts
+    if 'function openManageAdminsModal()' not in content:
+        target_script = '</script>'
+        content = content.replace('</script>', js_code + '\n</script>', 1)
+        
+    # 2. Patch handleLogin
+    if "currentUser.scope_section = 'ALL';" not in content:
+        old_login = """            currentUser = { id: username, name: user.name, role: user.role };
+            if (user.role === 'Admin') {
+                updateUIForRole('Admin');
+                document.getElementById('login-modal').classList.add('hidden');"""
+                
+        new_login = """            currentUser = { id: username, name: user.name, role: user.role };
+            if (user.role === 'Super Admin') {
+                currentUser.scope_section = 'ALL';
+                currentUser.scope_department = 'ALL';
+                const btn = document.getElementById('btn-manage-admins');
+                if (btn) btn.classList.remove('hidden');
+                updateUIForRole('Admin');
+                document.getElementById('login-modal').classList.add('hidden');
+            } else if (user.role === 'Admin') {
+                currentUser.scope_section = user.scope_section || 'ALL';
+                currentUser.scope_department = user.scope_department || 'ALL';
+                const btn = document.getElementById('btn-manage-admins');
+                if (btn) btn.classList.add('hidden');
+                updateUIForRole('Admin');
+                document.getElementById('login-modal').classList.add('hidden');"""
+        content = content.replace(old_login, new_login)
+        
+    # 3. Patch initFilters
+    if "depEl.disabled = true;" not in content:
+        old_filter = """        function initFilters() {
+            const departments = new Set();
+            const sections = new Set();"""
+            
+        new_filter = """        function initFilters() {
+            const departments = new Set();
+            const sections = new Set();"""
+            
+        content = content.replace(old_filter, new_filter) # Just a marker, let's replace at the end of initFilters
+        
+        old_filter_end = """            populateDropdown('filter-section', Array.from(sections).sort());
+        }"""
+        new_filter_end = """            populateDropdown('filter-section', Array.from(sections).sort());
+            
+            if (currentUser && currentUser.role === 'Admin') {
+                if (currentUser.scope_department && currentUser.scope_department !== 'ALL') {
+                    const depEl = document.getElementById('filter-department');
+                    if (depEl) {
+                        depEl.value = currentUser.scope_department;
+                        depEl.disabled = true;
+                        depEl.classList.add('bg-slate-100');
+                    }
+                }
+                if (currentUser.scope_section && currentUser.scope_section !== 'ALL') {
+                    const secEl = document.getElementById('filter-section');
+                    if (secEl) {
+                        secEl.value = currentUser.scope_section;
+                        secEl.disabled = true;
+                        secEl.classList.add('bg-slate-100');
+                    }
+                }
+            }
+        }"""
+        content = content.replace(old_filter_end, new_filter_end)
+
+    # 4. Patch setupAdminTab
+    if "let filteredEmployeeDataAll = employeeDataAll;" not in content:
+        old_setup = """        function setupAdminTab() {
+            adminTempData = employeeDataAll.map(e => {"""
+        new_setup = """        function setupAdminTab() {
+            let filteredEmployeeDataAll = employeeDataAll;
+            if (currentUser && currentUser.role === 'Admin') {
+                if (currentUser.scope_department && currentUser.scope_department !== 'ALL') {
+                    filteredEmployeeDataAll = filteredEmployeeDataAll.filter(e => e.DepartmentThai === currentUser.scope_department || e.department === currentUser.scope_department);
+                }
+                if (currentUser.scope_section && currentUser.scope_section !== 'ALL') {
+                    filteredEmployeeDataAll = filteredEmployeeDataAll.filter(e => e.SectionThai === currentUser.scope_section || e.section === currentUser.scope_section);
+                }
+            }
+
+            adminTempData = filteredEmployeeDataAll.map(e => {"""
+        content = content.replace(old_setup, new_setup)
+        
+    with open(filepath, 'w', encoding='utf-8') as f:
+        f.write(content)
+
+patch_file('index_render.html')
+patch_file('static/index.html')
+print("JS Patched successfully.")
