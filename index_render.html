@@ -1345,7 +1345,7 @@
 
             if (tabId === 'training') {
                 const toggleContainer = document.getElementById('admin-edit-toggle-container');
-                if (currentUser.id === 'Admin') toggleContainer.classList.remove('hidden');
+                if ((currentUser.id === 'Admin' || currentUser.id.toLowerCase().includes('admin') || (currentUser.role && (currentUser.role === 'Admin' || currentUser.role === 'Super Admin')))) toggleContainer.classList.remove('hidden');
                 else toggleContainer.classList.add('hidden');
 
                 isEditMode = false;
@@ -1867,7 +1867,7 @@
             });
             let visiblePos = Array.from(visiblePosSet).filter(p => p).sort();
 
-            const isAdmin = currentUser.id === 'Admin';
+            const isAdmin = (currentUser.id === 'Admin' || currentUser.id.toLowerCase().includes('admin') || (currentUser.role && (currentUser.role === 'Admin' || currentUser.role === 'Super Admin')));
             const subs = getSubordinates(currentUser.id);
 
             if (!isAdmin) {
@@ -1953,7 +1953,7 @@
             });
             let visiblePos = Array.from(visiblePosSet).filter(p => p).sort();
 
-            const isAdmin = currentUser.id === 'Admin';
+            const isAdmin = (currentUser.id === 'Admin' || currentUser.id.toLowerCase().includes('admin') || (currentUser.role && (currentUser.role === 'Admin' || currentUser.role === 'Super Admin')));
             const subs = getSubordinates(currentUser.id);
 
             if (!isAdmin) {
@@ -2130,7 +2130,7 @@
 
         // --- 4. Evaluation Logic ---
         function setupEvaluationTab() {
-            if (currentUser.id === 'Admin') {
+            if ((currentUser.id === 'Admin' || currentUser.id.toLowerCase().includes('admin') || (currentUser.role && (currentUser.role === 'Admin' || currentUser.role === 'Super Admin')))) {
                 document.getElementById('admin-override-container').classList.remove('hidden');
 
                 const overrideSelect = document.getElementById('admin-override-select');
