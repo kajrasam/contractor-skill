@@ -3107,6 +3107,19 @@ graph TD
             for (let i = 0; i < competencies.length; i++) {
                 if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(competencies[i].group)) continue;
                 if (selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(competencies[i].name)) continue;
+                
+                // Only include if at least one visible employee has a target > 0 for this competency
+                let hasAnyTarget = false;
+                for (let id of subIds) {
+                    const emp = dbUsers[id];
+                    const t = (positionTargets[emp.position] || [])[i] || 0;
+                    if (t > 0) {
+                        hasAnyTarget = true;
+                        break;
+                    }
+                }
+                if (!hasAnyTarget) continue;
+
                 activeComps.push({ index: i, name: competencies[i].name });
             }
             
@@ -3125,29 +3138,37 @@ graph TD
                 activeComps.forEach(comp => {
                     const t = targets[comp.index] || 0;
                     const a = emp.actuals[comp.index] || 0;
+                    const s = emp.self_evals ? (emp.self_evals[comp.index] || 0) : 0;
+                    const b = emp.before_evals ? (emp.before_evals[comp.index] || 0) : 0;
+                    
+                    let baseValForCell = a;
+                    let activeDash = activeRadarFilters['dashboard'] || ['target', 'self', 'before', 'actual'];
+                    if (activeDash.includes('actual')) baseValForCell = a;
+                    else if (activeDash.includes('before')) baseValForCell = b;
+                    else if (activeDash.includes('self')) baseValForCell = s;
                     
                     let bgClass = "bg-slate-50";
                     let textClass = "text-slate-400";
                     let content = "-";
                     
                     if (t > 0) {
-                        const diff = a - t;
+                        const diff = baseValForCell - t;
                         if (diff >= 0) {
                             bgClass = "bg-green-100";
                             textClass = "text-green-700 font-bold";
-                            content = a;
+                            content = baseValForCell;
                         } else if (diff === -1) {
                             bgClass = "bg-yellow-100";
                             textClass = "text-yellow-700 font-bold";
-                            content = a;
+                            content = baseValForCell;
                         } else {
                             bgClass = "bg-red-100";
                             textClass = "text-red-700 font-bold";
-                            content = a;
+                            content = baseValForCell;
                         }
                     }
                     
-                    html += `<td class="p-2 border-r border-slate-50 text-center"><div class="w-8 h-8 flex items-center justify-center rounded mx-auto ${bgClass} ${textClass} text-xs" title="Target: ${t}, Actual: ${a}">${content}</div></td>`;
+                    html += `<td class="p-2 border-r border-slate-50 text-center"><div class="w-8 h-8 flex items-center justify-center rounded mx-auto ${bgClass} ${textClass} text-xs" title="Target: ${t}, Val: ${baseValForCell}">${content}</div></td>`;
                 });
                 
                 html += `</tr>`;
