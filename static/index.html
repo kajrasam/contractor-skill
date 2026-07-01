@@ -3736,10 +3736,19 @@ graph TD
                 if (t === 0) continue; // Only process relevant competencies
 
                 const a = emp.actuals[i] || 0;
-                totalTarget += t;
-                totalActual += Math.min(a, t);
+                const s = emp.self_evals ? (emp.self_evals[i] || 0) : 0;
+                const b = emp.before_evals ? (emp.before_evals[i] || 0) : 0;
+                
+                let baseValForIDP = a;
+                let activeIdp = activeRadarFilters['idp'] || ['target', 'self', 'before', 'actual'];
+                if (activeIdp.includes('actual')) baseValForIDP = a;
+                else if (activeIdp.includes('before')) baseValForIDP = b;
+                else if (activeIdp.includes('self')) baseValForIDP = s;
 
-                let diff = a - t;
+                totalTarget += t;
+                totalActual += Math.min(baseValForIDP, t);
+
+                let diff = baseValForIDP - t;
                 if (diff < 0 && t > 0) gaps.push({ skill: currentLabels[i], gap: diff, index: i });
 
                 const addExp = (emp.additional_expectations && emp.additional_expectations[i]) ? emp.additional_expectations[i] : '-';
@@ -3755,8 +3764,8 @@ graph TD
                                     <span class="block font-bold text-scg-700 bg-white px-2 py-1 rounded border border-scg-200 shadow-sm">L${t}</span>
                                 </div>
                                 <div class="text-center">
-                                    <span class="block text-[10px] text-slate-500 font-bold uppercase tracking-wider">Actual</span>
-                                    <span class="block font-bold ${a >= t ? 'text-green-600 bg-green-50 border-green-200' : 'text-amber-600 bg-amber-50 border-amber-200'} px-2 py-1 rounded border shadow-sm">L${a}</span>
+                                    <span class="block text-[10px] text-slate-500 font-bold uppercase tracking-wider">Score</span>
+                                    <span class="block font-bold ${baseValForIDP >= t ? 'text-green-600 bg-green-50 border-green-200' : 'text-amber-600 bg-amber-50 border-amber-200'} px-2 py-1 rounded border shadow-sm">L${baseValForIDP}</span>
                                 </div>
                             </div>
                         </div>
