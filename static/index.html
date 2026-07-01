@@ -4138,9 +4138,18 @@ let validCompsCountForPct = 0;
                     if (t > 0) {
                         totalT += t;
                         const a = (emp.actuals[idx] || 0);
-                    totalA += a;
-                    totalP += Math.min(100, (a / t) * 100);
-                    validCompsCount++;
+                        const s = emp.self_evals ? (emp.self_evals[idx] || 0) : 0;
+                        const b = emp.before_evals ? (emp.before_evals[idx] || 0) : 0;
+
+                        let baseValForPct = a;
+                        let activeAna = activeRadarFilters['analytic'] || ['target', 'self', 'before', 'actual'];
+                        if (activeAna.includes('actual')) baseValForPct = a;
+                        else if (activeAna.includes('before')) baseValForPct = b;
+                        else if (activeAna.includes('self')) baseValForPct = s;
+
+                        totalA += a;
+                        totalP += Math.min(100, (baseValForPct / t) * 100);
+                        validCompsCount++;
                     }
                 });
                 userReadiness[id] = validCompsCount > 0 ? (totalP / validCompsCount) : 0;
@@ -4287,7 +4296,16 @@ let validCompsCountForPct = 0;
                     const t = targets[idx] || 0;
                     if (t > 0) {
                         const a = emp.actuals[idx] || 0;
-                        if (a < t) {
+                        const s = emp.self_evals ? (emp.self_evals[idx] || 0) : 0;
+                        const b = emp.before_evals ? (emp.before_evals[idx] || 0) : 0;
+
+                        let baseValForGap = a;
+                        let activeAna = activeRadarFilters['analytic'] || ['target', 'self', 'before', 'actual'];
+                        if (activeAna.includes('actual')) baseValForGap = a;
+                        else if (activeAna.includes('before')) baseValForGap = b;
+                        else if (activeAna.includes('self')) baseValForGap = s;
+
+                        if (baseValForGap < t) {
                             gapCounts[idx]++;
                         }
                     }
