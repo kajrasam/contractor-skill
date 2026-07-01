@@ -3993,6 +3993,24 @@ validCompsCountForPct++;
             });
         }
 
+        window.updateIDPStatus = function(empId, skill, status) {
+            if (dbUsers[empId]) {
+                if (!dbUsers[empId].idp_status) {
+                    dbUsers[empId].idp_status = {};
+                }
+                dbUsers[empId].idp_status[skill] = status;
+                
+                // Instead of full re-render which loses focus, update the select class directly.
+                // We rely on the event object which is typically available globally in modern browsers.
+                if (window.event && window.event.target) {
+                    const selectEl = window.event.target;
+                    selectEl.className = `text-xs font-bold px-3 py-1.5 rounded-lg border-0 outline-none cursor-pointer ${status === 'Completed' ? 'bg-green-100 text-green-700' : (status === 'In Progress' ? 'bg-yellow-100 text-yellow-700' : 'bg-slate-100 text-slate-600')}`;
+                } else {
+                    renderIDPContent();
+                }
+            }
+        };
+
         // --- 8. COMPETENCY ANALYTIC TAB ---
         function setupAnalyticTab() {
             renderAnalyticTab();
