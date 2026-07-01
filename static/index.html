@@ -987,6 +987,7 @@
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Report to Name</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Certificate</th>
                                     <th class="align-top py-4 px-6 border-r border-slate-100">Job Group</th>
+                                    <th class="align-top py-4 px-6 border-r border-slate-100">Email</th>
                                 </tr>
                             </thead>
                             <tbody id="employee-data-tbody" class="text-slate-700 divide-y divide-slate-100">
@@ -4522,6 +4523,7 @@ validCompsCountForPct++;
                         <td class="py-3 px-6 border-r border-slate-100">${emp.ReportToName || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.Certificate || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.JobGroup || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.Email || '-'}</td>
                     </tr>
                 `;
             });
@@ -4541,7 +4543,7 @@ validCompsCountForPct++;
             const colKeys = [
                 'PersonnelNumber', 'user_id', 'password', 'FullName', 'PositionNameThai', 'PositionStructureLevel',
                 'SectionThai', 'DepartmentThai', 'Sub1DivisionThai', 'DivisionThai', 'Sub1CompanyThai', 'CompanyThai',
-                'ReportToName', 'Certificate', 'JobGroup'
+                'ReportToName', 'Certificate', 'JobGroup', 'Email'
             ];
 
             headers.forEach((th, index) => {
@@ -4679,7 +4681,7 @@ validCompsCountForPct++;
             const headers = [
                 "Employee ID", "User ID", "Password", "Name", "Position Name",
                 "Position Level", "Section", "Department", "Sub1-Division", "Division",
-                "Sub1-Company", "Company", "Report to Name", "Certificate", "Job Group"
+                "Sub1-Company", "Company", "Report to Name", "Certificate", "Job Group", "Email"
             ];
 
             let csvContent = "\uFEFF" + headers.join(",") + "\n";
@@ -4690,7 +4692,7 @@ validCompsCountForPct++;
                     emp.PositionNameThai || '', emp.PositionStructureLevel || '', emp.SectionThai || '',
                     emp.DepartmentThai || '', emp.Sub1DivisionThai || '', emp.DivisionThai || '',
                     emp.Sub1CompanyThai || '', emp.CompanyThai || '', emp.ReportToName || '',
-                    emp.Certificate || '', emp.JobGroup || ''
+                    emp.Certificate || '', emp.JobGroup || '', emp.Email || ''
                 ].map(val => `"${String(val).replace(/"/g, '""')}"`);
 
                 csvContent += row.join(",") + "\n";
