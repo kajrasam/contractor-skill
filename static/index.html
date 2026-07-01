@@ -2118,14 +2118,24 @@ graph TD
             });
 
             // Include positions without employees that match basic filters
-            positions.forEach(pName => {
-                let jg = positionGroups[pName] || "";
-                let matchJobGroup = (selectedJobGroupFilter.length === 0 || selectedJobGroupFilter.includes(jg));
-                let matchPos = (selectedPositionsFilter.length === 0 || selectedPositionsFilter.includes(pName));
-                if (matchJobGroup && matchPos) {
-                    visiblePosSet.add(pName);
-                }
-            });
+            // ONLY if no employee-specific filters are active
+            let noEmpFiltersActive = (
+                selectedEmployeeFilter.length === 0 &&
+                selectedDepartmentFilter.length === 0 &&
+                selectedSectionFilter.length === 0 &&
+                selectedReportToFilter.length === 0
+            );
+
+            if (noEmpFiltersActive) {
+                positions.forEach(pName => {
+                    let jg = positionGroups[pName] || "";
+                    let matchJobGroup = (selectedJobGroupFilter.length === 0 || selectedJobGroupFilter.includes(jg));
+                    let matchPos = (selectedPositionsFilter.length === 0 || selectedPositionsFilter.includes(pName));
+                    if (matchJobGroup && matchPos) {
+                        visiblePosSet.add(pName);
+                    }
+                });
+            }
             let visiblePos = Array.from(visiblePosSet).filter(p => p).sort();
 
             const isAdmin = (currentUser.id === 'Admin' || currentUser.id.toLowerCase().includes('admin') || (currentUser.role && (currentUser.role === 'Admin' || currentUser.role === 'Super Admin')));
