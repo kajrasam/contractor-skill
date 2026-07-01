@@ -3874,7 +3874,11 @@ let validCompsCountForPct = 0;
             if (emp.evalDate && emp.evalDate.startsWith('{')) {
                 try {
                     let parsed = JSON.parse(emp.evalDate);
-                    formattedDate = parsed.mgr || parsed.self || '-';
+                    let activeIdpFilter = activeRadarFilters['idp'] || ['target', 'self', 'before', 'actual'];
+                    if (activeIdpFilter.includes('actual')) formattedDate = parsed.mgr || parsed.self || '-';
+                    else if (activeIdpFilter.includes('before')) formattedDate = parsed.self || parsed.mgr || '-';
+                    else if (activeIdpFilter.includes('self')) formattedDate = parsed.self || parsed.mgr || '-';
+                    else formattedDate = parsed.mgr || parsed.self || '-';
                 } catch(e) {}
             }
 
@@ -4188,7 +4192,11 @@ let validCompsCountForPct = 0;
                         if (uDate) {
                             if (uDate.startsWith('{')) {
                                 let obj = JSON.parse(uDate);
-                                if(obj.mgr) mgrDate = obj.mgr;
+                                let activeAna = activeRadarFilters['analytic'] || ['target', 'self', 'before', 'actual'];
+                                if (activeAna.includes('actual')) mgrDate = obj.mgr || obj.self || 'ยังไม่ประเมิน';
+                                else if (activeAna.includes('before')) mgrDate = obj.self || obj.mgr || 'ยังไม่ประเมิน';
+                                else if (activeAna.includes('self')) mgrDate = obj.self || obj.mgr || 'ยังไม่ประเมิน';
+                                else mgrDate = obj.mgr || obj.self || 'ยังไม่ประเมิน';
                             } else {
                                 mgrDate = uDate;
                             }
@@ -4207,7 +4215,7 @@ let validCompsCountForPct = 0;
                                 <span>Readiness: <span class="font-bold text-scg-700">${readPct}%</span></span>
                             </p>
                             <p class="text-xs text-slate-500 mt-1">
-                                ประเมินโดยหัวหน้า: <span class="font-bold text-slate-700">${evalDateText}</span>
+                                วันที่ประเมิน: <span class="font-bold text-slate-700">${evalDateText}</span>
                             </p>
                         </div>
                         <div class="relative w-full aspect-square">
