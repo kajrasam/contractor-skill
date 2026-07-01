@@ -3204,10 +3204,10 @@ graph TD
                         const b = emp.before_evals ? (emp.before_evals[i] || 0) : 0;
 
                         let baseValForPct = a;
-                        let activeAna = activeRadarFilters['analytic'] || ['target', 'self', 'before', 'actual'];
-                        if (activeAna.includes('actual')) baseValForPct = a;
-                        else if (activeAna.includes('before')) baseValForPct = b;
-                        else if (activeAna.includes('self')) baseValForPct = s;
+                        let activeDash = activeRadarFilters['dashboard'] || ['target', 'self', 'before', 'actual'];
+                        if (activeDash.includes('actual')) baseValForPct = a;
+                        else if (activeDash.includes('before')) baseValForPct = b;
+                        else if (activeDash.includes('self')) baseValForPct = s;
 
                         totalTarget += t;
                         totalActual += a;
