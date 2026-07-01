@@ -614,8 +614,9 @@ def update_position_name():
     # We must insert the new position first because name is Primary Key
     old_pos = supabase.table("positions").select("*").eq("name", old_name).execute()
     if old_pos.data:
-        role = old_pos.data[0]['role_response']
-        supabase.table("positions").insert({"name": new_name, "role_response": role}).execute()
+        role = old_pos.data[0].get('role_response', '')
+        jg = old_pos.data[0].get('job_group', '')
+        supabase.table("positions").insert({"name": new_name, "role_response": role, "job_group": jg}).execute()
         
         # update related
         supabase.table("position_targets").update({"position_name": new_name}).eq("position_name", old_name).execute()

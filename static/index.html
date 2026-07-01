@@ -2116,6 +2116,16 @@ graph TD
                     if (posName) visiblePosSet.add(posName);
                 }
             });
+
+            // Include positions without employees that match basic filters
+            positions.forEach(pName => {
+                let jg = positionGroups[pName] || "";
+                let matchJobGroup = (selectedJobGroupFilter.length === 0 || selectedJobGroupFilter.includes(jg));
+                let matchPos = (selectedPositionsFilter.length === 0 || selectedPositionsFilter.includes(pName));
+                if (matchJobGroup && matchPos) {
+                    visiblePosSet.add(pName);
+                }
+            });
             let visiblePos = Array.from(visiblePosSet).filter(p => p).sort();
 
             const isAdmin = (currentUser.id === 'Admin' || currentUser.id.toLowerCase().includes('admin') || (currentUser.role && (currentUser.role === 'Admin' || currentUser.role === 'Super Admin')));
