@@ -3106,6 +3106,7 @@
                         <td class="py-3 px-6 border-r border-slate-100">${emp.ReportToName || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.Certificate || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.JobGroup || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.Email || '-'}</td>
                     </tr>
                 `;
             });
@@ -3125,7 +3126,7 @@
             const colKeys = [
                 'PersonnelNumber', 'user_id', 'password', 'FullName', 'PositionNameThai', 'PositionStructureLevel',
                 'SectionThai', 'DepartmentThai', 'Sub1DivisionThai', 'DivisionThai', 'Sub1CompanyThai', 'CompanyThai',
-                'ReportToName', 'Certificate', 'JobGroup'
+                'ReportToName', 'Certificate', 'JobGroup', 'Email'
             ];
 
             headers.forEach((th, index) => {
@@ -3263,7 +3264,7 @@
             const headers = [
                 "Employee ID", "User ID", "Password", "Name", "Position Name",
                 "Position Level", "Section", "Department", "Sub1-Division", "Division",
-                "Sub1-Company", "Company", "Report to Name", "Certificate", "Job Group"
+                "Sub1-Company", "Company", "Report to Name", "Certificate", "Job Group", "Email"
             ];
 
             let csvContent = "\uFEFF" + headers.join(",") + "\n";
@@ -3274,7 +3275,7 @@
                     emp.PositionNameThai || '', emp.PositionStructureLevel || '', emp.SectionThai || '',
                     emp.DepartmentThai || '', emp.Sub1DivisionThai || '', emp.DivisionThai || '',
                     emp.Sub1CompanyThai || '', emp.CompanyThai || '', emp.ReportToName || '',
-                    emp.Certificate || '', emp.JobGroup || ''
+                    emp.Certificate || '', emp.JobGroup || '', emp.Email || ''
                 ].map(val => `"${String(val).replace(/"/g, '""')}"`);
 
                 csvContent += row.join(",") + "\n";
