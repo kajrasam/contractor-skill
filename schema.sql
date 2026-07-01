@@ -82,12 +82,13 @@ CREATE TABLE public.employee_data (
     "CompanyThai" TEXT,
     "ReportToName" TEXT,
     "Certificate" TEXT,
-    "JobGroup" TEXT
+    "JobGroup" TEXT,
+    "Email" TEXT
 );
 
 INSERT INTO public.employee_data (
-    user_id, password, "PersonnelNumber", "FullName", "PositionNameThai", "PositionStructureLevel", "SectionThai", "DepartmentThai", "Sub1DivisionThai", "DivisionThai", "Sub1CompanyThai", "CompanyThai", "ReportToName", "Certificate", "JobGroup"
+    user_id, password, "PersonnelNumber", "FullName", "PositionNameThai", "PositionStructureLevel", "SectionThai", "DepartmentThai", "Sub1DivisionThai", "DivisionThai", "Sub1CompanyThai", "CompanyThai", "ReportToName", "Certificate", "JobGroup", "Email"
 ) VALUES 
-('admin', 'Admin', NULL, 'System Admin (HR)', 'Admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Admin'),
-('somchai.j', 'Pass@1234', '1001', 'สมชาย มีทรัพย์ (Admin)', 'หัวหน้างานซ่อม', 'PL2', 'หน่วยซ่อมเครื่องกล', 'ฝ่ายซ่อมบำรุง', 'ส่วนงานวิศวกรรมโรงงาน', 'โรงงานบางซื่อ', 'ธุรกิจซิเมนต์', 'บริษัท เอสซีจี แพคเกจจิ้ง จำกัด (มหาชน)', 'ประยุทธ์ มั่นคง', 'ปริญญาตรี', 'ช่างเทคนิค'),
-('somsri.m', 'Pass@1234', '1002', 'สมศรี ทองดี (Admin)', 'หัวหน้าหมวดซ่อม', 'PL3', 'หน่วยซ่อมไฟฟ้า', 'ฝ่ายซ่อมบำรุง', 'ส่วนงานวิศวกรรมโรงงาน', 'โรงงานสระบุรี', 'ธุรกิจบรรจุภัณฑ์', 'บริษัท เอสซีจี แพคเกจจิ้ง จำกัด (มหาชน)', 'สมชาย มีทรัพย์', 'ปริญญาตรี', 'ช่างเทคนิค');
+('admin', 'Admin', NULL, 'System Admin (HR)', 'Admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Admin', NULL),
+('somchai.j', 'Pass@1234', '1001', 'สมชาย มีทรัพย์ (Admin)', 'หัวหน้างานซ่อม', 'PL2', 'หน่วยซ่อมเครื่องกล', 'ฝ่ายซ่อมบำรุง', 'ส่วนงานวิศวกรรมโรงงาน', 'โรงงานบางซื่อ', 'ธุรกิจซิเมนต์', 'บริษัท เอสซีจี แพคเกจจิ้ง จำกัด (มหาชน)', 'ประยุทธ์ มั่นคง', 'ปริญญาตรี', 'ช่างเทคนิค', 'somchai.j@example.com'),
+('somsri.m', 'Pass@1234', '1002', 'สมศรี ทองดี (Admin)', 'หัวหน้าหมวดซ่อม', 'PL3', 'หน่วยซ่อมไฟฟ้า', 'ฝ่ายซ่อมบำรุง', 'ส่วนงานวิศวกรรมโรงงาน', 'โรงงานสระบุรี', 'ธุรกิจบรรจุภัณฑ์', 'บริษัท เอสซีจี แพคเกจจิ้ง จำกัด (มหาชน)', 'สมชาย มีทรัพย์', 'ปริญญาตรี', 'ช่างเทคนิค', 'somsri.m@example.com');
