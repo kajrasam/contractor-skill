@@ -348,6 +348,7 @@ def sync_employees():
                     "ReportToName": report_to,
                     "Certificate": emp.get('certificate', ''),
                     "JobGroup": emp.get('job_group', ''),
+                    "Email": emp.get('email', ''),
                     "Pipeline": "Evaluated" if is_evaluated else None
                 }
                 supabase.table("employee_data").insert(new_data).execute()
@@ -371,6 +372,7 @@ def sync_employees():
                     "ReportToName": report_to,
                     "Certificate": emp.get('certificate', ''),
                     "JobGroup": emp.get('job_group', ''),
+                    "Email": emp.get('email', ''),
                     "Pipeline": "Evaluated" if is_evaluated else None
                 }).eq(pk_field, pk_value).execute()
             except Exception as e:

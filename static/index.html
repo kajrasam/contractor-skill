@@ -4892,6 +4892,7 @@ validCompsCountForPct++;
                         </select>
                     </div>
                     <div><label class="block text-xs font-bold text-slate-600 mb-1">Report to Name</label><input type="text" id="add-report-to" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Email</label><input type="email" id="add-email" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm" placeholder="example@outlook.com"></div>
                     <div class="col-span-2"><label class="block text-xs font-bold text-slate-600 mb-1">Certificate</label><input type="text" id="add-certificate" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
                 </div>
             </div>
@@ -5007,6 +5008,9 @@ validCompsCountForPct++;
             document.getElementById('add-division').value = emp.division || '';
             document.getElementById('add-sub1-comp').value = emp.sub1_company || '';
             document.getElementById('add-company').value = emp.company || '';
+            if (document.getElementById('add-report-to')) document.getElementById('add-report-to').value = emp.report_to_name || '';
+            if (document.getElementById('add-email')) document.getElementById('add-email').value = emp.email || '';
+            if (document.getElementById('add-certificate')) document.getElementById('add-certificate').value = emp.certificate || '';
             
             document.getElementById('add-employee-modal').classList.remove('hidden');
         }
@@ -5038,6 +5042,7 @@ validCompsCountForPct++;
                 emp.sub1_company = document.getElementById('add-sub1-comp').value;
                 emp.company = document.getElementById('add-company').value;
                 if (document.getElementById('add-report-to')) emp.report_to_name = document.getElementById('add-report-to').value;
+                if (document.getElementById('add-email')) emp.email = document.getElementById('add-email').value;
                 if (document.getElementById('add-certificate')) emp.certificate = document.getElementById('add-certificate').value;
                 emp.is_modified = true;
             } else {
@@ -5059,6 +5064,7 @@ validCompsCountForPct++;
                     company: document.getElementById('add-company').value
                 };
                 if (document.getElementById('add-report-to')) newEmp.report_to_name = document.getElementById('add-report-to').value;
+                if (document.getElementById('add-email')) newEmp.email = document.getElementById('add-email').value;
                 if (document.getElementById('add-certificate')) newEmp.certificate = document.getElementById('add-certificate').value;
                 adminTempData.push(newEmp);
             }
