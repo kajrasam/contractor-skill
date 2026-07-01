@@ -2916,11 +2916,20 @@ graph TD
                     if (t > 0) {
                         sumTarget += t;
                         const a = emp.actuals[i] || 0;
-                    sumActual += a;
-                    let compPercent = Math.min(100, (a / t) * 100);
-                    sumPercent += compPercent;
-                        sumSelf += emp.self_evals ? (emp.self_evals[i] || 0) : 0;
-                        sumBefore += emp.before_evals ? (emp.before_evals[i] || 0) : 0;
+                        const s = emp.self_evals ? (emp.self_evals[i] || 0) : 0;
+                        const b = emp.before_evals ? (emp.before_evals[i] || 0) : 0;
+                        
+                        let baseValForPct = a;
+                        let activeDash = activeRadarFilters['dashboard'] || ['target', 'self', 'before', 'actual'];
+                        if (activeDash.includes('actual')) baseValForPct = a;
+                        else if (activeDash.includes('before')) baseValForPct = b;
+                        else if (activeDash.includes('self')) baseValForPct = s;
+
+                        sumActual += a;
+                        let compPercent = Math.min(100, (baseValForPct / t) * 100);
+                        sumPercent += compPercent;
+                        sumSelf += s;
+                        sumBefore += b;
                         validCompsCount++;
                     }
                 }
@@ -3170,11 +3179,20 @@ graph TD
                     if (t === 0) continue;
                     if (t > 0) {
                         const a = emp.actuals[i] || 0;
+                        const s = emp.self_evals ? (emp.self_evals[i] || 0) : 0;
+                        const b = emp.before_evals ? (emp.before_evals[i] || 0) : 0;
+
+                        let baseValForPct = a;
+                        let activeAna = activeRadarFilters['analytic'] || ['target', 'self', 'before', 'actual'];
+                        if (activeAna.includes('actual')) baseValForPct = a;
+                        else if (activeAna.includes('before')) baseValForPct = b;
+                        else if (activeAna.includes('self')) baseValForPct = s;
+
                         totalTarget += t;
                         totalActual += a;
-            totalPercent += Math.min(100, (a / t) * 100);
-            validCompsCount++;
-                        let diff = a - t;
+                        totalPercent += Math.min(100, (baseValForPct / t) * 100);
+                        validCompsCount++;
+                        let diff = baseValForPct - t;
                         if (diff < 0) gaps.push({ skill: currentLabels[i], gap: diff, index: i });
                     }
                 }
@@ -3780,12 +3798,21 @@ let totalPercentForPct = 0;
 let validCompsCountForPct = 0;
             for (let i = 0; i < competencies.length; i++) {
                 const t = targets[i] || 0;
-if (t > 0) {
+                if (t > 0) {
                     totalTargetForPct += t;
                     const a = (emp.actuals[i] || 0);
-totalActualForPct += a;
-totalPercentForPct += Math.min(100, (a / t) * 100);
-validCompsCountForPct++;
+                    const s = emp.self_evals ? (emp.self_evals[i] || 0) : 0;
+                    const b = emp.before_evals ? (emp.before_evals[i] || 0) : 0;
+
+                    let baseValForPct = a;
+                    let activeIdp = activeRadarFilters['idp'] || ['target', 'self', 'before', 'actual'];
+                    if (activeIdp.includes('actual')) baseValForPct = a;
+                    else if (activeIdp.includes('before')) baseValForPct = b;
+                    else if (activeIdp.includes('self')) baseValForPct = s;
+
+                    totalActualForPct += a;
+                    totalPercentForPct += Math.min(100, (baseValForPct / t) * 100);
+                    validCompsCountForPct++;
                 }
             }
             let pctComplete = validCompsCountForPct > 0 ? Math.round(totalPercentForPct / validCompsCountForPct) : 0;
