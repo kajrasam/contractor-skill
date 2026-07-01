@@ -5050,10 +5050,12 @@ let validCompsCountForPct = 0;
                     visibleUsers = applyGlobalFiltersToSubIds([currentUser.id, ...getSubordinates(currentUser.id)]);
                 }
                 if (visibleUsers.length === 1) {
-                    const empId = visibleUsers[0];
-                    const emp = dbUsers[empId];
-                    const targets = positionTargets[emp.position] || [];
-                    drawIDPRadar(emp, targets);
+                    if (typeof renderIDPContent === 'function') {
+                        renderIDPContent();
+                        const dropdown = document.getElementById('idp-radar-filter-dropdown');
+                        if (dropdown) dropdown.classList.remove('hidden');
+                    }
+
                 } else {
                     if (typeof renderIDPContent === 'function') renderIDPContent();
                 }
