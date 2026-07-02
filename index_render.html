@@ -3962,6 +3962,7 @@ validCompsCountForPct++;
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: { padding: 15 },
                     plugins: {
                         legend: { display: true, position: 'bottom' },
                         tooltip: {
@@ -4171,7 +4172,7 @@ validCompsCountForPct++;
                     compIndices.forEach(idx => {
                         const t = targets[idx] || 0;
                         if (t > 0) {
-                            labels.push(competencies[idx].name.replace(/^[0-9\.\s]+/, ''));
+                            labels.push(window.wrapLabel(competencies[idx].name.replace(/^[0-9\.\s]+/, ''), 30));
                             targetData.push(t);
                             actualsData.push(topEmp.actuals[idx] || 0);
                             selfData.push(topEmp.self_evals ? (topEmp.self_evals[idx] || 0) : 0);
@@ -4195,6 +4196,7 @@ validCompsCountForPct++;
                         options: {
                             responsive: true,
                             maintainAspectRatio: false,
+                            layout: { padding: 15 },
                             plugins: {
                                 legend: { display: false }
                             },
