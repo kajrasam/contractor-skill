@@ -1737,6 +1737,7 @@ graph TD
         }
 
         function buildFiltersUI(tabId = null) {
+            if (!currentUser) return;
             if (!tabId) {
                 const activeTab = document.querySelector('.tab-content.active');
                 tabId = activeTab ? activeTab.id.replace('tab-', '') : 'dashboard';
