@@ -1322,6 +1322,10 @@ graph TD
                         if (officialPos) dbUsers[id].position = officialPos;
                     }
                 });
+                
+                // Rebuild filters to reflect new/updated data from database
+                setTimeout(() => { if(typeof buildFiltersUI === 'function') buildFiltersUI(); }, 0);
+                
                 if (!silent) {
                     checkLoginState();
                 }
@@ -1752,7 +1756,7 @@ graph TD
             // Build Org Filters AND Position Filter with Hierarchy/Intersection
             let jobGroupsSet = new Set(), sectionsSet = new Set(), deptsSet = new Set(), reportToSet = new Set(), posSet = new Set(), employeesSet = new Set();
 
-            const dataSource = (tabId === 'admin') ? employeeDataAll : employeeData;
+            const dataSource = employeeDataAll; // Use all DB data for filters across all tabs as requested
 
             dataSource.forEach(e => {
                 let posName = e.position_name || e.PositionNameThai;
