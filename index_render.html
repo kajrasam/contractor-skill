@@ -1267,6 +1267,24 @@ graph TD
 
         const API_BASE = '/api';
 
+        window.onlineUsers = [];
+        let pingInterval = null;
+        function startHeartbeat() {
+            if (pingInterval) clearInterval(pingInterval);
+            const doPing = async () => {
+                if (!currentUser) return;
+                try {
+                    await fetch(API_BASE + '/ping', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ userId: currentUser })
+                    });
+                } catch(e) {}
+            };
+            pingInterval = setInterval(doPing, 60000);
+            doPing();
+        }
+
         // --- System Functions ---
         function openQuickGuide() {
             document.getElementById('quick-guide-modal').classList.remove('hidden');
@@ -1500,6 +1518,10 @@ graph TD
             if (compContainer) {
                 if (tabId === 'admin') {
                     compContainer.classList.add('hidden');
+                    fetch(API_BASE + '/online_status').then(r => r.json()).then(data => {
+                        window.onlineUsers = data.online_users || [];
+                        if (typeof renderAdminUsersTable === 'function') renderAdminUsersTable();
+                    }).catch(e => {});
                 } else {
                     compContainer.classList.remove('hidden');
                 }
@@ -5135,7 +5157,12 @@ validCompsCountForPct++;
                     tr.className = 'hover:bg-slate-50 transition-colors';
                     tr.innerHTML = `
                         <td class="py-3 px-4">${uid} ${u.role === 'Super Admin' ? '<span class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">Super</span>' : ''}</td>
-                        <td class="py-3 px-4">${u.name || '-'}</td>
+                        <td class="py-3 px-4">
+                            <div class="flex items-center">
+                                ${u.name || '-'}
+                                ${window.onlineUsers.includes(uid) ? '<span class="ml-2 flex items-center text-xs text-green-600 bg-green-50 px-2 py-0.5 rounded-full border border-green-200"><span class="w-2 h-2 rounded-full bg-green-500 mr-1 animate-pulse"></span> Log in</span>' : ''}
+                            </div>
+                        </td>
                         <td class="py-3 px-4">${u.scope_section || 'ALL'}</td>
                         <td class="py-3 px-4">${u.scope_department || 'ALL'}</td>
                         <td class="py-3 px-4">${u.scope_division && u.scope_division.length > 0 ? u.scope_division.join(', ') : 'ALL'}</td>

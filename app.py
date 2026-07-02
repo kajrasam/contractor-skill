@@ -1,4 +1,5 @@
 import os
+import time
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -12,6 +13,8 @@ CORS(app)
 url = os.environ.get("SUPABASE_URL")
 key = os.environ.get("SUPABASE_KEY")
 supabase: Client = create_client(url, key)
+
+active_sessions = {}
 
 @app.route('/')
 def index():
@@ -658,6 +661,21 @@ def delete_competency(idx):
             supabase.table("user_actuals").update({"competency_idx": a["competency_idx"] - 1}).eq("user_id", a["user_id"]).eq("competency_idx", a["competency_idx"]).execute()
         
     return jsonify({"status": "success"})
+
+@app.route('/api/ping', methods=['POST'])
+def ping():
+    data = request.json
+    uid = data.get('userId')
+    if uid:
+        active_sessions[uid] = time.time()
+    return jsonify({"status": "ok"})
+
+@app.route('/api/online_status', methods=['GET'])
+def online_status():
+    now = time.time()
+    # Consider online if pinged in the last 5 minutes (300 seconds)
+    online_users = [uid for uid, last_time in active_sessions.items() if now - last_time < 300]
+    return jsonify({"online_users": online_users})
 
 if __name__ == '__main__':
     app.run(debug=True, port=3000)
