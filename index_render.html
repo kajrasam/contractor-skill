@@ -2203,7 +2203,16 @@ graph TD
                 if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(comp.group)) return;
                 if (selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(comp.name)) return;
 
-                // Removed hasTarget check to always display all competencies
+                if (!isAdmin) {
+                    let hasTarget = false;
+                    for (let pos of visiblePos) {
+                        if (positionTargets[pos] && positionTargets[pos][compIndex] > 0) {
+                            hasTarget = true;
+                            break;
+                        }
+                    }
+                    if (!hasTarget) return;
+                }
 
                 html += `<tr class="hover:bg-slate-50">`;
 
