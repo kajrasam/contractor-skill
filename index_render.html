@@ -2254,19 +2254,23 @@ graph TD
                         selectHtml += `</select>`;
                         html += `<td class="p-3 text-center border-l border-slate-100 ${isEditMode ? 'bg-amber-50/10' : ''}">${selectHtml}</td>`;
                     } else {
-                        const levelText = t === 0 ? 'None' : `L${t}`;
-                        const desc = t === 0 ? "ไม่มีความคาดหวังในทักษะนี้" : comp.levels[t];
-                        const badgeClass = t === 0 ? 'bg-slate-100 text-slate-500 border border-slate-200' : (t >= 4 ? 'bg-scg-50 text-scg-800 border border-scg-200 shadow-sm' : 'bg-white text-slate-700 border border-slate-200 shadow-sm');
-                        html += `<td class="p-4 text-center border-l border-slate-100">
-                                    <div class="group relative inline-block w-full">
-                                        <div class="px-3 py-2 rounded-lg font-bold text-xs truncate ${badgeClass}">
-                                            ${levelText}${t > 0 ? ': ' + desc : ''}
+                        if (!isAdmin && t === 0) {
+                            html += `<td class="p-4 text-center border-l border-slate-100"></td>`;
+                        } else {
+                            const levelText = t === 0 ? 'None' : `L${t}`;
+                            const desc = t === 0 ? "ไม่มีความคาดหวังในทักษะนี้" : comp.levels[t];
+                            const badgeClass = t === 0 ? 'bg-slate-100 text-slate-500 border border-slate-200' : (t >= 4 ? 'bg-scg-50 text-scg-800 border border-scg-200 shadow-sm' : 'bg-white text-slate-700 border border-slate-200 shadow-sm');
+                            html += `<td class="p-4 text-center border-l border-slate-100">
+                                        <div class="group relative inline-block w-full">
+                                            <div class="px-3 py-2 rounded-lg font-bold text-xs truncate ${badgeClass}">
+                                                ${levelText}${t > 0 ? ': ' + desc : ''}
+                                            </div>
+                                            <div class="hidden group-hover:block absolute z-10 w-48 p-2 bg-slate-800 text-white text-xs rounded shadow-lg -top-10 left-1/2 transform -translate-x-1/2 whitespace-normal break-words">
+                                                ${desc}
+                                            </div>
                                         </div>
-                                        <div class="hidden group-hover:block absolute z-10 w-48 p-2 bg-slate-800 text-white text-xs rounded shadow-lg -top-10 left-1/2 transform -translate-x-1/2 whitespace-normal break-words">
-                                            ${desc}
-                                        </div>
-                                    </div>
-                                 </td>`;
+                                     </td>`;
+                        }
                     }
                 });
                 html += `<td class="w-full"></td></tr>`;
