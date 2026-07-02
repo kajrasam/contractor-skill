@@ -1312,6 +1312,14 @@ graph TD
                 dbUsers = data.dbUsers || {};
                 employeeDataAll = data.employeeData || [];
                 employeeData = employeeDataAll.filter(e => e.Pipeline === 'Evaluated');
+                // Sync dbUsers names with official employeeData to fix filter/display mismatch
+                Object.keys(dbUsers).forEach(id => {
+                    let eData = employeeDataAll.find(e => e.username === id || e.user_id === id);
+                    if (eData) {
+                        let officialName = eData.FullNameTH || eData.FullName || eData.EmployeeNameThai || eData.EmployeeNameEng;
+                        if (officialName) dbUsers[id].name = officialName;
+                    }
+                });
                 if (!silent) {
                     checkLoginState();
                 }
@@ -1424,6 +1432,14 @@ graph TD
                         employeeDataAll = employeeDataAll.filter(e => e.SectionThai === currentUser.scope_section || e.section === currentUser.scope_section);
                     }
                     employeeData = employeeDataAll.filter(e => e.Pipeline === 'Evaluated');
+                // Sync dbUsers names with official employeeData to fix filter/display mismatch
+                Object.keys(dbUsers).forEach(id => {
+                    let eData = employeeDataAll.find(e => e.username === id || e.user_id === id);
+                    if (eData) {
+                        let officialName = eData.FullNameTH || eData.FullName || eData.EmployeeNameThai || eData.EmployeeNameEng;
+                        if (officialName) dbUsers[id].name = officialName;
+                    }
+                });
                 }
 
                 loginContainer.classList.add('hidden');
