@@ -3425,8 +3425,8 @@ graph TD
                 }
 
                 return {
-                    pk_field: e.PersonID ? 'PersonID' : (e.id ? 'id' : 'person_id'),
-                    pk_value: e.PersonID || e.id || e.person_id,
+                    pk_field: e.id ? 'id' : (e.PersonID ? 'PersonID' : 'person_id'),
+                    pk_value: e.id || e.PersonID || e.person_id,
                     person_id: e.PersonnelNumber || e.PersonID || e.person_id || '-',
                     name_th: e.FullNameTH || e.name_th || e.FullName || '-',
                     name_en: n_en ? n_en.trim() : '-',
