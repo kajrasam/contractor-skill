@@ -1277,7 +1277,7 @@ graph TD
                     await fetch(API_BASE + '/ping', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ userId: currentUser })
+                        body: JSON.stringify({ userId: currentUser.id })
                     });
                 } catch(e) {}
             };
