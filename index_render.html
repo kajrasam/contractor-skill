@@ -1243,6 +1243,27 @@ graph TD
     <!-- JAVASCRIPT LOGIC -->
     <!-- ========================================== -->
     <script>
+        window.wrapLabel = function(text, maxLength = 30) {
+            if (text.length <= maxLength) return text;
+            const lines = [];
+            let currentLine = '';
+            const words = text.split(' ');
+            for (let w of words) {
+                if (w.length > maxLength) {
+                    if (currentLine) { lines.push(currentLine.trim()); currentLine = ''; }
+                    for (let i = 0; i < w.length; i += maxLength) {
+                        lines.push(w.slice(i, i + maxLength));
+                    }
+                } else if ((currentLine + w).length > maxLength) {
+                    if (currentLine) lines.push(currentLine.trim());
+                    currentLine = w + ' ';
+                } else {
+                    currentLine += w + ' ';
+                }
+            }
+            if (currentLine) lines.push(currentLine.trim());
+            return lines.length > 1 ? lines : lines[0];
+        };
 
         const API_BASE = '/api';
 
