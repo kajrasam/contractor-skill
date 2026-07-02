@@ -251,6 +251,16 @@ def add_user():
         "id": uid, "pass": passw, "role": uid, "name": name, "position": pos
     }).execute()
     
+    # Extract scope from request
+    dept = data.get('dept', 'General')
+    sec = data.get('sec', 'General')
+    div = data.get('div', 'Main Division')
+    
+    # Clean up 'ALL' to a default to prevent filtering mismatches
+    if not dept or dept == 'ALL': dept = 'General'
+    if not sec or sec == 'ALL': sec = 'General'
+    if not div or div == 'ALL': div = 'Main Division'
+
     # Auto-generate employee data profile
     import random
     person_id = f"PER-GEN-{random.randint(100, 999)}"
@@ -264,10 +274,10 @@ def add_user():
             "FullName": name,
             "PositionNameThai": pos,
             "PositionStructureLevel": "",
-            "SectionThai": "General",
-            "DepartmentThai": "General",
+            "SectionThai": sec,
+            "DepartmentThai": dept,
             "Sub1DivisionThai": "Sub Division 1",
-            "DivisionThai": "Main Division",
+            "DivisionThai": div,
             "Sub1CompanyThai": "Group A",
             "CompanyThai": "Company A",
             "ReportToName": "Manager",

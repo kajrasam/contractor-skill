@@ -3519,12 +3519,18 @@ graph TD
             }
 
             try {
+                const reqBody = {
+                    uid, pass, name, pos, mgrs, num_comps: competencies.length
+                };
+                if (currentUser && (currentUser.role === 'Admin' || currentUser.role === 'Super Admin')) {
+                    reqBody.dept = currentUser.scope_department || "General";
+                    reqBody.sec = currentUser.scope_section || "General";
+                    reqBody.div = (currentUser.scope_division && currentUser.scope_division.length > 0) ? currentUser.scope_division[0] : "Main Division";
+                }
                 const res = await fetch(`${API_BASE}/users`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        uid, pass, name, pos, mgrs, num_comps: competencies.length
-                    })
+                    body: JSON.stringify(reqBody)
                 });
 
                 if (!res.ok) throw new Error("Failed to create user");
