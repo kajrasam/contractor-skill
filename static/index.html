@@ -1318,6 +1318,8 @@ graph TD
                     if (eData) {
                         let officialName = eData.FullNameTH || eData.FullName || eData.EmployeeNameThai || eData.EmployeeNameEng;
                         if (officialName) dbUsers[id].name = officialName;
+                        let officialPos = eData.PositionNameThai || eData.position_name || eData.position;
+                        if (officialPos) dbUsers[id].position = officialPos;
                     }
                 });
                 if (!silent) {
@@ -1438,6 +1440,8 @@ graph TD
                     if (eData) {
                         let officialName = eData.FullNameTH || eData.FullName || eData.EmployeeNameThai || eData.EmployeeNameEng;
                         if (officialName) dbUsers[id].name = officialName;
+                        let officialPos = eData.PositionNameThai || eData.position_name || eData.position;
+                        if (officialPos) dbUsers[id].position = officialPos;
                     }
                 });
                 }
