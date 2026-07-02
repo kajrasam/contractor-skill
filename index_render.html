@@ -1895,6 +1895,13 @@ graph TD
         let empName = emp.name;
                 if (selectedEmployeeFilter.length > 0 && (!empName || !selectedEmployeeFilter.includes(empName))) return false;
                 if (selectedSectionFilter.length > 0 || selectedDepartmentFilter.length > 0 || selectedReportToFilter.length > 0) return false;
+                
+                let posName = emp.position || emp.PositionNameThai || emp.position_name;
+                if (selectedPositionsFilter.length > 0 && (!posName || !selectedPositionsFilter.includes(posName))) return false;
+                if (typeof hasCompetencyFilterMatch === 'function' && !hasCompetencyFilterMatch(posName)) return false;
+                let jg = emp.job_group || (typeof positionGroups !== 'undefined' ? positionGroups[posName] : null);
+                if (selectedJobGroupFilter.length > 0 && (!jg || !selectedJobGroupFilter.includes(jg))) return false;
+
                 return true;
             }
             return matchesOrgFiltersData(eData);
