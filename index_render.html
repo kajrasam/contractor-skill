@@ -2697,7 +2697,8 @@ graph TD
 
             const allLabels = getLabels().map(l => {
                 const parts = l.split('. ');
-                return parts.length > 1 ? parts.slice(1).join('. ') : l;
+                let cleanText = parts.length > 1 ? parts.slice(1).join('. ') : l;
+                return window.wrapLabel(cleanText, 30);
             });
 
             for (let i = 0; i < competencies.length; i++) {
@@ -2747,7 +2748,7 @@ graph TD
                     labels: cleanLabels,
                     datasets: activeDatasets
                 },
-                options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 5, ticks: { display: false } } } }
+                options: { responsive: true, maintainAspectRatio: false, layout: { padding: 15 }, scales: { r: { min: 0, max: 5, ticks: { display: false }, pointLabels: { font: { size: 10 } } } } }
             });
         }
 
@@ -3236,7 +3237,8 @@ graph TD
 
                     if (tData[i] && tData[i] > 0) {
                         const parts = currentLabels[i].split('. ');
-                        cleanLabels.push(parts.length > 1 ? parts.slice(1).join('. ') : currentLabels[i]);
+                        let cleanText = parts.length > 1 ? parts.slice(1).join('. ') : currentLabels[i];
+                        cleanLabels.push(window.wrapLabel(cleanText, 30));
                         cleanTargets.push(tData[i]);
                         cleanActuals.push(aData[i] || 0);
                         cleanSelfs.push(sData[i] || 0);
@@ -3257,7 +3259,7 @@ graph TD
                         labels: cleanLabels,
                         datasets: activeDatasets
                     },
-                    options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 5, ticks: { display: false } } } }
+                    options: { responsive: true, maintainAspectRatio: false, layout: { padding: 15 }, scales: { r: { min: 0, max: 5, ticks: { display: false }, pointLabels: { font: { size: 10 } } } } }
                 });
                 individualCharts.push(chart);
             });
@@ -3898,7 +3900,8 @@ validCompsCountForPct++;
 
             const allLabels = getLabels().map(l => {
                 const parts = l.split('. ');
-                return parts.length > 1 ? parts.slice(1).join('. ') : l;
+                let cleanText = parts.length > 1 ? parts.slice(1).join('. ') : l;
+                return window.wrapLabel(cleanText, 30);
             });
 
             for (let i = 0; i < competencies.length; i++) {
