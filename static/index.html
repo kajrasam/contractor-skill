@@ -5287,8 +5287,13 @@ let validCompsCountForPct = 0;
         }
     </script>
     <script>
-        function openManageAdminsModal() {
+        async function openManageAdminsModal() {
             document.getElementById('manage-admins-modal').classList.remove('hidden');
+            try {
+                const res = await fetch(API_BASE + '/online_status');
+                const data = await res.json();
+                window.onlineUsers = data.online_users || [];
+            } catch(e) {}
             renderAdminUsersTable();
         }
 
