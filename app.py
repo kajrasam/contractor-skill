@@ -304,6 +304,8 @@ def sync_employees():
     employees = data.get('employees', [])
     deleted_ids = data.get('deleted_ids', [])
     
+    errors = []
+    
     # Process deletions first
     if deleted_ids:
         try:
@@ -321,7 +323,7 @@ def sync_employees():
                 supabase.table("user_managers").delete().in_("manager_id", del_uids).execute()
                 supabase.table("users").delete().in_("id", del_uids).execute()
         except Exception as e:
-            print(f"Delete failed: {e}")
+            errors.append(f"Delete failed: {e}")
 
     name_to_emp = {e.get('name_th'): e for e in employees if e.get('name_th')}
     name_en_to_emp = {e.get('name_en'): e for e in employees if e.get('name_en')}
@@ -366,7 +368,11 @@ def sync_employees():
                 }
                 supabase.table("employee_data").insert(new_data).execute()
             except Exception as e:
-                print(f"employee_data insert failed for {name_th}: {e}")
+                err_msg = str(e).lower()
+                if "duplicate key" in err_msg or "unique constraint" in err_msg:
+                    errors.append(f"ไม่สามารถบันทึก {name_th} ได้เนื่องจาก User ID '{uid}' หรือรหัสพนักงานถูกใช้งานแล้ว")
+                else:
+                    errors.append(f"employee_data insert failed for {name_th}: {e}")
         elif pk_field and pk_value:
             try:
                 supabase.table("employee_data").update({
@@ -389,7 +395,11 @@ def sync_employees():
                     "Pipeline": "Evaluated" if is_evaluated else None
                 }).eq(pk_field, pk_value).execute()
             except Exception as e:
-                print(f"employee_data update failed for {pk_value}: {e}")
+                err_msg = str(e).lower()
+                if "duplicate key" in err_msg or "unique constraint" in err_msg:
+                    errors.append(f"ไม่สามารถอัปเดต {name_th} ได้เนื่องจาก User ID '{uid}' หรือรหัสพนักงานถูกใช้งานแล้ว")
+                else:
+                    errors.append(f"employee_data update failed for {name_th}: {e}")
                 
         # 2. Collect for users table
         if is_evaluated and uid:
@@ -425,7 +435,7 @@ def sync_employees():
                 if act_inserts:
                     supabase.table("user_actuals").insert(act_inserts).execute()
     except Exception as e:
-        print(f"Users upsert failed: {e}")
+        errors.append(f"Users upsert failed: {e}")
 
     # 4. Sync user_managers
     try:
@@ -436,7 +446,10 @@ def sync_employees():
         if managers_to_link:
             supabase.table("user_managers").insert(managers_to_link).execute()
     except Exception as e:
-        print(f"user_managers sync failed: {e}")
+        errors.append(f"user_managers sync failed: {e}")
+
+    if errors:
+        return jsonify({"status": "error", "message": "\n".join(errors)})
 
     return jsonify({"status": "success", "message": "Synced successfully!"})
 
