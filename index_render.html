@@ -2203,7 +2203,7 @@ graph TD
                 if (selectedCompetencyGroupFilter.length > 0 && !selectedCompetencyGroupFilter.includes(comp.group)) return;
                 if (selectedCompetenciesFilter.length > 0 && !selectedCompetenciesFilter.includes(comp.name)) return;
 
-                if (!isAdmin) {
+                if (!isAdmin || !isEditMode) {
                     let hasTarget = false;
                     for (let pos of visiblePos) {
                         if (positionTargets[pos] && positionTargets[pos][compIndex] > 0) {
