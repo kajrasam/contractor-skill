@@ -92,6 +92,7 @@ def get_data():
         scope_sec = ""
         scope_dep = ""
         scope_div = []
+        scope_sub1 = []
         detail = u.get("special_expertise_detail", "")
         if u["role"] == "Admin" and detail and detail.startswith("{"):
             import json
@@ -100,6 +101,7 @@ def get_data():
                 scope_sec = parsed.get("scope_section", "")
                 scope_dep = parsed.get("scope_department", "")
                 scope_div = parsed.get("scope_division", [])
+                scope_sub1 = parsed.get("scope_sub1_division", [])
             except:
                 pass
 
@@ -107,6 +109,7 @@ def get_data():
             "scope_section": scope_sec,
             "scope_department": scope_dep,
             "scope_division": scope_div,
+            "scope_sub1_division": scope_sub1,
             "pass": u["pass"],
             "role": u["role"],
             "name": u["name"],
@@ -216,10 +219,11 @@ def add_admin_user():
     scope_sec = data.get('scope_section', '')
     scope_dep = data.get('scope_department', '')
     scope_div = data.get('scope_division', [])
+    scope_sub1 = data.get('scope_sub1_division', [])
     
     existing = supabase.table("users").select("id").eq("id", uid).execute()
     import json
-    detail = json.dumps({"scope_section": scope_sec, "scope_department": scope_dep, "scope_division": scope_div})
+    detail = json.dumps({"scope_section": scope_sec, "scope_department": scope_dep, "scope_division": scope_div, "scope_sub1_division": scope_sub1})
     
     if len(existing.data) > 0:
         supabase.table("users").update({"pass": passw, "name": name, "special_expertise_detail": detail}).eq("id", uid).execute()

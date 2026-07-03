@@ -4966,6 +4966,25 @@ let validCompsCountForPct = 0;
                             </select>
                             <p class="text-[10px] text-slate-400 mt-1">กด Ctrl (หรือ Cmd) ค้างไว้เพื่อเลือกหลายรายการ หากไม่เลือกจะถือเป็น (ALL)</p>
                         </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-bold text-slate-500 mb-1">Scope Sub1-Division</label>
+                            <select id="admin-scope-sub1" multiple class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white h-28">
+                                <option value="Ceramic Roof">Ceramic Roof</option>
+                                <option value="Concrete & Drying and Firing Technology Engineering">Concrete & Drying and Firing Technology Engineering</option>
+                                <option value="Concrete Roof">Concrete Roof</option>
+                                <option value="Fiber Cement Technology Engineering & Process and Machine Development">Fiber Cement Technology Engineering & Process and Machine Development</option>
+                                <option value="SCG Landscape">SCG Landscape</option>
+                                <option value="Siam Fiberglass">Siam Fiberglass</option>
+                                <option value="Smart Factory">Smart Factory</option>
+                                <option value="โรงงานท่าหลวง">โรงงานท่าหลวง</option>
+                                <option value="โรงงานทุ่งสง">โรงงานทุ่งสง</option>
+                                <option value="โรงงานลำปาง">โรงงานลำปาง</option>
+                                <option value="โรงงานสระบุรี">โรงงานสระบุรี</option>
+                                <option value="โรงงานหนองแค">โรงงานหนองแค</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <p class="text-[10px] text-slate-400 mt-1">กด Ctrl (หรือ Cmd) ค้างไว้เพื่อเลือกหลายรายการ หากไม่เลือกจะถือเป็น (ALL)</p>
+                        </div>
                     </div>
                     <div class="mt-4 flex justify-end gap-2">
                         <button onclick="clearAdminForm()" class="px-4 py-2 text-sm font-bold text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50">Clear</button>
@@ -4984,6 +5003,7 @@ let validCompsCountForPct = 0;
                                 <th class="py-3 px-4">Section Scope</th>
                                 <th class="py-3 px-4">Dept Scope</th>
                                 <th class="py-3 px-4">Div Scope</th>
+                                <th class="py-3 px-4">Sub1 Scope</th>
                                 <th class="py-3 px-4 text-center">Actions</th>
                             </tr>
                         </thead>
@@ -5312,6 +5332,7 @@ let validCompsCountForPct = 0;
             document.getElementById('admin-scope-sec').value = '';
             document.getElementById('admin-scope-dep').value = '';
             Array.from(document.getElementById('admin-scope-div').options).forEach(o => o.selected = false);
+            Array.from(document.getElementById('admin-scope-sub1').options).forEach(o => o.selected = false);
         }
 
         function renderAdminUsersTable() {
@@ -5334,6 +5355,7 @@ let validCompsCountForPct = 0;
                         <td class="py-3 px-4">${u.scope_section || 'ALL'}</td>
                         <td class="py-3 px-4">${u.scope_department || 'ALL'}</td>
                         <td class="py-3 px-4">${u.scope_division && u.scope_division.length > 0 ? u.scope_division.join(', ') : 'ALL'}</td>
+                        <td class="py-3 px-4">${u.scope_sub1_division && u.scope_sub1_division.length > 0 ? u.scope_sub1_division.join(', ') : 'ALL'}</td>
                         <td class="py-3 px-4 text-center">
                             ${u.role !== 'Super Admin' ? `
                                 <button onclick="editAdminUser('${uid}')" class="text-blue-500 hover:text-blue-700 mr-2"><i class="fa-solid fa-edit"></i></button>
@@ -5361,6 +5383,13 @@ let validCompsCountForPct = 0;
                     if (u.scope_division.includes(o.value)) o.selected = true;
                 });
             }
+            const sub1Select = document.getElementById('admin-scope-sub1');
+            Array.from(sub1Select.options).forEach(o => o.selected = false);
+            if (u.scope_sub1_division && Array.isArray(u.scope_sub1_division)) {
+                Array.from(sub1Select.options).forEach(o => {
+                    if (u.scope_sub1_division.includes(o.value)) o.selected = true;
+                });
+            }
         }
 
         async function saveAdminUser() {
@@ -5370,6 +5399,7 @@ let validCompsCountForPct = 0;
             let sec = document.getElementById('admin-scope-sec').value.trim();
             let dep = document.getElementById('admin-scope-dep').value.trim();
             let div = Array.from(document.getElementById('admin-scope-div').selectedOptions).map(o => o.value);
+            let sub1 = Array.from(document.getElementById('admin-scope-sub1').selectedOptions).map(o => o.value);
             
             if (!uid || !pass) {
                 if (typeof showToast === 'function') showToast('กรุณากรอก ID และ Password', 'error');
@@ -5388,7 +5418,8 @@ let validCompsCountForPct = 0;
                         name: name,
                         scope_section: sec,
                         scope_department: dep,
-                        scope_division: div
+                        scope_division: div,
+                        scope_sub1_division: sub1
                     })
                 });
                 if (res.ok) {
@@ -5400,6 +5431,7 @@ let validCompsCountForPct = 0;
                     dbUsers[uid].scope_section = sec;
                     dbUsers[uid].scope_department = dep;
                     dbUsers[uid].scope_division = div;
+                    dbUsers[uid].scope_sub1_division = sub1;
                     renderAdminUsersTable();
                     clearAdminForm();
                 } else {
