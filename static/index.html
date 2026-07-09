@@ -4732,7 +4732,7 @@ let validCompsCountForPct = 0;
                         <td class="py-3 px-6 border-r border-slate-100">${emp.ReportToName || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.Certificate || '-'}</td>
                         <td class="py-3 px-6 border-r border-slate-100">${emp.JobGroup || '-'}</td>
-                        <td class="py-3 px-6 border-r border-slate-100">${emp.Email || '-'}</td>
+                        <td class="py-3 px-6 border-r border-slate-100">${emp.EmailAddressBusiness || '-'}</td>
                     </tr>
                 `;
             });
@@ -4752,7 +4752,7 @@ let validCompsCountForPct = 0;
             const colKeys = [
                 'PersonnelNumber', 'user_id', 'password', 'FullName', 'PositionNameThai', 'PositionStructureLevel',
                 'SectionThai', 'DepartmentThai', 'Sub1DivisionThai', 'DivisionThai', 'Sub1CompanyThai', 'CompanyThai',
-                'ReportToName', 'Certificate', 'JobGroup', 'Email'
+                'ReportToName', 'Certificate', 'JobGroup', 'EmailAddressBusiness'
             ];
 
             headers.forEach((th, index) => {
@@ -4901,7 +4901,7 @@ let validCompsCountForPct = 0;
                     emp.PositionNameThai || '', emp.PositionStructureLevel || '', emp.SectionThai || '',
                     emp.DepartmentThai || '', emp.Sub1DivisionThai || '', emp.DivisionThai || '',
                     emp.Sub1CompanyThai || '', emp.CompanyThai || '', emp.ReportToName || '',
-                    emp.Certificate || '', emp.JobGroup || '', emp.Email || ''
+                    emp.Certificate || '', emp.JobGroup || '', emp.EmailAddressBusiness || ''
                 ].map(val => `"${String(val).replace(/"/g, '""')}"`);
 
                 csvContent += row.join(",") + "\n";
@@ -5240,7 +5240,7 @@ let validCompsCountForPct = 0;
             document.getElementById('add-sub1-comp').value = emp.sub1_company || '';
             document.getElementById('add-company').value = emp.company || '';
             if (document.getElementById('add-report-to')) document.getElementById('add-report-to').value = emp.report_to_name || '';
-            if (document.getElementById('add-email')) document.getElementById('add-email').value = emp.email || '';
+            if (document.getElementById('add-email')) document.getElementById('add-email').value = emp.email || emp.EmailAddressBusiness || '';
             if (document.getElementById('add-certificate')) document.getElementById('add-certificate').value = emp.certificate || '';
             
             document.getElementById('add-employee-modal').classList.remove('hidden');

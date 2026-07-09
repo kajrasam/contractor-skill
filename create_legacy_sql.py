@@ -36,14 +36,13 @@ for col in cols:
 # Add FullName and extra columns
 sql_statements.append('    "FullName" TEXT,')
 sql_statements.append('    "JobGroup" TEXT,')
-sql_statements.append('    "Certificate" TEXT,')
-sql_statements.append('    "Email" TEXT')
+sql_statements.append('    "Certificate" TEXT')
 sql_statements.append(");")
 sql_statements.append("")
 
 # Generate INSERTS
 print(f"Generating INSERT statements for {len(df)} rows...")
-all_columns = ['user_id', 'password'] + [f'"{c}"' for c in cols] + ['"FullName"', '"JobGroup"', '"Certificate"', '"Email"']
+all_columns = ['user_id', 'password'] + [f'"{c}"' for c in cols] + ['"FullName"', '"JobGroup"', '"Certificate"']
 insert_prefix = f"INSERT INTO public.legacy_employee_data ({', '.join(all_columns)}) VALUES "
 
 values_list = []
@@ -70,7 +69,6 @@ for _, row in df.iterrows():
     # Extra columns
     user_vals.append("NULL") # JobGroup
     user_vals.append("NULL") # Certificate
-    user_vals.append("NULL") # Email
     
     values_list.append("(" + ", ".join(user_vals) + ")")
     
@@ -78,8 +76,8 @@ sql_statements.append(insert_prefix)
 sql_statements.append(",\n".join(values_list) + ";\n")
 
 # Create View
-columns_for_legacy_view = ['-id as id', 'user_id', 'password'] + [f'"{c}"' for c in cols] + ['"FullName"', '"JobGroup"', '"Certificate"', '"Email"']
-columns_for_normal_view = ['id', 'user_id', 'password'] + [f'"{c}"' for c in cols] + ['"FullName"', '"JobGroup"', '"Certificate"', '"Email"']
+columns_for_legacy_view = ['-id as id', 'user_id', 'password'] + [f'"{c}"' for c in cols] + ['"FullName"', '"JobGroup"', '"Certificate"']
+columns_for_normal_view = ['id', 'user_id', 'password'] + [f'"{c}"' for c in cols] + ['"FullName"', '"JobGroup"', '"Certificate"']
 
 col_list_legacy_str = ", ".join(columns_for_legacy_view)
 col_list_normal_str = ", ".join(columns_for_normal_view)
