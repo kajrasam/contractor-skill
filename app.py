@@ -312,22 +312,30 @@ def sync_employees():
     
     # Process deletions first
     if deleted_ids:
-        try:
-            # Get the user_ids associated with these employee_data rows to delete them from users table
-            del_emps = supabase.table("employee_data").select("id, user_id").in_("id", deleted_ids).execute()
-            del_uids = [e['user_id'] for e in del_emps.data if e.get('user_id')]
+        # Separate legacy and normal IDs
+        legacy_deletes = [d for d in deleted_ids if str(d).lstrip('-').isdigit() and int(d) < 0]
+        if legacy_deletes:
+            errors.append("ไม่สามารถลบข้อมูลพนักงานจากระบบเก่า (Legacy) ได้")
             
-            # Delete from employee_data
-            supabase.table("employee_data").delete().in_("id", deleted_ids).execute()
-            
-            # Delete related data from users and other tables
-            if del_uids:
-                supabase.table("user_actuals").delete().in_("user_id", del_uids).execute()
-                supabase.table("user_managers").delete().in_("user_id", del_uids).execute()
-                supabase.table("user_managers").delete().in_("manager_id", del_uids).execute()
-                supabase.table("users").delete().in_("id", del_uids).execute()
-        except Exception as e:
-            errors.append(f"Delete failed: {e}")
+        valid_deleted_ids = [d for d in deleted_ids if str(d).lstrip('-').isdigit() and int(d) > 0]
+        
+        if valid_deleted_ids:
+            try:
+                # Get the user_ids associated with these employee_data rows to delete them from users table
+                del_emps = supabase.table("employee_data").select("id, user_id").in_("id", valid_deleted_ids).execute()
+                del_uids = [e['user_id'] for e in del_emps.data if e.get('user_id')]
+                
+                # Delete from employee_data
+                supabase.table("employee_data").delete().in_("id", valid_deleted_ids).execute()
+                
+                # Delete related data from users and other tables
+                if del_uids:
+                    supabase.table("user_actuals").delete().in_("user_id", del_uids).execute()
+                    supabase.table("user_managers").delete().in_("user_id", del_uids).execute()
+                    supabase.table("user_managers").delete().in_("manager_id", del_uids).execute()
+                    supabase.table("users").delete().in_("id", del_uids).execute()
+            except Exception as e:
+                errors.append(f"Delete failed: {e}")
 
     name_to_emp = {e.get('name_th'): e for e in employees if e.get('name_th')}
     name_en_to_emp = {e.get('name_en'): e for e in employees if e.get('name_en')}

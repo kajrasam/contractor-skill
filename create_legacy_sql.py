@@ -78,14 +78,17 @@ sql_statements.append(insert_prefix)
 sql_statements.append(",\n".join(values_list) + ";\n")
 
 # Create View
-columns_for_view = ['id', 'user_id', 'password'] + [f'"{c}"' for c in cols] + ['"FullName"', '"JobGroup"', '"Certificate"', '"Email"']
-col_list_str = ", ".join(columns_for_view)
+columns_for_legacy_view = ['-id as id', 'user_id', 'password'] + [f'"{c}"' for c in cols] + ['"FullName"', '"JobGroup"', '"Certificate"', '"Email"']
+columns_for_normal_view = ['id', 'user_id', 'password'] + [f'"{c}"' for c in cols] + ['"FullName"', '"JobGroup"', '"Certificate"', '"Email"']
+
+col_list_legacy_str = ", ".join(columns_for_legacy_view)
+col_list_normal_str = ", ".join(columns_for_normal_view)
 
 sql_statements.append("-- สร้าง SQL View สำหรับรวมข้อมูล 2 ตาราง")
 sql_statements.append("CREATE OR REPLACE VIEW public.all_employee_data AS")
-sql_statements.append(f"SELECT {col_list_str} FROM public.legacy_employee_data")
+sql_statements.append(f"SELECT {col_list_legacy_str} FROM public.legacy_employee_data")
 sql_statements.append("UNION ALL")
-sql_statements.append(f"SELECT {col_list_str} FROM public.employee_data;")
+sql_statements.append(f"SELECT {col_list_normal_str} FROM public.employee_data;")
 
 with open('legacy_employee_data_150.sql', 'w', encoding='utf-8') as f:
     f.write("\n".join(sql_statements))
