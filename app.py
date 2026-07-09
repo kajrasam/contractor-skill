@@ -386,32 +386,47 @@ def sync_employees():
                 else:
                     errors.append(f"employee_data insert failed for {name_th}: {e}")
         elif pk_field and pk_value:
-            try:
-                supabase.table("employee_data").update({
-                    "user_id": uid,
-                    "password": pwd,
-                    "PersonnelNumber": emp.get('person_id', ''),
-                    "FullName": name_th,
-                    "PositionNameThai": pos,
-                    "PositionStructureLevel": emp.get('position_level', ''),
-                    "SectionThai": emp.get('section', ''),
-                    "DepartmentThai": emp.get('department', ''),
-                    "Sub1DivisionThai": emp.get('sub1_division', ''),
-                    "DivisionThai": emp.get('division', ''),
-                    "Sub1CompanyThai": emp.get('sub1_company', ''),
-                    "CompanyThai": emp.get('company', ''),
-                    "ReportToName": report_to,
-                    "Certificate": emp.get('certificate', ''),
-                    "JobGroup": emp.get('job_group', ''),
-                    "EmailAddressBusiness": emp.get('email', ''),
-                    "Pipeline": "Evaluated" if is_evaluated else None
-                }).eq(pk_field, pk_value).execute()
-            except Exception as e:
-                err_msg = str(e).lower()
-                if "duplicate key" in err_msg or "unique constraint" in err_msg:
-                    errors.append(f"ไม่สามารถอัปเดต {name_th} ได้เนื่องจาก User ID '{uid}' หรือรหัสพนักงานถูกใช้งานแล้ว")
-                else:
-                    errors.append(f"employee_data update failed for {name_th}: {e}")
+            is_legacy = pk_field == 'id' and str(pk_value).lstrip('-').isdigit() and int(pk_value) < 0
+            
+            if is_legacy:
+                # Update only evaluation-related fields for legacy data
+                try:
+                    real_id = -int(pk_value)
+                    supabase.table("legacy_employee_data").update({
+                        "user_id": uid,
+                        "password": pwd,
+                        "ReportToName": report_to if report_to else None,
+                        "Pipeline": "Evaluated" if is_evaluated else None
+                    }).eq("id", real_id).execute()
+                except Exception as e:
+                    errors.append(f"ไม่สามารถอัปเดตการประเมินของข้อมูล Legacy ได้: {e}")
+            else:
+                try:
+                    supabase.table("employee_data").update({
+                        "user_id": uid,
+                        "password": pwd,
+                        "PersonnelNumber": emp.get('person_id', ''),
+                        "FullName": name_th,
+                        "PositionNameThai": pos,
+                        "PositionStructureLevel": emp.get('position_level', ''),
+                        "SectionThai": emp.get('section', ''),
+                        "DepartmentThai": emp.get('department', ''),
+                        "Sub1DivisionThai": emp.get('sub1_division', ''),
+                        "DivisionThai": emp.get('division', ''),
+                        "Sub1CompanyThai": emp.get('sub1_company', ''),
+                        "CompanyThai": emp.get('company', ''),
+                        "ReportToName": report_to,
+                        "Certificate": emp.get('certificate', ''),
+                        "JobGroup": emp.get('job_group', ''),
+                        "EmailAddressBusiness": emp.get('email', ''),
+                        "Pipeline": "Evaluated" if is_evaluated else None
+                    }).eq(pk_field, pk_value).execute()
+                except Exception as e:
+                    err_msg = str(e).lower()
+                    if "duplicate key" in err_msg or "unique constraint" in err_msg:
+                        errors.append(f"ไม่สามารถอัปเดต {name_th} ได้เนื่องจาก User ID '{uid}' หรือรหัสพนักงานถูกใช้งานแล้ว")
+                    else:
+                        errors.append(f"employee_data update failed for {name_th}: {e}")
                 
         # 2. Collect for users table
         if is_evaluated and uid:
