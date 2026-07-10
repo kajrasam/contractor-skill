@@ -833,6 +833,11 @@
                             <input type="text" id="admin-search" placeholder="ค้นหาชื่อ, รหัส..."
                                 class="px-3 py-2 border border-slate-200 rounded-lg text-sm w-64 focus:outline-none focus:border-scg-500"
                                 onkeyup="renderAdminTable()">
+                            <select id="admin-evaluate-filter" class="px-3 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:border-scg-500 bg-white" onchange="renderAdminTable()">
+                                <option value="all">สถานะ: ทั้งหมด</option>
+                                <option value="evaluated">เฉพาะเลือกถูกประเมิน</option>
+                                <option value="not_evaluated">เฉพาะไม่ถูกประเมิน</option>
+                            </select>
                             <label class="flex items-center gap-2 cursor-pointer text-sm font-bold text-slate-700">
                                 <input type="checkbox" id="admin-select-all"
                                     class="w-4 h-4 rounded border-slate-300 text-scg-600 focus:ring-scg-500"
@@ -3499,6 +3504,7 @@ graph TD
             if (!tbody) return;
 
             const search = document.getElementById('admin-search').value.toLowerCase();
+            const evalFilter = document.getElementById('admin-evaluate-filter') ? document.getElementById('admin-evaluate-filter').value : 'all';
 
             // Build unique Thai names for the dropdown
             const allNames = [...new Set(adminTempData.map(e => e.name_th).filter(n => n && n !== '-'))].sort();
@@ -3509,6 +3515,7 @@ graph TD
 
             let html = '';
             let count = 0;
+            let evaluateCount = 0;
 
             adminTempData.forEach((emp, index) => {
                 const searchStr = `${emp.person_id} ${emp.name_th} ${emp.name_en} ${emp.user_id}`.toLowerCase();
@@ -3517,7 +3524,12 @@ graph TD
                 const eData = employeeDataAll[index];
                 if (eData && !matchesOrgFiltersData(eData)) return;
 
+                const isEvaluated = !!emp.is_evaluated;
+                if (evalFilter === 'evaluated' && !isEvaluated) return;
+                if (evalFilter === 'not_evaluated' && isEvaluated) return;
+
                 count++;
+                if (isEvaluated) evaluateCount++;
 
                 let rowOpts = optionsHtml;
                 if (emp.report_to_name) {
@@ -3529,7 +3541,7 @@ graph TD
                         <td class="py-2 px-4 border-r border-slate-100 text-center">
                             <input type="checkbox" class="w-5 h-5 rounded border-slate-300 text-scg-600 focus:ring-scg-500 cursor-pointer" 
                                    ${emp.is_evaluated ? 'checked' : ''} 
-                                   onchange="adminTempData[${index}].is_evaluated = this.checked">
+                                   onchange="adminTempData[${index}].is_evaluated = this.checked; updateAdminEvaluateCount();">
                         </td>
                         <td class="py-2 px-4 border-r border-slate-100 font-medium">${emp.person_id}</td>
                         <td class="py-2 px-4 border-r border-slate-100">${emp.name_th}</td>
@@ -3565,7 +3577,30 @@ graph TD
             });
 
             tbody.innerHTML = html;
-            document.getElementById('admin-count-info').innerText = `แสดง ${count} รายการ`;
+            document.getElementById('admin-count-info').innerText = `แสดง ${count} รายการ (เลือกประเมิน ${evaluateCount} คน)`;
+        }
+
+        function updateAdminEvaluateCount() {
+            let count = 0;
+            let evaluateCount = 0;
+            const search = document.getElementById('admin-search').value.toLowerCase();
+            const evalFilter = document.getElementById('admin-evaluate-filter') ? document.getElementById('admin-evaluate-filter').value : 'all';
+
+            adminTempData.forEach((emp, index) => {
+                const searchStr = `${emp.person_id} ${emp.name_th} ${emp.name_en} ${emp.user_id}`.toLowerCase();
+                if (search && !searchStr.includes(search)) return;
+                const eData = employeeDataAll[index];
+                if (eData && !matchesOrgFiltersData(eData)) return;
+
+                const isEvaluated = !!emp.is_evaluated;
+                if (evalFilter === 'evaluated' && !isEvaluated) return;
+                if (evalFilter === 'not_evaluated' && isEvaluated) return;
+
+                count++;
+                if (isEvaluated) evaluateCount++;
+            });
+            const infoEl = document.getElementById('admin-count-info');
+            if (infoEl) infoEl.innerText = `แสดง ${count} รายการ (เลือกประเมิน ${evaluateCount} คน)`;
         }
 
 
@@ -3577,6 +3612,11 @@ graph TD
 
                 const eData = employeeDataAll[index];
                 if (eData && !matchesOrgFiltersData(eData)) return;
+
+                const evalFilter = document.getElementById('admin-evaluate-filter') ? document.getElementById('admin-evaluate-filter').value : 'all';
+                const isEvaluated = !!emp.is_evaluated;
+                if (evalFilter === 'evaluated' && !isEvaluated) return;
+                if (evalFilter === 'not_evaluated' && isEvaluated) return;
 
                 emp.is_evaluated = cb.checked;
             });
