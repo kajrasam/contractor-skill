@@ -5290,6 +5290,34 @@ let validCompsCountForPct = 0;
             });
         });
         // ---------------------------------------------
+        
+        function generateAutoEmployeeId() {
+            const today = new Date();
+            const dd = String(today.getDate()).padStart(2, '0');
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const yyyy = today.getFullYear();
+            const dateStr = `${dd}${mm}${yyyy}`;
+            
+            let maxRunningNumber = 0;
+            adminTempData.forEach(emp => {
+                if (emp.person_id) {
+                    const parts = String(emp.person_id).split('-');
+                    if (parts.length === 2 && parts[1].length === 5) {
+                        const num = parseInt(parts[1], 10);
+                        if (!isNaN(num) && num > maxRunningNumber) {
+                            maxRunningNumber = num;
+                        }
+                    }
+                }
+            });
+            
+            if (maxRunningNumber === 0) {
+                maxRunningNumber = adminTempData.length;
+            }
+            
+            const nextRunningNumber = String(maxRunningNumber + 1).padStart(5, '0');
+            return `${dateStr}-${nextRunningNumber}`;
+        }
 
         let currentEditIndex = -1;
         function openAddEmployeeModal() {
@@ -5297,6 +5325,7 @@ let validCompsCountForPct = 0;
             document.getElementById('employee-modal-title').innerHTML = '<i class="fa-solid fa-user-plus mr-2 text-scg-600"></i>เพิ่มพนักงานใหม่';
             document.getElementById('employee-modal-submit-btn').textContent = 'เพิ่มพนักงาน';
             document.querySelectorAll('#add-employee-modal input').forEach(input => input.value = '');
+            document.getElementById('add-emp-id').value = generateAutoEmployeeId();
             document.getElementById('add-employee-modal').classList.remove('hidden');
         }
 
