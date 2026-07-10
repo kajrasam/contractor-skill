@@ -1456,7 +1456,7 @@ graph TD
             }
 
             if (validUserKey) {
-                localStorage.setItem('comp_sys_user', validUserKey);
+                sessionStorage.setItem('comp_sys_user', validUserKey);
                 checkLoginState();
             } else {
                 document.getElementById('login-error').classList.remove('hidden');
@@ -1477,7 +1477,7 @@ graph TD
         };
 
         function handleLogout() {
-            localStorage.removeItem('comp_sys_user');
+            sessionStorage.removeItem('comp_sys_user');
             currentUser = null;
             actingAsRole = null;
             isEditMode = false;
@@ -1485,7 +1485,10 @@ graph TD
         }
 
         function checkLoginState() {
-            const loggedInUserId = localStorage.getItem('comp_sys_user');
+            // Clear legacy auto-login
+            localStorage.removeItem('comp_sys_user');
+            
+            const loggedInUserId = sessionStorage.getItem('comp_sys_user');
             const loginContainer = document.getElementById('login-container');
             const appContainer = document.getElementById('app-container');
 
