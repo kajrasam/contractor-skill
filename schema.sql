@@ -60,7 +60,9 @@ CREATE TABLE user_actuals (
     evidence TEXT,
     additional_expectation TEXT,
     learning_topic TEXT,
-    eval_date TEXT
+    eval_date TEXT,
+    eval_status TEXT,
+    eval_year INTEGER
 );
 
 

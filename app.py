@@ -69,7 +69,8 @@ def get_data():
     # 4. dbUsers
     user_res = supabase.table("users").select("*").execute()
     mgr_res = supabase.table("user_managers").select("*").execute()
-    act_res = supabase.table("user_actuals").select("*").order("competency_idx").execute()
+    evalYear = request.args.get('evalYear', str(time.localtime().tm_year))
+    act_res = supabase.table("user_actuals").select("*").eq("eval_year", evalYear).order("competency_idx").execute()
     
     dbUsers = {}
     for u in user_res.data:
@@ -160,6 +161,7 @@ def update_evaluation():
     special_expertise_detail = data.get('specialExpertiseDetail', "")
     evalDate = data.get('evalDate')
     evalStatus = data.get('evalStatus', "")
+    evalYear = data.get('evalYear', time.localtime().tm_year)
     
     try:
         supabase.table("users").update({
@@ -178,7 +180,7 @@ def update_evaluation():
         lrn_top = learning_topics[idx] if idx < len(learning_topics) else ""
         
         try:
-            existing = supabase.table("user_actuals").select("user_id").eq("user_id", uid).eq("competency_idx", idx).execute()
+            existing = supabase.table("user_actuals").select("user_id").eq("user_id", uid).eq("competency_idx", idx).eq("eval_year", evalYear).execute()
             if existing.data:
                 supabase.table("user_actuals").update({
                     "actual_level": aval,
@@ -189,8 +191,9 @@ def update_evaluation():
                     "additional_expectation": add_exp,
                     "learning_topic": lrn_top,
                     "eval_date": evalDate,
-                    "eval_status": evalStatus
-                }).eq("user_id", uid).eq("competency_idx", idx).execute()
+                    "eval_status": evalStatus,
+                    "eval_year": evalYear
+                }).eq("user_id", uid).eq("competency_idx", idx).eq("eval_year", evalYear).execute()
             else:
                 supabase.table("user_actuals").insert({
                     "user_id": uid,
@@ -203,7 +206,8 @@ def update_evaluation():
                     "additional_expectation": add_exp,
                     "learning_topic": lrn_top,
                     "eval_date": evalDate,
-                    "eval_status": evalStatus
+                    "eval_status": evalStatus,
+                    "eval_year": evalYear
                 }).execute()
         except Exception as e:
             print(f"Failed to update user_actuals {uid} {idx}: {e}")

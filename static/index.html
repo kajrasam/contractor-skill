@@ -281,6 +281,13 @@
             </nav>
 
             <!-- User Menu -->
+            <!-- Year Selector -->
+            <div class="p-4 border-t border-slate-200 bg-white shrink-0">
+                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-1">ปีที่ประเมิน (Evaluation Year)</label>
+                <select id="eval-year-selector" class="w-full text-sm font-bold bg-slate-50 border border-slate-200 rounded-lg p-2 text-scg-900 focus:ring-2 focus:ring-scg-500 focus:border-scg-500 outline-none transition-all" onchange="handleYearChange()">
+                    <!-- Populated by JS -->
+                </select>
+            </div>
             <div class="p-4 border-t border-slate-200 flex flex-col gap-3 bg-slate-50 shrink-0">
                 <div class="flex flex-col text-left">
                     <span id="nav-user-name" class="text-sm font-bold text-scg-800 truncate"></span>
@@ -1317,6 +1324,7 @@ graph TD
         let dbUsers = {};
         let adminTempData = [];
         let deletedEmployeeIds = [];
+        let currentEvalYear = new Date().getFullYear();
         let currentUser = null;
         let actingAsRole = null;
         let evalRadarChartInstance = null;
@@ -1341,7 +1349,7 @@ graph TD
 
         async function fetchInitialData(silent = false) {
             try {
-                const res = await fetch(`${API_BASE}/data`);
+                const res = await fetch(`${API_BASE}/data?evalYear=${currentEvalYear}`);
                 const data = await res.json();
                 competencies = data.competencies;
                 positions = data.positions;
@@ -1397,8 +1405,36 @@ graph TD
             return Array.from(subs);
         }
 
-        // --- 2. Authentication & Navigation ---
-        window.onload = fetchInitialData;
+        window.onload = () => {
+            initYearSelector();
+            fetchInitialData();
+        };
+
+        function initYearSelector() {
+            const selector = document.getElementById('eval-year-selector');
+            if (selector) {
+                const currentYr = new Date().getFullYear();
+                const startYr = 2024; // Configure start year if needed
+                for (let y = currentYr + 1; y >= startYr; y--) {
+                    const opt = document.createElement('option');
+                    opt.value = y;
+                    opt.text = y;
+                    if (y === currentEvalYear) opt.selected = true;
+                    selector.appendChild(opt);
+                }
+            }
+        }
+
+        function handleYearChange() {
+            const selector = document.getElementById('eval-year-selector');
+            if (selector) {
+                currentEvalYear = parseInt(selector.value, 10);
+                showToast("กำลังดึงข้อมูลปี " + currentEvalYear + "...");
+                fetchInitialData(true);
+            }
+        }
+
+        // --- Auth Functions ---
 
         function handleLogin() {
             const user = document.getElementById('login-username').value;
@@ -2935,7 +2971,8 @@ graph TD
                     specialExpertise: emp.special_expertise,
                     specialExpertiseDetail: emp.special_expertise_detail,
                     evalDate: emp.evalDate,
-                    evalStatus: emp.eval_status
+                    evalStatus: emp.eval_status,
+                    evalYear: currentEvalYear
                 })
             });
 
