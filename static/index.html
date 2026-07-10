@@ -5301,11 +5301,20 @@ let validCompsCountForPct = 0;
             let maxRunningNumber = 0;
             adminTempData.forEach(emp => {
                 if (emp.person_id) {
-                    const parts = String(emp.person_id).split('-');
-                    if (parts.length === 2 && parts[1].length === 5) {
-                        const num = parseInt(parts[1], 10);
+                    const idStr = String(emp.person_id);
+                    if (idStr.length === 13) {
+                        const numStr = idStr.substring(8);
+                        const num = parseInt(numStr, 10);
                         if (!isNaN(num) && num > maxRunningNumber) {
                             maxRunningNumber = num;
+                        }
+                    } else if (idStr.includes('-')) {
+                        const parts = idStr.split('-');
+                        if (parts.length === 2 && parts[1].length === 5) {
+                            const num = parseInt(parts[1], 10);
+                            if (!isNaN(num) && num > maxRunningNumber) {
+                                maxRunningNumber = num;
+                            }
                         }
                     }
                 }
@@ -5316,7 +5325,7 @@ let validCompsCountForPct = 0;
             }
             
             const nextRunningNumber = String(maxRunningNumber + 1).padStart(5, '0');
-            return `${dateStr}-${nextRunningNumber}`;
+            return `${dateStr}${nextRunningNumber}`;
         }
 
         let currentEditIndex = -1;
