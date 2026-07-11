@@ -5303,30 +5303,21 @@ let validCompsCountForPct = 0;
             const dateStr = `${dd}${mm}${yyyy}`;
             
             let maxRunningNumber = 0;
-            adminTempData.forEach(emp => {
-                if (emp.person_id) {
-                    const idStr = String(emp.person_id);
-                    if (idStr.length === 13) {
+            const dataToSearch = (typeof employeeDataAll !== 'undefined' && employeeDataAll.length > 0) ? employeeDataAll : adminTempData;
+            
+            dataToSearch.forEach(emp => {
+                const pid = emp.person_id || emp.user_id || emp.username || emp.SCGEmployeeID;
+                if (pid) {
+                    const idStr = String(pid).trim();
+                    if (idStr.length === 13 && idStr.startsWith(dateStr)) {
                         const numStr = idStr.substring(8);
                         const num = parseInt(numStr, 10);
                         if (!isNaN(num) && num > maxRunningNumber) {
                             maxRunningNumber = num;
                         }
-                    } else if (idStr.includes('-')) {
-                        const parts = idStr.split('-');
-                        if (parts.length === 2 && parts[1].length === 5) {
-                            const num = parseInt(parts[1], 10);
-                            if (!isNaN(num) && num > maxRunningNumber) {
-                                maxRunningNumber = num;
-                            }
-                        }
                     }
                 }
             });
-            
-            if (maxRunningNumber === 0) {
-                maxRunningNumber = adminTempData.length;
-            }
             
             const nextRunningNumber = String(maxRunningNumber + 1).padStart(5, '0');
             return `${dateStr}${nextRunningNumber}`;
