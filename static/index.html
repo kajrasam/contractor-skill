@@ -1411,6 +1411,8 @@ graph TD
         }
 
         window.onload = () => {
+            sessionStorage.removeItem('comp_sys_user');
+            localStorage.removeItem('comp_sys_user');
             initYearSelector();
             fetchInitialData();
         };
