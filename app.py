@@ -81,14 +81,34 @@ def get_data():
         
         # get actuals
         user_acts = [a for a in act_res.data if a["user_id"] == uid]
-        actuals = [a["actual_level"] for a in user_acts]
-        self_evals = [a.get("self_level") for a in user_acts]
-        before_evals = [a.get("before_level") for a in user_acts]
-        supervisor_feedback = [a.get("supervisor_feedback", "") for a in user_acts]
-        evidences = [a["evidence"] for a in user_acts]
-        additional_expectations = [a.get("additional_expectation", "") for a in user_acts]
-        learning_topics = [a.get("learning_topic", "") for a in user_acts]
-        evalDate = user_acts[0]["eval_date"] if len(user_acts) > 0 and user_acts[0]["eval_date"] else ""
+        
+        actuals = [1] * len(competencies)
+        self_evals = [None] * len(competencies)
+        before_evals = [None] * len(competencies)
+        supervisor_feedback = [""] * len(competencies)
+        evidences = [""] * len(competencies)
+        additional_expectations = [""] * len(competencies)
+        learning_topics = [""] * len(competencies)
+        
+        for a in user_acts:
+            idx = a.get("competency_idx")
+            if idx is not None and idx < len(competencies):
+                if a.get("actual_level") is not None:
+                    actuals[idx] = a["actual_level"]
+                if a.get("self_level") is not None:
+                    self_evals[idx] = a.get("self_level")
+                if a.get("before_level") is not None:
+                    before_evals[idx] = a.get("before_level")
+                if a.get("supervisor_feedback") is not None:
+                    supervisor_feedback[idx] = a.get("supervisor_feedback")
+                if a.get("evidence") is not None:
+                    evidences[idx] = a["evidence"]
+                if a.get("additional_expectation") is not None:
+                    additional_expectations[idx] = a.get("additional_expectation")
+                if a.get("learning_topic") is not None:
+                    learning_topics[idx] = a.get("learning_topic")
+                    
+        evalDate = user_acts[-1].get("eval_date", "") if len(user_acts) > 0 else ""
         
         scope_sec = ""
         scope_dep = ""
