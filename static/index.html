@@ -3067,42 +3067,61 @@ graph TD
 
             if (!emp.additional_expectations) emp.additional_expectations = new Array(competencies.length).fill('');
             if (!emp.learning_topics) emp.learning_topics = new Array(competencies.length).fill('');
+            if (!emp.self_evals) emp.self_evals = [];
+            if (!emp.actuals) emp.actuals = [];
+            if (!emp.before_evals) emp.before_evals = [];
+            if (!emp.supervisor_feedback) emp.supervisor_feedback = [];
+            if (!emp.evidences) emp.evidences = [];
 
             for (let i = 0; i < competencies.length; i++) {
-                // Grab self eval if exists
+                // Self Eval
                 const elSelf = document.getElementById(`eval-self-${id}-${i}`);
                 if (elSelf) {
-                    if (!emp.self_evals) emp.self_evals = [];
-                    emp.self_evals[i] = parseInt(elSelf.value);
+                    let v = parseInt(elSelf.value, 10);
+                    emp.self_evals[i] = isNaN(v) ? null : v;
+                } else if (emp.self_evals[i] === undefined) {
+                    emp.self_evals[i] = null;
                 }
 
-                // Grab actual eval if exists
+                // Actual Eval
                 const elActual = document.getElementById(`eval-actual-${id}-${i}`);
                 if (elActual) {
-                    emp.actuals[i] = parseInt(elActual.value);
+                    let v = parseInt(elActual.value, 10);
+                    emp.actuals[i] = isNaN(v) ? null : v;
+                } else if (emp.actuals[i] === undefined) {
+                    emp.actuals[i] = null;
                 }
 
-                // Grab before eval if exists
+                // Before Eval
                 const elBefore = document.getElementById(`eval-before-${id}-${i}`);
                 if (elBefore) {
-                    if (!emp.before_evals) emp.before_evals = [];
-                    emp.before_evals[i] = parseInt(elBefore.value);
+                    let v = parseInt(elBefore.value, 10);
+                    emp.before_evals[i] = isNaN(v) ? null : v;
+                } else if (emp.before_evals[i] === undefined) {
+                    emp.before_evals[i] = null;
                 }
 
-                // Grab feedback if exists
+                // Feedback
                 const elFeedback = document.getElementById(`eval-feedback-${id}-${i}`);
                 if (elFeedback) {
-                    if (!emp.supervisor_feedback) emp.supervisor_feedback = [];
                     emp.supervisor_feedback[i] = elFeedback.value;
+                } else if (emp.supervisor_feedback[i] === undefined) {
+                    emp.supervisor_feedback[i] = "";
                 }
 
+                // Evidence, Additional Expectations, Learning Topics
                 const elEvi = document.getElementById(`eval-evi-${i}`);
                 const elAddExp = document.getElementById(`eval-add-exp-${i}`);
                 const elLrnTop = document.getElementById(`eval-lrn-top-${i}`);
 
                 if (elEvi) emp.evidences[i] = elEvi.value;
+                else if (emp.evidences[i] === undefined) emp.evidences[i] = "";
+
                 if (elAddExp) emp.additional_expectations[i] = elAddExp.value;
+                else if (emp.additional_expectations[i] === undefined) emp.additional_expectations[i] = "";
+
                 if (elLrnTop) emp.learning_topics[i] = elLrnTop.value;
+                else if (emp.learning_topics[i] === undefined) emp.learning_topics[i] = "";
             }
 
             // Update evaluation status

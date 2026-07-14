@@ -191,7 +191,9 @@ def update_evaluation():
     except Exception as e:
         print(f"Failed to update users {uid}: {e}")
     
-    for idx, aval in enumerate(actuals):
+    max_len = max([len(actuals), len(self_evals), len(before_evals), len(supervisor_feedbacks), len(evidences), len(additional_expectations), len(learning_topics), 0])
+    for idx in range(max_len):
+        aval = actuals[idx] if idx < len(actuals) else None
         sval = self_evals[idx] if idx < len(self_evals) else None
         bval = before_evals[idx] if idx < len(before_evals) else None
         sfb = supervisor_feedbacks[idx] if idx < len(supervisor_feedbacks) else ""
