@@ -14,6 +14,23 @@ url = os.environ.get("SUPABASE_URL")
 key = os.environ.get("SUPABASE_KEY")
 supabase: Client = create_client(url, key)
 
+
+class MockRes:
+    def __init__(self, data):
+        self.data = data
+
+def fetch_all(query_builder):
+    all_data = []
+    start = 0
+    page_size = 1000
+    while True:
+        res = query_builder.range(start, start + page_size - 1).execute()
+        all_data.extend(res.data)
+        if len(res.data) < page_size:
+            break
+        start += page_size
+    return MockRes(all_data)
+
 active_sessions = {}
 
 @app.route('/')
@@ -27,7 +44,7 @@ def index():
 @app.route('/api/data', methods=['GET'])
 def get_data():
     # 1. competencies
-    comps_res = supabase.table("competencies").select("*").order("id").execute()
+    comps_res = fetch_all(supabase.table("competencies").select("*").order("id"))
     competencies = []
     for comp in comps_res.data:
         competencies.append({
@@ -46,7 +63,7 @@ def get_data():
         })
         
     # 2. positions and roleResponses
-    pos_res = supabase.table("positions").select("*").execute()
+    pos_res = fetch_all(supabase.table("positions").select("*"))
     positions = []
     roleResponses = {}
     positionGroups = {}
@@ -56,7 +73,7 @@ def get_data():
         positionGroups[p["name"]] = p.get("job_group", "")
         
     # 3. positionTargets
-    pt_res = supabase.table("position_targets").select("*").order("position_name").order("competency_idx").execute()
+    pt_res = fetch_all(supabase.table("position_targets").select("*").order("position_name").order("competency_idx"))
     positionTargets = {}
     for pt in pt_res.data:
         pos = pt["position_name"]
@@ -67,10 +84,10 @@ def get_data():
             positionTargets[pos][idx] = pt["target_level"]
         
     # 4. dbUsers
-    user_res = supabase.table("users").select("*").execute()
-    mgr_res = supabase.table("user_managers").select("*").execute()
+    user_res = fetch_all(supabase.table("users").select("*"))
+    mgr_res = fetch_all(supabase.table("user_managers").select("*"))
     evalYear = request.args.get('evalYear', str(time.localtime().tm_year))
-    act_res = supabase.table("user_actuals").select("*").eq("eval_year", evalYear).order("competency_idx").execute()
+    act_res = fetch_all(supabase.table("user_actuals").select("*").eq("eval_year", evalYear).order("competency_idx"))
     
     dbUsers = {}
     for u in user_res.data:
@@ -151,7 +168,7 @@ def get_data():
     # 5. employee_data
     employeeData = []
     try:
-        emp_res = supabase.table("all_employee_data").select("*").execute()
+        emp_res = fetch_all(supabase.table("all_employee_data").select("*"))
         employeeData = emp_res.data
     except Exception as e:
         print(f"Warning: could not fetch employee_data: {e}")
