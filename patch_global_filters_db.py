@@ -21,9 +21,9 @@ def patch_file(filepath):
                 
                 if (!silent) {"""
     
-    # Change 2: Make buildFiltersUI use employeeDataAll for ALL tabs
-    target2 = "const dataSource = (tabId === 'admin') ? employeeDataAll : employeeData;"
-    replacement2 = "const dataSource = employeeDataAll; // Use all DB data for filters across all tabs as requested"
+    # Change 2: Make buildFiltersUI use employeeData (evaluated only) for all tabs EXCEPT admin
+    target2 = "const dataSource = employeeDataAll; // Use all DB data for filters across all tabs as requested"
+    replacement2 = "const dataSource = tabId === 'admin' ? employeeDataAll : employeeData; // Admin gets all DB data, others get Evaluated only"
 
     patched = False
     

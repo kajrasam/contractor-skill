@@ -1873,7 +1873,7 @@ graph TD
             // Build Org Filters AND Position Filter with Hierarchy/Intersection
             let jobGroupsSet = new Set(), sectionsSet = new Set(), deptsSet = new Set(), reportToSet = new Set(), posSet = new Set(), employeesSet = new Set();
 
-            const dataSource = employeeDataAll; // Use all DB data for filters across all tabs as requested
+            const dataSource = tabId === 'admin' ? employeeDataAll : employeeData; // Admin gets all DB data, others get Evaluated only
 
             dataSource.forEach(e => {
                 let posName = e.position_name || e.PositionNameThai;
