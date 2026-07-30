@@ -322,7 +322,7 @@
                             <h4 class="text-sm font-bold text-slate-700 mb-4 border-b border-slate-200 pb-2"><i
                                     class="fa-solid fa-sitemap text-scg-500 mr-2"></i> โครงสร้างองค์กรและบุคลากร
                                 (Hierarchy)</h4>
-                            <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-4">
+                            <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-4">
                                 <div class="w-full relative">
                                     <label class="block text-sm font-bold text-slate-700 mb-2"><i
                                             class="fa-solid fa-layer-group text-scg-500 mr-1"></i>
@@ -340,6 +340,17 @@
                                 </div>
 
                                 <div class="w-full relative">
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-layer-group text-scg-500 mr-1"></i> กรองตามระดับตำแหน่ง</label>
+                                    <button onclick="toggleFilterMenu('level-dropdown-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate" id="level-dropdown-text">เลือกระดับตำแหน่งทั้งหมด</span>
+                                        <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
+                                    </button>
+                                    <div id="level-dropdown-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                        <div id="position-level-filters" class="p-2 flex flex-col gap-1"></div>
+                                    </div>
+                                </div>
+
+                                <div class="w-full relative">
                                     <label class="block text-sm font-bold text-slate-700 mb-2"><i
                                             class="fa-solid fa-filter text-scg-500 mr-1"></i> กรองตามตำแหน่ง</label>
                                     <button onclick="toggleFilterMenu('pos-dropdown-menu')"
@@ -351,6 +362,39 @@
                                     <div id="pos-dropdown-menu"
                                         class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
                                         <div id="position-filters" class="p-2 flex flex-col gap-1"></div>
+                                    </div>
+                                </div>
+
+                                <div class="w-full relative">
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-building text-scg-500 mr-1"></i> กรองตามบริษัท</label>
+                                    <button onclick="toggleFilterMenu('company-dropdown-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate" id="company-dropdown-text">เลือกบริษัททั้งหมด</span>
+                                        <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
+                                    </button>
+                                    <div id="company-dropdown-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                        <div id="company-filters" class="p-2 flex flex-col gap-1"></div>
+                                    </div>
+                                </div>
+
+                                <div class="w-full relative">
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-sitemap text-scg-500 mr-1"></i> กรองตามสายงาน</label>
+                                    <button onclick="toggleFilterMenu('division-dropdown-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate" id="division-dropdown-text">เลือกสายงานทั้งหมด</span>
+                                        <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
+                                    </button>
+                                    <div id="division-dropdown-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                        <div id="division-filters" class="p-2 flex flex-col gap-1"></div>
+                                    </div>
+                                </div>
+
+                                <div class="w-full relative">
+                                    <label class="block text-sm font-bold text-slate-700 mb-2"><i class="fa-solid fa-users-viewfinder text-scg-500 mr-1"></i> กรองตามฝ่าย</label>
+                                    <button onclick="toggleFilterMenu('sub1-division-dropdown-menu')" class="w-full flex items-center justify-between bg-white border border-slate-300 px-4 py-2.5 rounded-xl text-left shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-scg-500 transition-colors">
+                                        <span class="text-sm font-medium text-slate-700 truncate" id="sub1-division-dropdown-text">เลือกฝ่ายทั้งหมด</span>
+                                        <i class="fa-solid fa-chevron-down text-slate-400 ml-2"></i>
+                                    </button>
+                                    <div id="sub1-division-dropdown-menu" class="filter-menu hidden absolute top-full left-0 w-full mt-2 bg-white border border-slate-200 rounded-xl shadow-xl z-30 max-h-64 overflow-y-auto">
+                                        <div id="sub1-division-filters" class="p-2 flex flex-col gap-1"></div>
                                     </div>
                                 </div>
 
@@ -1325,6 +1369,10 @@ graph TD
         let isEditMode = false;
         let selectedPositionsFilter = [];
         let selectedCompetenciesFilter = [];
+        let selectedCompanyFilter = [];
+        let selectedDivisionFilter = [];
+        let selectedSub1DivisionFilter = [];
+        let selectedPositionLevelFilter = [];
         let selectedJobGroupFilter = [];
         let selectedSectionFilter = [];
         let selectedDepartmentFilter = [];
@@ -1732,6 +1780,15 @@ graph TD
 
 
         function matchesFiltersExcept(e, ignoreFilter) {
+            let eComp = e.CompanyThai || e.company;
+            if (ignoreFilter !== 'company' && selectedCompanyFilter.length > 0 && (!eComp || !selectedCompanyFilter.includes(eComp))) return false;
+            let eDiv = e.DivisionThai || e.division;
+            if (ignoreFilter !== 'division' && selectedDivisionFilter.length > 0 && (!eDiv || !selectedDivisionFilter.includes(eDiv))) return false;
+            let eSub1 = e.Sub1DivisionThai || e.sub1_division;
+            if (ignoreFilter !== 'sub1Division' && selectedSub1DivisionFilter.length > 0 && (!eSub1 || !selectedSub1DivisionFilter.includes(eSub1))) return false;
+            let eLevel = e.PositionStructureLevel || e.position_level;
+            if (ignoreFilter !== 'positionLevel' && selectedPositionLevelFilter.length > 0 && (!eLevel || !selectedPositionLevelFilter.includes(eLevel))) return false;
+
             let eReportTo = e.report_to_name || e.ReportToName;
             if (ignoreFilter !== 'reportTo' && selectedReportToFilter.length > 0 && (!eReportTo || !selectedReportToFilter.includes(eReportTo))) return false;
             let eDept = e.department || e.DepartmentThai;
@@ -1760,6 +1817,10 @@ graph TD
                 const activeTab = document.querySelector('.tab-content.active');
                 tabId = activeTab ? activeTab.id.replace('tab-', '') : 'dashboard';
             }
+            const companyContainer = document.getElementById('company-filters');
+            const divisionContainer = document.getElementById('division-filters');
+            const sub1DivisionContainer = document.getElementById('sub1-division-filters');
+            const positionLevelContainer = document.getElementById('position-level-filters');
             const jobGroupContainer = document.getElementById('job-group-filters');
             const posContainer = document.getElementById('position-filters');
             const sectionContainer = document.getElementById('section-filters');
@@ -1773,7 +1834,7 @@ graph TD
             const visiblePos = getVisiblePositions(currentUser.id);
 
             // Build Org Filters AND Position Filter with Hierarchy/Intersection
-            let jobGroupsSet = new Set(), sectionsSet = new Set(), deptsSet = new Set(), reportToSet = new Set(), posSet = new Set(), employeesSet = new Set();
+            let companySet = new Set(), divisionSet = new Set(), sub1DivSet = new Set(), posLevelSet = new Set(), jobGroupsSet = new Set(), sectionsSet = new Set(), deptsSet = new Set(), reportToSet = new Set(), posSet = new Set(), employeesSet = new Set();
 
             const dataSource = tabId === 'admin' ? employeeDataAll : employeeData; // Admin gets all DB data, others get Evaluated only
 
@@ -1784,6 +1845,10 @@ graph TD
                 const isVisible = visiblePos.some(p => p.includes(posName) || posName.includes(p));
                 if (!isVisible) return;
 
+                if ((e.company || e.CompanyThai) && matchesFiltersExcept(e, 'company')) companySet.add(e.company || e.CompanyThai);
+                if ((e.division || e.DivisionThai) && matchesFiltersExcept(e, 'division')) divisionSet.add(e.division || e.DivisionThai);
+                if ((e.sub1_division || e.Sub1DivisionThai) && matchesFiltersExcept(e, 'sub1Division')) sub1DivSet.add(e.sub1_division || e.Sub1DivisionThai);
+                if ((e.position_level || e.PositionStructureLevel) && matchesFiltersExcept(e, 'positionLevel')) posLevelSet.add(e.position_level || e.PositionStructureLevel);
                 if ((e.section || e.SectionThai) && matchesFiltersExcept(e, 'section')) sectionsSet.add(e.section || e.SectionThai);
                 if ((e.department || e.DepartmentThai) && matchesFiltersExcept(e, 'department')) deptsSet.add(e.department || e.DepartmentThai);
                 if ((e.report_to_name || e.ReportToName) && matchesFiltersExcept(e, 'reportTo')) reportToSet.add(e.report_to_name || e.ReportToName);
@@ -1990,7 +2055,11 @@ graph TD
 
         window.toggleFilterValue = function (type, v) {
             let arr;
-            if (type === 'jobGroup') arr = selectedJobGroupFilter;
+            if (type === 'company') arr = selectedCompanyFilter;
+            else if (type === 'division') arr = selectedDivisionFilter;
+            else if (type === 'sub1Division') arr = selectedSub1DivisionFilter;
+            else if (type === 'positionLevel') arr = selectedPositionLevelFilter;
+            else if (type === 'jobGroup') arr = selectedJobGroupFilter;
             else if (type === 'position') arr = selectedPositionsFilter;
             else if (type === 'section') arr = selectedSectionFilter;
             else if (type === 'department') arr = selectedDepartmentFilter;
@@ -2024,7 +2093,11 @@ graph TD
         window.setAllFilter = function (type, isSelectAll) {
             let arr;
             let containerId;
-            if (type === 'jobGroup') { arr = selectedJobGroupFilter; containerId = 'job-group-filters'; }
+            if (type === 'company') { arr = selectedCompanyFilter; containerId = 'company-filters'; }
+            else if (type === 'division') { arr = selectedDivisionFilter; containerId = 'division-filters'; }
+            else if (type === 'sub1Division') { arr = selectedSub1DivisionFilter; containerId = 'sub1-division-filters'; }
+            else if (type === 'positionLevel') { arr = selectedPositionLevelFilter; containerId = 'position-level-filters'; }
+            else if (type === 'jobGroup') { arr = selectedJobGroupFilter; containerId = 'job-group-filters'; }
             else if (type === 'position') { arr = selectedPositionsFilter; containerId = 'position-filters'; }
             else if (type === 'section') { arr = selectedSectionFilter; containerId = 'section-filters'; }
             else if (type === 'department') { arr = selectedDepartmentFilter; containerId = 'department-filters'; }
