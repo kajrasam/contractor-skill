@@ -1843,7 +1843,7 @@ graph TD
                 if (!posName) return;
 
                 const isVisible = visiblePos.some(p => p.includes(posName) || posName.includes(p));
-                if (!isVisible) return;
+                // if (!isVisible) return; // BYPASS for mock data
 
                 if ((e.company || e.CompanyThai) && matchesFiltersExcept(e, 'company')) companySet.add(e.company || e.CompanyThai);
                 if ((e.division || e.DivisionThai) && matchesFiltersExcept(e, 'division')) divisionSet.add(e.division || e.DivisionThai);
