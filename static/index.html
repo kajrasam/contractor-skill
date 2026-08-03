@@ -5382,7 +5382,9 @@ let validCompsCountForPct = 0;
                       <div><label class="block text-xs font-bold text-slate-600 mb-1">Job Group</label><select id="add-job-group" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white"><option value="">- เลือก -</option></select></div>
                       <div><label class="block text-xs font-bold text-slate-600 mb-1">Report to Name</label><input type="text" id="add-report-to" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
                       <div class="col-span-2"><label class="block text-xs font-bold text-slate-600 mb-1">Certificate</label><input type="text" id="add-certificate" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
-                  </div>\n              </div>\n              <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-2">
+                  </div>
+              </div>
+              <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-2">
                 <button onclick="closeAddEmployeeModal()" class="px-5 py-2 text-slate-600 font-bold hover:bg-slate-200 rounded-lg transition-colors">ยกเลิก</button>
                 <button id="employee-modal-submit-btn" onclick="submitAddEmployee()" class="px-5 py-2 bg-scg-600 text-white font-bold rounded-lg hover:bg-scg-700 transition-colors">เพิ่มพนักงาน</button>
             </div>
@@ -5649,7 +5651,8 @@ let validCompsCountForPct = 0;
                 }, 10);
             }, 10);
         }
-\n        function openAddEmployeeModal() {
+
+        function openAddEmployeeModal() {
             currentEditIndex = -1;
             document.getElementById('employee-modal-title').innerHTML = '<i class="fa-solid fa-user-plus mr-2 text-scg-600"></i>เพิ่มพนักงานใหม่';
             document.getElementById('employee-modal-submit-btn').textContent = 'เพิ่มพนักงาน';
@@ -5681,7 +5684,8 @@ let validCompsCountForPct = 0;
             if (document.getElementById('add-email')) document.getElementById('add-email').value = emp.email || emp.EmailAddressBusiness || '';
             if (document.getElementById('add-certificate')) document.getElementById('add-certificate').value = emp.certificate || '';
             
-                          populateEditEmployeeModal(emp);\n              document.getElementById('add-employee-modal').classList.remove('hidden');
+                          populateEditEmployeeModal(emp);
+              document.getElementById('add-employee-modal').classList.remove('hidden');
         }
         function closeAddEmployeeModal() {
             document.getElementById('add-employee-modal').classList.add('hidden');
