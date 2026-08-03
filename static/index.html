@@ -1432,7 +1432,7 @@ graph TD
                 positionGroups = data.positionGroups || {};
                 dbUsers = data.dbUsers || {};
                 employeeDataAll = data.employeeData || [];
-                employeeData = employeeDataAll.filter(e => e.Pipeline === 'Evaluated');
+                employeeData = [...employeeDataAll];
                 // Sync dbUsers names with official employeeData to fix filter/display mismatch
                 Object.keys(dbUsers).forEach(id => {
                     let eData = employeeDataAll.find(e => e.username === id || e.user_id === id);
@@ -1591,7 +1591,7 @@ graph TD
                     if (currentUser.scope_section && currentUser.scope_section !== 'ALL') {
                         employeeDataAll = employeeDataAll.filter(e => (e.SectionThai || e.section) === currentUser.scope_section || e.section === currentUser.scope_section);
                     }
-                    employeeData = employeeDataAll.filter(e => e.Pipeline === 'Evaluated');
+                    employeeData = [...employeeDataAll];
                 // Sync dbUsers names with official employeeData to fix filter/display mismatch
                 Object.keys(dbUsers).forEach(id => {
                     let eData = employeeDataAll.find(e => e.username === id || e.user_id === id);
@@ -3747,7 +3747,7 @@ graph TD
                     user_id: e.user_id || e.username || e.USER || '',
                     password: e.password || '',
                     report_to_name: e.ReportToName || e.report_to_name || '',
-                    is_evaluated: e.Pipeline === 'Evaluated',
+                    is_evaluated: true,
                     position: e.PositionNameThai || e.position_name || '',
                     position_level: e.PositionStructureLevel || e.position_level || '',
                     job_group: e.JobGroup || e.job_group || '',
