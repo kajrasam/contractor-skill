@@ -5365,109 +5365,24 @@ let validCompsCountForPct = 0;
             </div>
             <div class="p-6 overflow-y-auto custom-scrollbar flex-1">
                 <div class="grid grid-cols-2 gap-4">
-                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Employee ID <span class="text-red-500">*</span></label><input type="text" id="add-emp-id" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
-                    <div><label class="block text-xs font-bold text-slate-600 mb-1">User ID <span class="text-red-500">*</span></label><input type="text" id="add-user-id" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
-                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Password</label><input type="text" id="add-password" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
-                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Name <span class="text-red-500">*</span></label><input type="text" id="add-name" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
-                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Position Name</label><input type="text" id="add-position" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
-                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Position Level</label><input type="text" id="add-level" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Job Group</label>
-                        <select id="add-job-group" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white">
-                            <option value="">- เลือก -</option>
-                            <option value="Production">Production</option>
-                            <option value="Maintenance">Maintenance</option>
-                            <option value="Admin">Admin</option>
-                            <option value="S&E">S&E</option>
-                            <option value="HR">HR</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Section</label><input type="text" id="add-section" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Department</label>
-                        <select id="add-department" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white">
-                            <option value="">- เลือก -</option>
-                            <option value="Concrete Technology">Concrete Technology</option>
-                            <option value="Digitalization Center">Digitalization Center</option>
-                            <option value="Drying and Firing Technology">Drying and Firing Technology</option>
-                            <option value="Fiber Cement Technology">Fiber Cement Technology</option>
-                            <option value="MRO Concrete Technology">MRO Concrete Technology</option>
-                            <option value="MRO Fiber Cement Technology">MRO Fiber Cement Technology</option>
-                            <option value="Northern Chain">Northern Chain</option>
-                            <option value="Operation Administration">Operation Administration</option>
-                            <option value="Process and Machine Development">Process and Machine Development</option>
-                            <option value="Research and Development">Research and Development</option>
-                            <option value="Smart System Lean and Optimization">Smart System Lean and Optimization</option>
-                            <option value="Southern Chain">Southern Chain</option>
-                            <option value="โรงงานขอนแก่น">โรงงานขอนแก่น</option>
-                            <option value="โรงงานลำพูน">โรงงานลำพูน</option>
-                            <option value="โรงงานสระบุรี">โรงงานสระบุรี</option>
-                            <option value="โรงงานสระบุรีรัชต์">โรงงานสระบุรีรัชต์</option>
-                            <option value="ส่วนผลิต">ส่วนผลิต</option>
-                            <option value="ส่วนผลิต 1">ส่วนผลิต 1</option>
-                            <option value="ส่วนผลิต 2">ส่วนผลิต 2</option>
-                            <option value="สำนักงานส่งเสริมธุรกิจ Siam Fiberglass">สำนักงานส่งเสริมธุรกิจ Siam Fiberglass</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Sub1-Division</label>
-                        <select id="add-sub1-div" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white">
-                            <option value="">- เลือก -</option>
-                            <option value="Ceramic Roof">Ceramic Roof</option>
-                            <option value="Concrete & Drying and Firing Technology Engineering">Concrete & Drying and Firing Technology Engineering</option>
-                            <option value="Concrete Roof">Concrete Roof</option>
-                            <option value="Fiber Cement Technology Engineering & Process and Machine Development">Fiber Cement Technology Engineering & Process and Machine Development</option>
-                            <option value="SCG Landscape">SCG Landscape</option>
-                            <option value="Siam Fiberglass">Siam Fiberglass</option>
-                            <option value="Smart Factory">Smart Factory</option>
-                            <option value="โรงงานท่าหลวง">โรงงานท่าหลวง</option>
-                            <option value="โรงงานทุ่งสง">โรงงานทุ่งสง</option>
-                            <option value="โรงงานลำปาง">โรงงานลำปาง</option>
-                            <option value="โรงงานสระบุรี">โรงงานสระบุรี</option>
-                            <option value="โรงงานหนองแค">โรงงานหนองแค</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Division</label>
-                        <select id="add-division" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white">
-                            <option value="">- เลือก -</option>
-                            <option value="Concrete Technology">Concrete Technology</option>
-                            <option value="Drying and Firing Technology">Drying and Firing Technology</option>
-                            <option value="Fiber Cement Technology">Fiber Cement Technology</option>
-                            <option value="Operation Excellence and Industry 4.0">Operation Excellence and Industry 4.0</option>
-                            <option value="Strategic Materials and Living Solution Procurement">Strategic Materials and Living Solution Procurement</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Sub1-Company</label>
-                        <select id="add-sub1-comp" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white">
-                            <option value="">- เลือก -</option>
-                            <option value="Operations">Operations</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-600 mb-1">Company</label>
-                        <select id="add-company" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white">
-                            <option value="">- เลือก -</option>
-                            <option value="SCGR">SCGR</option>
-                            <option value="SCGLS">SCGLS</option>
-                            <option value="SBR">SBR</option>
-                            <option value="SFCG">SFCG</option>
-                            <option value="SFG">SFG</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Report to Name</label><input type="text" id="add-report-to" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
-                    <div><label class="block text-xs font-bold text-slate-600 mb-1">Email</label><input type="email" id="add-email" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm" placeholder="example@outlook.com"></div>
-                    <div class="col-span-2"><label class="block text-xs font-bold text-slate-600 mb-1">Certificate</label><input type="text" id="add-certificate" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
-                </div>
-            </div>
-            <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-2">
+                      <div><label class="block text-xs font-bold text-slate-600 mb-1">Employee ID <span class="text-red-500">*</span></label><input type="text" id="add-emp-id" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                      <div><label class="block text-xs font-bold text-slate-600 mb-1">User ID <span class="text-red-500">*</span></label><input type="text" id="add-user-id" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                      <div><label class="block text-xs font-bold text-slate-600 mb-1">Password</label><input type="text" id="add-password" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                      <div><label class="block text-xs font-bold text-slate-600 mb-1">Name <span class="text-red-500">*</span></label><input type="text" id="add-name" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                      
+                      <div><label class="block text-xs font-bold text-slate-600 mb-1">Company</label><select id="add-company" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white"><option value="">- เลือก -</option></select></div>
+                      <div><label class="block text-xs font-bold text-slate-600 mb-1">Sub1-Company</label><select id="add-sub1-comp" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white"><option value="">- เลือก -</option></select></div>
+                      <div><label class="block text-xs font-bold text-slate-600 mb-1">Division</label><select id="add-division" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white"><option value="">- เลือก -</option></select></div>
+                      <div><label class="block text-xs font-bold text-slate-600 mb-1">Sub1-Division</label><select id="add-sub1-div" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white"><option value="">- เลือก -</option></select></div>
+                      <div><label class="block text-xs font-bold text-slate-600 mb-1">Department</label><select id="add-department" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white"><option value="">- เลือก -</option></select></div>
+                      <div><label class="block text-xs font-bold text-slate-600 mb-1">Section</label><select id="add-section" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white"><option value="">- เลือก -</option></select></div>
+                      <div><label class="block text-xs font-bold text-slate-600 mb-1">Position Name</label><select id="add-position" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white"><option value="">- เลือก -</option></select></div>
+                      <div><label class="block text-xs font-bold text-slate-600 mb-1">Position Level</label><select id="add-level" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white"><option value="">- เลือก -</option></select></div>
+                      
+                      <div><label class="block text-xs font-bold text-slate-600 mb-1">Job Group</label><select id="add-job-group" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white"><option value="">- เลือก -</option></select></div>
+                      <div><label class="block text-xs font-bold text-slate-600 mb-1">Report to Name</label><input type="text" id="add-report-to" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                      <div class="col-span-2"><label class="block text-xs font-bold text-slate-600 mb-1">Certificate</label><input type="text" id="add-certificate" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
+                  </div>\n              </div>\n              <div class="p-4 border-t border-slate-100 bg-slate-50 flex justify-end gap-2">
                 <button onclick="closeAddEmployeeModal()" class="px-5 py-2 text-slate-600 font-bold hover:bg-slate-200 rounded-lg transition-colors">ยกเลิก</button>
                 <button id="employee-modal-submit-btn" onclick="submitAddEmployee()" class="px-5 py-2 bg-scg-600 text-white font-bold rounded-lg hover:bg-scg-700 transition-colors">เพิ่มพนักงาน</button>
             </div>
@@ -5582,7 +5497,159 @@ let validCompsCountForPct = 0;
         }
 
         let currentEditIndex = -1;
-        function openAddEmployeeModal() {
+        
+        // --- Cascading Dropdown Logic ---
+        function getUniqueValues(data, field) {
+            const vals = data.map(d => d[field]).filter(v => v);
+            return [...new Set(vals)].sort();
+        }
+
+        function populateSelect(selectId, values, selectedValue) {
+            const select = document.getElementById(selectId);
+            if(!select) return;
+            select.innerHTML = '<option value="">- เลือก -</option>';
+            values.forEach(v => {
+                const opt = document.createElement('option');
+                opt.value = v;
+                opt.textContent = v;
+                if(v === selectedValue) opt.selected = true;
+                select.appendChild(opt);
+            });
+        }
+
+        function setupAddEmployeeCascadingDropdowns() {
+            const cComp = document.getElementById('add-company');
+            const cSub1Comp = document.getElementById('add-sub1-comp');
+            const cDiv = document.getElementById('add-division');
+            const cSub1Div = document.getElementById('add-sub1-div');
+            const cDept = document.getElementById('add-department');
+            const cSect = document.getElementById('add-section');
+            const cPos = document.getElementById('add-position');
+            const cLevel = document.getElementById('add-level');
+            const cJob = document.getElementById('add-job-group');
+            
+            // Populate initial Company & Job Group from all data
+            const allComps = getUniqueValues(employeeDataAll, 'CompanyThai');
+            const allJobs = getUniqueValues(employeeDataAll, 'JobGroup');
+            
+            if(cComp && cComp.options.length <= 1) populateSelect('add-company', allComps, '');
+            if(cJob && cJob.options.length <= 1) populateSelect('add-job-group', allJobs, '');
+            
+            if(cComp) cComp.onchange = () => {
+                const vComp = cComp.value;
+                const filtered = vComp ? employeeDataAll.filter(e => e.CompanyThai === vComp) : employeeDataAll;
+                populateSelect('add-sub1-comp', getUniqueValues(filtered, 'Sub1CompanyThai'), '');
+                cSub1Comp.onchange(); // trigger cascade
+            };
+            
+            if(cSub1Comp) cSub1Comp.onchange = () => {
+                const vComp = cComp.value;
+                const vSub1Comp = cSub1Comp.value;
+                const filtered = employeeDataAll.filter(e => (!vComp || e.CompanyThai === vComp) && (!vSub1Comp || e.Sub1CompanyThai === vSub1Comp));
+                populateSelect('add-division', getUniqueValues(filtered, 'DivisionThai'), '');
+                cDiv.onchange();
+            };
+            
+            if(cDiv) cDiv.onchange = () => {
+                const vComp = cComp.value;
+                const vSub1Comp = cSub1Comp.value;
+                const vDiv = cDiv.value;
+                const filtered = employeeDataAll.filter(e => (!vComp || e.CompanyThai === vComp) && (!vSub1Comp || e.Sub1CompanyThai === vSub1Comp) && (!vDiv || e.DivisionThai === vDiv));
+                populateSelect('add-sub1-div', getUniqueValues(filtered, 'Sub1DivisionThai'), '');
+                cSub1Div.onchange();
+            };
+            
+            if(cSub1Div) cSub1Div.onchange = () => {
+                const vComp = cComp.value;
+                const vSub1Comp = cSub1Comp.value;
+                const vDiv = cDiv.value;
+                const vSub1Div = cSub1Div.value;
+                const filtered = employeeDataAll.filter(e => (!vComp || e.CompanyThai === vComp) && (!vSub1Comp || e.Sub1CompanyThai === vSub1Comp) && (!vDiv || e.DivisionThai === vDiv) && (!vSub1Div || e.Sub1DivisionThai === vSub1Div));
+                populateSelect('add-department', getUniqueValues(filtered, 'DepartmentThai'), '');
+                cDept.onchange();
+            };
+            
+            if(cDept) cDept.onchange = () => {
+                const vComp = cComp.value;
+                const vSub1Comp = cSub1Comp.value;
+                const vDiv = cDiv.value;
+                const vSub1Div = cSub1Div.value;
+                const vDept = cDept.value;
+                const filtered = employeeDataAll.filter(e => (!vComp || e.CompanyThai === vComp) && (!vSub1Comp || e.Sub1CompanyThai === vSub1Comp) && (!vDiv || e.DivisionThai === vDiv) && (!vSub1Div || e.Sub1DivisionThai === vSub1Div) && (!vDept || e.DepartmentThai === vDept));
+                populateSelect('add-section', getUniqueValues(filtered, 'SectionThai'), '');
+                cSect.onchange();
+            };
+            
+            if(cSect) cSect.onchange = () => {
+                const vComp = cComp.value;
+                const vSub1Comp = cSub1Comp.value;
+                const vDiv = cDiv.value;
+                const vSub1Div = cSub1Div.value;
+                const vDept = cDept.value;
+                const vSect = cSect.value;
+                const filtered = employeeDataAll.filter(e => (!vComp || e.CompanyThai === vComp) && (!vSub1Comp || e.Sub1CompanyThai === vSub1Comp) && (!vDiv || e.DivisionThai === vDiv) && (!vSub1Div || e.Sub1DivisionThai === vSub1Div) && (!vDept || e.DepartmentThai === vDept) && (!vSect || e.SectionThai === vSect));
+                populateSelect('add-position', getUniqueValues(filtered, 'PositionNameThai'), '');
+                cPos.onchange();
+            };
+            
+            if(cPos) cPos.onchange = () => {
+                const vComp = cComp.value;
+                const vSub1Comp = cSub1Comp.value;
+                const vDiv = cDiv.value;
+                const vSub1Div = cSub1Div.value;
+                const vDept = cDept.value;
+                const vSect = cSect.value;
+                const vPos = cPos.value;
+                const filtered = employeeDataAll.filter(e => (!vComp || e.CompanyThai === vComp) && (!vSub1Comp || e.Sub1CompanyThai === vSub1Comp) && (!vDiv || e.DivisionThai === vDiv) && (!vSub1Div || e.Sub1DivisionThai === vSub1Div) && (!vDept || e.DepartmentThai === vDept) && (!vSect || e.SectionThai === vSect) && (!vPos || e.PositionNameThai === vPos));
+                populateSelect('add-level', getUniqueValues(filtered, 'PositionStructureLevel'), '');
+            };
+        }
+        
+        function populateEditEmployeeModal(emp) {
+            setupAddEmployeeCascadingDropdowns();
+            
+            const cComp = document.getElementById('add-company');
+            if(cComp) {
+                cComp.value = emp.company || '';
+                cComp.onchange(); // trigger cascade
+            }
+            
+            setTimeout(() => {
+                const cSub1Comp = document.getElementById('add-sub1-comp');
+                if(cSub1Comp && emp.sub1_company) { cSub1Comp.value = emp.sub1_company; cSub1Comp.onchange(); }
+                
+                setTimeout(() => {
+                    const cDiv = document.getElementById('add-division');
+                    if(cDiv && emp.division) { cDiv.value = emp.division; cDiv.onchange(); }
+                    
+                    setTimeout(() => {
+                        const cSub1Div = document.getElementById('add-sub1-div');
+                        if(cSub1Div && emp.sub1_division) { cSub1Div.value = emp.sub1_division; cSub1Div.onchange(); }
+                        
+                        setTimeout(() => {
+                            const cDept = document.getElementById('add-department');
+                            if(cDept && emp.department) { cDept.value = emp.department; cDept.onchange(); }
+                            
+                            setTimeout(() => {
+                                const cSect = document.getElementById('add-section');
+                                if(cSect && emp.section) { cSect.value = emp.section; cSect.onchange(); }
+                                
+                                setTimeout(() => {
+                                    const cPos = document.getElementById('add-position');
+                                    if(cPos && emp.position) { cPos.value = emp.position; cPos.onchange(); }
+                                    
+                                    setTimeout(() => {
+                                        const cLevel = document.getElementById('add-level');
+                                        if(cLevel && emp.position_level) { cLevel.value = emp.position_level; }
+                                    }, 10);
+                                }, 10);
+                            }, 10);
+                        }, 10);
+                    }, 10);
+                }, 10);
+            }, 10);
+        }
+\n        function openAddEmployeeModal() {
             currentEditIndex = -1;
             document.getElementById('employee-modal-title').innerHTML = '<i class="fa-solid fa-user-plus mr-2 text-scg-600"></i>เพิ่มพนักงานใหม่';
             document.getElementById('employee-modal-submit-btn').textContent = 'เพิ่มพนักงาน';
@@ -5614,7 +5681,7 @@ let validCompsCountForPct = 0;
             if (document.getElementById('add-email')) document.getElementById('add-email').value = emp.email || emp.EmailAddressBusiness || '';
             if (document.getElementById('add-certificate')) document.getElementById('add-certificate').value = emp.certificate || '';
             
-            document.getElementById('add-employee-modal').classList.remove('hidden');
+                          populateEditEmployeeModal(emp);\n              document.getElementById('add-employee-modal').classList.remove('hidden');
         }
         function closeAddEmployeeModal() {
             document.getElementById('add-employee-modal').classList.add('hidden');
