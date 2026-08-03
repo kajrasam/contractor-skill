@@ -5659,6 +5659,7 @@ let validCompsCountForPct = 0;
         }
 
         function openAddEmployeeModal() {
+              setupAddEmployeeCascadingDropdowns();
             currentEditIndex = -1;
             document.getElementById('employee-modal-title').innerHTML = '<i class="fa-solid fa-user-plus mr-2 text-scg-600"></i>เพิ่มพนักงานใหม่';
             document.getElementById('employee-modal-submit-btn').textContent = 'เพิ่มพนักงาน';
