@@ -3401,10 +3401,10 @@ graph TD
             let filteredEmployeeDataAll = employeeDataAll;
             if (currentUser && currentUser.role === 'Admin') {
                 if (currentUser.scope_department && currentUser.scope_department !== 'ALL') {
-                    filteredEmployeeDataAll = filteredEmployeeDataAll.filter(e => e.DepartmentThai === currentUser.scope_department || e.department === currentUser.scope_department);
+                    filteredEmployeeDataAll = filteredEmployeeDataAll.filter(e => (e.DepartmentThai || e.department) === currentUser.scope_department || e.department === currentUser.scope_department);
                 }
                 if (currentUser.scope_section && currentUser.scope_section !== 'ALL') {
-                    filteredEmployeeDataAll = filteredEmployeeDataAll.filter(e => e.SectionThai === currentUser.scope_section || e.section === currentUser.scope_section);
+                    filteredEmployeeDataAll = filteredEmployeeDataAll.filter(e => (e.SectionThai || e.section) === currentUser.scope_section || e.section === currentUser.scope_section);
                 }
                 if (currentUser.scope_division && Array.isArray(currentUser.scope_division) && currentUser.scope_division.length > 0) {
                     filteredEmployeeDataAll = filteredEmployeeDataAll.filter(e => currentUser.scope_division.includes(e.DivisionThai) || currentUser.scope_division.includes(e.division));
@@ -4689,9 +4689,9 @@ validCompsCountForPct++;
             const headers = thead.querySelectorAll('th');
 
             const colKeys = [
-                'PersonnelNumber', 'user_id', 'password', 'FullName', 'PositionNameThai', 'PositionStructureLevel',
-                'SectionThai', 'DepartmentThai', 'Sub1DivisionThai', 'DivisionThai', 'Sub1CompanyThai', 'CompanyThai',
-                'ReportToName', 'Certificate', 'JobGroup'
+                'PersonnelNumber', 'user_id', 'password', 'FullName', 'PositionNameThai, position_name', 'PositionStructureLevel, position_level',
+                'SectionThai, section', 'DepartmentThai, department', 'Sub1DivisionThai, sub1_division', 'DivisionThai, division', 'Sub1CompanyThai, sub1_company', 'CompanyThai, company',
+                'ReportToName', 'Certificate', 'JobGroup, job_group'
             ];
 
             headers.forEach((th, index) => {
@@ -5069,7 +5069,13 @@ validCompsCountForPct++;
         
         // --- Cascading Dropdown Logic ---
         function getUniqueValues(data, field) {
-            const vals = data.map(d => d[field]).filter(v => v);
+            const fields = field.split(',');
+            const vals = data.map(d => {
+                for(let f of fields) {
+                    if(d[f.trim()]) return d[f.trim()];
+                }
+                return null;
+            }).filter(v => v);
             return [...new Set(vals)].sort();
         }
 
@@ -5098,24 +5104,24 @@ validCompsCountForPct++;
             const cJob = document.getElementById('add-job-group');
             
             // Populate initial Company & Job Group from all data
-            const allComps = getUniqueValues(employeeDataAll, 'CompanyThai');
-            const allJobs = getUniqueValues(employeeDataAll, 'JobGroup');
+            const allComps = getUniqueValues(employeeDataAll, 'CompanyThai, company');
+            const allJobs = getUniqueValues(employeeDataAll, 'JobGroup, job_group');
             
             if(cComp && cComp.options.length <= 1) populateSelect('add-company', allComps, '');
             if(cJob && cJob.options.length <= 1) populateSelect('add-job-group', allJobs, '');
             
             if(cComp) cComp.onchange = () => {
                 const vComp = cComp.value;
-                const filtered = vComp ? employeeDataAll.filter(e => e.CompanyThai === vComp) : employeeDataAll;
-                populateSelect('add-sub1-comp', getUniqueValues(filtered, 'Sub1CompanyThai'), '');
+                const filtered = vComp ? employeeDataAll.filter(e => (e.CompanyThai || e.company) === vComp) : employeeDataAll;
+                populateSelect('add-sub1-comp', getUniqueValues(filtered, 'Sub1CompanyThai, sub1_company'), '');
                 cSub1Comp.onchange(); // trigger cascade
             };
             
             if(cSub1Comp) cSub1Comp.onchange = () => {
                 const vComp = cComp.value;
                 const vSub1Comp = cSub1Comp.value;
-                const filtered = employeeDataAll.filter(e => (!vComp || e.CompanyThai === vComp) && (!vSub1Comp || e.Sub1CompanyThai === vSub1Comp));
-                populateSelect('add-division', getUniqueValues(filtered, 'DivisionThai'), '');
+                const filtered = employeeDataAll.filter(e => (!vComp || (e.CompanyThai || e.company) === vComp) && (!vSub1Comp || (e.Sub1CompanyThai || e.sub1_company) === vSub1Comp));
+                populateSelect('add-division', getUniqueValues(filtered, 'DivisionThai, division'), '');
                 cDiv.onchange();
             };
             
@@ -5123,8 +5129,8 @@ validCompsCountForPct++;
                 const vComp = cComp.value;
                 const vSub1Comp = cSub1Comp.value;
                 const vDiv = cDiv.value;
-                const filtered = employeeDataAll.filter(e => (!vComp || e.CompanyThai === vComp) && (!vSub1Comp || e.Sub1CompanyThai === vSub1Comp) && (!vDiv || e.DivisionThai === vDiv));
-                populateSelect('add-sub1-div', getUniqueValues(filtered, 'Sub1DivisionThai'), '');
+                const filtered = employeeDataAll.filter(e => (!vComp || (e.CompanyThai || e.company) === vComp) && (!vSub1Comp || (e.Sub1CompanyThai || e.sub1_company) === vSub1Comp) && (!vDiv || (e.DivisionThai || e.division) === vDiv));
+                populateSelect('add-sub1-div', getUniqueValues(filtered, 'Sub1DivisionThai, sub1_division'), '');
                 cSub1Div.onchange();
             };
             
@@ -5133,8 +5139,8 @@ validCompsCountForPct++;
                 const vSub1Comp = cSub1Comp.value;
                 const vDiv = cDiv.value;
                 const vSub1Div = cSub1Div.value;
-                const filtered = employeeDataAll.filter(e => (!vComp || e.CompanyThai === vComp) && (!vSub1Comp || e.Sub1CompanyThai === vSub1Comp) && (!vDiv || e.DivisionThai === vDiv) && (!vSub1Div || e.Sub1DivisionThai === vSub1Div));
-                populateSelect('add-department', getUniqueValues(filtered, 'DepartmentThai'), '');
+                const filtered = employeeDataAll.filter(e => (!vComp || (e.CompanyThai || e.company) === vComp) && (!vSub1Comp || (e.Sub1CompanyThai || e.sub1_company) === vSub1Comp) && (!vDiv || (e.DivisionThai || e.division) === vDiv) && (!vSub1Div || (e.Sub1DivisionThai || e.sub1_division) === vSub1Div));
+                populateSelect('add-department', getUniqueValues(filtered, 'DepartmentThai, department'), '');
                 cDept.onchange();
             };
             
@@ -5144,8 +5150,8 @@ validCompsCountForPct++;
                 const vDiv = cDiv.value;
                 const vSub1Div = cSub1Div.value;
                 const vDept = cDept.value;
-                const filtered = employeeDataAll.filter(e => (!vComp || e.CompanyThai === vComp) && (!vSub1Comp || e.Sub1CompanyThai === vSub1Comp) && (!vDiv || e.DivisionThai === vDiv) && (!vSub1Div || e.Sub1DivisionThai === vSub1Div) && (!vDept || e.DepartmentThai === vDept));
-                populateSelect('add-section', getUniqueValues(filtered, 'SectionThai'), '');
+                const filtered = employeeDataAll.filter(e => (!vComp || (e.CompanyThai || e.company) === vComp) && (!vSub1Comp || (e.Sub1CompanyThai || e.sub1_company) === vSub1Comp) && (!vDiv || (e.DivisionThai || e.division) === vDiv) && (!vSub1Div || (e.Sub1DivisionThai || e.sub1_division) === vSub1Div) && (!vDept || (e.DepartmentThai || e.department) === vDept));
+                populateSelect('add-section', getUniqueValues(filtered, 'SectionThai, section'), '');
                 cSect.onchange();
             };
             
@@ -5156,8 +5162,8 @@ validCompsCountForPct++;
                 const vSub1Div = cSub1Div.value;
                 const vDept = cDept.value;
                 const vSect = cSect.value;
-                const filtered = employeeDataAll.filter(e => (!vComp || e.CompanyThai === vComp) && (!vSub1Comp || e.Sub1CompanyThai === vSub1Comp) && (!vDiv || e.DivisionThai === vDiv) && (!vSub1Div || e.Sub1DivisionThai === vSub1Div) && (!vDept || e.DepartmentThai === vDept) && (!vSect || e.SectionThai === vSect));
-                populateSelect('add-position', getUniqueValues(filtered, 'PositionNameThai'), '');
+                const filtered = employeeDataAll.filter(e => (!vComp || (e.CompanyThai || e.company) === vComp) && (!vSub1Comp || (e.Sub1CompanyThai || e.sub1_company) === vSub1Comp) && (!vDiv || (e.DivisionThai || e.division) === vDiv) && (!vSub1Div || (e.Sub1DivisionThai || e.sub1_division) === vSub1Div) && (!vDept || (e.DepartmentThai || e.department) === vDept) && (!vSect || (e.SectionThai || e.section) === vSect));
+                populateSelect('add-position', getUniqueValues(filtered, 'PositionNameThai, position_name'), '');
                 cPos.onchange();
             };
             
@@ -5169,8 +5175,8 @@ validCompsCountForPct++;
                 const vDept = cDept.value;
                 const vSect = cSect.value;
                 const vPos = cPos.value;
-                const filtered = employeeDataAll.filter(e => (!vComp || e.CompanyThai === vComp) && (!vSub1Comp || e.Sub1CompanyThai === vSub1Comp) && (!vDiv || e.DivisionThai === vDiv) && (!vSub1Div || e.Sub1DivisionThai === vSub1Div) && (!vDept || e.DepartmentThai === vDept) && (!vSect || e.SectionThai === vSect) && (!vPos || e.PositionNameThai === vPos));
-                populateSelect('add-level', getUniqueValues(filtered, 'PositionStructureLevel'), '');
+                const filtered = employeeDataAll.filter(e => (!vComp || (e.CompanyThai || e.company) === vComp) && (!vSub1Comp || (e.Sub1CompanyThai || e.sub1_company) === vSub1Comp) && (!vDiv || (e.DivisionThai || e.division) === vDiv) && (!vSub1Div || (e.Sub1DivisionThai || e.sub1_division) === vSub1Div) && (!vDept || (e.DepartmentThai || e.department) === vDept) && (!vSect || (e.SectionThai || e.section) === vSect) && (!vPos || (e.PositionNameThai || e.position_name) === vPos));
+                populateSelect('add-level', getUniqueValues(filtered, 'PositionStructureLevel, position_level'), '');
             };
         }
         
