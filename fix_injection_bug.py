@@ -1,36 +1,28 @@
-import re
+import sys
 
-def fix_file(filepath):
-    with open(filepath, 'r', encoding='utf-8') as f:
-        html = f.read()
+for fp in ['index_render.html', 'static/index.html']:
+    with open(fp, 'r', encoding='utf-8') as f:
+        content = f.read()
 
-    # Find matchesFiltersExcept so we don't remove it from there
-    idx = html.find('function matchesFiltersExcept(')
-    end_matches = html.find('}', html.find('return true;', idx))
+    # We need to inject setupAddEmployeeCascadingDropdowns(); into openAddEmployeeModal()
+    # Let's find openAddEmployeeModal and replace it if not already injected
+    target = "function openAddEmployeeModal() {"
     
-    # We want to replace the bad injection outside of this function
-    bad_string = "            if (ignoreFilter !== 'competency' && !hasCompetencyFilterMatch(posName)) return false;\n"
+    # Check if we already injected it right after
+    injection = "setupAddEmployeeCascadingDropdowns();"
     
-    # Split the html into before, inside, and after matchesFiltersExcept
-    before = html[:idx]
-    inside = html[idx:end_matches]
-    after = html[end_matches:]
+    # Split content by the target
+    parts = content.split(target)
     
-    # Remove bad string from before and after
-    before = before.replace(bad_string, "")
-    after = after.replace(bad_string, "")
-    
-    # Also, we injected with a missing newline or weird indentation in some cases?
-    # Let's just do a regex replace to be safe
-    bad_regex = r"(\s*)if \(ignoreFilter !== 'competency' && !hasCompetencyFilterMatch\(posName\)\) return false;"
-    before = re.sub(bad_regex, "", before)
-    after = re.sub(bad_regex, "", after)
-
-    new_html = before + inside + after
-
-    with open(filepath, 'w', encoding='utf-8') as f:
-        f.write(new_html)
-    print(f"Fixed {filepath}")
-
-fix_file('static/index.html')
-fix_file('index_render.html')
+    if len(parts) > 1:
+        # Check if the next part starts with our injection
+        if injection not in parts[1][:200]:
+            # Inject it
+            new_content = parts[0] + target + "\n              " + injection + parts[1]
+            with open(fp, 'w', encoding='utf-8') as f:
+                f.write(new_content)
+                print(f"Injected into {fp}")
+        else:
+            print(f"Already injected into {fp}")
+    else:
+        print(f"Could not find openAddEmployeeModal in {fp}")

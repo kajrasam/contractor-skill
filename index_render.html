@@ -4973,8 +4973,9 @@ validCompsCountForPct++;
                       <div><label class="block text-xs font-bold text-slate-600 mb-1">Sub1-Division</label><select id="add-sub1-div" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white"><option value="">- เลือก -</option></select></div>
                       <div><label class="block text-xs font-bold text-slate-600 mb-1">Department</label><select id="add-department" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white"><option value="">- เลือก -</option></select></div>
                       <div><label class="block text-xs font-bold text-slate-600 mb-1">Section</label><select id="add-section" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white"><option value="">- เลือก -</option></select></div>
-                      <div><label class="block text-xs font-bold text-slate-600 mb-1">Position Name</label><select id="add-position" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white"><option value="">- เลือก -</option></select></div>
-                      <div><label class="block text-xs font-bold text-slate-600 mb-1">Position Level</label><select id="add-level" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white"><option value="">- เลือก -</option></select></div>
+                      <div><label class="block text-xs font-bold text-slate-600 mb-1">เครื่อง (Shift)</label><input type="text" id="add-shift" list="dl-add-shift" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white" placeholder="- เลือกหรือพิมพ์ -"><datalist id="dl-add-shift"></datalist></div>
+                        <div><label class="block text-xs font-bold text-slate-600 mb-1">Position Name</label><input type="text" id="add-position" list="dl-add-position" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white" placeholder="- เลือกหรือพิมพ์ -"><datalist id="dl-add-position"></datalist></div>
+                      <div><label class="block text-xs font-bold text-slate-600 mb-1">Position Level</label><input type="text" id="add-level" list="dl-add-level" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white" placeholder="- เลือกหรือพิมพ์ -"><datalist id="dl-add-level"></datalist></div>
                       
                       <div><label class="block text-xs font-bold text-slate-600 mb-1">Job Group</label><select id="add-job-group" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm bg-white"><option value="">- เลือก -</option></select></div>
                       <div><label class="block text-xs font-bold text-slate-600 mb-1">Report to Name</label><input type="text" id="add-report-to" class="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm"></div>
@@ -5174,7 +5175,8 @@ validCompsCountForPct++;
                 const vDept = cDept.value;
                 const vSect = cSect.value;
                 const filtered = employeeDataAll.filter(e => (!vComp || (e.CompanyThai || e.company) === vComp) && (!vSub1Comp || (e.Sub1CompanyThai || e.sub1_company) === vSub1Comp) && (!vDiv || (e.DivisionThai || e.division) === vDiv) && (!vSub1Div || (e.Sub1DivisionThai || e.sub1_division) === vSub1Div) && (!vDept || (e.DepartmentThai || e.department) === vDept) && (!vSect || (e.SectionThai || e.section) === vSect));
-                populateSelect('add-position', getUniqueValues(filtered, 'PositionNameThai, position_name'), '');
+                populateDatalist('dl-add-shift', getUniqueValues(filtered, 'ShiftThai, shift_thai'));
+                populateDatalist('dl-add-position', getUniqueValues(filtered, 'PositionNameThai, position_name'));
                 cPos.onchange();
             };
             
@@ -5187,7 +5189,7 @@ validCompsCountForPct++;
                 const vSect = cSect.value;
                 const vPos = cPos.value;
                 const filtered = employeeDataAll.filter(e => (!vComp || (e.CompanyThai || e.company) === vComp) && (!vSub1Comp || (e.Sub1CompanyThai || e.sub1_company) === vSub1Comp) && (!vDiv || (e.DivisionThai || e.division) === vDiv) && (!vSub1Div || (e.Sub1DivisionThai || e.sub1_division) === vSub1Div) && (!vDept || (e.DepartmentThai || e.department) === vDept) && (!vSect || (e.SectionThai || e.section) === vSect) && (!vPos || (e.PositionNameThai || e.position_name) === vPos));
-                populateSelect('add-level', getUniqueValues(filtered, 'PositionStructureLevel, position_level'), '');
+                populateDatalist('dl-add-level', getUniqueValues(filtered, 'PositionStructureLevel, position_level'));
             };
         }
         
