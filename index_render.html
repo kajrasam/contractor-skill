@@ -5079,6 +5079,17 @@ validCompsCountForPct++;
             return [...new Set(vals)].sort();
         }
 
+        function populateDatalist(datalistId, optionsArray) {
+            const dl = document.getElementById(datalistId);
+            if(!dl) return;
+            dl.innerHTML = '';
+            optionsArray.forEach(opt => {
+                const o = document.createElement('option');
+                o.value = opt;
+                dl.appendChild(o);
+            });
+        }
+
         function populateSelect(selectId, values, selectedValue) {
             const select = document.getElementById(selectId);
             if(!select) return;
@@ -5253,6 +5264,7 @@ validCompsCountForPct++;
             document.getElementById('add-division').value = emp.division || '';
             document.getElementById('add-sub1-comp').value = emp.sub1_company || '';
             document.getElementById('add-company').value = emp.company || '';
+              document.getElementById('add-shift').value = emp.shift_thai || '';
             
                           populateEditEmployeeModal(emp);
               document.getElementById('add-employee-modal').classList.remove('hidden');
@@ -5284,6 +5296,7 @@ validCompsCountForPct++;
                 emp.division = document.getElementById('add-division').value;
                 emp.sub1_company = document.getElementById('add-sub1-comp').value;
                 emp.company = document.getElementById('add-company').value;
+                  emp.shift_thai = document.getElementById('add-shift').value;
                 if (document.getElementById('add-report-to')) emp.report_to_name = document.getElementById('add-report-to').value;
                 if (document.getElementById('add-certificate')) emp.certificate = document.getElementById('add-certificate').value;
                 emp.is_modified = true;
