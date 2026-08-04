@@ -3747,7 +3747,7 @@ graph TD
                     user_id: e.user_id || e.username || e.USER || '',
                     password: e.password || '',
                     report_to_name: e.ReportToName || e.report_to_name || '',
-                    is_evaluated: true,
+                    is_evaluated: (e.Pipeline === 'Evaluated' || e.pipeline === 'Evaluated'),
                     position: e.PositionNameThai || e.position_name || '',
                     position_level: e.PositionStructureLevel || e.position_level || '',
                     job_group: e.JobGroup || e.job_group || '',
