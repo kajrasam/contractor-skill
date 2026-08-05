@@ -1401,15 +1401,17 @@ graph TD
                 employeeData = [...employeeDataAll];
                 // Sync dbUsers names with official employeeData to fix filter/display mismatch
                 Object.keys(dbUsers).forEach(id => {
-                    let eData = employeeDataAll.find(e => e.username === id || e.user_id === id);
+                    let eData = employeeDataAll.find(e => e.username === id || e.user_id === id || e.USER === id);
                     if (eData) {
                         let officialName = eData.FullNameTH || eData.FullName || eData.EmployeeNameThai || eData.EmployeeNameEng;
                         if (officialName) dbUsers[id].name = officialName;
                         let officialPos = eData.PositionNameThai || eData.position_name || eData.position;
                         if (officialPos) dbUsers[id].position = officialPos;
+                        eData._inDbUsers = true;
                     }
                 });
                 
+                employeeData = employeeDataAll.filter(e => e._inDbUsers);
                 // Rebuild filters to reflect new/updated data from database
                 setTimeout(() => { if(typeof buildFiltersUI === 'function') buildFiltersUI(); }, 0);
                 
